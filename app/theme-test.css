@@ -1,0 +1,15 @@
+/* Simple CSS to test dark mode */
+.dark-mode-test {
+  background-color: white;
+  color: black;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin: 1rem;
+  border: 1px solid #ccc;
+}
+
+.dark .dark-mode-test {
+  background-color: #1a1a1a;
+  color: white;
+  border-color: #333;
+}

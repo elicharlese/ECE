@@ -1,0 +1,66 @@
+/* Repository card animations */
+.repository-card {
+  transition: all 0.2s ease-in-out;
+}
+
+.repository-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Chart animations */
+.recharts-surface {
+  overflow: visible;
+}
+
+.recharts-bar-rectangle {
+  transition: opacity 0.3s ease;
+}
+
+.recharts-pie {
+  transition: transform 0.3s ease;
+}
+
+.recharts-pie:hover {
+  transform: scale(1.01);
+}
+
+/* Badge animations */
+.badge-pulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--badge-color), 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 5px rgba(var(--badge-color), 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--badge-color), 0);
+  }
+}
+
+/* Dark mode support */
+.dark .repository-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.dark .recharts-text {
+  fill: #e5e7eb;
+}
+
+.dark .recharts-cartesian-grid line {
+  stroke: rgba(255, 255, 255, 0.1);
+}
+
+.dark .recharts-tooltip-wrapper .recharts-default-tooltip {
+  background-color: rgba(30, 41, 59, 0.9) !important;
+  border-color: rgba(71, 85, 105, 0.5) !important;
+}
+
+.dark .recharts-tooltip-wrapper .recharts-default-tooltip .recharts-tooltip-label,
+.dark .recharts-tooltip-wrapper .recharts-default-tooltip .recharts-tooltip-item {
+  color: #e5e7eb !important;
+}

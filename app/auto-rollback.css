@@ -1,0 +1,75 @@
+/* Auto Rollback Animations */
+.rollback-card {
+  transition: all 0.2s ease-in-out;
+}
+
+.rollback-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.status-badge,
+.trigger-badge {
+  transition: all 0.2s ease-in-out;
+}
+
+.deployment-selector {
+  transition: all 0.2s ease-in-out;
+}
+
+.deployment-selector:hover {
+  transform: translateY(-1px);
+}
+
+/* Pulse animation for critical metrics */
+@keyframes pulse-red {
+  0% {
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+  }
+}
+
+.critical-metric {
+  animation: pulse-red 2s infinite;
+}
+
+/* Progress bar animations */
+.progress-bar {
+  transition: width 0.5s ease-in-out;
+}
+
+/* Countdown animation */
+@keyframes countdown {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 283;
+  }
+}
+
+.countdown-circle {
+  animation: countdown linear forwards;
+}
+
+/* Rollback warning flash */
+@keyframes warning-flash {
+  0% {
+    background-color: rgba(220, 38, 38, 0.1);
+  }
+  50% {
+    background-color: rgba(220, 38, 38, 0.2);
+  }
+  100% {
+    background-color: rgba(220, 38, 38, 0.1);
+  }
+}
+
+.rollback-warning {
+  animation: warning-flash 2s infinite;
+}

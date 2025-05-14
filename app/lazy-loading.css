@@ -1,0 +1,72 @@
+/* Lazy loading animations */
+.lazy-fade-in {
+  animation: lazyFadeIn 0.5s ease-in-out forwards;
+  opacity: 0;
+}
+
+@keyframes lazyFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Skeleton loading pulse animation */
+.skeleton-pulse {
+  animation: skeletonPulse 1.5s ease-in-out infinite;
+  background: linear-gradient(90deg, var(--skeleton-from), var(--skeleton-to), var(--skeleton-from));
+  background-size: 200% 100%;
+}
+
+@keyframes skeletonPulse {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: -200% 0%;
+  }
+}
+
+/* Progressive image loading blur-up effect */
+.image-blur-up {
+  filter: blur(20px);
+  transition: filter 0.3s ease-out;
+}
+
+.image-blur-up.loaded {
+  filter: blur(0px);
+}
+
+/* Placeholder shimmer effect */
+.placeholder-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.placeholder-shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.5) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}

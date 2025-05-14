@@ -1,0 +1,101 @@
+/* Mobile menu animations */
+.mobile-menu-enter {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.mobile-menu-enter-active {
+  transform: translateX(0);
+  opacity: 1;
+  transition: transform 300ms ease, opacity 300ms ease;
+}
+
+.mobile-menu-exit {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.mobile-menu-exit-active {
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: transform 300ms ease, opacity 300ms ease;
+}
+
+/* Mobile nav link styles */
+.mobile-nav-link {
+  position: relative;
+  transition: all 0.2s ease;
+  border-radius: 0.375rem;
+}
+
+.mobile-nav-link:hover {
+  background-color: var(--slate-accent-light, rgba(0, 0, 0, 0.05));
+}
+
+.mobile-nav-link.active {
+  background-color: rgba(var(--theme-primary-rgb, 14, 95, 89), 0.1);
+  color: var(--theme-primary, #0e5f59);
+  font-weight: 500;
+}
+
+.dark .mobile-nav-link.active {
+  background-color: rgba(var(--theme-primary-rgb, 20, 168, 157), 0.15);
+  color: var(--theme-primary, #14a89d);
+}
+
+/* Mobile nav link indicator */
+.mobile-nav-link.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  background-color: var(--theme-primary, #0e5f59);
+  border-radius: 0 3px 3px 0;
+}
+
+.dark .mobile-nav-link.active::before {
+  background-color: var(--theme-primary, #14a89d);
+}
+
+/* Mobile menu icon hover effect */
+.mobile-menu-icon {
+  position: relative;
+  overflow: hidden;
+}
+
+.mobile-menu-icon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(var(--theme-primary-rgb, 14, 95, 89), 0.1);
+  border-radius: 0.375rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.mobile-menu-icon:hover::after {
+  opacity: 1;
+}
+
+/* Mobile menu section headers */
+.mobile-menu-section-header {
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-foreground);
+  padding: 0 1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Mobile menu footer */
+.mobile-menu-footer {
+  padding: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+  text-align: center;
+}

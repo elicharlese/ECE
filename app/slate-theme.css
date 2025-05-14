@@ -1,0 +1,98 @@
+/* Slate Theme Enhancements */
+
+/* Dark mode slate specific styles */
+.dark {
+  color-scheme: dark;
+}
+
+/* Slate card styles */
+.dark .card-slate {
+  background-color: hsl(217, 33%, 17%);
+  border: 1px solid hsl(215, 25%, 22%);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dark .card-slate:hover {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  border-color: hsl(215, 25%, 25%);
+}
+
+/* Slate button styles */
+.dark .button-slate {
+  background-color: hsl(215, 25%, 27%);
+  color: hsl(210, 40%, 98%);
+}
+
+.dark .button-slate:hover {
+  background-color: hsl(215, 25%, 32%);
+}
+
+/* Slate input styles */
+.dark .input-slate {
+  background-color: hsl(217, 33%, 17%);
+  border-color: hsl(215, 25%, 22%);
+  color: hsl(210, 40%, 98%);
+}
+
+.dark .input-slate:focus {
+  border-color: hsl(172, 77%, 36%);
+  box-shadow: 0 0 0 2px hsla(172, 77%, 36%, 0.2);
+}
+
+/* Slate dropdown styles */
+.dark .dropdown-slate {
+  background-color: hsl(217, 33%, 17%);
+  border-color: hsl(215, 25%, 22%);
+}
+
+.dark .dropdown-item-slate:hover {
+  background-color: hsl(215, 25%, 27%);
+}
+
+/* Slate scrollbar */
+.dark ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: hsl(217, 33%, 17%);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: hsl(215, 25%, 27%);
+  border-radius: 5px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: hsl(215, 25%, 32%);
+}
+
+/* Slate theme transitions */
+.theme-transition {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Slate theme animations */
+@keyframes slate-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.dark .slate-pulse {
+  animation: slate-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Slate theme gradients */
+.dark .slate-gradient {
+  background: linear-gradient(to bottom, hsl(215, 32%, 12%), hsl(217, 33%, 17%));
+}
+
+.dark .slate-gradient-subtle {
+  background: linear-gradient(to right, hsl(215, 32%, 12%), hsl(217, 33%, 15%));
+}

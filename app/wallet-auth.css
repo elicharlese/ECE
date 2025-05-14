@@ -1,0 +1,103 @@
+/* Wallet button styles */
+.wallet-button {
+  transition: all 0.2s ease;
+}
+
+.wallet-button-solana {
+  background-color: #9945ff !important;
+  color: white !important;
+  border-radius: 0.5rem !important;
+  height: 2.5rem !important;
+  font-family: inherit !important;
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
+}
+
+.wallet-button-solana:hover {
+  background-color: #8035e0 !important;
+}
+
+.wallet-status-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.wallet-status-connected {
+  background-color: #10b981;
+}
+
+.wallet-address-display {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  font-family: monospace;
+  font-size: 0.875rem;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dark .wallet-address-display {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.wallet-info-text {
+  color: #6b7280;
+  font-size: 0.875rem;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.dark .wallet-info-text {
+  color: #9ca3af;
+}
+
+/* Wallet adapter overrides */
+.wallet-adapter-button {
+  font-family: inherit !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+}
+
+.wallet-adapter-modal-wrapper {
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
+  border: 1px solid var(--border) !important;
+}
+
+.wallet-adapter-modal-title {
+  color: var(--foreground) !important;
+}
+
+.wallet-adapter-modal-content {
+  color: var(--muted-foreground) !important;
+}
+
+.wallet-adapter-modal-list {
+  margin: 0 !important;
+}
+
+.wallet-adapter-modal-list li {
+  padding: 0.5rem !important;
+}
+
+.wallet-adapter-modal-list-more {
+  color: var(--primary) !important;
+}
+
+.wallet-adapter-modal-list-more:hover {
+  color: var(--primary-foreground) !important;
+}
+
+.wallet-adapter-modal-button-close {
+  background-color: var(--muted) !important;
+  color: var(--muted-foreground) !important;
+}
+
+.wallet-section {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}

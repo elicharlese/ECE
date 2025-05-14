@@ -1,0 +1,77 @@
+/* Curved font (Quicksand) styles */
+.font-curved {
+  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-display: swap;
+}
+
+/* Thin font (Raleway) styles */
+.font-thin {
+  font-family: var(--font-raleway), system-ui, sans-serif;
+  font-weight: 300;
+  font-display: swap;
+}
+
+/* Thin font with extra light weight */
+.font-thin-light {
+  font-family: var(--font-raleway), system-ui, sans-serif;
+  font-weight: 200;
+  font-display: swap;
+}
+
+/* Thin font with ultra light weight */
+.font-thin-ultralight {
+  font-family: var(--font-raleway), system-ui, sans-serif;
+  font-weight: 100;
+  font-display: swap;
+}
+
+/* Heading combinations */
+.heading-combo {
+  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-weight: 500;
+}
+
+.heading-combo .thin-accent {
+  font-family: var(--font-raleway), system-ui, sans-serif;
+  font-weight: 200;
+  font-style: italic;
+}
+
+/* Special text combinations */
+.curved-thin-combo {
+  display: inline-block;
+}
+
+.curved-thin-combo .curved {
+  font-family: var(--font-quicksand), system-ui, sans-serif;
+  font-weight: 500;
+}
+
+.curved-thin-combo .thin {
+  font-family: var(--font-raleway), system-ui, sans-serif;
+  font-weight: 200;
+  font-style: italic;
+}
+
+/* Font optimization for better performance */
+@supports (font-variation-settings: normal) {
+  .font-curved,
+  .heading-combo,
+  .curved-thin-combo .curved {
+    font-variation-settings: "wght" 500;
+  }
+
+  .font-thin,
+  .thin-accent,
+  .curved-thin-combo .thin {
+    font-variation-settings: "wght" 300;
+  }
+
+  .font-thin-light {
+    font-variation-settings: "wght" 200;
+  }
+
+  .font-thin-ultralight {
+    font-variation-settings: "wght" 100;
+  }
+}

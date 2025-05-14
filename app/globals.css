@@ -1,0 +1,179 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Add this import near the top of the file */
+@import "./font-loading-optimizations.css";
+@import "./cursive-font.css";
+@import "./curved-thin-fonts.css";
+
+/* Import all the CSS files */
+@import "./hide-scrollbar.css";
+@import "./primary-color.css";
+@import "./button-cursor.css";
+@import "./theme-transitions.css";
+@import "./dark-mode-enhancements.css";
+@import "./skeleton-animations.css";
+@import "./grid-pattern.css";
+@import "./mobile-menu.css";
+@import "./nav-animations.css";
+@import "./theme-persistence.css";
+@import "./theme-test.css";
+@import "./deployment-animations.css";
+@import "./deployment-comparison.css";
+@import "./auto-rollback.css";
+@import "./notification-animations.css";
+@import "./cart-animations.css";
+@import "./quick-add-buttons.css";
+@import "./wishlist-animations.css";
+@import "./recently-viewed-animations.css";
+@import "./repository-comparison.css";
+@import "./branch-comparison.css";
+@import "./button-feedback.css";
+@import "./button-focus.css";
+@import "./button-focus-visible.css";
+@import "./keyboard-navigation.css";
+@import "./project-dashboard-animations.css";
+@import "./wallet-auth.css";
+@import "./font-animations.css";
+@import "./mobile-optimizations.css";
+@import "./mobile-media-queries.css";
+@import "./responsive-cards.css";
+
+/* Font optimization - use font-display strategies */
+@layer base {
+  /* Apply font fallbacks to reduce CLS */
+  :root {
+    --font-quicksand: "";
+    --font-raleway: "";
+    --font-permanent-marker: "";
+    --font-dancing-script: "";
+
+    --font-fallback-sans: "Quicksand Fallback", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, sans-serif;
+    --font-fallback-thin: "Raleway Fallback", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  /* Ensure text remains visible during font loading */
+  html {
+    font-display: swap;
+    font-family: var(--font-quicksand), var(--font-fallback-sans);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-quicksand), var(--font-fallback-sans);
+    font-weight: 500;
+  }
+
+  p,
+  span,
+  div,
+  li,
+  a {
+    font-family: var(--font-quicksand), var(--font-fallback-sans);
+  }
+
+  .thin-text {
+    font-family: var(--font-raleway), var(--font-fallback-thin);
+    font-weight: 300;
+  }
+}
+
+/* Custom font classes with optimized fallbacks */
+.font-cursive {
+  font-family: var(--font-permanent-marker), cursive;
+  /* Add font-display for decorative fonts */
+  font-display: optional;
+}
+
+.font-thin {
+  font-family: var(--font-raleway), var(--font-fallback-thin);
+  font-weight: 200;
+  /* Prevent layout shift with proper line-height */
+  line-height: 1.5;
+}
+
+.font-elegant {
+  font-family: var(--font-raleway), var(--font-fallback-thin);
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  /* Prevent layout shift with proper line-height */
+  line-height: 1.5;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 98%; /* Updated to #FAFAFA */
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 173 74% 21%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 173 74% 21%;
+    --radius: 0.5rem;
+    --chart-1: 173 74% 21%;
+    --chart-2: 142.1 76.2% 36.3%;
+    --chart-3: 346.8 77.2% 49.8%;
+    --chart-4: 43.3 96.4% 56.3%;
+    --chart-5: 262.1 83.3% 57.8%;
+    --chart-6: 291.1 63.8% 58.0%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 173 80% 37%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 173 80% 37%;
+    --chart-1: 173 80% 37%;
+    --chart-2: 142.1 70.6% 45.3%;
+    --chart-3: 346.8 77.2% 49.8%;
+    --chart-4: 43.3 96.4% 56.3%;
+    --chart-5: 262.1 83.3% 57.8%;
+    --chart-6: 291.1 63.8% 58.0%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@import url("./marketplace-feed.css");
+@import "./font-debug.css";
+@import "./vertical-card-stack.css";

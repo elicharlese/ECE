@@ -1,0 +1,155 @@
+/* Theme Transition Effects */
+
+/* Base transition for all elements */
+.theme-transition-base * {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow,
+    transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 400ms;
+}
+
+/* Staggered transitions for different element types */
+.theme-transition-base body {
+  transition-delay: 0ms;
+}
+
+.theme-transition-base header {
+  transition-delay: 50ms;
+}
+
+.theme-transition-base main {
+  transition-delay: 100ms;
+}
+
+.theme-transition-base footer {
+  transition-delay: 150ms;
+}
+
+.theme-transition-base .card {
+  transition-delay: 120ms;
+}
+
+.theme-transition-base button {
+  transition-delay: 80ms;
+}
+
+.theme-transition-base input,
+.theme-transition-base select,
+.theme-transition-base textarea {
+  transition-delay: 100ms;
+}
+
+/* Flash effect overlay */
+.theme-flash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0);
+  pointer-events: none;
+  z-index: 9999;
+  transition: background-color 300ms ease;
+}
+
+.theme-flash.active {
+  background-color: rgba(255, 255, 255, 0.1);
+  animation: flash-fade 600ms ease forwards;
+}
+
+.dark .theme-flash.active {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+@keyframes flash-fade {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Fade transitions for specific components */
+.theme-fade {
+  transition: opacity 400ms ease, transform 400ms ease;
+}
+
+.theme-fade-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.theme-fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.theme-fade-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.theme-fade-exit-active {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+/* Scale transitions for cards and buttons */
+.theme-scale {
+  transition: transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.theme-scale-enter {
+  transform: scale(0.95);
+}
+
+.theme-scale-enter-active {
+  transform: scale(1);
+}
+
+/* Rotate transition for icons */
+.theme-rotate {
+  transition: transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.theme-rotate-enter {
+  transform: rotate(-10deg);
+}
+
+.theme-rotate-enter-active {
+  transform: rotate(0deg);
+}
+
+/* Background gradient transition */
+.theme-gradient-transition {
+  transition: background-position 1s ease;
+  background-size: 200% 200%;
+}
+
+.theme-gradient-light {
+  background-image: linear-gradient(to bottom right, #ffffff, #f1f5f9);
+  background-position: 0% 0%;
+}
+
+.theme-gradient-dark {
+  background-image: linear-gradient(to bottom right, #0f172a, #1e293b);
+  background-position: 100% 100%;
+}
+
+/* Reduce motion for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .theme-transition-base * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .theme-flash.active {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+}

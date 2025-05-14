@@ -1,0 +1,28 @@
+.font-cursive {
+  text-shadow: 0.5px 0.5px 0px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.5px;
+}
+
+.payment-title {
+  font-family: var(--font-permanent-marker);
+  font-size: 1.75rem;
+  color: #333;
+  letter-spacing: 1px;
+}
+
+.payment-amount {
+  font-family: var(--font-permanent-marker);
+  font-weight: 400;
+  color: #2a5a8c;
+}
+
+.payment-date {
+  font-family: var(--font-permanent-marker);
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.timeline-marker {
+  font-family: var(--font-permanent-marker);
+  font-weight: 400;
+}

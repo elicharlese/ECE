@@ -1,0 +1,27 @@
+/* Button focus styles */
+button:focus-visible,
+[role="button"]:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--primary);
+}
+
+/* Ensure buttons have proper focus indication even when using :focus-visible */
+.focus-ring:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--primary);
+}
+
+/* Ensure buttons have proper hover states */
+.hover-feedback:hover {
+  transform: translateY(-1px);
+  transition: transform 0.2s ease;
+}
+
+/* Ensure buttons have proper active states */
+.hover-feedback:active {
+  transform: translateY(0);
+  transition: transform 0.1s ease;
+}

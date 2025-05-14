@@ -1,0 +1,55 @@
+/* Deployment comparison animations */
+.comparison-card {
+  transition: all 0.2s ease-in-out;
+}
+
+.comparison-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.file-change-item {
+  transition: background-color 0.2s ease;
+}
+
+.file-change-item:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.performance-card {
+  transition: transform 0.3s ease;
+}
+
+.performance-card:hover {
+  transform: scale(1.02);
+}
+
+/* Diff highlighting */
+.diff-addition {
+  background-color: rgba(46, 160, 67, 0.15);
+  border-left: 3px solid #2ea043;
+  padding-left: 8px;
+}
+
+.diff-deletion {
+  background-color: rgba(248, 81, 73, 0.15);
+  border-left: 3px solid #f85149;
+  padding-left: 8px;
+}
+
+/* Dark mode support */
+.dark .diff-addition {
+  background-color: rgba(46, 160, 67, 0.3);
+}
+
+.dark .diff-deletion {
+  background-color: rgba(248, 81, 73, 0.3);
+}
+
+.dark .comparison-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.dark .file-change-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}

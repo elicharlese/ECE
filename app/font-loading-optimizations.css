@@ -1,0 +1,36 @@
+/* Font loading optimizations */
+
+/* Hide text until fonts are loaded (prevents FOUT) */
+html:not(.fonts-loaded) .critical-text {
+  visibility: hidden;
+}
+
+/* Show text after fonts are loaded or timeout */
+html.fonts-loaded .critical-text {
+  visibility: visible;
+  animation: fade-in 0.2s ease-in;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Add font loading optimization styles */
+.optimize-font-loading {
+  font-synthesis: none; /* Prevent synthetic bold/italic */
+}
+
+/* Prevent layout shift for headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-synthesis: style; /* Allow synthetic styles for headings */
+}

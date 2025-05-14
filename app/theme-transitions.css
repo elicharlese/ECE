@@ -1,0 +1,15 @@
+/* Theme transition styles */
+:root {
+  --theme-transition-duration: 0.3s;
+}
+
+.theme-transition * {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: var(--theme-transition-duration);
+}
+
+/* Disable transitions during theme change to avoid flash */
+.disable-transitions * {
+  transition: none !important;
+}

@@ -1,0 +1,341 @@
+/* Betting Platform Dark Theme */
+
+/* Main dark backgrounds */
+.betting-dark {
+  --betting-bg-primary: #121212;
+  --betting-bg-secondary: #1e1e1e;
+  --betting-bg-tertiary: #252525;
+  --betting-bg-card: #2a2a2a;
+  --betting-bg-hover: #333333;
+
+  /* Text colors */
+  --betting-text-primary: #ffffff;
+  --betting-text-secondary: #b0b0b0;
+  --betting-text-muted: #808080;
+
+  /* Accent colors */
+  --betting-accent-profit: #4caf50;
+  --betting-accent-loss: #f44336;
+  --betting-accent-primary: #14a89d;
+  --betting-accent-secondary: #bb86fc;
+  --betting-accent-warning: #ff9800;
+
+  /* Border colors */
+  --betting-border-light: #333333;
+  --betting-border-medium: #444444;
+
+  /* Shadows */
+  --betting-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.4);
+  --betting-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.5);
+  --betting-shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.6);
+
+  /* Gradients */
+  --betting-gradient-bg: linear-gradient(180deg, #121212 0%, #1a1a1a 100%);
+  --betting-gradient-card: linear-gradient(135deg, #2a2a2a 0%, #333333 100%);
+  --betting-gradient-accent: linear-gradient(135deg, #14a89d 0%, #0e7770 100%);
+}
+
+/* Apply theme to body when active */
+body.betting-dark-mode {
+  background-color: var(--betting-bg-primary);
+  background-image: var(--betting-gradient-bg);
+  color: var(--betting-text-primary);
+}
+
+/* Main container styling */
+.betting-dark-mode .betting-container {
+  background-color: var(--betting-bg-secondary);
+  border-radius: 8px;
+  box-shadow: var(--betting-shadow-md);
+}
+
+/* Card styling */
+.betting-dark-mode .betting-card {
+  background-color: var(--betting-bg-card);
+  background-image: var(--betting-gradient-card);
+  border: 1px solid var(--betting-border-light);
+  border-radius: 8px;
+  box-shadow: var(--betting-shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.betting-dark-mode .betting-card:hover {
+  background-color: var(--betting-bg-hover);
+  box-shadow: var(--betting-shadow-md);
+  transform: translateY(-2px);
+}
+
+/* Project cards */
+.betting-dark-mode .project-card {
+  background-color: var(--betting-bg-card);
+  border: 1px solid var(--betting-border-light);
+}
+
+/* Typography */
+.betting-dark-mode h1,
+.betting-dark-mode h2,
+.betting-dark-mode h3,
+.betting-dark-mode h4 {
+  color: var(--betting-text-primary);
+}
+
+.betting-dark-mode p,
+.betting-dark-mode span {
+  color: var(--betting-text-secondary);
+}
+
+.betting-dark-mode .text-muted {
+  color: var(--betting-text-muted);
+}
+
+/* Buttons */
+.betting-dark-mode .betting-btn-primary {
+  background-color: var(--betting-accent-primary);
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.betting-dark-mode .betting-btn-primary:hover {
+  background-color: #0e7770;
+  transform: translateY(-1px);
+  box-shadow: var(--betting-shadow-sm);
+}
+
+.betting-dark-mode .betting-btn-secondary {
+  background-color: var(--betting-bg-tertiary);
+  color: var(--betting-text-primary);
+  border: 1px solid var(--betting-border-medium);
+  border-radius: 4px;
+  padding: 8px 16px;
+  transition: all 0.2s ease;
+}
+
+.betting-dark-mode .betting-btn-secondary:hover {
+  background-color: var(--betting-bg-hover);
+}
+
+/* Progress bars */
+.betting-dark-mode .progress-bar-bg {
+  background-color: var(--betting-bg-tertiary);
+  border-radius: 4px;
+  height: 8px;
+}
+
+.betting-dark-mode .progress-bar-fill {
+  background-color: var(--betting-accent-primary);
+  background-image: var(--betting-gradient-accent);
+  border-radius: 4px;
+  height: 8px;
+}
+
+/* Stats and metrics */
+.betting-dark-mode .profit {
+  color: var(--betting-accent-profit);
+}
+
+.betting-dark-mode .loss {
+  color: var(--betting-accent-loss);
+}
+
+/* Sidebar */
+.betting-dark-mode .betting-sidebar {
+  background-color: var(--betting-bg-secondary);
+  border-right: 1px solid var(--betting-border-light);
+}
+
+/* Featured projects section */
+.betting-dark-mode .featured-projects {
+  background-color: var(--betting-bg-tertiary);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.betting-dark-mode .featured-project-card {
+  background-color: var(--betting-bg-card);
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid var(--betting-border-light);
+  transition: all 0.2s ease;
+}
+
+.betting-dark-mode .featured-project-card:hover {
+  background-color: var(--betting-bg-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--betting-shadow-sm);
+}
+
+/* Portfolio summary */
+.betting-dark-mode .portfolio-summary {
+  background-color: var(--betting-bg-tertiary);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+/* Odds display */
+.betting-dark-mode .odds-display {
+  background-color: var(--betting-bg-hover);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.betting-dark-mode .odds-positive {
+  color: var(--betting-accent-profit);
+}
+
+.betting-dark-mode .odds-negative {
+  color: var(--betting-accent-loss);
+}
+
+/* Tables */
+.betting-dark-mode table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 16px 0;
+}
+
+.betting-dark-mode th {
+  background-color: var(--betting-bg-tertiary);
+  color: var(--betting-text-primary);
+  text-align: left;
+  padding: 12px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--betting-border-medium);
+}
+
+.betting-dark-mode td {
+  padding: 12px;
+  border-bottom: 1px solid var(--betting-border-light);
+  color: var(--betting-text-secondary);
+}
+
+.betting-dark-mode tr:hover td {
+  background-color: var(--betting-bg-hover);
+}
+
+/* Scrollbar customization */
+.betting-dark-mode ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.betting-dark-mode ::-webkit-scrollbar-track {
+  background: var(--betting-bg-primary);
+}
+
+.betting-dark-mode ::-webkit-scrollbar-thumb {
+  background-color: var(--betting-border-medium);
+  border-radius: 4px;
+}
+
+.betting-dark-mode ::-webkit-scrollbar-thumb:hover {
+  background-color: var(--betting-accent-primary);
+}
+
+/* Notification badges */
+.betting-dark-mode .notification-badge {
+  background-color: var(--betting-accent-primary);
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+/* Live indicators */
+.betting-dark-mode .live-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--betting-accent-profit);
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.betting-dark-mode .live-indicator::before {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--betting-accent-profit);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Quick bet buttons */
+.betting-dark-mode .quick-bet-btn {
+  background-color: var(--betting-bg-tertiary);
+  border: 1px solid var(--betting-border-medium);
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+
+.betting-dark-mode .quick-bet-btn:hover {
+  background-color: var(--betting-accent-primary);
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* Ticker tape */
+.betting-dark-mode .ticker-tape {
+  background-color: var(--betting-bg-tertiary);
+  border-top: 1px solid var(--betting-border-light);
+  border-bottom: 1px solid var(--betting-border-light);
+  padding: 8px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.betting-dark-mode .ticker-content {
+  display: inline-block;
+  animation: ticker 30s linear infinite;
+}
+
+@keyframes ticker {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Chart elements */
+.betting-dark-mode .chart-container {
+  background-color: var(--betting-bg-card);
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.betting-dark-mode .chart-title {
+  color: var(--betting-text-primary);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}

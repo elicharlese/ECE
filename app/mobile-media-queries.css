@@ -1,0 +1,116 @@
+/* Mobile-first media queries */
+
+/* Base styles for mobile */
+.mobile-container {
+  padding: 1rem;
+}
+
+.mobile-heading {
+  font-size: 1.5rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.mobile-text {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.mobile-button {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+  .mobile-container {
+    padding: 1.25rem;
+  }
+
+  .mobile-heading {
+    font-size: 1.75rem;
+  }
+
+  .mobile-button {
+    width: auto;
+    min-width: 150px;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .mobile-container {
+    padding: 1.5rem;
+  }
+
+  .mobile-heading {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .mobile-text {
+    font-size: 1.125rem;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .mobile-container {
+    padding: 2rem;
+  }
+
+  .mobile-heading {
+    font-size: 2.25rem;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .mobile-container {
+    padding: 2.5rem;
+  }
+
+  .mobile-heading {
+    font-size: 2.5rem;
+  }
+
+  .mobile-text {
+    font-size: 1.25rem;
+  }
+}
+
+/* Fix for notched phones */
+@supports (padding: max(0px)) {
+  .safe-area-padding {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    padding-top: max(1rem, env(safe-area-inset-top));
+  }
+
+  .safe-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* Orientation specific styles */
+@media (orientation: portrait) {
+  .portrait-only {
+    display: block;
+  }
+
+  .landscape-only {
+    display: none;
+  }
+}
+
+@media (orientation: landscape) {
+  .portrait-only {
+    display: none;
+  }
+
+  .landscape-only {
+    display: block;
+  }
+}

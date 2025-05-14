@@ -1,0 +1,13 @@
+/* Ensure smooth transitions between themes */
+:root {
+  --transition-duration: 200ms;
+}
+
+html {
+  transition: background-color var(--transition-duration) ease, color var(--transition-duration) ease;
+}
+
+/* Prevent transition flashes during page load */
+.no-transitions * {
+  transition: none !important;
+}

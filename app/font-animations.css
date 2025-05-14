@@ -1,0 +1,52 @@
+/* Text fade-in animation */
+@keyframes text-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-text-fade-in {
+  animation: text-fade-in 0.5s ease-out forwards;
+}
+
+/* Staggered text animation for multiple elements */
+.stagger-text-item:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.stagger-text-item:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.stagger-text-item:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.stagger-text-item:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.stagger-text-item:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+/* Elegant text hover effect */
+.elegant-text-hover {
+  transition: letter-spacing 0.3s ease, color 0.3s ease;
+}
+
+.elegant-text-hover:hover {
+  letter-spacing: 0.05em;
+  color: var(--primary);
+}
+
+/* Cursive text emphasis */
+.cursive-emphasis {
+  transition: font-size 0.3s ease, color 0.3s ease;
+}
+
+.cursive-emphasis:hover {
+  font-size: 1.05em;
+  color: var(--primary);
+}

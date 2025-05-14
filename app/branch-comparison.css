@@ -1,0 +1,117 @@
+/* Branch comparison specific styles */
+.branch-diff-view {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  overflow-x: auto;
+}
+
+.branch-diff-line {
+  display: flex;
+  white-space: pre;
+}
+
+.branch-diff-line-number {
+  user-select: none;
+  text-align: right;
+  padding: 0 0.5rem;
+  color: hsl(var(--muted-foreground));
+  border-right: 1px solid hsl(var(--border));
+  min-width: 3rem;
+}
+
+.branch-diff-line-content {
+  padding: 0 0.5rem;
+}
+
+.branch-diff-addition {
+  background-color: rgba(46, 160, 67, 0.15);
+}
+
+.dark .branch-diff-addition {
+  background-color: rgba(46, 160, 67, 0.3);
+}
+
+.branch-diff-deletion {
+  background-color: rgba(248, 81, 73, 0.15);
+}
+
+.dark .branch-diff-deletion {
+  background-color: rgba(248, 81, 73, 0.3);
+}
+
+.branch-diff-hunk-header {
+  background-color: hsl(var(--muted));
+  color: hsl(var(--muted-foreground));
+  padding: 0.25rem 0.5rem;
+  font-weight: 500;
+}
+
+.dark .branch-diff-hunk-header {
+  background-color: hsl(var(--muted));
+}
+
+.branch-stats-card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.branch-stats-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.dark .branch-stats-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.25), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
+}
+
+.branch-commit-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.branch-file-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.branch-selector-container {
+  transition: all 0.3s ease;
+}
+
+.branch-comparison-tabs {
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.branch-comparison-tab {
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.branch-comparison-tab[data-state="active"] {
+  border-bottom-color: hsl(var(--primary));
+  color: hsl(var(--primary));
+}
+
+.branch-comparison-content {
+  padding: 1rem;
+}
+
+.branch-comparison-content[data-state="inactive"] {
+  display: none;
+}
+
+.branch-comparison-content[data-state="active"] {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

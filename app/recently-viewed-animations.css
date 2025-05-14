@@ -1,0 +1,45 @@
+.recently-viewed-item {
+  transition: all 0.2s ease-in-out;
+}
+
+.recently-viewed-item:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.dark .recently-viewed-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.recently-viewed-item .remove-button {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.recently-viewed-item:hover .remove-button {
+  opacity: 1;
+}
+
+.recently-viewed-enter {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.recently-viewed-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.recently-viewed-exit {
+  opacity: 1;
+}
+
+.recently-viewed-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
+}
+
+.recently-viewed-timestamp {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}

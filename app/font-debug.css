@@ -1,0 +1,33 @@
+/* Font debugging styles */
+.font-debug {
+  position: relative;
+}
+
+.font-debug::after {
+  content: attr(data-font);
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 2px 6px;
+  font-size: 10px;
+  border-radius: 3px;
+  font-family: monospace;
+}
+
+.font-sans.font-debug::after {
+  content: "Quicksand";
+}
+
+.font-thin.font-debug::after {
+  content: "Raleway";
+}
+
+.font-cursive.font-debug::after {
+  content: "Permanent Marker";
+}
+
+.font-elegant.font-debug::after {
+  content: "Dancing Script";
+}

@@ -1,0 +1,221 @@
+/* Base ticker animations with smoother transitions */
+@keyframes ticker-smooth {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-ticker-smooth {
+  animation: ticker-smooth 180s linear infinite; /* Increased from 120s to 180s */
+  will-change: transform;
+  transform: translateZ(0); /* Force hardware acceleration */
+  backface-visibility: hidden; /* Reduce flickering */
+  perspective: 1000px; /* Improve 3D rendering */
+}
+
+/* Smooth marquee animation */
+@keyframes marquee-smooth {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee-smooth {
+  animation: marquee-smooth 180s linear infinite; /* Increased from 120s to 180s */
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Subtle pulse animation for highlighted updates */
+@keyframes pulse-subtle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 3s ease-in-out infinite; /* Increased from 2s to 3s for smoother effect */
+}
+
+/* Betting dark mode specific styles */
+.betting-dark-mode .betting-ticker {
+  background-color: var(--betting-bg-tertiary);
+  border-color: var(--betting-border-light);
+}
+
+.betting-dark-mode .betting-updates-panel {
+  background-color: var(--betting-bg-secondary);
+  border-color: var(--betting-border-medium);
+}
+
+.betting-dark-mode .betting-updates-panel > div:first-child {
+  background-color: var(--betting-bg-tertiary);
+  border-color: var(--betting-border-medium);
+}
+
+.betting-dark-mode .betting-ticker .text-green-400 {
+  color: var(--betting-accent-profit);
+}
+
+.betting-dark-mode .betting-ticker .text-red-400 {
+  color: var(--betting-accent-loss);
+}
+
+.betting-dark-mode .betting-ticker .text-yellow-400 {
+  color: var(--betting-accent-warning);
+}
+
+/* Pulse animation for highlighted updates */
+@keyframes pulse-highlight {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.betting-dark-mode .betting-ticker [class*="highlight"] {
+  animation: pulse-highlight 3s ease-in-out infinite; /* Increased from 2s to 3s */
+}
+
+/* Hover effect for pausing */
+.betting-ticker:hover {
+  cursor: pointer;
+}
+
+/* Enhanced ticker animations */
+.betting-ticker {
+  position: relative;
+  overflow: hidden;
+}
+
+.betting-ticker::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80px; /* Increased from 50px to 80px for smoother fade */
+  height: 100%;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.1), transparent);
+  z-index: 2;
+  pointer-events: none; /* Ensure it doesn't interfere with clicks */
+}
+
+.betting-ticker::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80px; /* Increased from 50px to 80px for smoother fade */
+  height: 100%;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.1), transparent);
+  z-index: 2;
+  pointer-events: none; /* Ensure it doesn't interfere with clicks */
+}
+
+.betting-updates-panel {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.05));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Highlight animation for important updates */
+@keyframes highlight-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(234, 179, 8, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(234, 179, 8, 0.3);
+  }
+}
+
+.highlight-pulse {
+  animation: highlight-pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; /* Increased from 2s to 3s */
+}
+
+/* Progress bar animation */
+@keyframes progress-fill {
+  0% {
+    width: 0%;
+  }
+}
+
+.animate-progress-fill {
+  animation: progress-fill 2s ease-out forwards; /* Increased from 1.5s to 2s */
+}
+
+/* Ticker content duplication for seamless looping */
+.ticker-content {
+  display: inline-flex;
+  white-space: nowrap;
+}
+
+.ticker-content .ticker-items {
+  display: inline-flex;
+  white-space: nowrap;
+}
+
+/* Ensure smooth animation on high-refresh displays */
+@media (prefers-reduced-motion: no-preference) {
+  .animate-ticker-smooth,
+  .animate-marquee-smooth {
+    animation-timing-function: linear;
+  }
+}
+
+/* Pause animation when user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-ticker-smooth,
+  .animate-marquee-smooth {
+    animation: none;
+  }
+
+  .animate-pulse-subtle,
+  .highlight-pulse {
+    animation: none;
+  }
+}
+
+/* Ticker control button styles */
+.ticker-control {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.ticker-control:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.dark .ticker-control {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.dark .ticker-control:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
