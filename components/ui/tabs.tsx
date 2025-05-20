@@ -35,7 +35,7 @@ const TabsTrigger = React.forwardRef<
       // Check if it's an array or has icon/text structure
       if (Array.isArray(children) || (children.props && (children.props.icon || children.props.text))) {
         return (
-          <span className="flex flex-col items-center gap-1">
+          <span className="flex flex-row items-center gap-2">
             {Array.isArray(children) ? (
               children
             ) : (
@@ -53,7 +53,7 @@ const TabsTrigger = React.forwardRef<
     // If it's an object with icon and text properties
     if (children && typeof children === "object" && "icon" in children && "text" in children) {
       return (
-        <span className="flex flex-col items-center gap-1">
+        <span className="flex flex-row items-center gap-2">
           <span>{children.icon}</span>
           <span>{children.text}</span>
         </span>
@@ -61,7 +61,7 @@ const TabsTrigger = React.forwardRef<
     }
 
     // Default fallback
-    return <span className="flex flex-col items-center">{children}</span>
+    return <span className="flex flex-row items-center gap-2">{children}</span>
   })()
 
   return (

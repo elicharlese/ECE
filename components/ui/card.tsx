@@ -40,7 +40,7 @@ const CardHeader = React.forwardRef<
     responsive?: boolean
   }
 >(({ className, responsive = true, ...props }, ref) => (
-  <div ref={ref} className={cn("flex flex-col space-y-1.5", responsive ? "p-4 sm:p-6" : "p-6", className)} {...props} />
+  <div ref={ref} className={cn("flex flex-col space-y-1.5 p-6", className)} {...props} />
 ))
 CardHeader.displayName = "CardHeader"
 

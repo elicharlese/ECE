@@ -11,8 +11,8 @@ import { Badge } from "@/components/ui/badge"
 interface App {
   id: string
   name: string
-  type: string
-  status: string
+  type?: string
+  status?: string
 }
 
 interface AppSelectorProps {
@@ -62,7 +62,7 @@ export function AppSelector({ apps, selectedAppId, onAppChange }: AppSelectorPro
                     <span className="ml-2 truncate">{app.name}</span>
                   </div>
                   <Badge variant={getStatusVariant(app.status)} className="ml-2 text-xs">
-                    {app.status}
+                    {app.status || "Unknown"}
                   </Badge>
                   <Check className={cn("ml-2 h-4 w-4", selectedAppId === app.id ? "opacity-100" : "opacity-0")} />
                 </CommandItem>
@@ -75,7 +75,9 @@ export function AppSelector({ apps, selectedAppId, onAppChange }: AppSelectorPro
   )
 }
 
-function getAppTypeIcon(type: string) {
+function getAppTypeIcon(type?: string) {
+  if (!type) return <Layers className="h-4 w-4 text-gray-500" />
+
   switch (type.toLowerCase()) {
     case "web":
       return <Globe className="h-4 w-4 text-blue-500" />
@@ -90,7 +92,9 @@ function getAppTypeIcon(type: string) {
   }
 }
 
-function getStatusVariant(status: string): "default" | "secondary" | "destructive" | "outline" {
+function getStatusVariant(status?: string): "default" | "secondary" | "destructive" | "outline" {
+  if (!status) return "outline"
+
   switch (status.toLowerCase()) {
     case "running":
       return "default"

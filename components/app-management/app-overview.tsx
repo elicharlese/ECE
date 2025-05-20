@@ -37,6 +37,11 @@ interface AppOverviewProps {
 export function AppOverview({ app }: AppOverviewProps) {
   const [activeTab, setActiveTab] = useState("summary")
 
+  // Ensure app and its properties exist to prevent errors
+  if (!app) {
+    return <div className="p-4 text-center">No app data available</div>
+  }
+
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -49,7 +54,7 @@ export function AppOverview({ app }: AppOverviewProps) {
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <GitBranch className="h-4 w-4 text-muted-foreground mr-2" />
-                  <span className="text-sm">{app.repository.branch}</span>
+                  <span className="text-sm">{app.repository?.branch || "main"}</span>
                 </div>
                 <Badge variant="outline" className="text-xs">
                   Default
@@ -57,14 +62,14 @@ export function AppOverview({ app }: AppOverviewProps) {
               </div>
               <div className="flex items-center">
                 <GitCommit className="h-4 w-4 text-muted-foreground mr-2" />
-                <span className="text-sm truncate">{app.repository.lastCommit}</span>
+                <span className="text-sm truncate">{app.repository?.lastCommit || "No commits yet"}</span>
               </div>
               <div className="flex items-center">
                 <GitPullRequest className="h-4 w-4 text-muted-foreground mr-2" />
-                <span className="text-sm">{app.repository.pullRequests} open PRs</span>
+                <span className="text-sm">{app.repository?.pullRequests || 0} open PRs</span>
               </div>
               <Button variant="outline" size="sm" className="w-full mt-2" asChild>
-                <a href={app.repository.url} target="_blank" rel="noopener noreferrer">
+                <a href={app.repository?.url || "#"} target="_blank" rel="noopener noreferrer">
                   <Code className="mr-2 h-4 w-4" />
                   View Repository
                 </a>
@@ -84,17 +89,19 @@ export function AppOverview({ app }: AppOverviewProps) {
                   <Globe className="h-4 w-4 text-muted-foreground mr-2" />
                   <span className="text-sm">Production</span>
                 </div>
-                <Badge variant={app.deployment.status === "success" ? "default" : "destructive"} className="text-xs">
-                  {app.deployment.status}
+                <Badge variant={app.deployment?.status === "success" ? "default" : "destructive"} className="text-xs">
+                  {app.deployment?.status || "Unknown"}
                 </Badge>
               </div>
               <div className="flex items-center">
                 <Clock className="h-4 w-4 text-muted-foreground mr-2" />
-                <span className="text-sm">Deployed {formatTimeAgo(app.lastDeployedAt)}</span>
+                <span className="text-sm">
+                  {app.lastDeployedAt ? `Deployed ${formatTimeAgo(app.lastDeployedAt)}` : "Not deployed yet"}
+                </span>
               </div>
               <div className="flex items-center">
                 <Tag className="h-4 w-4 text-muted-foreground mr-2" />
-                <span className="text-sm">v{app.version}</span>
+                <span className="text-sm">v{app.version || "0.0.1"}</span>
               </div>
               <Button variant="outline" size="sm" className="w-full mt-2">
                 <Activity className="mr-2 h-4 w-4" />
@@ -113,23 +120,23 @@ export function AppOverview({ app }: AppOverviewProps) {
               <div>
                 <div className="flex justify-between mb-1">
                   <span className="text-xs text-muted-foreground">CPU Usage</span>
-                  <span className="text-xs font-medium">{app.metrics.cpu}%</span>
+                  <span className="text-xs font-medium">{app.metrics?.cpu || 0}%</span>
                 </div>
-                <Progress value={app.metrics.cpu} className="h-1.5" />
+                <Progress value={app.metrics?.cpu || 0} className="h-1.5" />
               </div>
               <div>
                 <div className="flex justify-between mb-1">
                   <span className="text-xs text-muted-foreground">Memory Usage</span>
-                  <span className="text-xs font-medium">{app.metrics.memory}%</span>
+                  <span className="text-xs font-medium">{app.metrics?.memory || 0}%</span>
                 </div>
-                <Progress value={app.metrics.memory} className="h-1.5" />
+                <Progress value={app.metrics?.memory || 0} className="h-1.5" />
               </div>
               <div>
                 <div className="flex justify-between mb-1">
                   <span className="text-xs text-muted-foreground">Storage Usage</span>
-                  <span className="text-xs font-medium">{app.metrics.storage}%</span>
+                  <span className="text-xs font-medium">{app.metrics?.storage || 0}%</span>
                 </div>
-                <Progress value={app.metrics.storage} className="h-1.5" />
+                <Progress value={app.metrics?.storage || 0} className="h-1.5" />
               </div>
               <Button variant="outline" size="sm" className="w-full mt-1">
                 <Server className="mr-2 h-4 w-4" />
@@ -157,27 +164,27 @@ export function AppOverview({ app }: AppOverviewProps) {
                 <dl className="space-y-2">
                   <div className="flex justify-between">
                     <dt className="text-sm text-muted-foreground">Framework</dt>
-                    <dd className="text-sm font-medium">{app.framework}</dd>
+                    <dd className="text-sm font-medium">{app.framework || "Unknown"}</dd>
                   </div>
                   <div className="flex justify-between">
                     <dt className="text-sm text-muted-foreground">Runtime</dt>
-                    <dd className="text-sm font-medium">{app.runtime}</dd>
+                    <dd className="text-sm font-medium">{app.runtime || "Node.js"}</dd>
                   </div>
                   <div className="flex justify-between">
                     <dt className="text-sm text-muted-foreground">Region</dt>
-                    <dd className="text-sm font-medium">{app.region}</dd>
+                    <dd className="text-sm font-medium">{app.region || "us-east-1"}</dd>
                   </div>
                   <div className="flex justify-between">
                     <dt className="text-sm text-muted-foreground">Environment</dt>
-                    <dd className="text-sm font-medium">{app.environment}</dd>
+                    <dd className="text-sm font-medium">{app.environment || "Production"}</dd>
                   </div>
                   <div className="flex justify-between">
                     <dt className="text-sm text-muted-foreground">Created</dt>
-                    <dd className="text-sm font-medium">{formatDate(app.createdAt)}</dd>
+                    <dd className="text-sm font-medium">{app.createdAt ? formatDate(app.createdAt) : "Unknown"}</dd>
                   </div>
                   <div className="flex justify-between">
                     <dt className="text-sm text-muted-foreground">Last Updated</dt>
-                    <dd className="text-sm font-medium">{formatDate(app.updatedAt)}</dd>
+                    <dd className="text-sm font-medium">{app.updatedAt ? formatDate(app.updatedAt) : "Unknown"}</dd>
                   </div>
                 </dl>
               </CardContent>
@@ -189,15 +196,20 @@ export function AppOverview({ app }: AppOverviewProps) {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {app.recentActivity.slice(0, 4).map((activity: any, index: number) => (
+                  {(app.recentActivity || []).slice(0, 4).map((activity: any, index: number) => (
                     <div key={index} className="flex items-start gap-3">
-                      <div className="mt-0.5">{getActivityIcon(activity.type)}</div>
+                      <div className="mt-0.5">{getActivityIcon(activity.type || "info")}</div>
                       <div>
-                        <p className="text-sm">{activity.message}</p>
-                        <p className="text-xs text-muted-foreground">{formatTimeAgo(activity.timestamp)}</p>
+                        <p className="text-sm">{activity.message || "Activity logged"}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {activity.timestamp ? formatTimeAgo(activity.timestamp) : "Recently"}
+                        </p>
                       </div>
                     </div>
                   ))}
+                  {(!app.recentActivity || app.recentActivity.length === 0) && (
+                    <div className="text-sm text-muted-foreground text-center py-4">No recent activity</div>
+                  )}
                 </div>
                 <Button variant="ghost" size="sm" className="w-full mt-2">
                   View All Activity
@@ -211,17 +223,17 @@ export function AppOverview({ app }: AppOverviewProps) {
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  {app.endpoints.map((endpoint: any, index: number) => (
+                  {(app.endpoints || []).map((endpoint: any, index: number) => (
                     <div key={index} className="flex items-center justify-between py-1 border-b last:border-0">
                       <div className="flex items-center">
                         <Badge variant="outline" className="mr-2 text-xs">
-                          {endpoint.method}
+                          {endpoint.method || "GET"}
                         </Badge>
-                        <span className="text-sm font-mono">{endpoint.path}</span>
+                        <span className="text-sm font-mono">{endpoint.path || "/api"}</span>
                       </div>
                       <div className="flex items-center">
                         <Badge variant={endpoint.status === "active" ? "default" : "secondary"} className="text-xs">
-                          {endpoint.status}
+                          {endpoint.status || "inactive"}
                         </Badge>
                         <Button variant="ghost" size="sm" className="ml-2 h-7 w-7 p-0">
                           <ExternalLink className="h-4 w-4" />
@@ -229,6 +241,9 @@ export function AppOverview({ app }: AppOverviewProps) {
                       </div>
                     </div>
                   ))}
+                  {(!app.endpoints || app.endpoints.length === 0) && (
+                    <div className="text-sm text-muted-foreground text-center py-4">No endpoints configured</div>
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -258,23 +273,23 @@ export function AppOverview({ app }: AppOverviewProps) {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="space-y-1">
               <p className="text-sm text-muted-foreground">API Requests (24h)</p>
-              <p className="text-2xl font-bold">{formatNumber(app.stats.apiRequests)}</p>
-              <p className="text-xs text-green-500">+{app.stats.apiRequestsChange}% from yesterday</p>
+              <p className="text-2xl font-bold">{formatNumber(app.stats?.apiRequests || 0)}</p>
+              <p className="text-xs text-green-500">+{app.stats?.apiRequestsChange || 0}% from yesterday</p>
             </div>
             <div className="space-y-1">
               <p className="text-sm text-muted-foreground">Error Rate</p>
-              <p className="text-2xl font-bold">{app.stats.errorRate}%</p>
-              <p className="text-xs text-red-500">+{app.stats.errorRateChange}% from yesterday</p>
+              <p className="text-2xl font-bold">{app.stats?.errorRate || 0}%</p>
+              <p className="text-xs text-red-500">+{app.stats?.errorRateChange || 0}% from yesterday</p>
             </div>
             <div className="space-y-1">
               <p className="text-sm text-muted-foreground">Avg. Response Time</p>
-              <p className="text-2xl font-bold">{app.stats.responseTime}ms</p>
-              <p className="text-xs text-green-500">-{app.stats.responseTimeChange}% from yesterday</p>
+              <p className="text-2xl font-bold">{app.stats?.responseTime || 0}ms</p>
+              <p className="text-xs text-green-500">-{app.stats?.responseTimeChange || 0}% from yesterday</p>
             </div>
             <div className="space-y-1">
               <p className="text-sm text-muted-foreground">Active Users</p>
-              <p className="text-2xl font-bold">{formatNumber(app.stats.activeUsers)}</p>
-              <p className="text-xs text-green-500">+{app.stats.activeUsersChange}% from yesterday</p>
+              <p className="text-2xl font-bold">{formatNumber(app.stats?.activeUsers || 0)}</p>
+              <p className="text-xs text-green-500">+{app.stats?.activeUsersChange || 0}% from yesterday</p>
             </div>
           </div>
         </CardContent>

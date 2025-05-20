@@ -36,12 +36,16 @@ import {
   CheckCircle2,
   Globe,
   AlertCircle,
-  LightbulbIcon,
+  Trash2,
+  Plus,
+  Calendar,
 } from "lucide-react"
 import { DetailedCostBreakdown } from "./detailed-cost-breakdown"
 
 // Import the new component at the top of the file
 import { PaymentScheduleTimeline } from "./payment-schedule-timeline"
+import { format } from "date-fns"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 
 // Define the form data structure
 type OrderFormData = {
@@ -81,6 +85,30 @@ type OrderFormData = {
   taxRate: number
   taxType: string
   taxId: string
+  // New payment fields
+  invoiceDetails: {
+    type: "fixed" | "hourly"
+    frequency: "weekly" | "biweekly" | "monthly"
+    fixedRate: string
+    hourlyRate: string
+    estimatedHours: string
+    startDate: Date | undefined
+    endDate: Date | undefined
+    hasEndDate: boolean
+    invoiceIssueDay: string
+    firstInvoiceDate: Date | undefined
+    firstInvoicePayment: "adjusted" | "full" | "prorated"
+    firstInvoiceAmount: string
+    invoiceDue: "upon_receipt" | "7_days" | "14_days" | "30_days"
+  }
+  escrowDetails: {
+    type: "milestone" | "onetime"
+    totalFee: string
+    upfrontPercentage: string
+    startDate: Date | undefined
+    endDate: Date | undefined
+    milestones: Milestone[]
+  }
 }
 
 // Define the steps in the flow
@@ -89,6 +117,15 @@ type Step = {
   title: string
   description: string
   icon: React.ReactNode
+}
+
+interface Milestone {
+  id: string
+  name: string
+  description: string
+  date: Date | undefined
+  amount: string
+  isInitial?: boolean
 }
 
 // Props for the component
@@ -184,6 +221,46 @@ export function ProjectOrderFlow({ onSubmit, initialData, currency = "ECE", bala
     taxRate: initialData?.taxRate || 20,
     taxType: initialData?.taxType || "",
     taxId: initialData?.taxId || "",
+    // New payment fields with defaults
+    invoiceDetails: {
+      type: "fixed",
+      frequency: "weekly",
+      fixedRate: "1000",
+      hourlyRate: "50",
+      estimatedHours: "20",
+      startDate: new Date(),
+      endDate: undefined,
+      hasEndDate: false,
+      invoiceIssueDay: "tuesday",
+      firstInvoiceDate: new Date(new Date().getFullYear(), new Date().getMonth(), 13),
+      firstInvoicePayment: "adjusted",
+      firstInvoiceAmount: "500",
+      invoiceDue: "upon_receipt",
+    },
+    escrowDetails: {
+      type: "milestone",
+      totalFee: "5000",
+      upfrontPercentage: "20",
+      startDate: new Date(),
+      endDate: undefined,
+      milestones: [
+        {
+          id: "1",
+          name: "Initial Payment",
+          description: "Project kickoff and initial requirements gathering",
+          date: new Date(),
+          amount: "1000",
+          isInitial: true,
+        },
+        {
+          id: "2",
+          name: "Design Approval",
+          description: "Approval of UI/UX designs and prototypes",
+          date: new Date(Date.now() + 14 * 86400000), // 14 days later
+          amount: "1500",
+        },
+      ],
+    },
   })
 
   // State for current step
@@ -255,6 +332,76 @@ export function ProjectOrderFlow({ onSubmit, initialData, currency = "ECE", bala
     setFormData((prev) => ({
       ...prev,
       paymentStructure: value,
+    }))
+  }
+
+  // Handle invoice details change
+  const handleInvoiceDetailsChange = (field: keyof OrderFormData["invoiceDetails"], value: any) => {
+    setFormData((prev) => ({
+      ...prev,
+      invoiceDetails: {
+        ...prev.invoiceDetails,
+        [field]: value,
+      },
+    }))
+  }
+
+  // Handle escrow details change
+  const handleEscrowDetailsChange = (field: keyof OrderFormData["escrowDetails"], value: any) => {
+    setFormData((prev) => ({
+      ...prev,
+      escrowDetails: {
+        ...prev.escrowDetails,
+        [field]: value,
+      },
+    }))
+  }
+
+  // Add a new milestone
+  const addMilestone = () => {
+    const newId = (formData.escrowDetails.milestones.length + 1).toString()
+    const lastMilestoneDate = formData.escrowDetails.milestones[formData.escrowDetails.milestones.length - 1].date
+
+    const newMilestone: Milestone = {
+      id: newId,
+      name: "",
+      description: "",
+      date: lastMilestoneDate ? new Date(lastMilestoneDate.getTime() + 14 * 86400000) : new Date(), // 14 days after last milestone
+      amount: "",
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      escrowDetails: {
+        ...prev.escrowDetails,
+        milestones: [...prev.escrowDetails.milestones, newMilestone],
+      },
+    }))
+  }
+
+  // Remove a milestone
+  const removeMilestone = (id: string) => {
+    if (formData.escrowDetails.milestones.length <= 1) return
+
+    setFormData((prev) => ({
+      ...prev,
+      escrowDetails: {
+        ...prev.escrowDetails,
+        milestones: prev.escrowDetails.milestones.filter((milestone) => milestone.id !== id),
+      },
+    }))
+  }
+
+  // Update a milestone
+  const updateMilestone = (id: string, field: keyof Milestone, value: any) => {
+    setFormData((prev) => ({
+      ...prev,
+      escrowDetails: {
+        ...prev.escrowDetails,
+        milestones: prev.escrowDetails.milestones.map((milestone) =>
+          milestone.id === id ? { ...milestone, [field]: value } : milestone,
+        ),
+      },
     }))
   }
 
@@ -796,6 +943,28 @@ export function ProjectOrderFlow({ onSubmit, initialData, currency = "ECE", bala
                 <CardDescription>Select how you'd like the client to pay</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
+                <div className="flex items-center mb-2">
+                  <span className="text-sm text-muted-foreground mr-2">Select how you'd like the client to pay</span>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="ghost" size="sm" className="h-auto p-0">
+                        <Info className="h-4 w-4 text-muted-foreground" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-80">
+                      <div className="text-sm">
+                        <p className="font-medium mb-2">Payment Methods</p>
+                        <p className="mb-2">
+                          Choose the payment method that works best for your project and relationship with the client.
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          Different payment methods offer different levels of security and flexibility.
+                        </p>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+
                 <RadioGroup
                   value={formData.paymentType}
                   onValueChange={(value: "invoice" | "escrow") => handlePaymentTypeChange(value)}
@@ -846,170 +1015,663 @@ export function ProjectOrderFlow({ onSubmit, initialData, currency = "ECE", bala
                   </div>
                 </RadioGroup>
 
+                {/* Invoice Billing Options */}
                 {formData.paymentType === "invoice" && (
-                  <div className="space-y-4 pt-4">
-                    <h4 className="text-base font-medium">Invoice Details</h4>
-                    <RadioGroup
-                      value={formData.paymentStructure}
-                      onValueChange={(value: "fixed" | "hourly") =>
-                        handlePaymentStructureChange(value as "fixed" | "hourly")
-                      }
-                      className="grid grid-cols-1 md:grid-cols-2 gap-3"
-                    >
-                      <div
-                        className={`border rounded-md p-3 transition-all ${
-                          formData.paymentStructure === "fixed"
-                            ? "border-primary bg-primary/5"
-                            : "border-muted hover:border-primary/50"
-                        } cursor-pointer`}
-                        onClick={() => handlePaymentStructureChange("fixed")}
-                      >
-                        <div className="flex items-start gap-2">
-                          <RadioGroupItem value="fixed" id="fixed" className="mt-1" />
-                          <div>
-                            <Label htmlFor="fixed" className="cursor-pointer font-medium">
-                              Fixed payments
-                            </Label>
-                            <p className="text-xs text-muted-foreground mt-1">
-                              Regular payments of a fixed amount on a set schedule
-                            </p>
+                  <div className="space-y-6">
+                    <div className="flex items-center mb-2">
+                      <span className="text-sm text-muted-foreground mr-2">What are the invoice details?</span>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button variant="ghost" size="sm" className="h-auto p-0">
+                            <Info className="h-4 w-4 text-muted-foreground" />
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-80">
+                          <div className="text-sm">
+                            <p className="font-medium mb-2">Invoice Details</p>
+                            <p className="mb-2">Configure how you'll bill your client for the work performed.</p>
                           </div>
-                        </div>
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4 mb-6">
+                      <div
+                        className={`border rounded-md p-3 cursor-pointer transition-all ${
+                          formData.invoiceDetails.type === "fixed" ? "bg-muted" : ""
+                        }`}
+                        onClick={() => handleInvoiceDetailsChange("type", "fixed")}
+                      >
+                        <RadioGroup
+                          value={formData.invoiceDetails.type}
+                          onValueChange={(value) => handleInvoiceDetailsChange("type", value)}
+                        >
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="fixed" id="fixed-payments" />
+                            <Label htmlFor="fixed-payments">Fixed payments</Label>
+                          </div>
+                        </RadioGroup>
                       </div>
 
                       <div
-                        className={`border rounded-md p-3 transition-all ${
-                          formData.paymentStructure === "hourly"
-                            ? "border-primary bg-primary/5"
-                            : "border-muted hover:border-primary/50"
-                        } cursor-pointer`}
-                        onClick={() => handlePaymentStructureChange("hourly")}
+                        className={`border rounded-md p-3 cursor-pointer transition-all ${
+                          formData.invoiceDetails.type === "hourly" ? "bg-muted" : ""
+                        }`}
+                        onClick={() => handleInvoiceDetailsChange("type", "hourly")}
                       >
-                        <div className="flex items-start gap-2">
-                          <RadioGroupItem value="hourly" id="hourly" className="mt-1" />
-                          <div>
-                            <Label htmlFor="hourly" className="cursor-pointer font-medium">
-                              Hourly payments
-                            </Label>
-                            <p className="text-xs text-muted-foreground mt-1">
-                              Payments based on hours worked and submitted
-                            </p>
+                        <RadioGroup
+                          value={formData.invoiceDetails.type}
+                          onValueChange={(value) => handleInvoiceDetailsChange("type", value)}
+                        >
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="hourly" id="hourly-payments" />
+                            <Label htmlFor="hourly-payments">Hourly payments</Label>
                           </div>
-                        </div>
-                      </div>
-                    </RadioGroup>
-
-                    <Alert className="bg-amber-50 border-amber-200">
-                      <LightbulbIcon className="h-4 w-4 text-amber-500" />
-                      <AlertTitle>Please review before proceeding:</AlertTitle>
-                      <AlertDescription className="text-sm">
-                        For invoice billing projects with hourly submissions, clients will be billed for hours worked.
-                        This means that{" "}
-                        <span className="font-medium">funds are not secured upfront and are instead paid once</span> the
-                        freelancer submits hours for work completed. For new relationships, we recommend considering an
-                        escrow project instead, where funds are held in escrow and paid out at the end of the project.{" "}
-                        <Button
-                          variant="link"
-                          className="h-auto p-0 text-primary"
-                          onClick={() => handlePaymentTypeChange("escrow")}
-                        >
-                          Switch to an escrow project.
-                        </Button>
-                      </AlertDescription>
-                    </Alert>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="frequency">Payment Frequency</Label>
-                        <select
-                          id="frequency"
-                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                          value={formData.invoiceBilling.frequency}
-                          onChange={(e) =>
-                            handleInvoiceBillingUpdate({
-                              ...formData.invoiceBilling,
-                              frequency: e.target.value as "weekly" | "biweekly" | "monthly",
-                            })
-                          }
-                        >
-                          <option value="weekly">Weekly</option>
-                          <option value="biweekly">Bi-weekly</option>
-                          <option value="monthly">Monthly</option>
-                        </select>
-                      </div>
-
-                      <div className="space-y-2">
-                        <Label htmlFor="fixedAmount">Fixed Amount (per payment)</Label>
-                        <div className="flex items-center">
-                          <span className="mr-2">{currency}</span>
-                          <Input
-                            id="fixedAmount"
-                            type="number"
-                            value={formData.invoiceBilling.fixedAmount}
-                            onChange={(e) =>
-                              handleInvoiceBillingUpdate({
-                                ...formData.invoiceBilling,
-                                fixedAmount: Number.parseInt(e.target.value) || 0,
-                              })
-                            }
-                            className="flex-1"
-                          />
-                        </div>
+                        </RadioGroup>
                       </div>
                     </div>
+
+                    {formData.invoiceDetails.type === "fixed" && (
+                      <>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                          <div className="space-y-2">
+                            <Label htmlFor="frequency">Frequency issued</Label>
+                            <select
+                              id="frequency"
+                              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                              value={formData.invoiceDetails.frequency}
+                              onChange={(e) => handleInvoiceDetailsChange("frequency", e.target.value)}
+                            >
+                              <option value="weekly">Weekly</option>
+                              <option value="biweekly">Biweekly</option>
+                              <option value="monthly">Monthly</option>
+                            </select>
+                          </div>
+
+                          <div className="space-y-2">
+                            <Label htmlFor="fixedRate">Rate</Label>
+                            <div className="flex items-center">
+                              <span className="mr-2">$</span>
+                              <Input
+                                id="fixedRate"
+                                value={formData.invoiceDetails.fixedRate}
+                                onChange={(e) => handleInvoiceDetailsChange("fixedRate", e.target.value)}
+                                placeholder="0.00"
+                                className="flex-1"
+                              />
+                              <span className="ml-2">/wk</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="space-y-2 mb-6">
+                          <div className="flex items-center">
+                            <Label htmlFor="startDate" className="mr-2">
+                              Start date
+                            </Label>
+                            <Popover>
+                              <PopoverTrigger asChild>
+                                <Button variant="ghost" size="sm" className="h-auto p-0">
+                                  <Info className="h-4 w-4 text-muted-foreground" />
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-80">
+                                <p className="text-sm">The date your contract begins.</p>
+                              </PopoverContent>
+                            </Popover>
+                          </div>
+                          <div className="flex items-center">
+                            <Button
+                              variant="outline"
+                              className="w-full justify-start text-left font-normal"
+                              id="startDate"
+                              onClick={() => {
+                                // This would typically open a date picker
+                                // For now, we'll just use the current date
+                                handleInvoiceDetailsChange("startDate", new Date())
+                              }}
+                            >
+                              <Calendar className="mr-2 h-4 w-4" />
+                              {formData.invoiceDetails.startDate
+                                ? format(formData.invoiceDetails.startDate, "MM/dd/yyyy")
+                                : "Select date"}
+                            </Button>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                          <div className="space-y-2">
+                            <Label htmlFor="invoiceIssueDay">Issue invoice on</Label>
+                            <select
+                              id="invoiceIssueDay"
+                              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                              value={formData.invoiceDetails.invoiceIssueDay}
+                              onChange={(e) => handleInvoiceDetailsChange("invoiceIssueDay", e.target.value)}
+                            >
+                              <option value="monday">Monday</option>
+                              <option value="tuesday">Tuesday</option>
+                              <option value="wednesday">Wednesday</option>
+                              <option value="thursday">Thursday</option>
+                              <option value="friday">Friday</option>
+                              <option value="saturday">Saturday</option>
+                              <option value="sunday">Sunday</option>
+                            </select>
+                          </div>
+
+                          <div className="space-y-2">
+                            <Label htmlFor="firstInvoiceDate">First invoice date</Label>
+                            <div className="flex items-center">
+                              <Button
+                                variant="outline"
+                                className="w-full justify-start text-left font-normal"
+                                id="firstInvoiceDate"
+                                onClick={() => {
+                                  // This would typically open a date picker
+                                  // For now, we'll just use a date 2 weeks from now
+                                  const twoWeeksFromNow = new Date()
+                                  twoWeeksFromNow.setDate(twoWeeksFromNow.getDate() + 14)
+                                  handleInvoiceDetailsChange("firstInvoiceDate", twoWeeksFromNow)
+                                }}
+                              >
+                                <Calendar className="mr-2 h-4 w-4" />
+                                {formData.invoiceDetails.firstInvoiceDate
+                                  ? format(formData.invoiceDetails.firstInvoiceDate, "MMMM d, yyyy")
+                                  : "Select date"}
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center space-x-2 mb-6">
+                          <Checkbox
+                            id="hasEndDate"
+                            checked={formData.invoiceDetails.hasEndDate}
+                            onCheckedChange={(checked) => handleInvoiceDetailsChange("hasEndDate", !!checked)}
+                          />
+                          <div className="flex items-center">
+                            <Label htmlFor="hasEndDate" className="text-sm mr-2">
+                              Add end date
+                            </Label>
+                            <Popover>
+                              <PopoverTrigger asChild>
+                                <Button variant="ghost" size="sm" className="h-auto p-0">
+                                  <Info className="h-4 w-4 text-muted-foreground" />
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-80">
+                                <p className="text-sm">
+                                  Add an end date if you know when the project will be completed.
+                                </p>
+                              </PopoverContent>
+                            </Popover>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                          <div className="space-y-2">
+                            <div className="flex items-center">
+                              <Label htmlFor="firstInvoicePayment" className="mr-2">
+                                First invoice payment
+                              </Label>
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <Button variant="ghost" size="sm" className="h-auto p-0">
+                                    <Info className="h-4 w-4 text-muted-foreground" />
+                                  </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-80">
+                                  <p className="text-sm">Specify how the first invoice payment should be handled.</p>
+                                </PopoverContent>
+                              </Popover>
+                            </div>
+                            <select
+                              id="firstInvoicePayment"
+                              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                              value={formData.invoiceDetails.firstInvoicePayment}
+                              onChange={(e) => handleInvoiceDetailsChange("firstInvoicePayment", e.target.value)}
+                            >
+                              <option value="adjusted">Adjusted</option>
+                              <option value="full">Full payment</option>
+                              <option value="prorated">Prorated</option>
+                            </select>
+                          </div>
+
+                          <div className="space-y-2">
+                            <Label htmlFor="firstInvoiceAmount">Amount</Label>
+                            <div className="flex items-center">
+                              <span className="mr-2">$</span>
+                              <Input
+                                id="firstInvoiceAmount"
+                                value={formData.invoiceDetails.firstInvoiceAmount}
+                                onChange={(e) => handleInvoiceDetailsChange("firstInvoiceAmount", e.target.value)}
+                                placeholder="0.00"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="space-y-2 mb-6">
+                          <Label htmlFor="invoiceDue">Invoice due</Label>
+                          <select
+                            id="invoiceDue"
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                            value={formData.invoiceDetails.invoiceDue}
+                            onChange={(e) => handleInvoiceDetailsChange("invoiceDue", e.target.value)}
+                          >
+                            <option value="upon_receipt">Upon receipt</option>
+                            <option value="7_days">Net 7 - Due in 7 days</option>
+                            <option value="14_days">Net 14 - Due in 14 days</option>
+                            <option value="30_days">Net 30 - Due in 30 days</option>
+                          </select>
+                        </div>
+
+                        <div className="p-4 bg-muted/30 border border-muted rounded-md mb-6">
+                          <p className="text-sm">
+                            This agreement is valid for up to 1 year (expiring on{" "}
+                            {formData.invoiceDetails.startDate
+                              ? format(
+                                  new Date(
+                                    formData.invoiceDetails.startDate.getFullYear() + 1,
+                                    formData.invoiceDetails.startDate.getMonth(),
+                                    formData.invoiceDetails.startDate.getDate(),
+                                  ),
+                                  "MM/dd/yyyy",
+                                )
+                              : "MM/DD/YYYY"}
+                            ). Projects can be ended at any time.
+                          </p>
+                        </div>
+                      </>
+                    )}
+
+                    {formData.invoiceDetails.type === "hourly" && (
+                      <>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                          <div className="space-y-2">
+                            <Label htmlFor="frequency">Frequency</Label>
+                            <select
+                              id="frequency"
+                              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                              value={formData.invoiceDetails.frequency}
+                              onChange={(e) => handleInvoiceDetailsChange("frequency", e.target.value)}
+                            >
+                              <option value="weekly">Weekly</option>
+                              <option value="biweekly">Biweekly</option>
+                              <option value="monthly">Monthly</option>
+                            </select>
+                          </div>
+
+                          <div className="space-y-2">
+                            <Label htmlFor="hourlyRate">Hourly rate</Label>
+                            <div className="flex items-center">
+                              <span className="mr-2">$</span>
+                              <Input
+                                id="hourlyRate"
+                                value={formData.invoiceDetails.hourlyRate}
+                                onChange={(e) => handleInvoiceDetailsChange("hourlyRate", e.target.value)}
+                                placeholder="0.00"
+                                className="flex-1"
+                              />
+                              <span className="ml-2">/hr</span>
+                            </div>
+                          </div>
+
+                          <div className="space-y-2">
+                            <div className="flex items-center">
+                              <Label htmlFor="estimatedHours" className="mr-2">
+                                Estimated hours
+                              </Label>
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <Button variant="ghost" size="sm" className="h-auto p-0">
+                                    <Info className="h-4 w-4 text-muted-foreground" />
+                                  </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-80">
+                                  <p className="text-sm">
+                                    Estimate the number of hours you expect to work per billing period.
+                                  </p>
+                                </PopoverContent>
+                              </Popover>
+                            </div>
+                            <div className="flex items-center">
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="h-10 px-3"
+                                onClick={() => {
+                                  const currentHours = Number.parseInt(formData.invoiceDetails.estimatedHours) || 0
+                                  handleInvoiceDetailsChange("estimatedHours", Math.max(0, currentHours - 1).toString())
+                                }}
+                              >
+                                −
+                              </Button>
+                              <Input
+                                id="estimatedHours"
+                                value={formData.invoiceDetails.estimatedHours}
+                                onChange={(e) => handleInvoiceDetailsChange("estimatedHours", e.target.value)}
+                                className="mx-2 text-center"
+                              />
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="h-10 px-3"
+                                onClick={() => {
+                                  const currentHours = Number.parseInt(formData.invoiceDetails.estimatedHours) || 0
+                                  handleInvoiceDetailsChange("estimatedHours", (currentHours + 1).toString())
+                                }}
+                              >
+                                +
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                          <div className="space-y-2">
+                            <Label htmlFor="startDate">Start date</Label>
+                            <div className="flex items-center">
+                              <Button
+                                variant="outline"
+                                className="w-full justify-start text-left font-normal"
+                                id="startDate"
+                                onClick={() => {
+                                  // This would typically open a date picker
+                                  handleInvoiceDetailsChange("startDate", new Date())
+                                }}
+                              >
+                                <Calendar className="mr-2 h-4 w-4" />
+                                {formData.invoiceDetails.startDate
+                                  ? format(formData.invoiceDetails.startDate, "MM/dd/yyyy")
+                                  : "Select date"}
+                              </Button>
+                            </div>
+                          </div>
+
+                          {formData.invoiceDetails.hasEndDate && (
+                            <div className="space-y-2">
+                              <Label htmlFor="endDate">End date</Label>
+                              <div className="flex items-center">
+                                <Button
+                                  variant="outline"
+                                  className="w-full justify-start text-left font-normal"
+                                  id="endDate"
+                                  onClick={() => {
+                                    // This would typically open a date picker
+                                    const threeMonthsFromNow = new Date()
+                                    threeMonthsFromNow.setMonth(threeMonthsFromNow.getMonth() + 3)
+                                    handleInvoiceDetailsChange("endDate", threeMonthsFromNow)
+                                  }}
+                                >
+                                  <Calendar className="mr-2 h-4 w-4" />
+                                  {formData.invoiceDetails.endDate
+                                    ? format(formData.invoiceDetails.endDate, "MM/dd/yyyy")
+                                    : "Select date"}
+                                </Button>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="flex items-center space-x-2 mt-4">
+                          <Checkbox
+                            id="hasEndDate"
+                            checked={formData.invoiceDetails.hasEndDate}
+                            onCheckedChange={(checked) => handleInvoiceDetailsChange("hasEndDate", !!checked)}
+                          />
+                          <Label htmlFor="hasEndDate" className="text-sm">
+                            Add end date
+                          </Label>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button variant="ghost" size="sm" className="h-auto p-0">
+                                <Info className="h-4 w-4 text-muted-foreground" />
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-80">
+                              <p className="text-sm">Add an end date if you know when the project will be completed.</p>
+                            </PopoverContent>
+                          </Popover>
+                        </div>
+
+                        <div className="space-y-2 mt-6">
+                          <Label htmlFor="invoiceDue">Invoice due</Label>
+                          <select
+                            id="invoiceDue"
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                            value={formData.invoiceDetails.invoiceDue}
+                            onChange={(e) => handleInvoiceDetailsChange("invoiceDue", e.target.value)}
+                          >
+                            <option value="upon_receipt">Upon receipt</option>
+                            <option value="7_days">Net 7 - Due in 7 days</option>
+                            <option value="14_days">Net 14 - Due in 14 days</option>
+                            <option value="30_days">Net 30 - Due in 30 days</option>
+                          </select>
+                        </div>
+
+                        <div className="bg-amber-50 border border-amber-200 rounded-md p-4 mt-6">
+                          <div className="flex items-start">
+                            <div className="mr-2 mt-1">💡</div>
+                            <div>
+                              <p className="font-medium">Please review before proceeding:</p>
+                              <p className="text-sm mt-1">
+                                For invoice billing projects with hourly submissions, clients will be billed for hours
+                                worked. This means that{" "}
+                                <span className="font-medium">funds are not secured upfront</span> and are{" "}
+                                <span className="font-medium">
+                                  instead paid once the freelancer submits hours for work completed
+                                </span>
+                                .
+                              </p>
+                              <p className="text-sm mt-2">
+                                For new relationships, we recommend considering an escrow project instead, where funds
+                                are held in escrow and paid out at the end of the project.{" "}
+                                <button
+                                  className="text-primary underline"
+                                  onClick={() => handlePaymentTypeChange("escrow")}
+                                >
+                                  Switch to an escrow project.
+                                </button>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 )}
 
+                {/* Escrow Payment Options */}
                 {formData.paymentType === "escrow" && (
-                  <div className="space-y-4 pt-4">
-                    <h4 className="text-base font-medium">Escrow Structure</h4>
-                    <RadioGroup
-                      value={formData.paymentStructure}
-                      onValueChange={(value: "milestone" | "onetime") =>
-                        handlePaymentStructureChange(value as "milestone" | "onetime")
-                      }
-                      className="grid grid-cols-1 md:grid-cols-2 gap-3"
-                    >
-                      <div
-                        className={`border rounded-md p-3 transition-all ${
-                          formData.paymentStructure === "milestone"
-                            ? "border-primary bg-primary/5"
-                            : "border-muted hover:border-primary/50"
-                        } cursor-pointer`}
-                        onClick={() => handlePaymentStructureChange("milestone")}
-                      >
-                        <div className="flex items-start gap-2">
-                          <RadioGroupItem value="milestone" id="milestone" className="mt-1" />
-                          <div>
-                            <Label htmlFor="milestone" className="cursor-pointer font-medium">
-                              Milestone payments
-                            </Label>
-                            <p className="text-xs text-muted-foreground mt-1">
-                              Break the project into milestones with separate payments
+                  <div className="space-y-6">
+                    <div className="flex items-center mb-2">
+                      <span className="text-sm text-muted-foreground mr-2">
+                        How do you want to structure escrow payments?
+                      </span>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button variant="ghost" size="sm" className="h-auto p-0">
+                            <Info className="h-4 w-4 text-muted-foreground" />
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-80">
+                          <div className="text-sm">
+                            <p className="font-medium mb-2">Escrow Payment Structure</p>
+                            <p className="mb-2">Choose how you want to structure payments for your project.</p>
+                            <p className="text-xs text-muted-foreground">
+                              Milestone payments allow you to break down the project into smaller deliverables with
+                              separate payments.
                             </p>
                           </div>
-                        </div>
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                      <div
+                        className={`border rounded-md p-3 cursor-pointer transition-all ${
+                          formData.escrowDetails.type === "milestone" ? "bg-muted" : ""
+                        }`}
+                        onClick={() => handleEscrowDetailsChange("type", "milestone")}
+                      >
+                        <RadioGroup
+                          value={formData.escrowDetails.type}
+                          onValueChange={(value) => handleEscrowDetailsChange("type", value)}
+                        >
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="milestone" id="milestone-payments" />
+                            <Label htmlFor="milestone-payments">Milestone payments</Label>
+                          </div>
+                        </RadioGroup>
                       </div>
 
                       <div
-                        className={`border rounded-md p-3 transition-all ${
-                          formData.paymentStructure === "onetime"
-                            ? "border-primary bg-primary/5"
-                            : "border-muted hover:border-primary/50"
-                        } cursor-pointer`}
-                        onClick={() => handlePaymentStructureChange("onetime")}
+                        className={`border rounded-md p-3 cursor-pointer transition-all ${
+                          formData.escrowDetails.type === "onetime" ? "bg-muted" : ""
+                        }`}
+                        onClick={() => handleEscrowDetailsChange("type", "onetime")}
                       >
-                        <div className="flex items-start gap-2">
-                          <RadioGroupItem value="onetime" id="onetime" className="mt-1" />
-                          <div>
-                            <Label htmlFor="onetime" className="cursor-pointer font-medium">
-                              One-time payment
-                            </Label>
-                            <p className="text-xs text-muted-foreground mt-1">Single payment for the entire project</p>
+                        <RadioGroup
+                          value={formData.escrowDetails.type}
+                          onValueChange={(value) => handleEscrowDetailsChange("type", value)}
+                        >
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="onetime" id="onetime-payment" />
+                            <Label htmlFor="onetime-payment">One-time payment</Label>
                           </div>
+                        </RadioGroup>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                      <div className="space-y-2">
+                        <Label htmlFor="totalFee">Total fee</Label>
+                        <div className="flex items-center">
+                          <span className="mr-2">$</span>
+                          <Input
+                            id="totalFee"
+                            value={formData.escrowDetails.totalFee}
+                            onChange={(e) => handleEscrowDetailsChange("totalFee", e.target.value)}
+                            placeholder="0.00"
+                          />
                         </div>
                       </div>
-                    </RadioGroup>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="upfrontPercentage">Upfront percentage</Label>
+                        <div className="flex items-center">
+                          <Input
+                            id="upfrontPercentage"
+                            value={formData.escrowDetails.upfrontPercentage}
+                            onChange={(e) => handleEscrowDetailsChange("upfrontPercentage", e.target.value)}
+                            placeholder="0"
+                            className="flex-1"
+                          />
+                          <span className="ml-2">%</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2 mb-6">
+                      <Label htmlFor="startDate">Start date</Label>
+                      <div className="flex items-center">
+                        <Button
+                          variant="outline"
+                          className="w-full justify-start text-left font-normal"
+                          id="startDate"
+                          onClick={() => {
+                            // This would typically open a date picker
+                            handleEscrowDetailsChange("startDate", new Date())
+                          }}
+                        >
+                          <Calendar className="mr-2 h-4 w-4" />
+                          {formData.escrowDetails.startDate
+                            ? format(formData.escrowDetails.startDate, "MM/dd/yyyy")
+                            : "Select date"}
+                        </Button>
+                      </div>
+                    </div>
+
+                    {formData.escrowDetails.type === "milestone" && (
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <h4 className="text-base font-medium">Milestones</h4>
+                          <Button variant="outline" size="sm" onClick={addMilestone}>
+                            <Plus className="mr-2 h-4 w-4" />
+                            Add milestone
+                          </Button>
+                        </div>
+
+                        {formData.escrowDetails.milestones.map((milestone, index) => (
+                          <div key={milestone.id} className="border border-muted rounded-md p-4">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                              <div className="space-y-2">
+                                <Label htmlFor={`milestoneName-${milestone.id}`}>Name</Label>
+                                <Input
+                                  id={`milestoneName-${milestone.id}`}
+                                  value={milestone.name}
+                                  onChange={(e) => updateMilestone(milestone.id, "name", e.target.value)}
+                                  placeholder="Milestone Name"
+                                />
+                              </div>
+
+                              <div className="space-y-2">
+                                <Label htmlFor={`milestoneDate-${milestone.id}`}>Date</Label>
+                                <div className="flex items-center">
+                                  <Button
+                                    variant="outline"
+                                    className="w-full justify-start text-left font-normal"
+                                    id={`milestoneDate-${milestone.id}`}
+                                    onClick={() => {
+                                      // This would typically open a date picker
+                                      updateMilestone(milestone.id, "date", new Date())
+                                    }}
+                                  >
+                                    <Calendar className="mr-2 h-4 w-4" />
+                                    {milestone.date ? format(milestone.date, "MM/dd/yyyy") : "Select date"}
+                                  </Button>
+                                </div>
+                              </div>
+
+                              <div className="space-y-2">
+                                <Label htmlFor={`milestoneAmount-${milestone.id}`}>Amount</Label>
+                                <div className="flex items-center">
+                                  <span className="mr-2">$</span>
+                                  <Input
+                                    id={`milestoneAmount-${milestone.id}`}
+                                    value={milestone.amount}
+                                    onChange={(e) => updateMilestone(milestone.id, "amount", e.target.value)}
+                                    placeholder="0.00"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="space-y-2 mt-4">
+                              <Label htmlFor={`milestoneDescription-${milestone.id}`}>Description</Label>
+                              <Textarea
+                                id={`milestoneDescription-${milestone.id}`}
+                                value={milestone.description}
+                                onChange={(e) => updateMilestone(milestone.id, "description", e.target.value)}
+                                placeholder="Milestone Description"
+                              />
+                            </div>
+
+                            {index !== 0 && (
+                              <Button
+                                variant="destructive"
+                                size="sm"
+                                className="mt-4"
+                                onClick={() => removeMilestone(milestone.id)}
+                              >
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                Remove milestone
+                              </Button>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )}
               </CardContent>

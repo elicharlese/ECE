@@ -5,7 +5,7 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, ShoppingBag, Users, MessageSquare } from "lucide-react"
+import { Home, ShoppingBag, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { MobileNav } from "@/components/layout/mobile-nav"
 import { UserDropdown } from "@/components/user-dropdown"
@@ -93,8 +93,17 @@ export function Header() {
 
   const isAppPage = pathname?.startsWith("/app")
   const isMarketingPage = !isAppPage && !pathname?.includes("/login") && !pathname?.includes("/signup")
-  // Only show auth buttons on marketing pages when user is not signed in and not in demo mode
+
+  // Update the showAuthButtons condition to be more explicit
   const showAuthButtons = isMarketingPage && !user && !isDemoMode
+
+  // Add a useEffect to log authentication state for debugging
+  useEffect(() => {
+    console.log("Auth state:", { isMarketingPage, user: !!user, isDemoMode, showAuthButtons })
+  }, [isMarketingPage, user, isDemoMode, showAuthButtons])
+
+  // const showAuthButtons = isMarketingPage && !user && !isDemoMode && !showUserDropdown
+  // Only show auth buttons on marketing pages when user is not signed in and not in demo mode
   // const showUserDropdown = user || isDemoMode
 
   // Use persistent unread count if the actual count is still loading
@@ -105,12 +114,6 @@ export function Header() {
     { href: "/app", label: "Dashboard", icon: <Home className="h-4 w-4 mr-2" /> },
     { href: "/app/marketplace", label: "Marketplace", icon: <ShoppingBag className="h-4 w-4 mr-2" /> },
     { href: "/app/crowdfunding", label: "Crowdfunding", icon: <Users className="h-4 w-4 mr-2" /> },
-    {
-      href: "/app/chat",
-      label: "Chat",
-      icon: <MessageSquare className="h-4 w-4 mr-2" />,
-      badge: displayUnreadMessages > 0 ? displayUnreadMessages : undefined,
-    },
   ]
 
   // Marketing navigation items
@@ -290,17 +293,6 @@ export function Header() {
               <ErrorBoundary>
                 <NotificationBadge />
               </ErrorBoundary>
-
-              {!pathname?.includes("/app/chat") && displayUnreadMessages > 0 && (
-                <Link href="/app/chat">
-                  <Button variant="ghost" size="icon" className="relative">
-                    <MessageSquare className="h-5 w-5" />
-                    <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-                      {displayUnreadMessages > 99 ? "99+" : displayUnreadMessages}
-                    </span>
-                  </Button>
-                </Link>
-              )}
             </div>
             <ErrorBoundary>
               <UserDropdown />

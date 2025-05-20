@@ -9,7 +9,6 @@ import { useToast } from "@/hooks/use-toast"
 import { ProductSkeleton } from "@/components/skeletons/product-skeleton"
 import { useCart } from "@/lib/cart-context"
 import { useWishlist } from "@/lib/wishlist-context"
-import { MarketplaceFeed } from "@/components/marketplace/marketplace-feed"
 import {
   Search,
   ShoppingCart,
@@ -359,7 +358,7 @@ export default function MarketplacePage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        <div className="lg:col-span-1 space-y-6">
+        <div className="lg:col-span-1">
           <Card>
             <CardContent className="p-4">
               <div className="space-y-4">
@@ -447,8 +446,6 @@ export default function MarketplacePage() {
               </div>
             </CardContent>
           </Card>
-
-          <MarketplaceFeed />
         </div>
 
         <div className="lg:col-span-3 space-y-6">

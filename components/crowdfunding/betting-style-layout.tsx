@@ -4,8 +4,14 @@ import type React from "react"
 
 import { useState, useEffect } from "react"
 import { Sparkles, TrendingUp, Clock, Award } from "lucide-react"
+import { cn } from "@/lib/utils"
 
-export function BettingStyleLayout({ children }: { children: React.ReactNode }) {
+interface BettingStyleLayoutProps {
+  children: React.ReactNode
+  className?: string
+}
+
+export function BettingStyleLayout({ children, className }: BettingStyleLayoutProps) {
   const [isBettingMode, setIsBettingMode] = useState(false)
 
   // Check if betting dark mode is enabled
@@ -54,7 +60,7 @@ export function BettingStyleLayout({ children }: { children: React.ReactNode }) 
   const hotProjects = ["Blockchain Bridge (+310%)", "Gaming Platform (+215%)", "Identity Solution (+180%)"]
 
   return (
-    <div className="betting-layout">
+    <div className={cn("betting-layout", className)}>
       {/* Ticker tape for live updates */}
       <div className="ticker-tape mb-4">
         <div className="ticker-content">

@@ -3,7 +3,6 @@
 import type React from "react"
 
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -15,16 +14,6 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Slider } from "@/components/ui/slider"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"
-import {
-  ArrowLeft,
-  ArrowRight,
   CheckCircle,
   CreditCard,
   Info,
@@ -42,6 +31,8 @@ import {
   Palette,
   Code,
 } from "lucide-react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import PaymentOptionsForm from "./payment-options-form"
 
 // Define the app template type
 type AppTemplate = {
@@ -93,7 +84,43 @@ interface SimplifiedOrderFlowProps {
   balance?: number
 }
 
-export function SimplifiedOrderFlow({ onSubmit, currency = "ECE", balance = 5000 }: SimplifiedOrderFlowProps) {
+interface OrderStep {
+  id: string
+  title: string
+  component: React.ReactNode
+}
+
+export default function SimplifiedOrderFlow({ onSubmit, currency = "$", balance = 10000 }: SimplifiedOrderFlowProps) {
+  const [activeStep, setActiveStep] = useState("project-details")
+
+  const steps: OrderStep[] = [
+    {
+      id: "project-details",
+      title: "1. Project details",
+      component: (
+        <div className="p-6 border rounded-md">
+          <h3 className="text-lg font-medium mb-4">Project details</h3>
+          <p className="text-gray-500">This is where project details would go.</p>
+        </div>
+      ),
+    },
+    {
+      id: "payment-details",
+      title: "2. Payment details",
+      component: <PaymentOptionsForm />,
+    },
+    {
+      id: "review",
+      title: "3. Review",
+      component: (
+        <div className="p-6 border rounded-md">
+          <h3 className="text-lg font-medium mb-4">Review</h3>
+          <p className="text-gray-500">This is where the review would go.</p>
+        </div>
+      ),
+    },
+  ]
+
   // App templates
   const appTemplates: AppTemplate[] = [
     {
@@ -1070,125 +1097,28 @@ export function SimplifiedOrderFlow({ onSubmit, currency = "ECE", balance = 5000
   }
 
   return (
-    <div className="space-y-8">
-      {/* Progress bar */}
-      <div className="space-y-2">
-        <div className="flex justify-between text-sm text-muted-foreground">
-          <span>
-            Step{" "}
-            {currentStep === "template"
-              ? "1"
-              : currentStep === "details"
-                ? "2"
-                : currentStep === "features"
-                  ? "3"
-                  : "4"}{" "}
-            of 4
-          </span>
-          <span>
-            {currentStep === "template"
-              ? "Choose Template"
-              : currentStep === "details"
-                ? "Project Details"
-                : currentStep === "features"
-                  ? "Features & Timeline"
-                  : "Review & Submit"}
-          </span>
-        </div>
-        <Progress value={getProgressPercentage()} className="h-2" />
-      </div>
+    <div className="max-w-4xl mx-auto py-8 px-4">
+      <h1 className="text-2xl font-bold mb-6">Order an App</h1>
 
-      {/* Step content */}
-      <div>{renderCurrentStep()}</div>
+      <Tabs value={activeStep} onValueChange={setActiveStep} className="w-full">
+        <TabsList className="grid grid-cols-3 mb-8">
+          {steps.map((step) => (
+            <TabsTrigger
+              key={step.id}
+              value={step.id}
+              className="data-[state=active]:border-b-2 data-[state=active]:border-blue-500"
+            >
+              {step.title}
+            </TabsTrigger>
+          ))}
+        </TabsList>
 
-      {/* Navigation buttons */}
-      <div className="flex justify-between pt-4">
-        <Button
-          variant="outline"
-          onClick={goToPreviousStep}
-          disabled={currentStep === "template"}
-          className="flex items-center gap-2"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back
-        </Button>
-        <div className="flex gap-2">
-          <Button onClick={goToNextStep} disabled={!isCurrentStepValid()} className="flex items-center gap-2">
-            {currentStep === "review" ? (
-              <>
-                <ShoppingCart className="h-4 w-4" />
-                Submit Order
-              </>
-            ) : (
-              <>
-                Next
-                <ArrowRight className="h-4 w-4" />
-              </>
-            )}
-          </Button>
-        </div>
-      </div>
-
-      {/* Order Confirmation Dialog */}
-      <Dialog open={orderConfirmationOpen} onOpenChange={setOrderConfirmationOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Confirm Your Order</DialogTitle>
-            <DialogDescription>Please review your order details before submitting</DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <h4 className="font-medium">Project Details</h4>
-              <div className="text-sm">
-                <p>
-                  <span className="font-medium">Name:</span> {formData.projectName}
-                </p>
-                <p>
-                  <span className="font-medium">Template:</span>{" "}
-                  {appTemplates.find((t) => t.id === formData.selectedTemplate)?.name || "Custom App"}
-                </p>
-              </div>
-            </div>
-            <Separator />
-            <div className="space-y-2">
-              <h4 className="font-medium">Timeline & Cost</h4>
-              <div className="text-sm">
-                <p>
-                  <span className="font-medium">Estimated Timeline:</span> {calculateEstimatedTimeline()} weeks
-                </p>
-                <p>
-                  <span className="font-medium">Total Cost:</span> {calculateEstimatedCost()} {currency}
-                </p>
-              </div>
-            </div>
-            <Separator />
-            <div className="space-y-2">
-              <h4 className="font-medium">Payment</h4>
-              <div className="text-sm">
-                <p>
-                  Your wallet balance: {balance} {currency}
-                </p>
-                {balance < calculateEstimatedCost() ? (
-                  <p className="text-red-500 mt-1">
-                    Insufficient funds. You need {calculateEstimatedCost() - balance} {currency} more.
-                  </p>
-                ) : (
-                  <p className="text-green-500 mt-1">You have sufficient funds for this order.</p>
-                )}
-              </div>
-            </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setOrderConfirmationOpen(false)}>
-              Go Back
-            </Button>
-            <Button onClick={confirmOrderSubmission} disabled={balance < calculateEstimatedCost() || isSubmitting}>
-              <CreditCard className="mr-2 h-4 w-4" />
-              {balance < calculateEstimatedCost() ? "Add Funds" : isSubmitting ? "Processing..." : "Confirm & Pay"}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+        {steps.map((step) => (
+          <TabsContent key={step.id} value={step.id}>
+            {step.component}
+          </TabsContent>
+        ))}
+      </Tabs>
     </div>
   )
 }

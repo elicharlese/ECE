@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, ShoppingBag, Users, MessageSquare, Menu } from "lucide-react"
+import { Home, ShoppingBag, Users, Package } from "lucide-react"
 
 export function BottomNav() {
   const pathname = usePathname() || "/"
@@ -32,8 +32,7 @@ export function BottomNav() {
     { href: "/app", label: "Home", icon: <Home className="h-5 w-5" /> },
     { href: "/app/marketplace", label: "Market", icon: <ShoppingBag className="h-5 w-5" /> },
     { href: "/app/crowdfunding", label: "Projects", icon: <Users className="h-5 w-5" /> },
-    { href: "/app/chat", label: "Chat", icon: <MessageSquare className="h-5 w-5" /> },
-    { href: "#", label: "Menu", icon: <Menu className="h-5 w-5" /> },
+    { href: "/app/project-dashboard", label: "Dashboard", icon: <Package className="h-5 w-5" /> },
   ]
 
   return (
@@ -48,7 +47,7 @@ export function BottomNav() {
           return (
             <Link
               key={item.href}
-              href={item.href === "#" ? pathname : item.href}
+              href={item.href}
               className={`flex flex-col items-center justify-center w-full h-full px-1 ${
                 isActive ? "text-primary" : "text-muted-foreground"
               }`}

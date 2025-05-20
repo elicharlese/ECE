@@ -18,8 +18,8 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-quicksand)", "ui-sans-serif", "system-ui", "sans-serif"],
-        thin: ["var(--font-raleway)", "ui-sans-serif", "system-ui", "sans-serif"],
+        sans: ["var(--font-quicksand)", "Inter Fallback", "ui-sans-serif", "system-ui", "sans-serif"],
+        thin: ["var(--font-raleway)", "Raleway Fallback", "ui-sans-serif", "system-ui", "sans-serif"],
         cursive: ["var(--font-permanent-marker)", "ui-serif", "serif"],
         elegant: ["var(--font-dancing-script)", "ui-serif", "serif"],
       },

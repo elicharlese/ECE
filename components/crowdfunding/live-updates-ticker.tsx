@@ -44,6 +44,7 @@ export function LiveUpdatesTicker({
   const [contentWidth, setContentWidth] = useState(0)
   const contentRef = useRef<HTMLDivElement>(null)
   const [animationDuration, setAnimationDuration] = useState(180) // seconds
+  const [isScrolled, setIsScrolled] = useState(false)
 
   // Load initial updates
   useEffect(() => {
@@ -140,6 +141,17 @@ export function LiveUpdatesTicker({
     const intervalId = setInterval(fetchNewUpdates, refreshInterval)
     return () => clearInterval(intervalId)
   }, [autoRefresh, refreshInterval])
+
+  // Track scroll position for styling
+  useEffect(() => {
+    if (typeof window === "undefined") return
+
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10)
+    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   // Toggle pause state
   const togglePause = useCallback(() => {
@@ -249,7 +261,8 @@ export function LiveUpdatesTicker({
   return (
     <div
       className={cn(
-        "w-full overflow-hidden border-y border-border/30 bg-green-100/40 dark:bg-green-900/20 py-2.5 backdrop-blur-sm relative",
+        "w-full overflow-hidden border-y border-border/30 bg-green-100/40 dark:bg-green-900/20 py-2.5 backdrop-blur-sm relative sticky top-16 z-40 transition-all duration-200",
+        isScrolled ? "shadow-sm bg-background/95 backdrop-blur-md" : "",
         isDarkMode ? "betting-ticker" : "",
         className,
       )}

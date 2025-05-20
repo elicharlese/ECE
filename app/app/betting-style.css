@@ -1,0 +1,308 @@
+"/* Betting Platform Styles */
+
+/* Main backgrounds */
+.betting-bg-primary {
+  background-color: #f0fdfa;
+}
+
+.betting-bg-secondary {
+  background-color: #f7f7f7;
+}
+
+.betting-bg-tertiary {
+  background-color: #ffffff;
+}
+
+.betting-bg-card {
+  background-color: #ffffff;
+}
+
+.betting-bg-hover {
+  background-color: #f9fafb;
+}
+
+/* Text colors */
+.betting-text-primary {
+  color: #333333;
+}
+
+.betting-text-secondary {
+  color: #666666;
+}
+
+.betting-text-muted {
+  color: #999999;
+}
+
+/* Accent colors */
+.betting-accent-profit {
+  color: #22c55e;
+}
+
+.betting-accent-loss {
+  color: #ef4444;
+}
+
+.betting-accent-primary {
+  color: #0e5f59;
+}
+
+.betting-accent-secondary {
+  color: #7c3aed;
+}
+
+.betting-accent-warning {
+  color: #f59e0b;
+}
+
+/* Border colors */
+.betting-border-light {
+  border-color: #e5e7eb;
+}
+
+.betting-border-medium {
+  border-color: #d1d5db;
+}
+
+/* Shadows */
+.betting-shadow-sm {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.betting-shadow-md {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.betting-shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Gradients */
+.betting-gradient-bg {
+  background-image: linear-gradient(180deg, #f0fdfa 0%, #e2e8f0 100%);
+}
+
+.betting-gradient-card {
+  background-image: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+}
+
+.betting-gradient-accent {
+  background-image: linear-gradient(135deg, #0e5f59 0%, #0a4a45 100%);
+}
+
+/* Main container styling */
+.betting-container {
+  border-radius: 8px;
+}
+
+/* Card styling */
+.betting-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.betting-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4 {
+  color: #333333;
+}
+
+p,
+span {
+  color: #666666;
+}
+
+.text-muted {
+  color: #999999;
+}
+
+/* Buttons */
+.betting-btn-primary {
+  background-color: #0e5f59;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.betting-btn-primary:hover {
+  background-color: #0a4a45;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.betting-btn-secondary {
+  background-color: #ffffff;
+  color: #333333;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  padding: 8px 16px;
+  transition: all 0.2s ease;
+}
+
+.betting-btn-secondary:hover {
+  background-color: #f9fafb;
+}
+
+/* Progress bars */
+.progress-bar-bg {
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  height: 8px;
+}
+
+.progress-bar-fill {
+  background-color: #0e5f59;
+  border-radius: 4px;
+  height: 8px;
+}
+
+/* Stats and metrics */
+.profit {
+  color: #4caf50;
+}
+
+.loss {
+  color: #f44336;
+}
+
+/* Sidebar */
+.betting-sidebar {
+  background-color: #f7f7f7;
+  border-right: 1px solid #e5e7eb;
+}
+
+/* Featured projects section */
+.featured-projects {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.featured-project-card {
+  background-color: #ffffff;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.featured-project-card:hover {
+  background-color: #f9fafb;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Notification badges */
+.notification-badge {
+  background-color: #0e5f59;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+/* Live indicators */
+.live-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #4caf50;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.live-indicator::before {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #4caf50;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Quick bet buttons */
+.quick-bet-btn {
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+
+.quick-bet-btn:hover {
+  background-color: #0e5f59;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Ticker tape */
+.ticker-tape {
+  background-color: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 8px 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.ticker-content {
+  display: inline-block;
+  animation: ticker 30s linear infinite;
+}
+
+@keyframes ticker {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Chart elements */
+.chart-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.chart-title {
+  color: #333333;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+"

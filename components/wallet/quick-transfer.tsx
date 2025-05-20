@@ -7,9 +7,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { LoadingButton } from "@/components/ui/loading-button"
 import { useWallet } from "@/lib/wallet-context"
-import { ArrowRight, Plus, ArrowDown } from "lucide-react"
+import { ArrowRight, Plus, ArrowDown, RefreshCw } from "lucide-react"
 import { Toast, ToastTitle, ToastDescription } from "@/components/ui/toast"
-import { CheckCircle, AlertTriangle, RefreshCw } from "lucide-react"
+import { CheckCircle, AlertTriangle } from "lucide-react"
 
 export function QuickTransfer() {
   const { addFunds, withdrawFunds, balance, currency } = useWallet()

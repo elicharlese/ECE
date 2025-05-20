@@ -1,18 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import {
-  WalletIcon,
-  Plus,
-  ArrowDown,
-  ArrowUp,
-  RefreshCw,
-  Clock,
-  ChevronRight,
-  CheckCircle,
-  AlertTriangle,
-} from "lucide-react"
+import { WalletIcon, Plus, ArrowDown, ArrowUp, RefreshCw, Clock, CheckCircle, AlertTriangle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useWallet } from "@/lib/wallet-context"
 import { useDemo } from "@/lib/demo-context"
@@ -37,7 +26,7 @@ import { Badge } from "@/components/ui/badge"
 export function WalletDropdown() {
   const {
     balance = 0,
-    currency = "USD",
+    currency = "ECE",
     transactions = [],
     addFunds,
     withdrawFunds,
@@ -46,7 +35,6 @@ export function WalletDropdown() {
   } = useWallet() || {}
   const { isDemoMode } = useDemo() || {}
   const { user } = useAuth() || {}
-  const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
   const [showQuickAdd, setShowQuickAdd] = useState(false)
   const [showQuickWithdraw, setShowQuickWithdraw] = useState(false)
@@ -145,11 +133,6 @@ export function WalletDropdown() {
 
   // Get recent transactions
   const recentTransactions = Array.isArray(transactions) ? transactions.slice(0, 3) : []
-
-  const handleViewWallet = () => {
-    router.push("/app/wallet-management")
-    setIsOpen(false)
-  }
 
   const handleQuickAdd = async (presetAmount?: string) => {
     const amountToAdd = presetAmount || amount
@@ -340,10 +323,7 @@ export function WalletDropdown() {
                     size="sm"
                     variant="secondary"
                     className="h-8 px-2 text-xs bg-green-100/50 hover:bg-green-200/60 dark:bg-green-900/20 dark:hover:bg-green-800/30"
-                    onClick={() => {
-                      setAmount("100")
-                      handleQuickAdd()
-                    }}
+                    onClick={() => handleQuickAdd("100")}
                   >
                     +100 ECE
                   </Button>
@@ -351,10 +331,7 @@ export function WalletDropdown() {
                     size="sm"
                     variant="secondary"
                     className="h-8 px-2 text-xs bg-green-100/50 hover:bg-green-200/60 dark:bg-green-900/20 dark:hover:bg-green-800/30"
-                    onClick={() => {
-                      setAmount("250")
-                      handleQuickAdd()
-                    }}
+                    onClick={() => handleQuickAdd("250")}
                   >
                     +250 ECE
                   </Button>
@@ -362,10 +339,7 @@ export function WalletDropdown() {
                     size="sm"
                     variant="secondary"
                     className="h-8 px-2 text-xs bg-green-100/50 hover:bg-green-200/60 dark:bg-green-900/20 dark:hover:bg-green-800/30"
-                    onClick={() => {
-                      setAmount("500")
-                      handleQuickAdd()
-                    }}
+                    onClick={() => handleQuickAdd("500")}
                   >
                     +500 ECE
                   </Button>
@@ -373,10 +347,7 @@ export function WalletDropdown() {
                     size="sm"
                     variant="secondary"
                     className="h-8 px-2 text-xs bg-green-100/50 hover:bg-green-200/60 dark:bg-green-900/20 dark:hover:bg-green-800/30"
-                    onClick={() => {
-                      setAmount("1000")
-                      handleQuickAdd()
-                    }}
+                    onClick={() => handleQuickAdd("1000")}
                   >
                     +1000 ECE
                   </Button>
@@ -402,7 +373,7 @@ export function WalletDropdown() {
                         />
                         <LoadingButton
                           size="sm"
-                          onClick={handleQuickAdd}
+                          onClick={() => handleQuickAdd()}
                           isLoading={isProcessing}
                           loadingText="Adding..."
                           disabled={!amount || isNaN(Number(amount)) || Number(amount) <= 0}
@@ -525,9 +496,6 @@ export function WalletDropdown() {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <h4 className="text-sm font-medium">Recent Transactions</h4>
-                <Button variant="link" size="sm" className="h-auto p-0" onClick={handleViewWallet}>
-                  View All
-                </Button>
               </div>
 
               {isLoading ? (
@@ -586,9 +554,23 @@ export function WalletDropdown() {
           <DropdownMenuSeparator />
 
           <DropdownMenuGroup>
-            <DropdownMenuItem onClick={handleViewWallet}>
-              <span>Wallet Management</span>
-              <ChevronRight className="ml-auto h-4 w-4" />
+            <DropdownMenuItem
+              onClick={() => {
+                setIsOpen(false)
+                setShowQuickAdd(true)
+              }}
+            >
+              <Plus className="mr-2 h-4 w-4" />
+              <span>Add ECE</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                setIsOpen(false)
+                setShowQuickWithdraw(true)
+              }}
+            >
+              <ArrowDown className="mr-2 h-4 w-4" />
+              <span>Withdraw ECE</span>
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>

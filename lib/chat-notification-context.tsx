@@ -27,7 +27,15 @@ export function ChatNotificationProvider({ children }: { children: React.ReactNo
   const [notificationVolume, setNotificationVolume] = useState(50)
   const [notificationAudio, setNotificationAudio] = useState<HTMLAudioElement | null>(null)
   const { user } = useAuth()
-  const { currentChannel, channels, markChannelAsRead } = useChat()
+
+  // Initialize chatContext outside the try-catch to avoid hook call in a conditional block
+  const chatContext = useChat()
+
+  const { currentChannel, channels, markChannelAsRead } = chatContext || {
+    currentChannel: null,
+    channels: [],
+    markChannelAsRead: async () => {},
+  }
 
   // Initialize audio on client side
   useEffect(() => {
@@ -62,6 +70,21 @@ export function ChatNotificationProvider({ children }: { children: React.ReactNo
       localStorage.setItem("notificationVolume", notificationVolume.toString())
     }
   }, [browserNotificationsEnabled, soundNotificationsEnabled, notificationVolume])
+
+  const notifyNewMessage = useCallback(
+    (message: Message & { channel_name?: string }) => {
+      // Play sound notification only
+      if (soundNotificationsEnabled && notificationAudio) {
+        notificationAudio.volume = notificationVolume / 100
+        notificationAudio.play().catch((error) => {
+          console.error("Error playing notification sound:", error)
+        })
+      }
+
+      // No longer show popup notifications
+    },
+    [soundNotificationsEnabled, notificationAudio, notificationVolume],
+  )
 
   // Subscribe to new messages for notifications
   useEffect(() => {
@@ -115,7 +138,7 @@ export function ChatNotificationProvider({ children }: { children: React.ReactNo
     return () => {
       supabase.removeChannel(subscription)
     }
-  }, [user, currentChannel])
+  }, [user, currentChannel, chatContext, notifyNewMessage])
 
   const requestBrowserNotificationPermission = useCallback(async () => {
     if (typeof Notification === "undefined") return
@@ -127,21 +150,6 @@ export function ChatNotificationProvider({ children }: { children: React.ReactNo
       setBrowserNotificationsEnabled(true)
     }
   }, [])
-
-  const notifyNewMessage = useCallback(
-    (message: Message & { channel_name?: string }) => {
-      // Play sound notification only
-      if (soundNotificationsEnabled && notificationAudio) {
-        notificationAudio.volume = notificationVolume / 100
-        notificationAudio.play().catch((error) => {
-          console.error("Error playing notification sound:", error)
-        })
-      }
-
-      // No longer show popup notifications
-    },
-    [soundNotificationsEnabled, notificationAudio, notificationVolume],
-  )
 
   const markAllAsRead = useCallback(async () => {
     if (!user) return

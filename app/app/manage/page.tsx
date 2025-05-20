@@ -95,19 +95,19 @@ export default function AppManagementPage() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-md bg-primary/10 flex items-center justify-center">
-                    {getAppTypeIcon(selectedApp.type)}
+                    {getAppTypeIcon(selectedApp?.type)}
                   </div>
                   <div>
-                    <CardTitle className="text-xl">{selectedApp.name}</CardTitle>
+                    <CardTitle className="text-xl">{selectedApp?.name || "App"}</CardTitle>
                     <div className="flex items-center gap-2 mt-1">
-                      <Badge variant={getStatusVariant(selectedApp.status)}>{selectedApp.status}</Badge>
-                      <span className="text-sm text-muted-foreground">ID: {selectedApp.id}</span>
+                      <Badge variant={getStatusVariant(selectedApp?.status)}>{selectedApp?.status || "Unknown"}</Badge>
+                      <span className="text-sm text-muted-foreground">ID: {selectedApp?.id || "N/A"}</span>
                     </div>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <Button variant="outline" size="sm" asChild>
-                    <a href={selectedApp.url} target="_blank" rel="noopener noreferrer">
+                    <a href={selectedApp?.url || "#"} target="_blank" rel="noopener noreferrer">
                       <Globe className="mr-2 h-4 w-4" />
                       Visit App
                     </a>
@@ -124,19 +124,23 @@ export default function AppManagementPage() {
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
                 <div className="space-y-1">
                   <p className="text-xs text-muted-foreground">Created</p>
-                  <p className="text-sm font-medium">{formatDate(selectedApp.createdAt)}</p>
+                  <p className="text-sm font-medium">
+                    {selectedApp?.createdAt ? formatDate(selectedApp.createdAt) : "N/A"}
+                  </p>
                 </div>
                 <div className="space-y-1">
                   <p className="text-xs text-muted-foreground">Last Deployed</p>
-                  <p className="text-sm font-medium">{formatDate(selectedApp.lastDeployedAt)}</p>
+                  <p className="text-sm font-medium">
+                    {selectedApp?.lastDeployedAt ? formatDate(selectedApp.lastDeployedAt) : "N/A"}
+                  </p>
                 </div>
                 <div className="space-y-1">
                   <p className="text-xs text-muted-foreground">Version</p>
-                  <p className="text-sm font-medium">{selectedApp.version}</p>
+                  <p className="text-sm font-medium">{selectedApp?.version || "N/A"}</p>
                 </div>
                 <div className="space-y-1">
                   <p className="text-xs text-muted-foreground">Framework</p>
-                  <p className="text-sm font-medium">{selectedApp.framework}</p>
+                  <p className="text-sm font-medium">{selectedApp?.framework || "N/A"}</p>
                 </div>
               </div>
             </CardContent>
@@ -179,30 +183,30 @@ export default function AppManagementPage() {
                 <div>
                   <div className="flex justify-between mb-1">
                     <span className="text-xs text-muted-foreground">CPU Usage</span>
-                    <span className="text-xs font-medium">{selectedApp.metrics.cpu}%</span>
+                    <span className="text-xs font-medium">{selectedApp?.metrics?.cpu || 0}%</span>
                   </div>
-                  <Progress value={selectedApp.metrics.cpu} className="h-1.5" />
+                  <Progress value={selectedApp?.metrics?.cpu || 0} className="h-1.5" />
                 </div>
                 <div>
                   <div className="flex justify-between mb-1">
                     <span className="text-xs text-muted-foreground">Memory Usage</span>
-                    <span className="text-xs font-medium">{selectedApp.metrics.memory}%</span>
+                    <span className="text-xs font-medium">{selectedApp?.metrics?.memory || 0}%</span>
                   </div>
-                  <Progress value={selectedApp.metrics.memory} className="h-1.5" />
+                  <Progress value={selectedApp?.metrics?.memory || 0} className="h-1.5" />
                 </div>
                 <div>
                   <div className="flex justify-between mb-1">
                     <span className="text-xs text-muted-foreground">Storage Usage</span>
-                    <span className="text-xs font-medium">{selectedApp.metrics.storage}%</span>
+                    <span className="text-xs font-medium">{selectedApp?.metrics?.storage || 0}%</span>
                   </div>
-                  <Progress value={selectedApp.metrics.storage} className="h-1.5" />
+                  <Progress value={selectedApp?.metrics?.storage || 0} className="h-1.5" />
                 </div>
                 <div>
                   <div className="flex justify-between mb-1">
                     <span className="text-xs text-muted-foreground">Uptime</span>
-                    <span className="text-xs font-medium">{selectedApp.metrics.uptime}%</span>
+                    <span className="text-xs font-medium">{selectedApp?.metrics?.uptime || 0}%</span>
                   </div>
-                  <Progress value={selectedApp.metrics.uptime} className="h-1.5" />
+                  <Progress value={selectedApp?.metrics?.uptime || 0} className="h-1.5" />
                 </div>
               </div>
               <Button variant="ghost" size="sm" className="w-full mt-3" onClick={() => setActiveTab("monitoring")}>
@@ -274,7 +278,9 @@ function formatDate(dateString: string): string {
   }).format(date)
 }
 
-function getStatusVariant(status: string): "default" | "secondary" | "destructive" | "outline" {
+function getStatusVariant(status: string | undefined): "default" | "secondary" | "destructive" | "outline" {
+  if (!status) return "outline"
+
   switch (status.toLowerCase()) {
     case "running":
       return "default"
@@ -287,7 +293,9 @@ function getStatusVariant(status: string): "default" | "secondary" | "destructiv
   }
 }
 
-function getAppTypeIcon(type: string) {
+function getAppTypeIcon(type: string | undefined) {
+  if (!type) return <Layers className="h-6 w-6 text-primary" />
+
   switch (type.toLowerCase()) {
     case "web":
       return <Globe className="h-6 w-6 text-primary" />

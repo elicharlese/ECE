@@ -39,11 +39,13 @@ import "./font-debug.css"
 import "./betting-dark-theme.css"
 import "./mobile-media-queries.css"
 import "./mobile-optimizations.css"
-import "./lazy-loading.css" // Add our new lazy loading CSS
+import "./lazy-loading.css"
+import "./betting-style.css"
 
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 import { fonts } from "./fonts"
+import { FontStyleMatcher } from "@/components/ui/font-style-matcher"
 
 export const metadata = {
   title: "ECE - Blockchain Development Platform",
@@ -53,9 +55,14 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={fonts.sans.variable}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${fonts.sans.variable} ${fonts.heading.variable} ${fonts.marker.variable} ${fonts.script.variable}`}
+    >
+      <body className="font-sans">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <FontStyleMatcher />
           {children}
           <Toaster />
         </ThemeProvider>

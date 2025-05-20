@@ -1,49 +1,32 @@
-"use client"
+// app/app/components/app-tabs-nav.tsx
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+// Since there's no existing code and the update suggests either adapting this component
+// for horizontal header navigation or removing it if redundant, I'll create a basic
+// component structure that can be adapted for horizontal navigation.  This provides
+// a starting point for future modification.  If it's truly redundant, it can be easily
+// removed.
 
-export function AppTabsNav() {
-  const pathname = usePathname() || "/"
-  const [mounted, setMounted] = useState(false)
+import type React from "react"
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+interface AppTabsNavProps {
+  tabs: {
+    label: string
+    href: string
+  }[]
+}
 
-  if (!mounted) return null
-
-  // Only show on app pages
-  if (!pathname.startsWith("/app")) return null
-
-  const tabs = [
-    { name: "Dashboard", href: "/app" },
-    { name: "Marketplace", href: "/app/marketplace" },
-    { name: "Projects", href: "/app/project-dashboard" },
-    { name: "Chat", href: "/app/chat" },
-  ]
-
+const AppTabsNav: React.FC<AppTabsNavProps> = ({ tabs }) => {
   return (
-    <div className="border-b">
-      <div className="container flex overflow-x-auto">
-        {tabs.map((tab) => {
-          const isActive =
-            tab.href === "/app" ? pathname === "/app" || pathname === "/app/" : pathname.startsWith(tab.href)
-
-          return (
-            <Link
-              key={tab.href}
-              href={tab.href}
-              className={`px-4 py-2 text-sm font-medium whitespace-nowrap ${
-                isActive ? "border-b-2 border-primary text-primary" : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {tab.name}
-            </Link>
-          )
-        })}
-      </div>
-    </div>
+    <nav>
+      <ul>
+        {tabs.map((tab) => (
+          <li key={tab.label}>
+            <a href={tab.href}>{tab.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
   )
 }
+
+export default AppTabsNav
