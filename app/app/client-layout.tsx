@@ -39,12 +39,10 @@ import { FontOptimizationProvider } from "@/components/font-optimization-provide
 import { WalletAuthProvider } from "@/components/auth/wallet-auth-provider"
 import { AuthProvider } from "@/lib/auth-context"
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from "next/link"
-import { BarChart3, Calendar, Code, Rocket, Users, ShoppingBag, Activity, TrendingUp, Zap } from "lucide-react"
-import { TransactionTrendsChart } from "@/components/analytics/transaction-trends-chart"
+import { BarChart3, Calendar, Code, Rocket, Users, ShoppingBag, TrendingUp } from "lucide-react"
 import { addDays } from "date-fns"
 
 // Define mock data directly in the file to avoid import issues
@@ -182,287 +180,205 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
                                                     <main className="flex-1">
                                                       <LoadingControl>
                                                         {pathname === "/app" ? (
-                                                          <div className="container mx-auto px-4 py-6 space-y-8">
-                                                            <DemoModeDetector />
-
-                                                            <div className="flex flex-col space-y-4">
-                                                              <h1 className="text-3xl font-bold">Dashboard</h1>
-                                                              <p className="text-muted-foreground">
-                                                                Welcome to your dashboard. Here you can manage your
-                                                                projects, view your portfolio, and more.
-                                                              </p>
-                                                            </div>
-
-                                                            {/* Stats Cards */}
-                                                            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                                                              <Card className="bg-card rounded-lg border shadow-sm">
-                                                                <CardContent className="p-6">
-                                                                  <div className="flex justify-between items-start">
-                                                                    <div>
-                                                                      <p className="text-sm font-medium text-muted-foreground">
-                                                                        Your Portfolio
-                                                                      </p>
-                                                                      <h3 className="text-2xl font-bold mt-1">
-                                                                        2,450 ECE
-                                                                      </h3>
-                                                                    </div>
-                                                                    <div className="bg-primary/10 p-2 rounded-full">
-                                                                      <BarChart3 className="h-5 w-5 text-primary" />
-                                                                    </div>
-                                                                  </div>
-                                                                  <p className="text-sm text-green-500 mt-1">
-                                                                    +125 ECE (5.4%) this week
+                                                          <div className="container mx-auto px-4 py-6">
+                                                            <div className="grid gap-6">
+                                                              {/* Welcome Section */}
+                                                              <div className="flex items-center justify-between">
+                                                                <div>
+                                                                  <h1 className="text-3xl font-bold tracking-tight">
+                                                                    Dashboard
+                                                                  </h1>
+                                                                  <p className="text-muted-foreground">
+                                                                    Welcome back to your ECE dashboard
                                                                   </p>
-                                                                </CardContent>
-                                                              </Card>
+                                                                </div>
+                                                                <div className="flex items-center gap-2">
+                                                                  <Button variant="outline" size="sm">
+                                                                    <Calendar className="mr-2 h-4 w-4" />
+                                                                    View Calendar
+                                                                  </Button>
+                                                                  <Button size="sm">
+                                                                    <Rocket className="mr-2 h-4 w-4" />
+                                                                    New Project
+                                                                  </Button>
+                                                                </div>
+                                                              </div>
 
-                                                              <Card className="bg-card rounded-lg border shadow-sm">
-                                                                <CardContent className="p-6">
-                                                                  <div className="flex justify-between items-start">
-                                                                    <div>
-                                                                      <p className="text-sm font-medium text-muted-foreground">
-                                                                        Team Members
-                                                                      </p>
-                                                                      <h3 className="text-2xl font-bold mt-1">
-                                                                        {teamMembers.length}
-                                                                      </h3>
-                                                                    </div>
-                                                                    <div className="bg-blue-100 dark:bg-blue-900 p-2 rounded-full">
-                                                                      <Users className="h-5 w-5 text-blue-500 dark:text-blue-300" />
-                                                                    </div>
-                                                                  </div>
-                                                                  <p className="text-sm text-muted-foreground mt-1">
-                                                                    {
-                                                                      teamMembers.filter((m) => m.status === "online")
-                                                                        .length
-                                                                    }
-                                                                    currently online
-                                                                  </p>
-                                                                </CardContent>
-                                                              </Card>
+                                                              {/* Stats Row */}
+                                                              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                                                                <Card>
+                                                                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                                                    <CardTitle className="text-sm font-medium">
+                                                                      Total Balance
+                                                                    </CardTitle>
+                                                                    <BarChart3 className="h-4 w-4 text-muted-foreground" />
+                                                                  </CardHeader>
+                                                                  <CardContent>
+                                                                    <div className="text-2xl font-bold">2,450 ECE</div>
+                                                                    <p className="text-xs text-muted-foreground">
+                                                                      +20.1% from last month
+                                                                    </p>
+                                                                  </CardContent>
+                                                                </Card>
+                                                                <Card>
+                                                                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                                                    <CardTitle className="text-sm font-medium">
+                                                                      Active Projects
+                                                                    </CardTitle>
+                                                                    <Code className="h-4 w-4 text-muted-foreground" />
+                                                                  </CardHeader>
+                                                                  <CardContent>
+                                                                    <div className="text-2xl font-bold">6</div>
+                                                                    <p className="text-xs text-muted-foreground">
+                                                                      2 pending approval
+                                                                    </p>
+                                                                  </CardContent>
+                                                                </Card>
+                                                                <Card>
+                                                                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                                                    <CardTitle className="text-sm font-medium">
+                                                                      Marketplace Items
+                                                                    </CardTitle>
+                                                                    <ShoppingBag className="h-4 w-4 text-muted-foreground" />
+                                                                  </CardHeader>
+                                                                  <CardContent>
+                                                                    <div className="text-2xl font-bold">24</div>
+                                                                    <p className="text-xs text-muted-foreground">
+                                                                      3 in your cart
+                                                                    </p>
+                                                                  </CardContent>
+                                                                </Card>
+                                                                <Card>
+                                                                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                                                    <CardTitle className="text-sm font-medium">
+                                                                      Team Members
+                                                                    </CardTitle>
+                                                                    <Users className="h-4 w-4 text-muted-foreground" />
+                                                                  </CardHeader>
+                                                                  <CardContent>
+                                                                    <div className="text-2xl font-bold">12</div>
+                                                                    <p className="text-xs text-muted-foreground">
+                                                                      4 online now
+                                                                    </p>
+                                                                  </CardContent>
+                                                                </Card>
+                                                              </div>
 
-                                                              <Card className="bg-card rounded-lg border shadow-sm">
-                                                                <CardContent className="p-6">
-                                                                  <div className="flex justify-between items-start">
-                                                                    <div>
-                                                                      <p className="text-sm font-medium text-muted-foreground">
-                                                                        Upcoming Meetings
-                                                                      </p>
-                                                                      <h3 className="text-2xl font-bold mt-1">
-                                                                        {upcomingMeetings.length}
-                                                                      </h3>
-                                                                    </div>
-                                                                    <div className="bg-purple-100 dark:bg-purple-900 p-2 rounded-full">
-                                                                      <Calendar className="h-5 w-5 text-purple-500 dark:text-purple-300" />
-                                                                    </div>
-                                                                  </div>
-                                                                  <p className="text-sm text-muted-foreground mt-1">
-                                                                    Next: {upcomingMeetings[0].title} at{" "}
-                                                                    {upcomingMeetings[0].startTime}
-                                                                  </p>
-                                                                </CardContent>
-                                                              </Card>
-
-                                                              <Card className="bg-card rounded-lg border shadow-sm">
-                                                                <CardContent className="p-6">
-                                                                  <div className="flex justify-between items-start">
-                                                                    <div>
-                                                                      <p className="text-sm font-medium text-muted-foreground">
-                                                                        Applications
-                                                                      </p>
-                                                                      <h3 className="text-2xl font-bold mt-1">
-                                                                        {mockApps.length}
-                                                                      </h3>
-                                                                    </div>
-                                                                    <div className="bg-green-100 dark:bg-green-900 p-2 rounded-full">
-                                                                      <Code className="h-5 w-5 text-green-500 dark:text-green-300" />
-                                                                    </div>
-                                                                  </div>
-                                                                  <p className="text-sm text-muted-foreground mt-1">
-                                                                    3 active deployments
-                                                                  </p>
-                                                                </CardContent>
-                                                              </Card>
-                                                            </div>
-
-                                                            {/* Main Dashboard Tabs */}
-                                                            <Tabs defaultValue="overview" className="space-y-6">
-                                                              <TabsList className="bg-muted/60 p-1">
-                                                                <TabsTrigger value="overview" className="rounded-md">
-                                                                  Overview
-                                                                </TabsTrigger>
-                                                                <TabsTrigger value="activity" className="rounded-md">
-                                                                  Activity
-                                                                </TabsTrigger>
-                                                                <TabsTrigger value="projects" className="rounded-md">
-                                                                  Projects
-                                                                </TabsTrigger>
-                                                              </TabsList>
-
-                                                              {/* Overview Tab */}
-                                                              <TabsContent value="overview" className="space-y-6">
-                                                                {/* Featured Cards */}
-                                                                <div className="grid gap-6 md:grid-cols-3">
-                                                                  <Card className="col-span-3 md:col-span-1 bg-gradient-to-br from-primary/10 to-primary/5 border">
-                                                                    <CardHeader>
-                                                                      <CardTitle className="flex items-center gap-2">
-                                                                        <Zap className="h-5 w-5 text-primary" />
-                                                                        Quick Actions
-                                                                      </CardTitle>
-                                                                    </CardHeader>
-                                                                    <CardContent className="space-y-3">
-                                                                      <Button
-                                                                        variant="outline"
-                                                                        className="w-full justify-start h-10 bg-background/80"
-                                                                        asChild
-                                                                      >
-                                                                        <Link href="/app/order">
-                                                                          <Rocket className="mr-2 h-4 w-4 text-orange-500" />
-                                                                          Deploy New App
-                                                                        </Link>
-                                                                      </Button>
-                                                                      <Button
-                                                                        variant="outline"
-                                                                        className="w-full justify-start h-10 bg-background/80"
-                                                                        asChild
-                                                                      >
-                                                                        <Link href="/app/marketplace">
-                                                                          <ShoppingBag className="mr-2 h-4 w-4 text-green-500" />
-                                                                          Browse Marketplace
-                                                                        </Link>
-                                                                      </Button>
-                                                                      <Button
-                                                                        variant="outline"
-                                                                        className="w-full justify-start h-10 bg-background/80"
-                                                                        asChild
-                                                                      >
-                                                                        <Link href="/app/crowdfunding">
-                                                                          <Users className="mr-2 h-4 w-4 text-purple-500" />
-                                                                          Explore Crowdfunding
-                                                                        </Link>
-                                                                      </Button>
-                                                                    </CardContent>
-                                                                  </Card>
-
-                                                                  <Card className="col-span-3 md:col-span-2">
-                                                                    <CardHeader className="pb-2">
-                                                                      <CardTitle className="flex items-center gap-2">
-                                                                        <Activity className="h-5 w-5 text-primary" />
-                                                                        Recent Activity
-                                                                      </CardTitle>
+                                                              {/* Main Content */}
+                                                              <div className="grid gap-6 md:grid-cols-6">
+                                                                {/* Recent Activity */}
+                                                                <Card className="md:col-span-4">
+                                                                  <CardHeader className="flex flex-row items-center">
+                                                                    <div className="flex-1">
+                                                                      <CardTitle>Recent Activity</CardTitle>
                                                                       <CardDescription>
                                                                         Your latest transactions and updates
                                                                       </CardDescription>
-                                                                    </CardHeader>
-                                                                    <CardContent>
-                                                                      <div className="space-y-4">
-                                                                        <div className="flex items-center justify-between pb-4 border-b">
-                                                                          <div>
-                                                                            <p className="font-medium">
-                                                                              DeFi Protocol Purchase
-                                                                            </p>
-                                                                            <p className="text-sm text-muted-foreground">
-                                                                              You purchased a new DeFi protocol license
-                                                                            </p>
-                                                                          </div>
-                                                                          <div className="text-right">
-                                                                            <p className="font-medium">-250 ECE</p>
-                                                                            <p className="text-sm text-muted-foreground">
-                                                                              2 days ago
-                                                                            </p>
-                                                                          </div>
+                                                                    </div>
+                                                                    <Button variant="outline" size="sm">
+                                                                      View All
+                                                                    </Button>
+                                                                  </CardHeader>
+                                                                  <CardContent>
+                                                                    <div className="space-y-4">
+                                                                      <div className="flex items-center gap-4">
+                                                                        <div className="bg-primary/10 p-2 rounded-full">
+                                                                          <ShoppingBag className="h-4 w-4 text-primary" />
                                                                         </div>
-
-                                                                        <div className="flex items-center justify-between pb-4 border-b">
-                                                                          <div>
-                                                                            <p className="font-medium">
-                                                                              Project Milestone Completed
-                                                                            </p>
-                                                                            <p className="text-sm text-muted-foreground">
-                                                                              NFT Gaming project reached milestone 2
-                                                                            </p>
-                                                                          </div>
-                                                                          <div className="text-right">
-                                                                            <p className="font-medium">+175 ECE</p>
-                                                                            <p className="text-sm text-muted-foreground">
-                                                                              5 days ago
-                                                                            </p>
-                                                                          </div>
+                                                                        <div className="flex-1">
+                                                                          <p className="font-medium">
+                                                                            Purchased DeFi Protocol
+                                                                          </p>
+                                                                          <p className="text-sm text-muted-foreground">
+                                                                            2 days ago
+                                                                          </p>
                                                                         </div>
-
-                                                                        <div className="flex items-center justify-between">
-                                                                          <div>
-                                                                            <p className="font-medium">
-                                                                              Deposit Received
-                                                                            </p>
-                                                                            <p className="text-sm text-muted-foreground">
-                                                                              Monthly deposit to your wallet
-                                                                            </p>
-                                                                          </div>
-                                                                          <div className="text-right">
-                                                                            <p className="font-medium">+500 ECE</p>
-                                                                            <p className="text-sm text-muted-foreground">
-                                                                              1 week ago
-                                                                            </p>
-                                                                          </div>
+                                                                        <div className="font-medium">-250 ECE</div>
+                                                                      </div>
+                                                                      <div className="flex items-center gap-4">
+                                                                        <div className="bg-green-100 dark:bg-green-900 p-2 rounded-full">
+                                                                          <Rocket className="h-4 w-4 text-green-500 dark:text-green-300" />
+                                                                        </div>
+                                                                        <div className="flex-1">
+                                                                          <p className="font-medium">
+                                                                            Project Milestone Completed
+                                                                          </p>
+                                                                          <p className="text-sm text-muted-foreground">
+                                                                            5 days ago
+                                                                          </p>
+                                                                        </div>
+                                                                        <div className="font-medium text-green-600">
+                                                                          +175 ECE
                                                                         </div>
                                                                       </div>
-                                                                    </CardContent>
-                                                                    <CardFooter>
-                                                                      <Button variant="outline" className="w-full">
-                                                                        View All Activity
-                                                                      </Button>
-                                                                    </CardFooter>
-                                                                  </Card>
-                                                                </div>
-
-                                                                {/* Transaction Trends Chart */}
-                                                                <Card>
-                                                                  <CardHeader>
-                                                                    <CardTitle className="flex items-center gap-2">
-                                                                      <TrendingUp className="h-5 w-5 text-primary" />
-                                                                      Transaction Trends
-                                                                    </CardTitle>
-                                                                    <CardDescription>
-                                                                      Your financial activity over the past 30 days
-                                                                    </CardDescription>
-                                                                  </CardHeader>
-                                                                  <CardContent>
-                                                                    <TransactionTrendsChart />
+                                                                      <div className="flex items-center gap-4">
+                                                                        <div className="bg-blue-100 dark:bg-blue-900 p-2 rounded-full">
+                                                                          <TrendingUp className="h-4 w-4 text-blue-500 dark:text-blue-300" />
+                                                                        </div>
+                                                                        <div className="flex-1">
+                                                                          <p className="font-medium">Monthly Deposit</p>
+                                                                          <p className="text-sm text-muted-foreground">
+                                                                            1 week ago
+                                                                          </p>
+                                                                        </div>
+                                                                        <div className="font-medium text-green-600">
+                                                                          +500 ECE
+                                                                        </div>
+                                                                      </div>
+                                                                    </div>
                                                                   </CardContent>
                                                                 </Card>
-                                                              </TabsContent>
 
-                                                              {/* Activity Tab */}
-                                                              <TabsContent value="activity">
-                                                                <Card>
+                                                                {/* Quick Actions */}
+                                                                <Card className="md:col-span-2">
                                                                   <CardHeader>
-                                                                    <CardTitle>Recent Activity</CardTitle>
-                                                                    <CardDescription>
-                                                                      Your latest transactions and updates
-                                                                    </CardDescription>
+                                                                    <CardTitle>Quick Actions</CardTitle>
                                                                   </CardHeader>
-                                                                  <CardContent>
-                                                                    <p>Activity content here...</p>
+                                                                  <CardContent className="space-y-2">
+                                                                    <Button
+                                                                      className="w-full justify-start"
+                                                                      variant="outline"
+                                                                      asChild
+                                                                    >
+                                                                      <Link href="/app/marketplace">
+                                                                        <ShoppingBag className="mr-2 h-4 w-4" />
+                                                                        Browse Marketplace
+                                                                      </Link>
+                                                                    </Button>
+                                                                    <Button
+                                                                      className="w-full justify-start"
+                                                                      variant="outline"
+                                                                      asChild
+                                                                    >
+                                                                      <Link href="/app/crowdfunding">
+                                                                        <Users className="mr-2 h-4 w-4" />
+                                                                        Explore Crowdfunding
+                                                                      </Link>
+                                                                    </Button>
+                                                                    <Button
+                                                                      className="w-full justify-start"
+                                                                      variant="outline"
+                                                                      asChild
+                                                                    >
+                                                                      <Link href="/app/deployments">
+                                                                        <Rocket className="mr-2 h-4 w-4" />
+                                                                        Manage Deployments
+                                                                      </Link>
+                                                                    </Button>
+                                                                    <Button
+                                                                      className="w-full justify-start"
+                                                                      variant="outline"
+                                                                      asChild
+                                                                    >
+                                                                      <Link href="/app/wallet-management">
+                                                                        <BarChart3 className="mr-2 h-4 w-4" />
+                                                                        Wallet Management
+                                                                      </Link>
+                                                                    </Button>
                                                                   </CardContent>
                                                                 </Card>
-                                                              </TabsContent>
-
-                                                              {/* Projects Tab */}
-                                                              <TabsContent value="projects">
-                                                                <Card>
-                                                                  <CardHeader>
-                                                                    <CardTitle>Your Projects</CardTitle>
-                                                                    <CardDescription>
-                                                                      Manage your active and upcoming projects
-                                                                    </CardDescription>
-                                                                  </CardHeader>
-                                                                  <CardContent>
-                                                                    <p>Projects content here...</p>
-                                                                  </CardContent>
-                                                                </Card>
-                                                              </TabsContent>
-                                                            </Tabs>
+                                                              </div>
+                                                            </div>
                                                           </div>
                                                         ) : (
                                                           children
