@@ -10,8 +10,9 @@ import { BettingThemeToggle } from "@/components/theme/betting-theme-toggle"
 import { LiveUpdatesTicker } from "@/components/crowdfunding/live-updates-ticker"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Receipt, ChevronLeft, ChevronRight } from "lucide-react"
+import { Receipt } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { Card, CardContent } from "@/components/ui/card"
 
 // Mock project data
 const mockProjects = [
@@ -241,88 +242,143 @@ export default function CrowdfundingBettingPage() {
 
   return (
     <BettingStyleLayout className="min-h-screen">
-      <div className="flex flex-col h-screen max-h-screen">
-        <div className="flex justify-between items-center p-4 border-b border-border/30">
-          <h1 className="text-2xl font-bold tracking-tight">Project Betting</h1>
-          <div className="flex items-center gap-2">
-            <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon" className="relative">
-                  <Receipt className="h-5 w-5" />
-                  {bettingSlip.length > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-amber-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                      {bettingSlip.length}
-                    </span>
-                  )}
-                </Button>
-              </SheetTrigger>
-              <SheetContent>
-                <div className="h-full flex flex-col">
-                  <div className="flex-1 overflow-auto">
-                    <BettingSlip
-                      bets={bettingSlip}
-                      onRemoveBet={removeFromBettingSlip}
-                      onClearSlip={clearBettingSlip}
-                      onPlaceBets={placeBets}
-                      className="h-auto border-none shadow-none"
-                    />
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Sidebar with filters */}
+          <div className="lg:col-span-1">
+            <Card>
+              <CardContent className="p-4">
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="font-medium mb-2">Project Filters</h3>
+                    <FilterTags onFilter={applyFilters} activeFilters={filters} />
+                  </div>
+
+                  <div>
+                    <h3 className="font-medium mb-2">Categories</h3>
+                    <div className="space-y-1">
+                      <Button
+                        variant={!filters.categories ? "default" : "outline"}
+                        size="sm"
+                        className="w-full justify-start"
+                        onClick={() => applyFilters({ ...filters, categories: null })}
+                      >
+                        All Categories
+                      </Button>
+                      {["Infrastructure", "DeFi", "Gaming", "Privacy", "Social"].map((category) => (
+                        <Button
+                          key={category}
+                          variant={filters.categories === category ? "default" : "outline"}
+                          size="sm"
+                          className="w-full justify-start"
+                          onClick={() => applyFilters({ ...filters, categories: [category] })}
+                        >
+                          {category}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="font-medium mb-2">Project Status</h3>
+                    <div className="space-y-1">
+                      <Button
+                        variant={filters.trending ? "default" : "outline"}
+                        size="sm"
+                        className="w-full justify-start"
+                        onClick={() => applyFilters({ ...filters, trending: !filters.trending })}
+                      >
+                        Trending
+                      </Button>
+                      <Button
+                        variant={filters.hot ? "default" : "outline"}
+                        size="sm"
+                        className="w-full justify-start"
+                        onClick={() => applyFilters({ ...filters, hot: !filters.hot })}
+                      >
+                        Hot Projects
+                      </Button>
+                      <Button
+                        variant={filters.endingSoon ? "default" : "outline"}
+                        size="sm"
+                        className="w-full justify-start"
+                        onClick={() => applyFilters({ ...filters, endingSoon: !filters.endingSoon })}
+                      >
+                        Ending Soon
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="font-medium mb-2">Betting Slip</h3>
+                    <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+                      <SheetTrigger asChild>
+                        <Button className="w-full" variant="outline">
+                          <Receipt className="h-4 w-4 mr-2" />
+                          View Betting Slip
+                          {bettingSlip.length > 0 && (
+                            <span className="ml-2 bg-amber-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                              {bettingSlip.length}
+                            </span>
+                          )}
+                        </Button>
+                      </SheetTrigger>
+                      <SheetContent>
+                        <div className="h-full flex flex-col">
+                          <div className="flex-1 overflow-auto">
+                            <BettingSlip
+                              bets={bettingSlip}
+                              onRemoveBet={removeFromBettingSlip}
+                              onClearSlip={clearBettingSlip}
+                              onPlaceBets={placeBets}
+                              className="h-auto border-none shadow-none"
+                            />
+                          </div>
+                        </div>
+                      </SheetContent>
+                    </Sheet>
                   </div>
                 </div>
-              </SheetContent>
-            </Sheet>
-            <BettingThemeToggle />
+              </CardContent>
+            </Card>
+
+            <div className="mt-4 flex justify-end">
+              <BettingThemeToggle />
+            </div>
           </div>
-        </div>
 
-        <LiveUpdatesTicker updates={tickerUpdates} />
+          {/* Main content area */}
+          <div className="lg:col-span-3">
+            <div className="mb-4">
+              <LiveUpdatesTicker updates={tickerUpdates} />
+            </div>
 
-        <div className="p-4 border-b border-border/30">
-          <FilterTags onFilter={applyFilters} activeFilters={filters} />
-        </div>
-
-        <div className="flex-1 flex flex-col items-center justify-center p-4 overflow-hidden">
-          {projects.length > 0 ? (
-            <>
-              <div className="w-full max-w-2xl mx-auto">
-                <VerticalProjectCard project={currentProject} onAddToBettingSlip={addToBettingSlip} />
-              </div>
-
-              <div className="flex items-center justify-between w-full max-w-2xl mt-4 px-4">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={prevProject}
-                  disabled={currentProjectIndex === 0}
-                  className="h-10 w-10"
-                >
-                  <ChevronLeft className="h-5 w-5" />
-                  <span className="sr-only">Previous project</span>
-                </Button>
-
-                <div className="text-sm text-muted-foreground">
-                  {currentProjectIndex + 1} of {projects.length}
+            {projects.length > 0 ? (
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {projects.map((project) => (
+                    <VerticalProjectCard key={project.id} project={project} onAddToBettingSlip={addToBettingSlip} />
+                  ))}
                 </div>
 
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={nextProject}
-                  disabled={currentProjectIndex === projects.length - 1}
-                  className="h-10 w-10"
-                >
-                  <ChevronRight className="h-5 w-5" />
-                  <span className="sr-only">Next project</span>
+                {projects.length === 0 && (
+                  <div className="text-center py-12 bg-muted/30 rounded-lg border border-border/50">
+                    <p className="text-lg text-muted-foreground">No projects match your filters</p>
+                    <Button variant="link" onClick={() => applyFilters({})}>
+                      Clear filters
+                    </Button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="text-center py-12 bg-muted/30 rounded-lg border border-border/50">
+                <p className="text-lg text-muted-foreground">No projects match your filters</p>
+                <Button variant="link" onClick={() => applyFilters({})}>
+                  Clear filters
                 </Button>
               </div>
-            </>
-          ) : (
-            <div className="text-center py-12 bg-muted/30 rounded-lg border border-border/50 w-full max-w-2xl">
-              <p className="text-lg text-muted-foreground">No projects match your filters</p>
-              <Button variant="link" onClick={() => applyFilters({})}>
-                Clear filters
-              </Button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </BettingStyleLayout>
