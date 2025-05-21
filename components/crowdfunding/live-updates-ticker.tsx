@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef, useCallback } from "react"
-import { TrendingUp, Award, Clock, AlertCircle, Check, DollarSign, Users, Star, Pause, Play } from "lucide-react"
+import { TrendingUp, Award, Clock, AlertCircle, Check, DollarSign, Users, Star } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 type TickerUpdate = {
@@ -258,87 +258,7 @@ export function LiveUpdatesTicker({
     )
   }
 
-  return (
-    <div
-      className={cn(
-        "w-full overflow-hidden border-y border-border/30 bg-green-100/40 dark:bg-green-900/20 py-2.5 backdrop-blur-sm relative sticky top-16 z-40 transition-all duration-200",
-        isScrolled ? "shadow-sm bg-background/95 backdrop-blur-md" : "",
-        isDarkMode ? "betting-ticker" : "",
-        className,
-      )}
-      onMouseEnter={() => pauseOnHover && setIsPaused(true)}
-      onMouseLeave={() => pauseOnHover && setIsPaused(false)}
-      ref={tickerRef}
-    >
-      {/* Ticker content */}
-      <div
-        className={cn("flex whitespace-nowrap ticker-content", isPaused ? "animate-none" : "animate-ticker-smooth")}
-        style={{
-          animationDuration: `${animationDuration}s`,
-          animationPlayState: isPaused ? "paused" : "running",
-          animationTimingFunction: "linear",
-          willChange: "transform",
-        }}
-        ref={contentRef}
-      >
-        <div className="flex whitespace-nowrap ticker-items">
-          {/* Live updates */}
-          {updates.map((update, index) => (
-            <div
-              key={index}
-              className={cn(
-                "inline-flex items-center mx-8 text-sm bg-white/30 dark:bg-slate-800/30 px-4 py-2 rounded-lg backdrop-blur-md border border-white/20 dark:border-slate-700/30 shadow-sm",
-                update.highlight && "ring-1 ring-primary/50",
-              )}
-            >
-              <span className="font-medium">{update.project}</span>
-              <span className="mx-1.5 text-muted-foreground">•</span>
-              <span>{update.action}</span>
-              <span className="mx-1.5 text-muted-foreground">•</span>
-              <span className="text-primary">{update.amount}</span>
-            </div>
-          ))}
-
-          {/* Divider */}
-          <div className="mx-8 flex items-center">
-            <div className="h-4 w-px bg-border/50"></div>
-          </div>
-
-          {/* Trending categories */}
-          <div className="flex items-center mx-8 text-sm font-medium">
-            <TrendingUp className="h-3.5 w-3.5 mr-2 text-primary" />
-            <span className="mr-1.5 text-muted-foreground">Trending:</span>
-          </div>
-          {trendingCategories.map((category, index) => (
-            <div
-              key={`trend-${index}`}
-              className="inline-flex items-center mx-8 text-sm bg-white/30 dark:bg-slate-800/30 px-4 py-2 rounded-lg backdrop-blur-md border border-white/20 dark:border-slate-700/30 shadow-sm"
-            >
-              <TrendingUp className="h-3.5 w-3.5 mr-1.5 text-primary" />
-              <span className="font-medium">{category.name}</span>
-              <span className="mx-1.5 text-muted-foreground">•</span>
-              <span className="text-green-600 dark:text-green-400">{category.trend}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Controls */}
-      {showControls && (
-        <button
-          onClick={togglePause}
-          className="absolute right-3 top-1/2 -translate-y-1/2 z-10 p-1.5 rounded-full bg-white/50 dark:bg-gray-800/50 hover:bg-white/70 dark:hover:bg-gray-800/70 transition-colors"
-          aria-label={isPaused ? "Play ticker" : "Pause ticker"}
-        >
-          {isPaused ? (
-            <Play className="h-3.5 w-3.5 text-gray-700 dark:text-gray-300" />
-          ) : (
-            <Pause className="h-3.5 w-3.5 text-gray-700 dark:text-gray-300" />
-          )}
-        </button>
-      )}
-    </div>
-  )
+  return null // Component removed as requested
 }
 
 // Helper function to generate demo updates
