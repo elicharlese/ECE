@@ -3,12 +3,17 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, ShoppingBag, MessageSquare, Bell, Wallet } from "lucide-react"
+import { Home, ShoppingCart, MessageSquare, Bell, Wallet } from "lucide-react"
 
 export function BottomNav() {
   const pathname = usePathname() || "/"
   const [mounted, setMounted] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+
+  // Demo data for notification counts
+  const [cartItems, setCartItems] = useState(3)
+  const [unreadNotifications, setUnreadNotifications] = useState(5)
+  const [unreadMessages, setUnreadMessages] = useState(2)
 
   useEffect(() => {
     setMounted(true)
@@ -29,11 +34,26 @@ export function BottomNav() {
   if (!pathname.startsWith("/app")) return null
 
   const navItems = [
-    { href: "/app", label: "Home", icon: <Home className="h-5 w-5" /> },
-    { href: "/app/marketplace", label: "Market", icon: <ShoppingBag className="h-5 w-5" /> },
-    { href: "/app/chat", label: "Chat", icon: <MessageSquare className="h-5 w-5" /> },
-    { href: "/app/notifications", label: "Alerts", icon: <Bell className="h-5 w-5" /> },
-    { href: "/app/wallet-management", label: "Wallet", icon: <Wallet className="h-5 w-5" /> },
+    { href: "/app", label: "Home", icon: <Home className="h-5 w-5" />, badge: null },
+    {
+      href: "/app/chat",
+      label: "Chat",
+      icon: <MessageSquare className="h-5 w-5" />,
+      badge: unreadMessages > 0 ? unreadMessages : null,
+    },
+    {
+      href: "/app/notifications",
+      label: "Alerts",
+      icon: <Bell className="h-5 w-5" />,
+      badge: unreadNotifications > 0 ? unreadNotifications : null,
+    },
+    { href: "/app/wallet-management", label: "Wallet", icon: <Wallet className="h-5 w-5" />, badge: null },
+    {
+      href: "/app/cart",
+      label: "Cart",
+      icon: <ShoppingCart className="h-5 w-5" />,
+      badge: cartItems > 0 ? cartItems : null,
+    },
   ]
 
   return (
@@ -55,6 +75,11 @@ export function BottomNav() {
             >
               <div className="relative">
                 {item.icon}
+                {item.badge !== null && (
+                  <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-medium text-white">
+                    {item.badge > 9 ? "9+" : item.badge}
+                  </span>
+                )}
                 {isActive && (
                   <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-primary rounded-full" />
                 )}

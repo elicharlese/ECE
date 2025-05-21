@@ -5,19 +5,16 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, ShoppingBag, Users, MessageSquare } from "lucide-react"
+import { Home, ShoppingBag, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { MobileNav } from "@/components/layout/mobile-nav"
 import { UserDropdown } from "@/components/user-dropdown"
 import { ModeToggle } from "@/components/mode-toggle"
-import { CartDropdown } from "@/components/cart/cart-dropdown"
-import { NotificationBadge } from "@/components/notification-badge"
 import { useAuth } from "@/lib/auth-context"
 import { useDemo } from "@/lib/demo-context"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { WalletDropdown } from "@/components/wallet/wallet-dropdown"
 import { ErrorBoundary } from "@/components/error-boundary"
 
 export function Header() {
@@ -26,59 +23,10 @@ export function Header() {
   const { user } = useAuth()
   const { isDemoMode, disableDemoMode } = useDemo()
   const [mounted, setMounted] = useState(false)
-  const [totalUnreadMessages, setTotalUnreadMessages] = useState(0)
-  const [persistentUnreadMessages, setPersistentUnreadMessages] = useState(0)
   const [showUserDropdown, setShowUserDropdown] = useState(false)
 
-  // Load persistent unread message count
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const storedMessageState = localStorage.getItem("messageState")
-        if (storedMessageState) {
-          const parsedState = JSON.parse(storedMessageState)
-          if (parsedState && parsedState.unreadCount !== undefined) {
-            setPersistentUnreadMessages(parsedState.unreadCount)
-          }
-        }
-      } catch (e) {
-        console.error("Error parsing message state from localStorage:", e)
-      }
-    }
     setMounted(true)
-  }, [])
-
-  // We'll update this value from the chat page when needed
-  useEffect(() => {
-    if (typeof window === "undefined") return
-
-    // Listen for custom events from the chat page
-    const handleUnreadUpdate = (e: CustomEvent) => {
-      if (e && e.detail && e.detail.count !== undefined) {
-        setTotalUnreadMessages(e.detail.count)
-
-        // Store in localStorage for persistence
-        try {
-          localStorage.setItem(
-            "messageState",
-            JSON.stringify({
-              unreadCount: e.detail.count,
-              lastUpdated: new Date().toISOString(),
-            }),
-          )
-          setPersistentUnreadMessages(e.detail.count)
-        } catch (err) {
-          console.error("Error storing message state:", err)
-        }
-      }
-    }
-
-    // Add event listener for custom event
-    window.addEventListener("chat-unread-update" as any, handleUnreadUpdate as any)
-
-    return () => {
-      window.removeEventListener("chat-unread-update" as any, handleUnreadUpdate as any)
-    }
   }, [])
 
   useEffect(() => {
@@ -96,18 +44,6 @@ export function Header() {
 
   // Update the showAuthButtons condition to be more explicit
   const showAuthButtons = isMarketingPage && !user && !isDemoMode
-
-  // Add a useEffect to log authentication state for debugging
-  useEffect(() => {
-    console.log("Auth state:", { isMarketingPage, user: !!user, isDemoMode, showAuthButtons })
-  }, [isMarketingPage, user, isDemoMode, showAuthButtons])
-
-  // const showAuthButtons = isMarketingPage && !user && !isDemoMode && !showUserDropdown
-  // Only show auth buttons on marketing pages when user is not signed in and not in demo mode
-  // const showUserDropdown = user || isDemoMode
-
-  // Use persistent unread count if the actual count is still loading
-  const displayUnreadMessages = persistentUnreadMessages || totalUnreadMessages
 
   // App navigation items
   const appNavItems = [
@@ -277,51 +213,11 @@ export function Header() {
           </div>
         )}
 
-        {/* User actions */}
+        {/* User dropdown */}
         {(showUserDropdown || user || isDemoMode) && (
-          <>
-            <div className="flex items-center gap-2">
-              {isAppPage && (
-                <>
-                  {/* Chat Button */}
-                  <ErrorBoundary>
-                    <Link href="/app/chat">
-                      <Button variant="ghost" size="icon" className="relative">
-                        <MessageSquare className="h-5 w-5" />
-                        {displayUnreadMessages > 0 && (
-                          <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-                            {displayUnreadMessages > 9 ? "9+" : displayUnreadMessages}
-                          </span>
-                        )}
-                      </Button>
-                    </Link>
-                  </ErrorBoundary>
-
-                  {/* Notification Badge */}
-                  <ErrorBoundary>
-                    <Link href="/app/notifications">
-                      <Button variant="ghost" size="icon" className="relative">
-                        <NotificationBadge />
-                      </Button>
-                    </Link>
-                  </ErrorBoundary>
-
-                  {/* Wallet Button */}
-                  <ErrorBoundary>
-                    <WalletDropdown />
-                  </ErrorBoundary>
-
-                  {/* Cart Button */}
-                  <ErrorBoundary>
-                    <CartDropdown />
-                  </ErrorBoundary>
-                </>
-              )}
-            </div>
-            <ErrorBoundary>
-              <UserDropdown />
-            </ErrorBoundary>
-          </>
+          <ErrorBoundary>
+            <UserDropdown />
+          </ErrorBoundary>
         )}
 
         <div className="border-l h-6 mx-1 hidden sm:block" />
