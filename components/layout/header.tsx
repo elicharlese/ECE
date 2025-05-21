@@ -31,7 +31,7 @@ export function Header() {
   const [cartItems, setCartItems] = useState(3)
   const [unreadNotifications, setUnreadNotifications] = useState(5)
   const [walletBalance, setWalletBalance] = useState(1250)
-  const [displayUnreadMessages, setDisplayUnreadMessages] = useState(2)
+  const [unreadMessages, setUnreadMessages] = useState(2)
 
   useEffect(() => {
     setMounted(true)
@@ -231,12 +231,12 @@ export function Header() {
                   <Link href="/app/chat">
                     <Button variant="ghost" size="sm" className="relative w-9 h-9 p-0">
                       <MessageSquare className="h-5 w-5" />
-                      {displayUnreadMessages > 0 && (
+                      {unreadMessages > 0 && (
                         <Badge
                           variant="destructive"
                           className="absolute -top-1 -right-1 text-xs min-w-[18px] h-[18px] flex items-center justify-center p-0"
                         >
-                          {displayUnreadMessages > 9 ? "9+" : displayUnreadMessages}
+                          {unreadMessages > 9 ? "9+" : unreadMessages}
                         </Badge>
                       )}
                     </Button>
