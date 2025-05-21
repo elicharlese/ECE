@@ -280,14 +280,15 @@ export function Header() {
         {/* User actions */}
         {(showUserDropdown || user || isDemoMode) && (
           <>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               {isAppPage && (
                 <>
                   {/* Chat Button */}
                   <ErrorBoundary>
                     <Link href="/app/chat">
-                      <Button variant="ghost" size="icon" className="relative hover:bg-muted/80 transition-colors">
-                        <MessageSquare className="h-5 w-5" />
+                      <Button variant="outline" size="sm" className="relative flex items-center gap-2 h-9">
+                        <MessageSquare className="h-4 w-4" />
+                        <span className="hidden sm:inline">Chat</span>
                         {displayUnreadMessages > 0 && (
                           <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-medium text-white">
                             {displayUnreadMessages > 9 ? "9+" : displayUnreadMessages}
@@ -297,21 +298,30 @@ export function Header() {
                     </Link>
                   </ErrorBoundary>
 
-                  {/* Notification Badge */}
+                  {/* Notification Badge - Make it a button */}
                   <ErrorBoundary>
-                    <NotificationBadge />
+                    <Link href="/app/notifications">
+                      <Button variant="outline" size="sm" className="relative flex items-center gap-2 h-9">
+                        <NotificationBadge showLabel={true} />
+                      </Button>
+                    </Link>
+                  </ErrorBoundary>
+
+                  {/* Wallet Button */}
+                  <ErrorBoundary>
+                    <Button variant="outline" size="sm" className="relative flex items-center gap-2 h-9">
+                      <WalletDropdown showLabel={true} />
+                    </Button>
+                  </ErrorBoundary>
+
+                  {/* Cart Button */}
+                  <ErrorBoundary>
+                    <Button variant="outline" size="sm" className="relative flex items-center gap-2 h-9">
+                      <CartDropdown showLabel={true} />
+                    </Button>
                   </ErrorBoundary>
                 </>
               )}
-
-              {/* Add wallet dropdown */}
-              <ErrorBoundary>
-                <WalletDropdown />
-              </ErrorBoundary>
-
-              <ErrorBoundary>
-                <CartDropdown />
-              </ErrorBoundary>
             </div>
             <ErrorBoundary>
               <UserDropdown />

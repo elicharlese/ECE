@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, ShoppingBag, Users, Package } from "lucide-react"
+import { Home, ShoppingBag, MessageSquare, Bell, Wallet } from "lucide-react"
 
 export function BottomNav() {
   const pathname = usePathname() || "/"
@@ -31,8 +31,9 @@ export function BottomNav() {
   const navItems = [
     { href: "/app", label: "Home", icon: <Home className="h-5 w-5" /> },
     { href: "/app/marketplace", label: "Market", icon: <ShoppingBag className="h-5 w-5" /> },
-    { href: "/app/crowdfunding", label: "Projects", icon: <Users className="h-5 w-5" /> },
-    { href: "/app/project-dashboard", label: "Dashboard", icon: <Package className="h-5 w-5" /> },
+    { href: "/app/chat", label: "Chat", icon: <MessageSquare className="h-5 w-5" /> },
+    { href: "/app/notifications", label: "Alerts", icon: <Bell className="h-5 w-5" /> },
+    { href: "/app/wallet-management", label: "Wallet", icon: <Wallet className="h-5 w-5" /> },
   ]
 
   return (
