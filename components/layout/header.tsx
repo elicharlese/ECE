@@ -5,7 +5,7 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, ShoppingBag, Users } from "lucide-react"
+import { Home, ShoppingBag, Users, MessageSquare } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { MobileNav } from "@/components/layout/mobile-nav"
 import { UserDropdown } from "@/components/user-dropdown"
@@ -280,7 +280,30 @@ export function Header() {
         {/* User actions */}
         {(showUserDropdown || user || isDemoMode) && (
           <>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2">
+              {isAppPage && (
+                <>
+                  {/* Chat Button */}
+                  <ErrorBoundary>
+                    <Link href="/app/chat">
+                      <Button variant="ghost" size="icon" className="relative hover:bg-muted/80 transition-colors">
+                        <MessageSquare className="h-5 w-5" />
+                        {displayUnreadMessages > 0 && (
+                          <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-medium text-white">
+                            {displayUnreadMessages > 9 ? "9+" : displayUnreadMessages}
+                          </span>
+                        )}
+                      </Button>
+                    </Link>
+                  </ErrorBoundary>
+
+                  {/* Notification Badge */}
+                  <ErrorBoundary>
+                    <NotificationBadge />
+                  </ErrorBoundary>
+                </>
+              )}
+
               {/* Add wallet dropdown */}
               <ErrorBoundary>
                 <WalletDropdown />
@@ -288,10 +311,6 @@ export function Header() {
 
               <ErrorBoundary>
                 <CartDropdown />
-              </ErrorBoundary>
-
-              <ErrorBoundary>
-                <NotificationBadge />
               </ErrorBoundary>
             </div>
             <ErrorBoundary>
