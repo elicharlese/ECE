@@ -16,6 +16,8 @@ import { cn } from "@/lib/utils"
 import Image from "next/image"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ErrorBoundary } from "@/components/error-boundary"
+import { ShoppingCart, Bell, MessageSquare, Wallet } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -24,6 +26,12 @@ export function Header() {
   const { isDemoMode, disableDemoMode } = useDemo()
   const [mounted, setMounted] = useState(false)
   const [showUserDropdown, setShowUserDropdown] = useState(false)
+
+  // Demo data for notification counts
+  const [cartItems, setCartItems] = useState(3)
+  const [unreadNotifications, setUnreadNotifications] = useState(5)
+  const [walletBalance, setWalletBalance] = useState(1250)
+  const [displayUnreadMessages, setDisplayUnreadMessages] = useState(2)
 
   useEffect(() => {
     setMounted(true)
@@ -213,11 +221,82 @@ export function Header() {
           </div>
         )}
 
-        {/* User dropdown */}
+        {/* User actions */}
         {(showUserDropdown || user || isDemoMode) && (
-          <ErrorBoundary>
-            <UserDropdown />
-          </ErrorBoundary>
+          <>
+            {isAppPage && (
+              <div className="flex items-center gap-2 mr-2">
+                {/* Chat Button */}
+                <ErrorBoundary>
+                  <Link href="/app/chat">
+                    <Button variant="ghost" size="sm" className="relative w-9 h-9 p-0">
+                      <MessageSquare className="h-5 w-5" />
+                      {displayUnreadMessages > 0 && (
+                        <Badge
+                          variant="destructive"
+                          className="absolute -top-1 -right-1 text-xs min-w-[18px] h-[18px] flex items-center justify-center p-0"
+                        >
+                          {displayUnreadMessages > 9 ? "9+" : displayUnreadMessages}
+                        </Badge>
+                      )}
+                    </Button>
+                  </Link>
+                </ErrorBoundary>
+
+                {/* Notification Button */}
+                <ErrorBoundary>
+                  <Link href="/app/notifications">
+                    <Button variant="ghost" size="sm" className="relative w-9 h-9 p-0">
+                      <Bell className="h-5 w-5" />
+                      {unreadNotifications > 0 && (
+                        <Badge
+                          variant="destructive"
+                          className="absolute -top-1 -right-1 text-xs min-w-[18px] h-[18px] flex items-center justify-center p-0"
+                        >
+                          {unreadNotifications > 9 ? "9+" : unreadNotifications}
+                        </Badge>
+                      )}
+                    </Button>
+                  </Link>
+                </ErrorBoundary>
+
+                {/* Wallet Button */}
+                <ErrorBoundary>
+                  <Link href="/app/wallet-management">
+                    <Button variant="ghost" size="sm" className="relative w-9 h-9 p-0">
+                      <Wallet className="h-5 w-5" />
+                      <Badge
+                        variant="outline"
+                        className="absolute -top-1 -right-1 text-xs min-w-[18px] h-[18px] flex items-center justify-center p-0 bg-primary text-primary-foreground"
+                      >
+                        {walletBalance}
+                      </Badge>
+                    </Button>
+                  </Link>
+                </ErrorBoundary>
+
+                {/* Cart Button */}
+                <ErrorBoundary>
+                  <Link href="/app/cart">
+                    <Button variant="ghost" size="sm" className="relative w-9 h-9 p-0">
+                      <ShoppingCart className="h-5 w-5" />
+                      {cartItems > 0 && (
+                        <Badge
+                          variant="destructive"
+                          className="absolute -top-1 -right-1 text-xs min-w-[18px] h-[18px] flex items-center justify-center p-0"
+                        >
+                          {cartItems > 9 ? "9+" : cartItems}
+                        </Badge>
+                      )}
+                    </Button>
+                  </Link>
+                </ErrorBoundary>
+              </div>
+            )}
+            <ErrorBoundary>
+              <UserDropdown />
+            </ErrorBoundary>
+          </>
         )}
 
         <div className="border-l h-6 mx-1 hidden sm:block" />
