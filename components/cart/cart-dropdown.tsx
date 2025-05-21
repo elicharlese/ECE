@@ -2,84 +2,114 @@
 
 import { useState, useEffect } from "react"
 import { ShoppingCart } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
-import { useCart } from "@/lib/cart-context"
+import Image from "next/image"
 
-interface CartDropdownProps {
-  showLabel?: boolean
-}
-
-export function CartDropdown({ showLabel = false }: CartDropdownProps) {
+export function CartDropdown() {
+  const [itemCount, setItemCount] = useState(2)
+  const [items, setItems] = useState([
+    { id: 1, name: "Security Scanner", price: 299.99, image: "/images/products/security-scanner.png" },
+    { id: 2, name: "DeFi Protocol", price: 499.99, image: "/images/products/defi-protocol.png" },
+  ])
   const [mounted, setMounted] = useState(false)
-  const { items = [] } = useCart?.() || {}
-  const itemCount = items?.length || 0
 
   useEffect(() => {
     setMounted(true)
+
+    // This would normally come from an API or context
+    const storedCart = localStorage.getItem("cartItems")
+    if (storedCart) {
+      try {
+        const parsedCart = JSON.parse(storedCart)
+        if (Array.isArray(parsedCart)) {
+          setItems(parsedCart)
+          setItemCount(parsedCart.length)
+        }
+      } catch (e) {
+        console.error("Error parsing cart data:", e)
+      }
+    }
   }, [])
 
   if (!mounted) return null
 
+  const subtotal = items.reduce((total, item) => total + item.price, 0)
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative hover:bg-muted/80 transition-colors">
-          <div className="flex items-center gap-2">
-            <ShoppingCart className="h-4 w-4" />
-            {showLabel && <span className="hidden sm:inline">Cart</span>}
-            {itemCount > 0 && (
-              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">
-                {itemCount > 9 ? "9+" : itemCount}
-              </span>
-            )}
-          </div>
+        <Button variant="ghost" size="icon" className="relative">
+          <ShoppingCart className="h-5 w-5" />
+          {itemCount > 0 && (
+            <Badge
+              variant="destructive"
+              className="absolute -top-1 -right-1 px-1.5 py-0.5 min-w-[1.25rem] h-5 flex items-center justify-center"
+            >
+              {itemCount}
+            </Badge>
+          )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-72">
+      <DropdownMenuContent className="w-72" align="end">
         <DropdownMenuLabel>Your Cart</DropdownMenuLabel>
         <DropdownMenuSeparator />
+
         {itemCount === 0 ? (
           <div className="p-4 text-center text-muted-foreground">Your cart is empty</div>
         ) : (
           <>
-            <div className="max-h-80 overflow-auto">
-              {items.map((item, index) => (
-                <div key={index} className="flex items-center gap-2 p-2 hover:bg-muted/50 rounded-md">
-                  <div className="w-10 h-10 bg-muted rounded-md flex-shrink-0"></div>
+            <div className="max-h-72 overflow-auto">
+              {items.map((item) => (
+                <div key={item.id} className="flex items-center gap-3 p-2 hover:bg-muted/50">
+                  <div className="h-12 w-12 rounded-md overflow-hidden bg-muted">
+                    <Image
+                      src={item.image || "/placeholder.svg"}
+                      alt={item.name}
+                      width={48}
+                      height={48}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium truncate">{item.name || `Product ${index + 1}`}</div>
-                    <div className="text-xs text-muted-foreground">${item.price || "99.99"}</div>
+                    <div className="text-sm font-medium truncate">{item.name}</div>
+                    <div className="text-sm text-muted-foreground">${item.price.toFixed(2)}</div>
                   </div>
                 </div>
               ))}
             </div>
+
             <DropdownMenuSeparator />
-            <div className="p-2 flex justify-between">
-              <span>Total:</span>
-              <span className="font-bold">
-                ${items.reduce((total, item) => total + (item.price || 99.99), 0).toFixed(2)}
-              </span>
+
+            <div className="p-4">
+              <div className="flex justify-between mb-2">
+                <span className="text-sm text-muted-foreground">Subtotal</span>
+                <span className="text-sm font-medium">${subtotal.toFixed(2)}</span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2">
+                <Link href="/app/cart">
+                  <Button variant="outline" size="sm" className="w-full">
+                    View Cart
+                  </Button>
+                </Link>
+                <Link href="/app/checkout">
+                  <Button size="sm" className="w-full">
+                    Checkout
+                  </Button>
+                </Link>
+              </div>
             </div>
           </>
         )}
-        <DropdownMenuSeparator />
-        <Link href="/app/cart">
-          <DropdownMenuItem className="cursor-pointer">View Cart</DropdownMenuItem>
-        </Link>
-        <Link href="/app/checkout">
-          <DropdownMenuItem className="cursor-pointer" disabled={itemCount === 0}>
-            Checkout
-          </DropdownMenuItem>
-        </Link>
       </DropdownMenuContent>
     </DropdownMenu>
   )

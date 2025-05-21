@@ -280,17 +280,16 @@ export function Header() {
         {/* User actions */}
         {(showUserDropdown || user || isDemoMode) && (
           <>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               {isAppPage && (
                 <>
                   {/* Chat Button */}
                   <ErrorBoundary>
                     <Link href="/app/chat">
-                      <Button variant="outline" size="sm" className="relative flex items-center gap-2 h-9">
-                        <MessageSquare className="h-4 w-4" />
-                        <span className="hidden sm:inline">Chat</span>
+                      <Button variant="ghost" size="icon" className="relative">
+                        <MessageSquare className="h-5 w-5" />
                         {displayUnreadMessages > 0 && (
-                          <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-medium text-white">
+                          <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
                             {displayUnreadMessages > 9 ? "9+" : displayUnreadMessages}
                           </span>
                         )}
@@ -298,27 +297,23 @@ export function Header() {
                     </Link>
                   </ErrorBoundary>
 
-                  {/* Notification Badge - Make it a button */}
+                  {/* Notification Badge */}
                   <ErrorBoundary>
                     <Link href="/app/notifications">
-                      <Button variant="outline" size="sm" className="relative flex items-center gap-2 h-9">
-                        <NotificationBadge showLabel={true} />
+                      <Button variant="ghost" size="icon" className="relative">
+                        <NotificationBadge />
                       </Button>
                     </Link>
                   </ErrorBoundary>
 
                   {/* Wallet Button */}
                   <ErrorBoundary>
-                    <Button variant="outline" size="sm" className="relative flex items-center gap-2 h-9">
-                      <WalletDropdown showLabel={true} />
-                    </Button>
+                    <WalletDropdown />
                   </ErrorBoundary>
 
                   {/* Cart Button */}
                   <ErrorBoundary>
-                    <Button variant="outline" size="sm" className="relative flex items-center gap-2 h-9">
-                      <CartDropdown showLabel={true} />
-                    </Button>
+                    <CartDropdown />
                   </ErrorBoundary>
                 </>
               )}

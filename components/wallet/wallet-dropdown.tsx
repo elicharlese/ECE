@@ -1,52 +1,73 @@
 "use client"
 
-import { useState } from "react"
-import { Wallet } from "lucide-react"
+import { useState, useEffect } from "react"
+import { WalletIcon, Plus, ArrowDown } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
-interface WalletDropdownProps {
-  showLabel?: boolean
-}
+export function WalletDropdown() {
+  const [balance, setBalance] = useState(1234)
+  const [mounted, setMounted] = useState(false)
 
-export function WalletDropdown({ showLabel = false }: WalletDropdownProps) {
-  const [balance, setBalance] = useState("1,234.56")
+  useEffect(() => {
+    setMounted(true)
+
+    // This would normally come from an API or context
+    const storedBalance = localStorage.getItem("walletBalance")
+    if (storedBalance) {
+      setBalance(Number.parseInt(storedBalance, 10))
+    }
+  }, [])
+
+  if (!mounted) return null
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative hover:bg-muted/80 transition-colors">
-          <div className="flex items-center gap-2">
-            <Wallet className="h-4 w-4" />
-            {showLabel && <span className="hidden sm:inline">Wallet</span>}
-          </div>
+        <Button variant="ghost" size="icon" className="relative">
+          <WalletIcon className="h-5 w-5" />
+          <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] text-primary-foreground font-medium">
+            {balance > 9999 ? "9k+" : balance}
+          </span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
+      <DropdownMenuContent className="w-56" align="end">
         <DropdownMenuLabel>Your Wallet</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <div className="px-2 py-1.5">
-          <div className="text-sm font-medium">Balance</div>
-          <div className="text-2xl font-bold">${balance}</div>
+        <div className="p-4">
+          <div className="text-sm text-muted-foreground">Balance</div>
+          <div className="text-2xl font-bold">${balance.toLocaleString()}</div>
         </div>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <Link href="/app/wallet-management">
+            <DropdownMenuItem>
+              <Plus className="mr-2 h-4 w-4" />
+              <span>Add Funds</span>
+            </DropdownMenuItem>
+          </Link>
+          <Link href="/app/wallet-management">
+            <DropdownMenuItem>
+              <ArrowDown className="mr-2 h-4 w-4" />
+              <span>Withdraw</span>
+            </DropdownMenuItem>
+          </Link>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <Link href="/app/wallet-management">
           <DropdownMenuItem>Manage Wallet</DropdownMenuItem>
         </Link>
-        <Link href="/app/profile/wallet">
-          <DropdownMenuItem>Wallet Settings</DropdownMenuItem>
-        </Link>
-        <DropdownMenuSeparator />
         <Link href="/app/payments">
-          <DropdownMenuItem>Payment History</DropdownMenuItem>
+          <DropdownMenuItem>Transaction History</DropdownMenuItem>
         </Link>
       </DropdownMenuContent>
     </DropdownMenu>

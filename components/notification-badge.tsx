@@ -1,36 +1,36 @@
 "use client"
 
-import { useState, useEffect } from "react"
 import { Bell } from "lucide-react"
-import Link from "next/link"
+import { useState, useEffect } from "react"
+import { Badge } from "@/components/ui/badge"
 
-interface NotificationBadgeProps {
-  showLabel?: boolean
-}
-
-export function NotificationBadge({ showLabel = false }: NotificationBadgeProps) {
-  const [count, setCount] = useState(0)
+export function NotificationBadge() {
+  const [unreadCount, setUnreadCount] = useState(3)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
-    // Simulate notifications for demo purposes
-    setCount(Math.floor(Math.random() * 5))
+
+    // This would normally come from an API or context
+    const storedCount = localStorage.getItem("unreadNotifications")
+    if (storedCount) {
+      setUnreadCount(Number.parseInt(storedCount, 10))
+    }
   }, [])
 
   if (!mounted) return null
 
   return (
-    <Link href="/app/notifications" className="relative">
-      <div className="flex items-center gap-2">
-        <Bell className="h-4 w-4" />
-        {showLabel && <span className="hidden sm:inline">Notifications</span>}
-        {count > 0 && (
-          <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-medium text-white">
-            {count > 9 ? "9+" : count}
-          </span>
-        )}
-      </div>
-    </Link>
+    <div className="relative">
+      <Bell className="h-5 w-5" />
+      {unreadCount > 0 && (
+        <Badge
+          variant="destructive"
+          className="absolute -top-1 -right-1 px-1.5 py-0.5 min-w-[1.25rem] h-5 flex items-center justify-center"
+        >
+          {unreadCount > 9 ? "9+" : unreadCount}
+        </Badge>
+      )}
+    </div>
   )
 }
