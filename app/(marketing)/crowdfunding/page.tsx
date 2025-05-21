@@ -11,8 +11,6 @@ import { useState, useCallback } from "react"
 import { ProjectCard } from "@/components/crowdfunding/project-card"
 import { ProjectCardExpanded } from "@/components/crowdfunding/project-card-expanded"
 import { useToast } from "@/hooks/use-toast"
-import { MatcapCard } from "@/components/3d/MatcapCard"
-import { TierContribution } from "@/components/crowdfunding/tier-contribution"
 
 export default function CrowdfundingPage() {
   const [isLoading] = useLoadingState(true)
@@ -60,11 +58,6 @@ export default function CrowdfundingPage() {
     [toast],
   )
 
-  const handleContribution = useCallback((tierId: string, amount: number) => {
-    console.log(`Contribution of ${amount} ECE made with tier ${tierId}`)
-    // In a real app, this would process the payment and update the database
-  }, [])
-
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
@@ -104,13 +97,12 @@ export default function CrowdfundingPage() {
             <div className="flex-1 flex justify-center">
               <div className="relative">
                 <div className="absolute -inset-4 bg-primary/10 rounded-full blur-3xl opacity-70"></div>
-                <MatcapCard
-                  title="Crowdfunding Platform"
-                  shape="cylinder"
-                  color="#0e5f59"
+                <img
+                  src="/blockchain-crowdfunding.png"
+                  alt="Crowdfunding Platform Concept"
+                  className="relative z-10 rounded-2xl shadow-xl"
                   width={400}
                   height={300}
-                  rotationSpeed={0.001}
                 />
               </div>
             </div>
@@ -151,25 +143,12 @@ export default function CrowdfundingPage() {
                 className="group"
                 aria-label={`Browse ${category.name} projects`}
               >
-                <div className="p-6 bg-card rounded-xl shadow-sm border border-border/40 hover:border-primary/20 hover:shadow-md transition-all duration-200 hover:translate-y-[-2px] h-full flex flex-col justify-between">
+                <div className="p-6 bg-card dark:bg-[#010817] rounded-xl shadow-sm border border-border/40 hover:border-primary/20 hover:shadow-md transition-all duration-200 hover:translate-y-[-2px] h-full flex flex-col justify-between">
                   <div className="mb-4">
-                    <MatcapCard
-                      title={category.name}
-                      shape={
-                        index % 5 === 0
-                          ? "cube"
-                          : index % 5 === 1
-                            ? "rounded"
-                            : index % 5 === 2
-                              ? "cylinder"
-                              : index % 5 === 3
-                                ? "torus"
-                                : "sphere"
-                      }
-                      color="#0e5f59"
-                      width="100%"
-                      height={120}
-                      rotationSpeed={0.002}
+                    <img
+                      src={`/abstract-geometric-shapes.png?height=120&width=200&query=${category.name} blockchain category in teal color`}
+                      alt={category.name}
+                      className="w-full h-[120px] object-cover rounded-lg shadow-md"
                     />
                   </div>
                   <div>
@@ -273,17 +252,6 @@ export default function CrowdfundingPage() {
         </div>
       </section>
 
-      {/* Tier Contribution Section */}
-      <section className="py-16 px-4">
-        <div className="container mx-auto max-w-6xl">
-          <TierContribution
-            projectId="platform"
-            projectTitle="ECE Blockchain Platform"
-            onContribute={handleContribution}
-          />
-        </div>
-      </section>
-
       {/* How It Works */}
       <section className="py-16 px-4 bg-muted/30 dark:bg-muted/10">
         <div className="container mx-auto max-w-6xl">
@@ -298,9 +266,15 @@ export default function CrowdfundingPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
-            <div className="flex flex-col items-center text-center p-6 bg-card rounded-xl shadow-sm border border-border/40 transition-all duration-300 hover:shadow-md hover:translate-y-[-5px]">
+            <div className="flex flex-col items-center text-center p-6 bg-card dark:bg-[#010817] rounded-xl shadow-sm border border-border/40 transition-all duration-300 hover:shadow-md hover:translate-y-[-5px]">
               <div className="mb-6">
-                <MatcapCard title="1" shape="sphere" color="#0e5f59" width={100} height={100} rotationSpeed={0.002} />
+                <img
+                  src="/placeholder-bodse.png"
+                  alt="Step 1"
+                  className="rounded-full shadow-md"
+                  width={100}
+                  height={100}
+                />
               </div>
               <h3 className="font-semibold text-xl mb-3">Create Your Project</h3>
               <p className="text-muted-foreground mb-4">
@@ -318,9 +292,15 @@ export default function CrowdfundingPage() {
               </Button>
             </div>
 
-            <div className="flex flex-col items-center text-center p-6 bg-card rounded-xl shadow-sm border border-border/40 transition-all duration-300 hover:shadow-md hover:translate-y-[-5px]">
+            <div className="flex flex-col items-center text-center p-6 bg-card dark:bg-[#010817] rounded-xl shadow-sm border border-border/40 transition-all duration-300 hover:shadow-md hover:translate-y-[-5px]">
               <div className="mb-6">
-                <MatcapCard title="2" shape="sphere" color="#0e5f59" width={100} height={100} rotationSpeed={0.002} />
+                <img
+                  src="/teal-circle-number-2.png"
+                  alt="Step 2"
+                  className="rounded-full shadow-md"
+                  width={100}
+                  height={100}
+                />
               </div>
               <h3 className="font-semibold text-xl mb-3">Get Funded</h3>
               <p className="text-muted-foreground mb-4">
@@ -338,9 +318,15 @@ export default function CrowdfundingPage() {
               </Button>
             </div>
 
-            <div className="flex flex-col items-center text-center p-6 bg-card rounded-xl shadow-sm border border-border/40 transition-all duration-300 hover:shadow-md hover:translate-y-[-5px]">
+            <div className="flex flex-col items-center text-center p-6 bg-card dark:bg-[#010817] rounded-xl shadow-sm border border-border/40 transition-all duration-300 hover:shadow-md hover:translate-y-[-5px]">
               <div className="mb-6">
-                <MatcapCard title="3" shape="sphere" color="#0e5f59" width={100} height={100} rotationSpeed={0.002} />
+                <img
+                  src="/placeholder-phrqc.png"
+                  alt="Step 3"
+                  className="rounded-full shadow-md"
+                  width={100}
+                  height={100}
+                />
               </div>
               <h3 className="font-semibold text-xl mb-3">Build & Deliver</h3>
               <p className="text-muted-foreground mb-4">
@@ -391,13 +377,12 @@ export default function CrowdfundingPage() {
                 </div>
               </div>
               <div className="w-full md:w-auto">
-                <MatcapCard
-                  title="Launch Project"
-                  shape="torus"
-                  color="#0e5f59"
+                <img
+                  src="/teal-rocket-launch.png"
+                  alt="Launch Project"
+                  className="rounded-xl shadow-lg"
                   width={250}
                   height={200}
-                  rotationSpeed={0.002}
                 />
               </div>
             </div>

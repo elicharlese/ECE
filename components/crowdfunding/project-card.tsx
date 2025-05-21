@@ -10,7 +10,6 @@ import { Clock, Users, ChevronDown, Tag } from "lucide-react"
 import Link from "next/link"
 import type { ProjectWithMilestones } from "./project-card-expanded"
 import { useCallback } from "react"
-import { MatcapCard } from "@/components/3d/MatcapCard"
 import { LazyImage } from "@/components/ui/lazy-image"
 
 interface ProjectCardProps {
@@ -98,13 +97,12 @@ export function ProjectCard({
         </div>
         <div className="h-48 bg-primary/5 flex items-center justify-center overflow-hidden">
           {useMatcap ? (
-            <MatcapCard
-              title={project.title}
-              shape={getShape()}
-              color="#0e5f59"
-              width="100%"
-              height="100%"
-              rotationSpeed={0.001}
+            <LazyImage
+              src={`/placeholder.svg?height=200&width=300&query=${project.title} blockchain project concept`}
+              alt=""
+              fallbackSrc="/placeholder.svg"
+              className="h-full w-full transition-transform duration-500 group-hover:scale-105"
+              aspectRatio="aspect-[16/9]"
             />
           ) : (
             <LazyImage

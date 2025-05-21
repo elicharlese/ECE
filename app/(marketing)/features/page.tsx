@@ -1,7 +1,6 @@
 import { Check, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { MatcapCard } from "@/components/3d/MatcapCard"
 
 export default function FeaturesPage() {
   const featureSections = [
@@ -112,16 +111,24 @@ export default function FeaturesPage() {
                 </Button>
               </div>
               <div className={`flex-1 ${index % 2 === 1 ? "md:order-1" : ""}`}>
-                <div className="rounded-lg overflow-hidden shadow-lg transform transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl bg-background p-2">
-                  <MatcapCard
-                    title={section.title}
-                    shape={section.shape}
-                    color="#0e5f59"
-                    width="100%"
-                    height={240}
-                    rotationSpeed={0.003}
-                    fixedScroll={true}
-                  />
+                <div className="rounded-lg overflow-hidden transform transition-transform duration-300 hover:scale-[1.02]">
+                  <div className="relative w-full" style={{ height: "360px" }}>
+                    <iframe
+                      src={
+                        index === 0
+                          ? "https://my.spline.design/ecepathicons-y99pyhUtHckD6kO4V6kvKC3q/"
+                          : index === 1
+                            ? "https://my.spline.design/ecegantticon-Wu2xevSUDxiMge9dkxVkcUHF/"
+                            : "https://my.spline.design/ececrossicon-TpuUOtOV9JbVqLuctxAHqEED/"
+                      }
+                      frameBorder="0"
+                      width="100%"
+                      height="100%"
+                      title={`${section.title} 3D Icon`}
+                      className="absolute inset-0"
+                      loading="lazy"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -132,9 +139,9 @@ export default function FeaturesPage() {
       {/* CTA Section */}
       <section className="py-16 px-4 bg-primary/5">
         <div className="container mx-auto max-w-5xl">
-          <div className="bg-card border rounded-2xl p-8 md:p-12 shadow-lg">
+          <div className="bg-card dark:bg-[#010817] border rounded-2xl p-8 md:p-12 shadow-lg">
             <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-              <div className="md:max-w-xl">
+              <div className="md:max-w-xs">
                 <h2 className="text-3xl font-bold mb-4">Ready to build your blockchain application?</h2>
                 <p className="text-lg text-muted-foreground mb-6">
                   Join our satisfied clients who have transformed their ideas into reality with our custom development
@@ -158,16 +165,17 @@ export default function FeaturesPage() {
                   </Button>
                 </div>
               </div>
-              <div className="w-full md:w-auto">
-                <MatcapCard
-                  title="Start Building"
-                  shape="rounded"
-                  color="#0e5f59"
-                  width={240}
-                  height={180}
-                  rotationSpeed={0.002}
-                  fixedScroll={true}
-                />
+              <div className="w-full md:w-[500px] h-80 relative">
+                <div className="absolute inset-0 rounded-lg overflow-hidden">
+                  <iframe
+                    src="https://my.spline.design/eceflatwave-Y69u366c7TIynMdbjBBiXNwA/"
+                    frameBorder="0"
+                    width="100%"
+                    height="100%"
+                    title="Blockchain Wave Animation"
+                    loading="lazy"
+                  />
+                </div>
               </div>
             </div>
           </div>

@@ -92,7 +92,7 @@ export default function NotificationsPage() {
 
       <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab}>
         <div className="flex justify-between items-center mb-4">
-          <TabsList>
+          <TabsList className="w-full">
             <TabsTrigger value="all">All</TabsTrigger>
             <TabsTrigger value="unread">Unread</TabsTrigger>
             <TabsTrigger value="success" className="text-green-600">
@@ -107,11 +107,8 @@ export default function NotificationsPage() {
             <TabsTrigger value="info" className="text-blue-600">
               Info
             </TabsTrigger>
+            <TabsTrigger value="settings">Settings</TabsTrigger>
           </TabsList>
-
-          <TabsTrigger value="settings" onClick={() => setActiveTab("settings")}>
-            Settings
-          </TabsTrigger>
         </div>
 
         <TabsContent value="settings">

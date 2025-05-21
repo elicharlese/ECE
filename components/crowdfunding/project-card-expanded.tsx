@@ -10,7 +10,6 @@ import { Clock, Users, X, ChevronRight, Calendar, Target } from "lucide-react"
 import Link from "next/link"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { useCallback } from "react"
-import { MatcapCard } from "@/components/3d/MatcapCard"
 
 export interface Milestone {
   id: number
@@ -78,13 +77,10 @@ export function ProjectCardExpanded({ project, onClose }: ProjectCardExpandedPro
         <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
           <div className="md:col-span-1 h-full">
             <div className="h-full bg-primary/5 flex items-center justify-center">
-              <MatcapCard
-                title={project.title}
-                shape={getShape()}
-                color="#0e5f59"
-                width="100%"
-                height="100%"
-                rotationSpeed={0.001}
+              <img
+                src={`/placeholder.svg?height=300&width=300&query=${project.title} blockchain project detailed view`}
+                alt={project.title}
+                className="h-full w-full object-cover"
               />
             </div>
           </div>

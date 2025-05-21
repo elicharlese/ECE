@@ -1,558 +1,435 @@
 "use client"
 
-import { ProjectCard } from "@/components/project-card"
-import { ProjectSkeleton } from "@/components/project-skeleton"
+import { useState, useEffect } from "react"
+import type { BettingProject } from "@/components/crowdfunding/betting-project-card"
+import { BettingSlip } from "@/components/crowdfunding/betting-slip"
+import { FilterTags } from "@/components/crowdfunding/filter-tags"
+import { VerticalProjectCard } from "@/components/crowdfunding/vertical-project-card"
+import { BettingStyleLayout } from "@/components/crowdfunding/betting-style-layout"
+import { BettingThemeToggle } from "@/components/theme/betting-theme-toggle"
+import { LiveUpdatesTicker } from "@/components/crowdfunding/live-updates-ticker"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useDebounce } from "@/hooks/use-debounce"
-import { useSupabase } from "@/providers/supabase-provider"
-import type { Project, ProjectStatus } from "@/types"
-import { v4 as uuidv4 } from "uuid"
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
-import { Textarea } from "@/components/ui/textarea"
-import { useRouter } from "next/navigation"
-import { Separator } from "@/components/ui/separator"
-import { Icons } from "@/components/icons"
-
-import { useState, useEffect, useRef } from "react"
-import { ChevronUp, ChevronDown } from "lucide-react"
-import { SwipeContainer } from "@/components/ui/swipe-container"
-import { cn } from "@/lib/utils"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Receipt } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { Card, CardContent } from "@/components/ui/card"
+import { SwipeContainer } from "@/components/ui/swipe-container"
+import { ChevronUp, ChevronDown } from "lucide-react"
+import { cn } from "@/lib/utils"
 
-const categoryOptions = [
-  { label: "All Categories", value: null },
-  { label: "Technology", value: "technology" },
-  { label: "Education", value: "education" },
-  { label: "Healthcare", value: "healthcare" },
-  { label: "Environment", value: "environment" },
-  { label: "Arts & Culture", value: "arts_culture" },
-  { label: "Community", value: "community" },
-  { label: "Other", value: "other" },
+// Mock project data
+const mockProjects = [
+  {
+    id: 1,
+    title: "Decentralized Identity Solution",
+    description:
+      "A blockchain-based identity verification system with privacy-preserving features and integration with existing systems.",
+    image: "/images/projects/identity-solution.png",
+    category: "Infrastructure",
+    raised: 35000,
+    goal: 50000,
+    backers: 78,
+    daysLeft: 12,
+    trending: true,
+    hot: false,
+    endingSoon: false,
+    odds: "+175",
+    potentialReturn: 175,
+  },
+  {
+    id: 2,
+    title: "Cross-Chain DeFi Protocol",
+    description:
+      "An interoperable DeFi protocol enabling seamless asset transfers and interactions across multiple blockchains.",
+    image: "/images/projects/defi-protocol.png",
+    category: "DeFi",
+    raised: 67500,
+    goal: 80000,
+    backers: 142,
+    daysLeft: 21,
+    trending: false,
+    hot: true,
+    endingSoon: false,
+    odds: "+320",
+    potentialReturn: 320,
+  },
+  {
+    id: 3,
+    title: "NFT Gaming Platform",
+    description:
+      "A gaming platform where players can earn, trade, and utilize NFTs across multiple game worlds and ecosystems.",
+    image: "/images/projects/nft-gaming.png",
+    category: "Gaming",
+    raised: 54000,
+    goal: 75000,
+    backers: 95,
+    daysLeft: 18,
+    trending: true,
+    hot: false,
+    endingSoon: false,
+    odds: "+210",
+    potentialReturn: 210,
+  },
+  {
+    id: 4,
+    title: "Zero-Knowledge Privacy Solution",
+    description: "A zero-knowledge proof system enabling private transactions and computations on public blockchains.",
+    image: "/images/projects/zero-knowledge.png",
+    category: "Privacy",
+    raised: 88000,
+    goal: 120000,
+    backers: 113,
+    daysLeft: 5,
+    trending: false,
+    hot: false,
+    endingSoon: true,
+    odds: "+145",
+    potentialReturn: 145,
+  },
+  {
+    id: 5,
+    title: "Decentralized Storage Network",
+    description:
+      "A distributed storage solution with enhanced security, redundancy, and resilience against censorship.",
+    image: "/images/projects/decentralized-storage.png",
+    category: "Infrastructure",
+    raised: 42000,
+    goal: 100000,
+    backers: 64,
+    daysLeft: 25,
+    trending: false,
+    hot: false,
+    endingSoon: false,
+    odds: "+250",
+    potentialReturn: 250,
+  },
+  {
+    id: 6,
+    title: "Blockchain Social Media",
+    description:
+      "A decentralized social media platform with user data ownership, content monetization, and censorship resistance.",
+    image: "/images/projects/blockchain-social.png",
+    category: "Social",
+    raised: 29000,
+    goal: 60000,
+    backers: 51,
+    daysLeft: 9,
+    trending: false,
+    hot: true,
+    endingSoon: true,
+    odds: "+190",
+    potentialReturn: 190,
+  },
 ]
 
-const statusOptions = [
-  { label: "All Statuses", value: null },
-  { label: "Funding", value: "funding" },
-  { label: "Completed", value: "completed" },
-  { label: "Failed", value: "failed" },
+// Ticker updates
+const tickerUpdates = [
+  "DeFi Protocol just reached 85% of funding goal!",
+  "Zero-Knowledge Privacy Solution has 127 new backers today",
+  "NFT Gaming Platform trending with +24% in the last hour",
+  "New project launched: Metaverse Integration Platform",
+  "Blockchain Social Media featured in Crypto Weekly Newsletter",
+  "Decentralized Identity Solution milestone reached: KYC Integration",
 ]
 
-const formSchema = z.object({
-  name: z.string().min(3, {
-    message: "Project name must be at least 3 characters.",
-  }),
-  description: z.string().min(10, {
-    message: "Description must be at least 10 characters.",
-  }),
-  category: z.enum(["technology", "education", "healthcare", "environment", "arts_culture", "community", "other"]),
-  goal: z.number().min(1, {
-    message: "Goal must be at least $1.",
-  }),
-})
-
-const CrowdfundingPage = () => {
-  const { supabase, session } = useSupabase()
-  const [projects, setProjects] = useState<Project[]>([])
-  const [loading, setLoading] = useState(true)
-  const [searchQuery, setSearchQuery] = useState("")
-  const [debouncedSearchQuery] = useDebounce(searchQuery, 500)
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
-  const [selectedStatus, setSelectedStatus] = useState<ProjectStatus | null>(null)
-  const [creating, setCreating] = useState(false)
-  const [hasMore, setHasMore] = useState(true)
-  const [page, setPage] = useState(0)
-  const router = useRouter()
-
+export default function CrowdfundingBettingPage() {
+  const [projects, setProjects] = useState(mockProjects)
+  const [bettingSlip, setBettingSlip] = useState<BettingProject[]>([])
+  const [filters, setFilters] = useState<any>({})
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0)
-  const [isScrolling, setIsScrolling] = useState(false)
-  const projectFeedRef = useRef<HTMLDivElement>(null)
+  const [sheetOpen, setSheetOpen] = useState(false)
   const { toast } = useToast()
+  const [isScrolling, setIsScrolling] = useState(false)
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      description: "",
-      category: "technology",
-      goal: 1000,
-    },
-  })
+  // Add a project to betting slip
+  const addToBettingSlip = (bet: BettingProject) => {
+    // Check if already in slip
+    const existing = bettingSlip.find((b) => b.id === bet.id)
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    setCreating(true)
-    try {
-      if (!session?.user) {
-        toast({
-          title: "Unauthorized",
-          description: "You must be logged in to create a project.",
-        })
-        return
-      }
-
-      const projectId = uuidv4()
-
-      const { error } = await supabase
-        .from("projects")
-        .insert({
-          id: projectId,
-          creator_id: session.user.id,
-          name: values.name,
-          description: values.description,
-          category: values.category,
-          goal: values.goal,
-          status: "funding",
-        })
-        .single()
-
-      if (error) {
-        console.error("Error creating project:", error)
-        toast({
-          title: "Error creating project",
-          description: "Something went wrong. Please try again.",
-          variant: "destructive",
-        })
-        return
-      }
-
-      // Optimistically update the projects list
-      setProjects((prevProjects) => [
-        {
-          id: projectId,
-          creator_id: session.user.id,
-          name: values.name,
-          description: values.description,
-          category: values.category,
-          goal: values.goal,
-          status: "funding",
-          created_at: new Date().toISOString(),
-          current_amount: 0,
-          creator: {
-            id: session.user.id,
-            email: session.user.email ?? "",
-            created_at: new Date().toISOString(),
-            name: session.user.user_metadata.name ?? "",
-            avatar_url: session.user.user_metadata.avatar_url ?? "",
-          },
-        },
-        ...prevProjects,
-      ])
-
-      toast({
-        title: "Project created",
-        description: "Your project has been created successfully.",
-      })
-
-      form.reset()
-    } catch (error) {
-      console.error("Error creating project:", error)
-      toast({
-        title: "Error creating project",
-        description: "Something went wrong. Please try again.",
-        variant: "destructive",
-      })
-    } finally {
-      setCreating(false)
-    }
-  }
-
-  useEffect(() => {
-    setLoading(true)
-    setProjects([])
-    setPage(0)
-    setHasMore(true)
-  }, [debouncedSearchQuery, selectedCategory, selectedStatus])
-
-  const loadMoreProjects = async () => {
-    if (!hasMore || loading) return
-
-    setLoading(true)
-
-    let query = supabase
-      .from("projects")
-      .select(
-        `
-        *,
-        creator:profiles(*)
-      `,
-      )
-      .order("created_at", { ascending: false })
-      .range(page * 6, (page + 1) * 6 - 1)
-
-    if (debouncedSearchQuery) {
-      query = query.ilike("name", `%${debouncedSearchQuery}%`)
-    }
-
-    if (selectedCategory) {
-      query = query.eq("category", selectedCategory)
-    }
-
-    if (selectedStatus) {
-      query = query.eq("status", selectedStatus)
-    }
-
-    const { data, error } = await query
-
-    if (error) {
-      console.error("Error fetching projects:", error)
-      toast({
-        title: "Error fetching projects",
-        description: "Something went wrong. Please try again.",
-        variant: "destructive",
-      })
+    if (existing) {
+      // Update existing bet
+      setBettingSlip(bettingSlip.map((b) => (b.id === bet.id ? { ...b, amount: bet.amount } : b)))
     } else {
-      const fetchedProjects = data as Project[]
-      setProjects((prevProjects) => [...prevProjects, ...fetchedProjects])
-
-      if (fetchedProjects.length < 6) {
-        setHasMore(false)
-      } else {
-        setPage((prevPage) => prevPage + 1)
-      }
+      // Add new bet
+      setBettingSlip([...bettingSlip, bet])
     }
 
-    setLoading(false)
+    toast({
+      title: "Added to betting slip",
+      description: `${bet.title} added with ${bet.amount} ECE`,
+    })
+
+    // Open the sheet when adding a new bet
+    setSheetOpen(true)
   }
 
-  useEffect(() => {
-    loadMoreProjects()
-  }, [debouncedSearchQuery, selectedCategory, selectedStatus, page])
+  // Remove a project from betting slip
+  const removeFromBettingSlip = (id: number) => {
+    setBettingSlip(bettingSlip.filter((bet) => bet.id !== id))
+  }
 
-  const filteredProjects = projects.filter((project) => {
-    const searchRegex = new RegExp(debouncedSearchQuery, "i")
-    const categoryMatch = selectedCategory ? project.category === selectedCategory : true
-    const statusMatch = selectedStatus ? project.status === selectedStatus : true
-    return searchRegex.test(project.name) && categoryMatch && statusMatch
-  })
+  // Clear betting slip
+  const clearBettingSlip = () => {
+    setBettingSlip([])
+  }
 
-  // Reset current project index when filters change
+  // Place all bets
+  const placeBets = () => {
+    // In a real app, this would call APIs to place the bets
+    // For now, we just clear the slip
+    toast({
+      title: "Bets placed successfully!",
+      description: `${bettingSlip.length} bets have been placed`,
+      variant: "success",
+    })
+    clearBettingSlip()
+    setSheetOpen(false)
+  }
+
+  // Apply filters
+  const applyFilters = (newFilters: any) => {
+    setFilters(newFilters)
+
+    // Filter projects based on the criteria
+    let filtered = [...mockProjects]
+
+    if (newFilters.search) {
+      const search = newFilters.search.toLowerCase()
+      filtered = filtered.filter(
+        (p) => p.title.toLowerCase().includes(search) || p.description.toLowerCase().includes(search),
+      )
+    }
+
+    if (newFilters.categories && newFilters.categories.length > 0) {
+      filtered = filtered.filter((p) => newFilters.categories.includes(p.category))
+    }
+
+    if (newFilters.trending) {
+      filtered = filtered.filter((p) => p.trending)
+    }
+
+    if (newFilters.hot) {
+      filtered = filtered.filter((p) => p.hot)
+    }
+
+    if (newFilters.endingSoon) {
+      filtered = filtered.filter((p) => p.endingSoon)
+    }
+
+    if (newFilters.returnRange) {
+      filtered = filtered.filter(
+        (p) => p.potentialReturn >= newFilters.returnRange[0] && p.potentialReturn <= newFilters.returnRange[1],
+      )
+    }
+
+    setProjects(filtered)
+  }
+
+  const nextProject = () => {
+    if (currentProjectIndex < projects.length - 1) {
+      setIsScrolling(true)
+      setCurrentProjectIndex(currentProjectIndex + 1)
+      setTimeout(() => setIsScrolling(false), 500)
+    }
+  }
+
+  const prevProject = () => {
+    if (currentProjectIndex > 0) {
+      setIsScrolling(true)
+      setCurrentProjectIndex(currentProjectIndex - 1)
+      setTimeout(() => setIsScrolling(false), 500)
+    }
+  }
+
+  // Reset current project index when projects change
   useEffect(() => {
     setCurrentProjectIndex(0)
-  }, [searchQuery, selectedCategory, selectedStatus])
+  }, [projects])
 
-  // Add keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowUp") {
-        if (currentProjectIndex > 0) {
-          setIsScrolling(true)
-          setCurrentProjectIndex(currentProjectIndex - 1)
-          setTimeout(() => setIsScrolling(false), 500)
-        }
-      } else if (e.key === "ArrowDown") {
-        if (currentProjectIndex < filteredProjects.length - 1) {
-          setIsScrolling(true)
-          setCurrentProjectIndex(currentProjectIndex + 1)
-          setTimeout(() => setIsScrolling(false), 500)
-        }
-      }
-    }
-
-    window.addEventListener("keydown", handleKeyDown)
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown)
-    }
-  }, [currentProjectIndex, filteredProjects.length])
-
-  // Show navigation tip toast
-  useEffect(() => {
-    if (!loading && filteredProjects.length > 1) {
-      toast({
-        title: "Navigation tip",
-        description: "Swipe up/down or use arrow keys to navigate between projects.",
-        duration: 5000,
-      })
-    }
-  }, [loading, filteredProjects.length, toast])
+  const currentProject = projects[currentProjectIndex]
 
   return (
-    <div className="container grid gap-6 lg:grid-cols-4 py-8">
-      {/* Filters & Create Project */}
-      <aside className="flex flex-col gap-4">
-        <div className="border rounded-md bg-secondary p-4">
-          <h3 className="text-lg font-semibold mb-2">Filters</h3>
-          <Separator className="mb-4" />
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="search">Search</Label>
-              <Input
-                type="search"
-                id="search"
-                placeholder="Search projects..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            <div>
-              <Label htmlFor="category">Category</Label>
-              <Select
-                value={selectedCategory || "all"}
-                onValueChange={(value) => setSelectedCategory(value === "all" ? null : value)}
-              >
-                <SelectTrigger id="category">
-                  <SelectValue placeholder="All Categories" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categoryOptions.map((option) => (
-                    <SelectItem key={option.value} value={option.value || "all"}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <Label htmlFor="status">Status</Label>
-              <Select
-                value={selectedStatus || "all"}
-                onValueChange={(value) => setSelectedStatus(value === "all" ? null : value)}
-              >
-                <SelectTrigger id="status">
-                  <SelectValue placeholder="All Statuses" />
-                </SelectTrigger>
-                <SelectContent>
-                  {statusOptions.map((option) => (
-                    <SelectItem key={option.value} value={option.value || "all"}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+    <BettingStyleLayout className="min-h-screen">
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Sidebar with filters */}
+          <div className="lg:col-span-1">
+            <Card>
+              <CardContent className="p-4">
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="font-medium mb-2">Project Filters</h3>
+                    <FilterTags onFilter={applyFilters} activeFilters={filters} />
+                  </div>
+
+                  <div>
+                    <h3 className="font-medium mb-2">Categories</h3>
+                    <div className="space-y-1">
+                      <Button
+                        variant={!filters.categories ? "default" : "outline"}
+                        size="sm"
+                        className="w-full justify-start"
+                        onClick={() => applyFilters({ ...filters, categories: null })}
+                      >
+                        All Categories
+                      </Button>
+                      {["Infrastructure", "DeFi", "Gaming", "Privacy", "Social"].map((category) => (
+                        <Button
+                          key={category}
+                          variant={filters.categories === category ? "default" : "outline"}
+                          size="sm"
+                          className="w-full justify-start"
+                          onClick={() => applyFilters({ ...filters, categories: [category] })}
+                        >
+                          {category}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="font-medium mb-2">Project Status</h3>
+                    <div className="space-y-1">
+                      <Button
+                        variant={filters.trending ? "default" : "outline"}
+                        size="sm"
+                        className="w-full justify-start"
+                        onClick={() => applyFilters({ ...filters, trending: !filters.trending })}
+                      >
+                        Trending
+                      </Button>
+                      <Button
+                        variant={filters.hot ? "default" : "outline"}
+                        size="sm"
+                        className="w-full justify-start"
+                        onClick={() => applyFilters({ ...filters, hot: !filters.hot })}
+                      >
+                        Hot Projects
+                      </Button>
+                      <Button
+                        variant={filters.endingSoon ? "default" : "outline"}
+                        size="sm"
+                        className="w-full justify-start"
+                        onClick={() => applyFilters({ ...filters, endingSoon: !filters.endingSoon })}
+                      >
+                        Ending Soon
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="font-medium mb-2">Betting Slip</h3>
+                    <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+                      <SheetTrigger asChild>
+                        <Button className="w-full" variant="outline">
+                          <Receipt className="h-4 w-4 mr-2" />
+                          View Betting Slip
+                          {bettingSlip.length > 0 && (
+                            <span className="ml-2 bg-amber-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                              {bettingSlip.length}
+                            </span>
+                          )}
+                        </Button>
+                      </SheetTrigger>
+                      <SheetContent>
+                        <div className="h-full flex flex-col">
+                          <div className="flex-1 overflow-auto">
+                            <BettingSlip
+                              bets={bettingSlip}
+                              onRemoveBet={removeFromBettingSlip}
+                              onClearSlip={clearBettingSlip}
+                              onPlaceBets={placeBets}
+                              className="h-auto border-none shadow-none"
+                            />
+                          </div>
+                        </div>
+                      </SheetContent>
+                    </Sheet>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <div className="mt-4 flex justify-end">
+              <BettingThemeToggle />
             </div>
           </div>
-        </div>
 
-        {/* Create Project Form */}
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="outline">
-              Create Project <Icons.plus className="w-4 h-4 ml-2" />
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Create a New Project</AlertDialogTitle>
-              <AlertDialogDescription>Fill in the details below to create your project.</AlertDialogDescription>
-            </AlertDialogHeader>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Project Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="My Awesome Project" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="description"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Description</FormLabel>
-                      <FormControl>
-                        <Textarea placeholder="Tell us more about your project..." className="resize-none" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="category"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Category</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a category" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {categoryOptions.slice(1).map((category) => (
-                            <SelectItem key={category.value} value={category.value}>
-                              {category.label}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="goal"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Funding Goal</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="1000"
-                          onChange={(e) => {
-                            const parsedValue = Number.parseInt(e.target.value)
-                            field.onChange(isNaN(parsedValue) ? 0 : parsedValue)
-                          }}
-                          value={field.value}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <Button type="submit" disabled={creating}>
-                    {creating && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
-                    Create
-                  </Button>
-                </AlertDialogFooter>
-              </form>
-            </Form>
-          </AlertDialogContent>
-        </AlertDialog>
-      </aside>
-
-      {/* Project Feed */}
-      <div className="lg:col-span-3 space-y-6">
-        {/* Project Feed */}
-        <div className="relative">
-          {/* Navigation Controls */}
-          <div className="absolute right-4 top-4 z-10 flex flex-col gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                if (currentProjectIndex > 0) {
-                  setIsScrolling(true)
-                  setCurrentProjectIndex(currentProjectIndex - 1)
-                  setTimeout(() => setIsScrolling(false), 500)
-                }
-              }}
-              disabled={currentProjectIndex === 0 || loading}
-              className="h-8 w-8 p-0 rounded-full shadow-sm"
-              aria-label="Previous project"
-            >
-              <ChevronUp className="h-4 w-4" />
-            </Button>
-            {!loading && filteredProjects.length > 0 && (
-              <span className="text-xs bg-muted px-2 py-1 rounded-full text-center">
-                {currentProjectIndex + 1} / {filteredProjects.length}
-              </span>
-            )}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                if (currentProjectIndex < filteredProjects.length - 1) {
-                  setIsScrolling(true)
-                  setCurrentProjectIndex(currentProjectIndex + 1)
-                  setTimeout(() => setIsScrolling(false), 500)
-                }
-              }}
-              disabled={currentProjectIndex === filteredProjects.length - 1 || loading}
-              className="h-8 w-8 p-0 rounded-full shadow-sm"
-              aria-label="Next project"
-            >
-              <ChevronDown className="h-4 w-4" />
-            </Button>
-          </div>
-
-          {loading ? (
-            <div className="h-[700px] flex items-center justify-center">
-              <ProjectSkeleton className="w-full max-w-3xl mx-auto h-full" />
+          {/* Main content area */}
+          <div className="lg:col-span-3">
+            <div className="mb-4">
+              <LiveUpdatesTicker updates={tickerUpdates} />
             </div>
-          ) : filteredProjects.length > 0 ? (
-            <SwipeContainer
-              ref={projectFeedRef}
-              className="h-[700px] overflow-hidden"
-              onSwipeUp={() => {
-                if (currentProjectIndex < filteredProjects.length - 1) {
-                  setIsScrolling(true)
-                  setCurrentProjectIndex(currentProjectIndex + 1)
-                  setTimeout(() => setIsScrolling(false), 500)
-                }
-              }}
-              onSwipeDown={() => {
-                if (currentProjectIndex > 0) {
-                  setIsScrolling(true)
-                  setCurrentProjectIndex(currentProjectIndex - 1)
-                  setTimeout(() => setIsScrolling(false), 500)
-                }
-              }}
-              threshold={30}
-            >
-              <div
-                className="flex flex-col transition-transform duration-500 ease-in-out h-full"
-                style={{ transform: `translateY(-${currentProjectIndex * 100}%)` }}
-              >
-                {filteredProjects.map((project, index) => (
-                  <div
-                    key={project.id}
-                    className={cn(
-                      "h-full min-h-[700px] shrink-0",
-                      index === currentProjectIndex ? "opacity-100" : "opacity-0",
-                    )}
-                    aria-hidden={index !== currentProjectIndex}
+
+            {projects.length > 0 ? (
+              <div className="relative">
+                {/* Navigation Controls */}
+                <div className="absolute right-4 top-4 z-10 flex flex-col gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={prevProject}
+                    disabled={currentProjectIndex === 0}
+                    className="h-8 w-8 p-0 rounded-full shadow-sm"
+                    aria-label="Previous project"
                   >
-                    <ProjectCard project={project} expanded={true} />
-                  </div>
-                ))}
-                {hasMore && (
-                  <div className="h-full min-h-[700px] shrink-0 flex items-center justify-center">
-                    <Button onClick={loadMoreProjects} className="gap-2">
-                      <ChevronDown className="h-4 w-4" />
-                      Load More Projects
-                    </Button>
-                  </div>
-                )}
-              </div>
-            </SwipeContainer>
-          ) : (
-            <div className="h-[700px] flex items-center justify-center">
-              <div className="text-center max-w-md">
-                <h2 className="text-xl font-bold mb-2">No projects found</h2>
-                <p className="text-muted-foreground mb-4">
-                  Try adjusting your search or filter criteria to find what you're looking for.
-                </p>
-                <Button
-                  onClick={() => {
-                    setSearchQuery("")
-                    setSelectedCategory(null)
-                    setSelectedStatus(null)
-                  }}
+                    <ChevronUp className="h-4 w-4" />
+                  </Button>
+                  <span className="text-xs bg-muted px-2 py-1 rounded-full text-center">
+                    {currentProjectIndex + 1} / {projects.length}
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={nextProject}
+                    disabled={currentProjectIndex === projects.length - 1}
+                    className="h-8 w-8 p-0 rounded-full shadow-sm"
+                    aria-label="Next project"
+                  >
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </div>
+
+                <SwipeContainer
+                  className="h-[700px] overflow-hidden"
+                  onSwipeUp={nextProject}
+                  onSwipeDown={prevProject}
+                  threshold={30}
                 >
-                  Reset Filters
+                  <div
+                    className="flex flex-col transition-transform duration-500 ease-in-out h-full"
+                    style={{ transform: `translateY(-${currentProjectIndex * 100}%)` }}
+                  >
+                    {projects.map((project, index) => (
+                      <div
+                        key={project.id}
+                        className={cn(
+                          "h-full min-h-[700px] shrink-0",
+                          index === currentProjectIndex ? "opacity-100" : "opacity-0",
+                        )}
+                        aria-hidden={index !== currentProjectIndex}
+                      >
+                        <VerticalProjectCard
+                          project={project}
+                          onAddToBettingSlip={addToBettingSlip}
+                          className="h-full"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </SwipeContainer>
+              </div>
+            ) : (
+              <div className="text-center py-12 bg-muted/30 rounded-lg border border-border/50">
+                <p className="text-lg text-muted-foreground">No projects match your filters</p>
+                <Button variant="link" onClick={() => applyFilters({})}>
+                  Clear filters
                 </Button>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </BettingStyleLayout>
   )
 }
-
-export default CrowdfundingPage

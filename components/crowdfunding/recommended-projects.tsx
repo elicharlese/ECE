@@ -9,7 +9,6 @@ import { Progress } from "@/components/ui/progress"
 import { Flame, Star, TrendingUp, Tag, Users, Clock } from "lucide-react"
 import Link from "next/link"
 import { demoCrowdfundingProjects } from "@/lib/demo-data"
-import { MatcapCard } from "@/components/3d/MatcapCard"
 
 interface RecommendedProjectsProps {
   currentProjectId?: number
@@ -124,13 +123,10 @@ export function RecommendedProjects({ currentProjectId, limit = 6 }: Recommended
             className="overflow-hidden bg-card border shadow-sm hover:shadow-md transition-all duration-200 hover:translate-y-[-2px] group"
           >
             <div className="h-40 bg-primary/5 flex items-center justify-center overflow-hidden">
-              <MatcapCard
-                title={project.title}
-                shape={getShape(project.id)}
-                color="#0e5f59"
-                width="100%"
-                height="100%"
-                rotationSpeed={0.001}
+              <img
+                src={`/placeholder.svg?height=160&width=300&query=${project.title} blockchain project concept`}
+                alt=""
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
             </div>
             <CardContent className="p-4">
