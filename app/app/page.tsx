@@ -4,7 +4,20 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from "next/link"
-import { BarChart3, Calendar, Code, Globe, Layers, Rocket, Server, Users, ShoppingBag } from "lucide-react"
+import {
+  BarChart3,
+  Calendar,
+  Code,
+  Globe,
+  Layers,
+  Rocket,
+  Server,
+  Users,
+  ShoppingBag,
+  Activity,
+  TrendingUp,
+  Zap,
+} from "lucide-react"
 import { TransactionTrendsChart } from "@/components/analytics/transaction-trends-chart"
 import { addDays } from "date-fns"
 
@@ -166,7 +179,7 @@ export default function DashboardPage() {
   const recentApps = mockApps.slice(0, 3)
 
   return (
-    <div className="space-y-6">
+    <div className="container mx-auto px-4 py-6 space-y-8">
       {/* Demo mode detector - will show a notification if demo mode is active */}
       <DemoModeDetector />
 
@@ -245,18 +258,58 @@ export default function DashboardPage() {
       </div>
 
       {/* Main Dashboard Tabs */}
-      <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="overview">Overview</TabsTrigger>
+      <Tabs defaultValue="overview" className="space-y-6">
+        <TabsList className="bg-muted/60 p-1">
+          <TabsTrigger value="overview" className="rounded-md">
+            Overview
+          </TabsTrigger>
+          <TabsTrigger value="activity" className="rounded-md">
+            Activity
+          </TabsTrigger>
+          <TabsTrigger value="projects" className="rounded-md">
+            Projects
+          </TabsTrigger>
         </TabsList>
 
         {/* Overview Tab */}
-        <TabsContent value="overview" className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {/* Recent Activity */}
-            <Card className="md:col-span-2">
+        <TabsContent value="overview" className="space-y-6">
+          {/* Featured Cards */}
+          <div className="grid gap-6 md:grid-cols-3">
+            <Card className="col-span-3 md:col-span-1 bg-gradient-to-br from-primary/10 to-primary/5 border">
               <CardHeader>
-                <CardTitle>Recent Activity</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Zap className="h-5 w-5 text-primary" />
+                  Quick Actions
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <Button variant="outline" className="w-full justify-start h-10 bg-background/80" asChild>
+                  <Link href="/app/order">
+                    <Rocket className="mr-2 h-4 w-4 text-orange-500" />
+                    Deploy New App
+                  </Link>
+                </Button>
+                <Button variant="outline" className="w-full justify-start h-10 bg-background/80" asChild>
+                  <Link href="/app/marketplace">
+                    <ShoppingBag className="mr-2 h-4 w-4 text-green-500" />
+                    Browse Marketplace
+                  </Link>
+                </Button>
+                <Button variant="outline" className="w-full justify-start h-10 bg-background/80" asChild>
+                  <Link href="/app/crowdfunding">
+                    <Users className="mr-2 h-4 w-4 text-purple-500" />
+                    Explore Crowdfunding
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card className="col-span-3 md:col-span-2">
+              <CardHeader className="pb-2">
+                <CardTitle className="flex items-center gap-2">
+                  <Activity className="h-5 w-5 text-primary" />
+                  Recent Activity
+                </CardTitle>
                 <CardDescription>Your latest transactions and updates</CardDescription>
               </CardHeader>
               <CardContent>
@@ -301,38 +354,229 @@ export default function DashboardPage() {
                 </Button>
               </CardFooter>
             </Card>
-
-            {/* Quick Actions */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
-                <CardDescription>Common tasks and shortcuts</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                <Button variant="outline" className="w-full justify-start h-10" asChild>
-                  <Link href="/app/order">
-                    <Rocket className="mr-2 h-4 w-4 text-orange-500" />
-                    Deploy New App
-                  </Link>
-                </Button>
-                <Button variant="outline" className="w-full justify-start h-10" asChild>
-                  <Link href="/app/marketplace">
-                    <ShoppingBag className="mr-2 h-4 w-4 text-green-500" />
-                    Browse Marketplace
-                  </Link>
-                </Button>
-                <Button variant="outline" className="w-full justify-start h-10" asChild>
-                  <Link href="/app/crowdfunding">
-                    <Users className="mr-2 h-4 w-4 text-purple-500" />
-                    Explore Crowdfunding
-                  </Link>
-                </Button>
-              </CardContent>
-            </Card>
           </div>
 
           {/* Transaction Trends Chart */}
-          <TransactionTrendsChart />
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <TrendingUp className="h-5 w-5 text-primary" />
+                Transaction Trends
+              </CardTitle>
+              <CardDescription>Your financial activity over the past 30 days</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <TransactionTrendsChart />
+            </CardContent>
+          </Card>
+
+          {/* Recent Applications */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Layers className="h-5 w-5 text-primary" />
+                Your Applications
+              </CardTitle>
+              <CardDescription>Recently deployed applications and services</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4 md:grid-cols-3">
+                {recentApps.map((app) => (
+                  <Card key={app.id} className="bg-muted/40">
+                    <CardHeader className="pb-2">
+                      <div className="flex justify-between items-start">
+                        <CardTitle className="text-lg">{app.name}</CardTitle>
+                        <div
+                          className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            app.status === "running"
+                              ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
+                              : app.status === "deploying"
+                                ? "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300"
+                                : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
+                          }`}
+                        >
+                          {app.status.charAt(0).toUpperCase() + app.status.slice(1)}
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground">{app.description}</p>
+                    </CardContent>
+                    <CardFooter className="pt-0">
+                      <Button variant="outline" size="sm" className="w-full">
+                        Manage
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
+            </CardContent>
+            <CardFooter>
+              <Button variant="outline" className="w-full">
+                View All Applications
+              </Button>
+            </CardFooter>
+          </Card>
+        </TabsContent>
+
+        {/* Activity Tab */}
+        <TabsContent value="activity" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Recent Activity</CardTitle>
+              <CardDescription>Your latest transactions, messages, and updates</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Recent Messages */}
+              <div>
+                <h3 className="text-lg font-medium mb-3">Recent Messages</h3>
+                <div className="space-y-4">
+                  {recentMessages.map((message) => (
+                    <div key={message.id} className="flex items-start gap-3 p-3 rounded-lg bg-muted/40">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                        <Users className="h-5 w-5 text-primary" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex justify-between items-start">
+                          <p className="font-medium">
+                            {teamMembers.find((m) => m.id === message.sender)?.name || "Unknown User"}
+                          </p>
+                          <span className="text-xs text-muted-foreground">{message.timestamp}</span>
+                        </div>
+                        <p className="text-sm text-muted-foreground mt-1">{message.content}</p>
+                        <div className="mt-2">
+                          <span className="text-xs bg-muted px-2 py-1 rounded-full">{message.channel}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4">
+                  <Button variant="outline" size="sm">
+                    View All Messages
+                  </Button>
+                </div>
+              </div>
+
+              {/* Integration Events */}
+              <div>
+                <h3 className="text-lg font-medium mb-3">Integration Events</h3>
+                <div className="space-y-4">
+                  {integrationEvents.map((event) => (
+                    <div key={event.id} className="flex items-start gap-3 p-3 rounded-lg bg-muted/40">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                        {event.type === "github" ? (
+                          <Code className="h-5 w-5 text-primary" />
+                        ) : (
+                          <Server className="h-5 w-5 text-primary" />
+                        )}
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex justify-between items-start">
+                          <p className="font-medium">
+                            {event.type === "github" ? "GitHub" : "Vercel"} - {event.event}
+                          </p>
+                          <span className="text-xs text-muted-foreground">{event.timestamp}</span>
+                        </div>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          {event.type === "github"
+                            ? `${event.user} ${event.event === "push" ? "pushed to" : "opened PR in"} ${event.repo}: ${event.message}`
+                            : `Deployment ${event.status} to ${event.environment} for ${event.project}`}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4">
+                  <Button variant="outline" size="sm">
+                    View All Events
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Projects Tab */}
+        <TabsContent value="projects" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Your Projects</CardTitle>
+              <CardDescription>Manage your active and upcoming projects</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="grid gap-4 md:grid-cols-2">
+                  <Card className="bg-muted/40">
+                    <CardHeader className="pb-2">
+                      <div className="flex justify-between items-start">
+                        <CardTitle className="text-lg">NFT Gaming Platform</CardTitle>
+                        <div className="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">
+                          Active
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground">
+                        A gaming platform that integrates NFTs for in-game assets and rewards.
+                      </p>
+                      <div className="mt-4">
+                        <div className="flex justify-between text-sm mb-1">
+                          <span>Progress</span>
+                          <span>65%</span>
+                        </div>
+                        <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
+                          <div className="h-full bg-primary rounded-full" style={{ width: "65%" }}></div>
+                        </div>
+                      </div>
+                    </CardContent>
+                    <CardFooter className="pt-0">
+                      <Button variant="outline" size="sm" className="w-full">
+                        View Project
+                      </Button>
+                    </CardFooter>
+                  </Card>
+
+                  <Card className="bg-muted/40">
+                    <CardHeader className="pb-2">
+                      <div className="flex justify-between items-start">
+                        <CardTitle className="text-lg">DeFi Protocol</CardTitle>
+                        <div className="px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">
+                          Planning
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground">
+                        A decentralized finance protocol with lending and borrowing capabilities.
+                      </p>
+                      <div className="mt-4">
+                        <div className="flex justify-between text-sm mb-1">
+                          <span>Progress</span>
+                          <span>15%</span>
+                        </div>
+                        <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
+                          <div className="h-full bg-primary rounded-full" style={{ width: "15%" }}></div>
+                        </div>
+                      </div>
+                    </CardContent>
+                    <CardFooter className="pt-0">
+                      <Button variant="outline" size="sm" className="w-full">
+                        View Project
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                </div>
+
+                <div className="mt-6">
+                  <Button variant="default">
+                    <Rocket className="mr-2 h-4 w-4" />
+                    Create New Project
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>

@@ -36,14 +36,12 @@ export default function MarketplacePage() {
           </div>
         </div>
         <div className="flex-1 flex justify-center">
-          <MatcapCard
-            title="Blockchain Solutions"
-            shape="rounded"
-            color="#0e5f59"
+          <img
+            src="/placeholder-byvq9.png"
+            alt="Blockchain Solutions"
+            className="rounded-lg object-cover shadow-lg"
             width={500}
             height={300}
-            rotationSpeed={0.001}
-            fixedScroll={true}
           />
         </div>
       </div>
@@ -64,7 +62,7 @@ export default function MarketplacePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {categories.map((category) => (
             <Link key={category.id} href={`/app/marketplace?category=${category.id}`} className="group block">
-              <div className="bg-card border rounded-lg p-6 h-full transition-all duration-200 hover:shadow-md hover:border-primary/50">
+              <div className="bg-card dark:bg-[#010817] border rounded-lg p-6 h-full transition-all duration-200 hover:shadow-md hover:border-primary/50">
                 <div className="mb-4 text-primary">{category.icon}</div>
                 <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
                   {category.name}

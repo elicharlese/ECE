@@ -103,6 +103,9 @@ export function MeetingNotificationProvider({ children }: { children: React.Reac
     const loadData = async () => {
       setIsLoading(true)
 
+      let prefsError: any = null
+      let notifError: any = null
+
       try {
         if (isDemoMode) {
           // Load demo data
@@ -110,17 +113,22 @@ export function MeetingNotificationProvider({ children }: { children: React.Reac
           setPreferences(defaultPreferences)
         } else if (user) {
           // Load real data from Supabase
-          const { data: prefsData, error: prefsError } = await supabase
+          const { data: prefsData, error: prefsErr } = await supabase
             .from("meeting_notification_preferences")
             .select("*")
             .eq("user_id", user.id)
             .single()
 
-          if (prefsError && prefsError.code !== "PGRST116") {
-            console.error("Error loading notification preferences:", prefsError)
-          }
+          prefsError = prefsErr
 
-          if (prefsData) {
+          if (prefsError) {
+            // Log the error but don't throw it
+            console.error("Error loading notification preferences:", prefsError)
+
+            // If the table doesn't exist or there's any other error, use default preferences
+            console.log("Using default notification preferences")
+            setPreferences(defaultPreferences)
+          } else if (prefsData) {
             setPreferences({
               upcomingMeetings: prefsData.upcoming_meetings,
               upcomingMeetingsTime: prefsData.upcoming_meetings_time,
@@ -155,17 +163,22 @@ export function MeetingNotificationProvider({ children }: { children: React.Reac
           }
 
           // Load notifications
-          const { data: notifData, error: notifError } = await supabase
+          const { data: notifData, error: notifErr } = await supabase
             .from("meeting_notifications")
             .select("*")
             .eq("user_id", user.id)
             .order("time", { ascending: false })
 
-          if (notifError) {
-            console.error("Error loading notifications:", notifError)
-          }
+          notifError = notifErr
 
-          if (notifData) {
+          if (notifError) {
+            // Log the error but don't throw it
+            console.error("Error loading notifications:", notifError)
+
+            // If the table doesn't exist or there's any other error, use empty notifications array
+            console.log("Using empty notifications array")
+            setNotifications([])
+          } else if (notifData) {
             setNotifications(
               notifData.map((n) => ({
                 id: n.id,
@@ -191,6 +204,13 @@ export function MeetingNotificationProvider({ children }: { children: React.Reac
         console.error("Error in loadData:", error)
       } finally {
         setIsLoading(false)
+      }
+
+      // If we encountered database errors, force demo mode for this component
+      if (prefsError || notifError) {
+        console.log("Database tables missing, using demo mode for notifications")
+        setNotifications(getDemoNotifications())
+        setPreferences(defaultPreferences)
       }
     }
 

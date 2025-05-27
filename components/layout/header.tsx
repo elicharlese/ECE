@@ -5,20 +5,19 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Home, ShoppingBag, Users, MessageSquare } from "lucide-react"
+import { Home, ShoppingBag, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { MobileNav } from "@/components/layout/mobile-nav"
 import { UserDropdown } from "@/components/user-dropdown"
 import { ModeToggle } from "@/components/mode-toggle"
-import { CartDropdown } from "@/components/cart/cart-dropdown"
-import { NotificationBadge } from "@/components/notification-badge"
 import { useAuth } from "@/lib/auth-context"
 import { useDemo } from "@/lib/demo-context"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { WalletDropdown } from "@/components/wallet/wallet-dropdown"
 import { ErrorBoundary } from "@/components/error-boundary"
+import { ShoppingCart, Bell, MessageSquare, Wallet } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -26,59 +25,16 @@ export function Header() {
   const { user } = useAuth()
   const { isDemoMode, disableDemoMode } = useDemo()
   const [mounted, setMounted] = useState(false)
-  const [totalUnreadMessages, setTotalUnreadMessages] = useState(0)
-  const [persistentUnreadMessages, setPersistentUnreadMessages] = useState(0)
   const [showUserDropdown, setShowUserDropdown] = useState(false)
 
-  // Load persistent unread message count
+  // Demo data for notification counts
+  const [cartItems, setCartItems] = useState(3)
+  const [unreadNotifications, setUnreadNotifications] = useState(5)
+  const [walletBalance, setWalletBalance] = useState(1250)
+  const [unreadMessages, setUnreadMessages] = useState(2)
+
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const storedMessageState = localStorage.getItem("messageState")
-        if (storedMessageState) {
-          const parsedState = JSON.parse(storedMessageState)
-          if (parsedState && parsedState.unreadCount !== undefined) {
-            setPersistentUnreadMessages(parsedState.unreadCount)
-          }
-        }
-      } catch (e) {
-        console.error("Error parsing message state from localStorage:", e)
-      }
-    }
     setMounted(true)
-  }, [])
-
-  // We'll update this value from the chat page when needed
-  useEffect(() => {
-    if (typeof window === "undefined") return
-
-    // Listen for custom events from the chat page
-    const handleUnreadUpdate = (e: CustomEvent) => {
-      if (e && e.detail && e.detail.count !== undefined) {
-        setTotalUnreadMessages(e.detail.count)
-
-        // Store in localStorage for persistence
-        try {
-          localStorage.setItem(
-            "messageState",
-            JSON.stringify({
-              unreadCount: e.detail.count,
-              lastUpdated: new Date().toISOString(),
-            }),
-          )
-          setPersistentUnreadMessages(e.detail.count)
-        } catch (err) {
-          console.error("Error storing message state:", err)
-        }
-      }
-    }
-
-    // Add event listener for custom event
-    window.addEventListener("chat-unread-update" as any, handleUnreadUpdate as any)
-
-    return () => {
-      window.removeEventListener("chat-unread-update" as any, handleUnreadUpdate as any)
-    }
   }, [])
 
   useEffect(() => {
@@ -96,18 +52,6 @@ export function Header() {
 
   // Update the showAuthButtons condition to be more explicit
   const showAuthButtons = isMarketingPage && !user && !isDemoMode
-
-  // Add a useEffect to log authentication state for debugging
-  useEffect(() => {
-    console.log("Auth state:", { isMarketingPage, user: !!user, isDemoMode, showAuthButtons })
-  }, [isMarketingPage, user, isDemoMode, showAuthButtons])
-
-  // const showAuthButtons = isMarketingPage && !user && !isDemoMode && !showUserDropdown
-  // Only show auth buttons on marketing pages when user is not signed in and not in demo mode
-  // const showUserDropdown = user || isDemoMode
-
-  // Use persistent unread count if the actual count is still loading
-  const displayUnreadMessages = persistentUnreadMessages || totalUnreadMessages
 
   // App navigation items
   const appNavItems = [
@@ -280,39 +224,75 @@ export function Header() {
         {/* User actions */}
         {(showUserDropdown || user || isDemoMode) && (
           <>
-            <div className="flex items-center gap-2">
-              {isAppPage && (
-                <>
-                  {/* Chat Button */}
-                  <ErrorBoundary>
-                    <Link href="/app/chat">
-                      <Button variant="ghost" size="icon" className="relative hover:bg-muted/80 transition-colors">
-                        <MessageSquare className="h-5 w-5" />
-                        {displayUnreadMessages > 0 && (
-                          <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-medium text-white">
-                            {displayUnreadMessages > 9 ? "9+" : displayUnreadMessages}
-                          </span>
-                        )}
-                      </Button>
-                    </Link>
-                  </ErrorBoundary>
+            {isAppPage && (
+              <div className="flex items-center gap-2 mr-2">
+                {/* Chat Button */}
+                <ErrorBoundary>
+                  <Link href="/app/chat">
+                    <Button variant="ghost" size="sm" className="relative w-9 h-9 p-0">
+                      <MessageSquare className="h-5 w-5" />
+                      {unreadMessages > 0 && (
+                        <Badge
+                          variant="destructive"
+                          className="absolute -top-1 -right-1 text-xs min-w-[18px] h-[18px] flex items-center justify-center p-0"
+                        >
+                          {unreadMessages > 9 ? "9+" : unreadMessages}
+                        </Badge>
+                      )}
+                    </Button>
+                  </Link>
+                </ErrorBoundary>
 
-                  {/* Notification Badge */}
-                  <ErrorBoundary>
-                    <NotificationBadge />
-                  </ErrorBoundary>
-                </>
-              )}
+                {/* Notification Button */}
+                <ErrorBoundary>
+                  <Link href="/app/notifications">
+                    <Button variant="ghost" size="sm" className="relative w-9 h-9 p-0">
+                      <Bell className="h-5 w-5" />
+                      {unreadNotifications > 0 && (
+                        <Badge
+                          variant="destructive"
+                          className="absolute -top-1 -right-1 text-xs min-w-[18px] h-[18px] flex items-center justify-center p-0"
+                        >
+                          {unreadNotifications > 9 ? "9+" : unreadNotifications}
+                        </Badge>
+                      )}
+                    </Button>
+                  </Link>
+                </ErrorBoundary>
 
-              {/* Add wallet dropdown */}
-              <ErrorBoundary>
-                <WalletDropdown />
-              </ErrorBoundary>
+                {/* Wallet Button */}
+                <ErrorBoundary>
+                  <Link href="/app/wallet-management">
+                    <Button variant="ghost" size="sm" className="relative w-9 h-9 p-0">
+                      <Wallet className="h-5 w-5" />
+                      <Badge
+                        variant="outline"
+                        className="absolute -top-1 -right-1 text-xs min-w-[18px] h-[18px] flex items-center justify-center p-0 bg-primary text-primary-foreground"
+                      >
+                        {walletBalance}
+                      </Badge>
+                    </Button>
+                  </Link>
+                </ErrorBoundary>
 
-              <ErrorBoundary>
-                <CartDropdown />
-              </ErrorBoundary>
-            </div>
+                {/* Cart Button */}
+                <ErrorBoundary>
+                  <Link href="/app/cart">
+                    <Button variant="ghost" size="sm" className="relative w-9 h-9 p-0">
+                      <ShoppingCart className="h-5 w-5" />
+                      {cartItems > 0 && (
+                        <Badge
+                          variant="destructive"
+                          className="absolute -top-1 -right-1 text-xs min-w-[18px] h-[18px] flex items-center justify-center p-0"
+                        >
+                          {cartItems > 9 ? "9+" : cartItems}
+                        </Badge>
+                      )}
+                    </Button>
+                  </Link>
+                </ErrorBoundary>
+              </div>
+            )}
             <ErrorBoundary>
               <UserDropdown />
             </ErrorBoundary>
