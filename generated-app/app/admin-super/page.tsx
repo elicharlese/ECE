@@ -10,6 +10,8 @@ import AppManagementTab from '@/components/admin/AppManagementTab';
 import FinancialAnalyticsTab from '@/components/admin/FinancialAnalyticsTab';
 import CustomerManagementTab from '@/components/admin/CustomerManagementTab';
 import SecurityManagementTab from '@/components/admin/SecurityManagementTab';
+import { useTheme } from '../../src/lib/theme-context';
+import { ThemeToggle } from '../../src/components/theme-toggle';
 
 // Order Status Badge Component
 function OrderStatusBadge({ status, darkMode }: { status: string; darkMode: boolean }) {
@@ -230,6 +232,9 @@ function HandoffModal({
 }
 
 export default function EnhancedAdminDashboard() {
+  const { theme, toggleTheme } = useTheme();
+  const darkMode = theme === 'dark';
+  
   // Authentication & Session State
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -240,7 +245,6 @@ export default function EnhancedAdminDashboard() {
   // UI State
   const [currentTab, setCurrentTab] = useState('dashboard');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [darkMode, setDarkMode] = useState(true);
   const [refreshInterval, setRefreshInterval] = useState(30000); // 30 seconds
   
   // Dashboard Data
@@ -745,7 +749,7 @@ export default function EnhancedAdminDashboard() {
         <div className="p-4">
           <div className="flex items-center justify-between mb-8">
             {!sidebarCollapsed && (
-              <h1 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>ECE-CLI Admin</h1>
+              <h1 className={`text-heading text-heading-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>ECE-CLI Admin</h1>
             )}
             <button
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
@@ -793,7 +797,7 @@ export default function EnhancedAdminDashboard() {
         <header className={`${darkMode ? 'bg-gray-800' : 'bg-white'} border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'} px-6 py-4`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <h2 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h2 className={`text-heading text-heading-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 {currentTab.charAt(0).toUpperCase() + currentTab.slice(1)}
               </h2>
               {systemHealth && (
@@ -818,7 +822,7 @@ export default function EnhancedAdminDashboard() {
               </div>
 
               <button
-                onClick={() => setDarkMode(!darkMode)}
+                onClick={toggleTheme}
                 className={`p-2 rounded-lg ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
               >
                 <span className={`${darkMode ? 'text-white' : 'text-gray-900'}`}>
@@ -1143,7 +1147,7 @@ export default function EnhancedAdminDashboard() {
                       Dark Mode
                     </label>
                     <button
-                      onClick={() => setDarkMode(!darkMode)}
+                      onClick={toggleTheme}
                       className={`relative w-12 h-6 rounded-full transition-colors ${
                         darkMode ? 'bg-purple-500' : 'bg-gray-300'
                       }`}

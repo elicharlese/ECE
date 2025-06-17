@@ -79,14 +79,21 @@ export default function Home() {
   const cardRef = useRef<HTMLDivElement>(null);
   const startPos = useRef({ x: 0, y: 0 });
 
-  // Theme colors matching ECE app
+  // Theme colors - Light theme with primary accent
   const theme = {
-    primary: "#0a1312", // Dark teal background
-    secondary: "#1a2625", // Card backgrounds
+    primary: "#FAFAFA", // Light background
+    secondary: "#f1f5f9", // Light gray card backgrounds
     accent: "#0e5f59", // Primary accent - teal
-    text: "#94a3a0", // Light teal-gray text
-    textPrimary: "#ffffff", // Primary text
-    border: "#0e5f59", // Borders
+    text: "#64748b", // Slate gray text
+    textPrimary: "#1e293b", // Dark slate primary text
+    border: "#e2e8f0", // Light borders
+    dark: {
+      primary: "#0f172a", // Dark slate background
+      secondary: "#1e293b", // Dark card backgrounds
+      text: "#94a3b8", // Light slate text
+      textPrimary: "#f1f5f9", // Light primary text
+      border: "#334155", // Dark borders
+    }
   };
 
   const currentCard = appCards[currentCardIndex];

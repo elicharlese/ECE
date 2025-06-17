@@ -1,15 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { Quicksand } from 'next/font/google';
-
-const quicksand = Quicksand({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-quicksand",
-});
+import { useTheme } from '@/src/lib/theme-context';
+import { ThemeToggle } from '@/src/components/theme-toggle';
 
 export default function TestPage() {
+  const { theme } = useTheme();
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [formData, setFormData] = useState({
@@ -17,15 +13,6 @@ export default function TestPage() {
     customerName: 'John Doe',
     customerEmail: 'john@example.com'
   });
-
-  const theme = {
-    primary: "#0a1312",
-    secondary: "#1a2625",
-    accent: "#0e5f59",
-    text: "#94a3a0",
-    textPrimary: "#ffffff",
-    border: "#0e5f59",
-  };
 
   const handleCreateTestOrder = async () => {
     setLoading(true);
@@ -73,23 +60,21 @@ export default function TestPage() {
   };
 
   return (
-    <div 
-      className={`min-h-screen ${quicksand.className}`}
-      style={{ backgroundColor: theme.primary }}
-    >
-      <nav className="flex justify-between items-center p-6 backdrop-blur-sm bg-white/5 border-b border-white/10">
+    <div className="min-h-screen bg-theme-background">
+      <nav className="flex justify-between items-center p-6 bg-theme-surface border-b border-theme-border">
         <button 
           onClick={() => window.location.href = '/'}
           className="flex items-center space-x-2"
         >
-          <div className="text-2xl font-bold text-white">ECE</div>
-          <span className="px-2 py-1 bg-teal-500/20 text-teal-300 rounded text-xs font-medium">TEST</span>
+          <div className="text-2xl font-bold text-theme-text-primary">ECE</div>
+          <span className="px-2 py-1 bg-theme-accent/20 text-theme-accent rounded text-xs font-medium">TEST</span>
         </button>
+        <ThemeToggle />
       </nav>
 
       <div className="max-w-4xl mx-auto p-6">
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-theme-text-primary mb-4">
             Trading Card System Test
           </h1>
           <p className="text-xl text-white/80 max-w-2xl mx-auto">

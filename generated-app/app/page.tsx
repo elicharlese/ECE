@@ -1,8 +1,11 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useTheme } from '../src/lib/theme-context';
+import { ThemeToggle } from '../src/components/theme-toggle';
 
 export default function Home() {
+  const { theme } = useTheme();
   const [currentView, setCurrentView] = useState<"landing" | "trading">("landing");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -65,16 +68,6 @@ export default function Home() {
       complexity: "Complex"
     }
   ];
-
-  // Theme colors matching ECE app
-  const theme = {
-    primary: "#0a1312", // Dark teal background
-    secondary: "#1a2625", // Card backgrounds
-    accent: "#0e5f59", // Primary accent - teal
-    text: "#94a3a0", // Light teal-gray text
-    textPrimary: "#ffffff", // Primary text
-    border: "#0e5f59", // Borders
-  };
 
   const currentCard = appCards[currentCardIndex];
 
@@ -174,29 +167,31 @@ export default function Home() {
   }, [isDragging]);
 
   const renderLandingPage = () => (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+    <div className="min-h-screen bg-background">
       {/* Animated background */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/30 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
 
       {/* Navigation */}
-      <nav className="relative z-10 flex justify-between items-center p-6 backdrop-blur-sm bg-white/5 border-b border-white/10">
+      <nav className="relative z-10 flex justify-between items-center p-6 backdrop-blur-sm bg-card/50 border-b border-border">
         <div className="flex items-center space-x-2">
-          <div className="text-2xl font-bold text-white">ECE Trading</div>
-          <span className="px-2 py-1 bg-purple-500/20 text-purple-300 rounded text-xs font-medium">BETA</span>
-        </div>          <div className="hidden md:flex items-center space-x-8">
-            <button onClick={() => setCurrentView("trading")} className="text-white/80 hover:text-white transition-colors">Marketplace</button>
-            <a href="/marketplace" className="text-white/80 hover:text-white transition-colors">Trading Cards</a>
-            <a href="/order" className="text-white/80 hover:text-white transition-colors">Order App</a>
-            <a href="/dashboard" className="text-white/80 hover:text-white transition-colors">Portfolio</a>
-            <a href="/admin" className="text-white/80 hover:text-white transition-colors">Admin</a>
-          </div>
+          <div className="text-2xl font-bold text-foreground">ECE Trading</div>
+          <span className="px-2 py-1 bg-accent/20 text-accent rounded text-xs font-medium">BETA</span>
+        </div>
+        <div className="hidden md:flex items-center space-x-8">
+          <button onClick={() => setCurrentView("trading")} className="text-muted-foreground hover:text-foreground transition-colors">Marketplace</button>
+          <a href="/marketplace" className="text-muted-foreground hover:text-foreground transition-colors">Trading Cards</a>
+          <a href="/order" className="text-muted-foreground hover:text-foreground transition-colors">Order App</a>
+          <a href="/dashboard" className="text-muted-foreground hover:text-foreground transition-colors">Portfolio</a>
+          <a href="/admin" className="text-muted-foreground hover:text-foreground transition-colors">Admin</a>
+        </div>
         <div className="flex items-center space-x-4">
+          <ThemeToggle />
           <button
             onClick={() => setCurrentView("trading")}
-            className="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-600 hover:to-blue-600 transition-all duration-300"
+            className="bg-accent text-accent-foreground px-6 py-3 rounded-lg font-medium hover:bg-accent/90 transition-all duration-300"
           >
             Start Trading
           </button>
@@ -206,14 +201,14 @@ export default function Home() {
       {/* Hero Section */}
       <main className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-6xl md:text-8xl font-bold text-white mb-6 leading-tight">
+          <h1 className="text-display text-display-large text-foreground mb-6">
             Trade App
-            <span className="block bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-accent to-accent/70 bg-clip-text text-transparent">
               Trading Cards
             </span>
           </h1>
           
-          <p className="text-xl md:text-2xl text-white/80 mb-8 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-subheading text-subheading-large text-muted-foreground mb-8 max-w-3xl mx-auto">
             Discover, invest, and trade custom-built applications like trading cards. 
             Swipe through professionally developed apps, buy successful businesses, 
             and order your custom application.
@@ -222,13 +217,13 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <button
               onClick={() => setCurrentView("trading")}
-              className="bg-gradient-to-r from-purple-500 to-blue-500 text-white text-lg px-8 py-4 rounded-lg hover:from-purple-600 hover:to-blue-600 shadow-2xl shadow-purple-500/25 transition-all duration-300"
+              className="text-body text-body-large font-medium bg-accent text-accent-foreground px-8 py-4 rounded-lg hover:bg-accent/90 shadow-2xl shadow-accent/25 transition-all duration-300"
             >
               ⚡ Start Discovery
             </button>
             <a
               href="/order"
-              className="border-2 border-white/20 text-white text-lg px-8 py-4 rounded-lg hover:bg-white/10 backdrop-blur-sm transition-all duration-300"
+              className="text-body text-body-large font-medium border-2 border-border text-foreground px-8 py-4 rounded-lg hover:bg-secondary/50 backdrop-blur-sm transition-all duration-300"
             >
               💻 Order Custom App
             </a>
@@ -236,45 +231,45 @@ export default function Home() {
 
           {/* Feature highlights */}
           <div className="grid md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-            <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+            <div className="backdrop-blur-sm bg-card/50 border border-border rounded-2xl p-6">
               <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center text-2xl mb-4 mx-auto">
                 🚀
               </div>
-              <h3 className="text-white font-semibold mb-2">Swipe & Discover</h3>
-              <p className="text-white/70 text-sm">Browse apps like trading cards</p>
+              <h3 className="text-heading text-heading-small text-card-foreground mb-2">Swipe & Discover</h3>
+              <p className="text-body text-body-small text-muted-foreground">Browse apps like trading cards</p>
             </div>
-            <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+            <div className="backdrop-blur-sm bg-card/50 border border-border rounded-2xl p-6">
               <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center text-2xl mb-4 mx-auto">
                 💰
               </div>
-              <h3 className="text-white font-semibold mb-2">Buy & Sell</h3>
-              <p className="text-white/70 text-sm">Trade profitable app businesses</p>
+              <h3 className="text-heading text-heading-small text-card-foreground mb-2">Buy & Sell</h3>
+              <p className="text-body text-body-small text-muted-foreground">Trade profitable app businesses</p>
             </div>
-            <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+            <div className="backdrop-blur-sm bg-card/50 border border-border rounded-2xl p-6">
               <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center text-2xl mb-4 mx-auto">
                 🎯
               </div>
-              <h3 className="text-white font-semibold mb-2">Custom Orders</h3>
-              <p className="text-white/70 text-sm">Get your app built by experts</p>
+              <h3 className="text-heading text-heading-small text-card-foreground mb-2">Custom Orders</h3>
+              <p className="text-body text-body-small text-muted-foreground">Get your app built by experts</p>
             </div>
-            <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+            <div className="backdrop-blur-sm bg-card/50 border border-border rounded-2xl p-6">
               <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center text-2xl mb-4 mx-auto">
                 📈
               </div>
-              <h3 className="text-white font-semibold mb-2">Build Portfolio</h3>
-              <p className="text-white/70 text-sm">Track your digital investments</p>
+              <h3 className="text-heading text-heading-small text-card-foreground mb-2">Build Portfolio</h3>
+              <p className="text-body text-body-small text-muted-foreground">Track your digital investments</p>
             </div>
           </div>
         </div>
       </main>
 
       {/* Featured Apps Preview */}
-      <section className="relative z-10 py-20 px-6 border-t border-white/10 bg-black/20 backdrop-blur-sm">
+      <section className="relative z-10 py-20 px-6 border-t border-border bg-secondary/20 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-white text-center mb-12">Featured App Cards</h2>
+          <h2 className="text-heading text-heading-large text-foreground text-center mb-12">Featured App Cards</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {appCards.map((app, index) => (
-              <div key={app.id} className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 transition-all duration-300 group">
+              <div key={app.id} className="backdrop-blur-sm bg-card/50 border border-border rounded-2xl overflow-hidden hover:bg-card/70 transition-all duration-300 group">
                 <div className="relative">
                   <img 
                     src={app.image} 
@@ -297,18 +292,18 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="p-6">
-                  <p className="text-white/70 text-sm mb-4">{app.description}</p>
+                  <p className="text-muted-foreground text-sm mb-4">{app.description}</p>
                   <div className="flex justify-between items-center">
-                    <div className="text-2xl font-bold text-white">{app.price}</div>
+                    <div className="text-2xl font-bold text-card-foreground">{app.price}</div>
                     {app.revenue && (
                       <div className="text-green-400 text-sm font-medium">{app.revenue}</div>
                     )}
                     {app.timeline && (
-                      <div className="text-blue-400 text-sm font-medium">{app.timeline}</div>
+                      <div className="text-accent text-sm font-medium">{app.timeline}</div>
                     )}
                   </div>
                   {app.status && (
-                    <div className="mt-2 text-xs text-white/60">{app.status}</div>
+                    <div className="mt-2 text-xs text-muted-foreground">{app.status}</div>
                   )}
                 </div>
               </div>
@@ -317,7 +312,7 @@ export default function Home() {
           <div className="text-center mt-12">
             <button
               onClick={() => setCurrentView("trading")}
-              className="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-8 py-4 rounded-lg font-medium hover:from-purple-600 hover:to-blue-600 transition-all duration-300"
+              className="bg-accent text-accent-foreground px-8 py-4 rounded-lg font-medium hover:bg-accent/90 transition-all duration-300"
             >
               Browse All Apps
             </button>
@@ -326,24 +321,24 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section className="relative z-10 py-20 px-6 border-t border-white/10">
+      <section className="relative z-10 py-20 px-6 border-t border-border">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-4xl font-bold text-white mb-2">150+</div>
-              <div className="text-white/60">Apps Available</div>
+              <div className="text-4xl font-bold text-foreground mb-2">150+</div>
+              <div className="text-muted-foreground">Apps Available</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-white mb-2">$2.5M</div>
-              <div className="text-white/60">Total Volume</div>
+              <div className="text-4xl font-bold text-foreground mb-2">$2.5M</div>
+              <div className="text-muted-foreground">Total Volume</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-white mb-2">5,000+</div>
-              <div className="text-white/60">Active Traders</div>
+              <div className="text-4xl font-bold text-foreground mb-2">5,000+</div>
+              <div className="text-muted-foreground">Active Traders</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-white mb-2">24h</div>
-              <div className="text-white/60">Fast Delivery</div>
+              <div className="text-4xl font-bold text-foreground mb-2">24h</div>
+              <div className="text-muted-foreground">Fast Delivery</div>
             </div>
           </div>
         </div>
@@ -352,7 +347,7 @@ export default function Home() {
       {/* Quick Links */}
       <section className="relative z-10 py-16 px-6">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-white text-center mb-12">Platform Features</h2>
+          <h2 className="text-3xl font-bold text-foreground text-center mb-12">Platform Features</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <a href="/marketplace" className="block group">
               <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 group-hover:scale-105">

@@ -1,13 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Quicksand } from 'next/font/google';
-
-const quicksand = Quicksand({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-quicksand",
-});
+import { useTheme } from '@/src/lib/theme-context';
+import { ThemeToggle } from '@/src/components/theme-toggle';
 
 interface AppTemplate {
   id: number;
@@ -63,21 +58,13 @@ const additionalFeatures = [
 ];
 
 export default function OrderPage() {
+  const { theme } = useTheme();
   const [selectedTemplate, setSelectedTemplate] = useState<AppTemplate | null>(null);
   const [selectedFeatures, setSelectedFeatures] = useState<number[]>([]);
   const [rushDelivery, setRushDelivery] = useState(false);
   const [customRequirements, setCustomRequirements] = useState('');
   const [step, setStep] = useState<'select' | 'customize' | 'checkout'>('select');
   const [isLoading, setIsLoading] = useState(false);
-
-  const theme = {
-    primary: "#0a1312",
-    secondary: "#1a2625",
-    accent: "#0e5f59",
-    text: "#94a3a0",
-    textPrimary: "#ffffff",
-    border: "#0e5f59",
-  };
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -153,9 +140,7 @@ export default function OrderPage() {
 
   return (
     <div 
-      className={`min-h-screen ${quicksand.className}`}
-      style={{ backgroundColor: theme.primary }}
-    >
+    <div className="min-h-screen bg-theme-background">
       <nav className="flex justify-between items-center p-6 backdrop-blur-sm bg-white/5 border-b border-white/10">
         <button 
           onClick={() => window.location.href = '/'}
