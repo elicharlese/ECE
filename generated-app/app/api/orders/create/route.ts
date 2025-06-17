@@ -239,12 +239,31 @@ export async function GET(request: NextRequest) {
           });
              
           // TODO: Trigger CLI build process here
-          setTimeout(() => {
+          setTimeout(async () => {
             // Simulate build completion
             updateOrder(order.id, {
               status: 'completed',
+              completedAt: new Date().toISOString(),
               updatedAt: new Date().toISOString()
             });
+
+            // Auto-generate trading card when order is completed
+            try {
+              const cardResponse = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/cards/generate`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ orderId: order.id }),
+              });
+              
+              if (cardResponse.ok) {
+                const cardResult = await cardResponse.json();
+                console.log('Trading card generated:', cardResult.card?.id);
+              }
+            } catch (cardError) {
+              console.error('Failed to generate trading card:', cardError);
+            }
           }, 2000);
         }
       } catch (stripeError) {

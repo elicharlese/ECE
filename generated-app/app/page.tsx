@@ -1,16 +1,101 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function Home() {
+  const [currentView, setCurrentView] = useState<"landing" | "trading">("landing");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [swipeDirection, setSwipeDirection] = useState<"left" | "right" | "up" | null>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const startPos = useRef({ x: 0, y: 0 });
+
+  // Trading card style apps data
+  const appCards = [
+    {
+      id: 1,
+      name: "EcoTracker Pro",
+      description: "AI-powered sustainability tracking app generating $12K/month",
+      category: "GreenTech",
+      price: "$45,000",
+      image: "/ai-study-app-interface.png",
+      type: "for-sale",
+      revenue: "$12K/mo",
+      users: "25K+",
+      status: "Live & Profitable",
+      orders: 83,
+      satisfaction: 4.8,
+      timeline: "7-14 days",
+      features: "Stripe, Admin, Mobile",
+      complexity: "Medium"
+    },
+    {
+      id: 2,
+      name: "Custom E-Commerce",
+      description: "Get your dream online store built with modern tech stack",
+      category: "E-Commerce",
+      price: "From $1,299",
+      image: "/restaurant-discovery-app.png", 
+      type: "custom-order",
+      timeline: "7-14 days",
+      features: "Stripe, Admin, Mobile",
+      complexity: "Medium",
+      status: "Available",
+      orders: 83,
+      satisfaction: 4.8
+    },
+    {
+      id: 3,
+      name: "FinanceFlow",
+      description: "Personal finance app with crypto integration - $28K/month revenue",
+      category: "FinTech",
+      price: "$85,000",
+      image: "/cryptocurrency-trading-app.png",
+      type: "for-sale",
+      revenue: "$28K/mo",
+      users: "67K+",
+      status: "Growing Fast",
+      orders: 12,
+      satisfaction: 4.8,
+      timeline: "10-21 days",
+      features: "Real-time Data, Portfolio Tracking, Auto Trading, Security Features, Mobile App",
+      complexity: "Complex"
+    }
+  ];
+
+  // Theme colors matching ECE app
+  const theme = {
+    primary: "#0a1312", // Dark teal background
+    secondary: "#1a2625", // Card backgrounds
+    accent: "#0e5f59", // Primary accent - teal
+    text: "#94a3a0", // Light teal-gray text
+    textPrimary: "#ffffff", // Primary text
+    border: "#0e5f59", // Borders
+  };
+
+  const currentCard = appCards[currentCardIndex];
+
+  const handleSwipe = (direction: "left" | "right" | "up") => {
+    setSwipeDirection(direction);
+    setTimeout(() => {
+      if (direction === "up") {
+        // Order this app
+        window.location.href = `/order?app=${currentCard.id}`;
+      } else {
+        // Move to next card
+        setCurrentCardIndex((prev) => (prev + 1) % appCards.length);
+      }
+      setSwipeDirection(null);
+    }, 300);
+  };
 
   const handleAuth = async (provider: string) => {
     setIsLoading(true);
     
     try {
-      // Mock authentication API call
       const response = await fetch('/api/auth', {
         method: 'POST',
         headers: {
@@ -26,11 +111,8 @@ export default function Home() {
       const data = await response.json();
       
       if (data.success) {
-        // Store session
         localStorage.setItem('sessionId', data.session.id);
         localStorage.setItem('user', JSON.stringify(data.user));
-        
-        // Redirect to dashboard
         window.location.href = '/dashboard';
       } else {
         alert('Authentication failed: ' + data.error);
@@ -47,551 +129,260 @@ export default function Home() {
     handleAuth('demo');
   };
 
-  const testimonials = [
-    {
-      name: "Sarah Chen",
-      role: "CEO, TechStart",
-      content: "ECE-CLI delivered our e-commerce platform in 48 hours. The quality exceeded our expectations and saved us months of development time.",
-      rating: 5
-    },
-    {
-      name: "Marcus Johnson",
-      role: "CTO, GrowthLabs",
-      content: "Professional team, modern code, and perfect integration with our existing systems. Best investment we've made this year.",
-      rating: 5
-    },
-    {
-      name: "Lisa Rodriguez",
-      role: "Founder, DataFlow",
-      content: "From concept to deployment in one week. The AI integration and analytics dashboard are exactly what we needed.",
-      rating: 5
-    }
-  ];
+  // Mouse/touch handlers for card swiping
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    startPos.current = { x: e.clientX, y: e.clientY };
+  };
 
-  const features = [
-    {
-      icon: "🚀",
-      title: "Rapid Development",
-      description: "Get your application delivered in 24 hours to 2 weeks based on complexity",
-      highlight: "24h delivery available"
-    },
-    {
-      icon: "🔧",
-      title: "Modern Tech Stack",
-      description: "Built with latest frameworks: Next.js, React, Vue, Node.js, Python, and more",
-      highlight: "Enterprise-grade"
-    },
-    {
-      icon: "💳",
-      title: "Payment Integration",
-      description: "Stripe, PayPal, Web3 payments, and subscription billing ready out of the box",
-      highlight: "Revenue ready"
-    },
-    {
-      icon: "🎯",
-      title: "AI & Analytics",
-      description: "Machine learning models, analytics dashboards, and intelligent automation",
-      highlight: "Data-driven"
-    },
-    {
-      icon: "🌐",
-      title: "Full Deployment",
-      description: "Deployed on Vercel, AWS, or delivered via GitHub with CI/CD pipelines",
-      highlight: "Production ready"
-    },
-    {
-      icon: "📱",
-      title: "Mobile First",
-      description: "PWA support, responsive design, and native mobile app capabilities",
-      highlight: "Multi-platform"
-    }
-  ];
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDragging) return;
+      
+      const deltaX = e.clientX - startPos.current.x;
+      const deltaY = e.clientY - startPos.current.y;
+      
+      setDragOffset({ x: deltaX, y: deltaY });
+    };
 
-  const pricingPlans = [
-    {
-      name: "Starter",
-      price: "$299",
-      timeline: "3-7 days",
-      features: [
-        "Simple web application",
-        "User authentication",
-        "Basic database integration",
-        "Responsive design",
-        "GitHub delivery",
-        "1 month support"
-      ],
-      popular: false
-    },
-    {
-      name: "Professional",
-      price: "$599",
-      timeline: "1-2 weeks",
-      features: [
-        "Complex web application",
-        "Payment integration",
-        "Admin dashboard",
-        "API integrations",
-        "Cloud deployment",
-        "3 months support",
-        "Custom domain",
-        "Analytics setup"
-      ],
-      popular: true
-    },
-    {
-      name: "Enterprise",
-      price: "$1,299",
-      timeline: "2-4 weeks",
-      features: [
-        "Full-scale platform",
-        "AI/ML integration",
-        "Multi-user systems",
-        "Advanced security",
-        "Custom integrations",
-        "6 months support",
-        "Priority delivery",
-        "White-label solution"
-      ],
-      popular: false
-    }
-  ];
+    const handleMouseUp = (e: MouseEvent) => {
+      if (!isDragging) return;
+      
+      const deltaX = e.clientX - startPos.current.x;
+      const deltaY = e.clientY - startPos.current.y;
+      const threshold = 100;
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 relative overflow-hidden">
-      {/* Animated background elements */}
+      if (Math.abs(deltaY) > threshold && deltaY < 0) {
+        handleSwipe("up");
+      } else if (Math.abs(deltaX) > threshold) {
+        handleSwipe(deltaX > 0 ? "right" : "left");
+      }
+
+      setIsDragging(false);
+      setDragOffset({ x: 0, y: 0 });
+    };
+
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging]);
+
+  const renderLandingPage = () => (
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+      {/* Animated background */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl animate-pulse delay-500"></div>
       </div>
 
       {/* Navigation */}
       <nav className="relative z-10 flex justify-between items-center p-6 backdrop-blur-sm bg-white/5 border-b border-white/10">
         <div className="flex items-center space-x-2">
-          <div className="text-2xl font-bold text-white">ECE-CLI</div>
-          <span className="px-2 py-1 bg-purple-500/20 text-purple-300 rounded text-xs font-medium">PRO</span>
-        </div>
-        <div className="hidden md:flex items-center space-x-8">
-          <a href="#features" className="text-white/80 hover:text-white transition-colors">Features</a>
-          <a href="#pricing" className="text-white/80 hover:text-white transition-colors">Pricing</a>
-          <a href="#testimonials" className="text-white/80 hover:text-white transition-colors">Reviews</a>
-          <button 
-            onClick={() => window.location.href = '/admin-super'}
-            className="text-white/60 hover:text-white/80 transition-colors text-sm"
+          <div className="text-2xl font-bold text-white">ECE Trading</div>
+          <span className="px-2 py-1 bg-purple-500/20 text-purple-300 rounded text-xs font-medium">BETA</span>
+        </div>          <div className="hidden md:flex items-center space-x-8">
+            <button onClick={() => setCurrentView("trading")} className="text-white/80 hover:text-white transition-colors">Marketplace</button>
+            <a href="/marketplace" className="text-white/80 hover:text-white transition-colors">Trading Cards</a>
+            <a href="/order" className="text-white/80 hover:text-white transition-colors">Order App</a>
+            <a href="/dashboard" className="text-white/80 hover:text-white transition-colors">Portfolio</a>
+            <a href="/admin" className="text-white/80 hover:text-white transition-colors">Admin</a>
+          </div>
+        <div className="flex items-center space-x-4">
+          <button
+            onClick={() => setCurrentView("trading")}
+            className="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-6 py-3 rounded-lg font-medium hover:from-purple-600 hover:to-blue-600 transition-all duration-300"
           >
-            Admin
-          </button>
-        </div>
-        <div className="flex gap-4">
-          <button 
-            onClick={() => setIsModalOpen(true)}
-            className="px-4 py-2 text-white/80 hover:text-white transition-colors"
-          >
-            Sign In
-          </button>
-          <button 
-            onClick={handleStartDemo}
-            disabled={isLoading}
-            className="px-6 py-2 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full text-white font-medium hover:from-purple-600 hover:to-blue-600 transition-all duration-300 disabled:opacity-50 shadow-lg shadow-purple-500/25"
-          >
-            {isLoading ? 'Loading...' : 'Get Started'}
+            Start Trading
           </button>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <main className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-88px)] px-6 text-center">
-        <div className="max-w-6xl mx-auto space-y-8">
-          <div className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white/80 text-sm mb-6">
-            🎉 <span className="ml-2">Over 1,000+ apps delivered • 99.8% customer satisfaction • 24h delivery available</span>
-          </div>
-          
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-tight">
-            Professional
-            <span className="block bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
-              App Development
+      <main className="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 text-center">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-6xl md:text-8xl font-bold text-white mb-6 leading-tight">
+            Trade App
+            <span className="block bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+              Trading Cards
             </span>
-            <span className="block text-4xl md:text-5xl lg:text-6xl">On Demand</span>
           </h1>
           
-          <p className="text-xl md:text-2xl text-white/80 max-w-3xl mx-auto leading-relaxed">
-            Get professional-grade custom applications built by AI-powered development teams. 
-            <span className="block mt-2 font-semibold text-white">From startup MVPs to enterprise solutions—delivered fast, built right.</span>
+          <p className="text-xl md:text-2xl text-white/80 mb-8 max-w-3xl mx-auto leading-relaxed">
+            Discover, invest, and trade custom-built applications like trading cards. 
+            Swipe through professionally developed apps, buy successful businesses, 
+            and order your custom application.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-12">
-            <button 
-              onClick={() => window.location.href = '/order'}
-              className="px-8 py-4 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full text-white font-semibold text-lg hover:from-purple-600 hover:to-blue-600 transition-all duration-300 shadow-2xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:scale-105"
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+            <button
+              onClick={() => setCurrentView("trading")}
+              className="bg-gradient-to-r from-purple-500 to-blue-500 text-white text-lg px-8 py-4 rounded-lg hover:from-purple-600 hover:to-blue-600 shadow-2xl shadow-purple-500/25 transition-all duration-300"
             >
-              🚀 Start Your Project
+              ⚡ Start Discovery
             </button>
-            <button 
-              onClick={handleStartDemo}
-              disabled={isLoading}
-              className="px-8 py-4 backdrop-blur-sm bg-white/10 border border-white/20 rounded-full text-white font-semibold text-lg hover:bg-white/20 transition-all duration-300 disabled:opacity-50"
+            <a
+              href="/order"
+              className="border-2 border-white/20 text-white text-lg px-8 py-4 rounded-lg hover:bg-white/10 backdrop-blur-sm transition-all duration-300"
             >
-              {isLoading ? 'Loading...' : '🎮 View Demo'}
-            </button>
+              💻 Order Custom App
+            </a>
           </div>
 
-          {/* Trust Indicators */}
-          <div className="flex flex-wrap justify-center items-center gap-8 mt-16 text-white/60">
-            <div className="flex items-center space-x-2">
-              <span className="text-2xl">⚡</span>
-              <span>24h Delivery</span>
+          {/* Feature highlights */}
+          <div className="grid md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+            <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+              <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center text-2xl mb-4 mx-auto">
+                🚀
+              </div>
+              <h3 className="text-white font-semibold mb-2">Swipe & Discover</h3>
+              <p className="text-white/70 text-sm">Browse apps like trading cards</p>
             </div>
-            <div className="flex items-center space-x-2">
-              <span className="text-2xl">🔒</span>
-              <span>Enterprise Security</span>
+            <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+              <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center text-2xl mb-4 mx-auto">
+                💰
+              </div>
+              <h3 className="text-white font-semibold mb-2">Buy & Sell</h3>
+              <p className="text-white/70 text-sm">Trade profitable app businesses</p>
             </div>
-            <div className="flex items-center space-x-2">
-              <span className="text-2xl">💎</span>
-              <span>Premium Quality</span>
+            <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+              <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center text-2xl mb-4 mx-auto">
+                🎯
+              </div>
+              <h3 className="text-white font-semibold mb-2">Custom Orders</h3>
+              <p className="text-white/70 text-sm">Get your app built by experts</p>
             </div>
-            <div className="flex items-center space-x-2">
-              <span className="text-2xl">🎯</span>
-              <span>100% Custom</span>
+            <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
+              <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center text-2xl mb-4 mx-auto">
+                📈
+              </div>
+              <h3 className="text-white font-semibold mb-2">Build Portfolio</h3>
+              <p className="text-white/70 text-sm">Track your digital investments</p>
             </div>
           </div>
         </div>
       </main>
 
-      {/* Features Section */}
-      <section id="features" className="relative z-10 py-20 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Everything You Need to Launch
-            </h2>
-            <p className="text-xl text-white/80 max-w-3xl mx-auto">
-              Professional-grade applications with modern architecture, scalable infrastructure, and business-ready features.
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <div key={index} className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 hover:scale-105">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center text-2xl">
-                    {feature.icon}
+      {/* Featured Apps Preview */}
+      <section className="relative z-10 py-20 px-6 border-t border-white/10 bg-black/20 backdrop-blur-sm">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl font-bold text-white text-center mb-12">Featured App Cards</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {appCards.map((app, index) => (
+              <div key={app.id} className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 transition-all duration-300 group">
+                <div className="relative">
+                  <img 
+                    src={app.image} 
+                    alt={app.name}
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="absolute top-4 left-4">
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                      app.type === 'for-sale' 
+                        ? 'bg-green-500/20 text-green-300 border border-green-500/30'
+                        : 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
+                    }`}>
+                      {app.type === 'for-sale' ? '💼 For Sale' : '🛠️ Custom Order'}
+                    </span>
                   </div>
-                  <span className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs font-medium">
-                    {feature.highlight}
-                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <h3 className="text-xl font-bold text-white mb-1">{app.name}</h3>
+                    <p className="text-white/80 text-sm">{app.category}</p>
+                  </div>
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
-                <p className="text-white/70 leading-relaxed">{feature.description}</p>
+                <div className="p-6">
+                  <p className="text-white/70 text-sm mb-4">{app.description}</p>
+                  <div className="flex justify-between items-center">
+                    <div className="text-2xl font-bold text-white">{app.price}</div>
+                    {app.revenue && (
+                      <div className="text-green-400 text-sm font-medium">{app.revenue}</div>
+                    )}
+                    {app.timeline && (
+                      <div className="text-blue-400 text-sm font-medium">{app.timeline}</div>
+                    )}
+                  </div>
+                  {app.status && (
+                    <div className="mt-2 text-xs text-white/60">{app.status}</div>
+                  )}
+                </div>
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Client Showcase */}
-      <section className="relative z-10 py-20 px-6 bg-black/20">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Recent Client Success Stories
-            </h2>
-            <p className="text-xl text-white/80 max-w-3xl mx-auto">
-              See how we've helped businesses transform their ideas into profitable applications.
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300">
-              <div className="flex items-center justify-between mb-4">
-                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center text-2xl">
-                  🛒
-                </div>
-                <span className="px-3 py-1 bg-green-500/20 text-green-300 rounded-full text-xs font-medium">
-                  E-commerce
-                </span>
-              </div>
-              <h3 className="text-xl font-semibold text-white mb-3">TechStart Marketplace</h3>
-              <p className="text-white/70 mb-4">Multi-vendor e-commerce platform with AI recommendations, built in 5 days.</p>
-              <div className="text-sm text-white/60 space-y-1">
-                <p>• Next.js + Stripe integration</p>
-                <p>• 10,000+ products capability</p>
-                <p>• Real-time analytics dashboard</p>
-              </div>
-              <div className="mt-4 pt-4 border-t border-white/10">
-                <p className="text-purple-300 font-semibold">$250K revenue in first 3 months</p>
-              </div>
-            </div>
-
-            <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300">
-              <div className="flex items-center justify-between mb-4">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center text-2xl">
-                  🤖
-                </div>
-                <span className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs font-medium">
-                  AI SaaS
-                </span>
-              </div>
-              <h3 className="text-xl font-semibold text-white mb-3">DataFlow Analytics</h3>
-              <p className="text-white/70 mb-4">AI-powered business intelligence platform with custom dashboards, delivered in 1 week.</p>
-              <div className="text-sm text-white/60 space-y-1">
-                <p>• Python + React integration</p>
-                <p>• Machine learning models</p>
-                <p>• Real-time data processing</p>
-              </div>
-              <div className="mt-4 pt-4 border-t border-white/10">
-                <p className="text-purple-300 font-semibold">500+ enterprise clients served</p>
-              </div>
-            </div>
-
-            <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300">
-              <div className="flex items-center justify-between mb-4">
-                <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center text-2xl">
-                  📱
-                </div>
-                <span className="px-3 py-1 bg-orange-500/20 text-orange-300 rounded-full text-xs font-medium">
-                  Mobile App
-                </span>
-              </div>
-              <h3 className="text-xl font-semibold text-white mb-3">GrowthLabs Mobile</h3>
-              <p className="text-white/70 mb-4">Cross-platform mobile app with offline capabilities, built in 2 weeks.</p>
-              <div className="text-sm text-white/60 space-y-1">
-                <p>• React Native + Node.js</p>
-                <p>• Offline-first architecture</p>
-                <p>• Push notifications & analytics</p>
-              </div>
-              <div className="mt-4 pt-4 border-t border-white/10">
-                <p className="text-purple-300 font-semibold">50K+ downloads in launch month</p>
-              </div>
-            </div>
-          </div>
-
           <div className="text-center mt-12">
-            <button 
-              onClick={() => window.location.href = '/order'}
-              className="px-8 py-4 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full text-white font-semibold text-lg hover:from-purple-600 hover:to-blue-600 transition-all duration-300 shadow-2xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:scale-105"
+            <button
+              onClick={() => setCurrentView("trading")}
+              className="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-8 py-4 rounded-lg font-medium hover:from-purple-600 hover:to-blue-600 transition-all duration-300"
             >
-              Start Your Success Story
+              Browse All Apps
             </button>
           </div>
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className="relative z-10 py-20 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Transparent Pricing
-            </h2>
-            <p className="text-xl text-white/80 max-w-3xl mx-auto">
-              Fixed prices, no hidden fees. Choose the plan that fits your project complexity.
-            </p>
+      {/* Stats Section */}
+      <section className="relative z-10 py-20 px-6 border-t border-white/10">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-8 text-center">
+            <div>
+              <div className="text-4xl font-bold text-white mb-2">150+</div>
+              <div className="text-white/60">Apps Available</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-white mb-2">$2.5M</div>
+              <div className="text-white/60">Total Volume</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-white mb-2">5,000+</div>
+              <div className="text-white/60">Active Traders</div>
+            </div>
+            <div>
+              <div className="text-4xl font-bold text-white mb-2">24h</div>
+              <div className="text-white/60">Fast Delivery</div>
+            </div>
           </div>
-          
+        </div>
+      </section>
+
+      {/* Quick Links */}
+      <section className="relative z-10 py-16 px-6">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-white text-center mb-12">Platform Features</h2>
           <div className="grid md:grid-cols-3 gap-8">
-            {pricingPlans.map((plan, index) => (
-              <div 
-                key={index} 
-                className={`backdrop-blur-sm border rounded-2xl p-8 hover:scale-105 transition-all duration-300 ${
-                  plan.popular 
-                    ? 'bg-gradient-to-b from-purple-500/20 to-blue-500/20 border-purple-400/50 shadow-2xl shadow-purple-500/25' 
-                    : 'bg-white/5 border-white/10 hover:bg-white/10'
-                }`}
-              >
-                {plan.popular && (
-                  <div className="text-center mb-4">
-                    <span className="px-4 py-1 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-full text-sm font-medium">
-                      Most Popular
-                    </span>
-                  </div>
-                )}
-                <div className="text-center mb-8">
-                  <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
-                  <div className="text-4xl font-bold text-white mb-2">{plan.price}</div>
-                  <p className="text-white/60">Delivery: {plan.timeline}</p>
+            <a href="/marketplace" className="block group">
+              <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 group-hover:scale-105">
+                <div className="w-16 h-16 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6">
+                  🎴
                 </div>
-                <ul className="space-y-3 mb-8">
-                  {plan.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-center text-white/80">
-                      <span className="text-green-400 mr-3">✓</span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <button 
-                  onClick={() => window.location.href = '/order'}
-                  className={`w-full py-3 rounded-xl font-semibold transition-all duration-300 ${
-                    plan.popular
-                      ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:from-purple-600 hover:to-blue-600 shadow-lg shadow-purple-500/25'
-                      : 'bg-white/10 text-white border border-white/20 hover:bg-white/20'
-                  }`}
-                >
-                  Choose {plan.name}
-                </button>
+                <h3 className="text-xl font-bold text-white mb-4 text-center">Trading Card Marketplace</h3>
+                <p className="text-white/70 text-center">Browse, buy, and trade app cards. Swipe through applications like Tinder for apps!</p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Process Section */}
-      <section className="relative z-10 py-20 px-6 bg-black/20">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              How ECE-CLI Works
-            </h2>
-            <p className="text-xl text-white/80 max-w-3xl mx-auto">
-              Our streamlined process takes you from idea to deployed application in record time.
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="relative mb-6">
-                <div className="w-20 h-20 bg-gradient-to-r from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center text-3xl mx-auto">
-                  📝
+            </a>
+            
+            <a href="/order" className="block group">
+              <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 group-hover:scale-105">
+                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6">
+                  🛠️
                 </div>
-                <div className="absolute -top-3 -right-3 w-8 h-8 bg-white text-purple-900 rounded-full flex items-center justify-center font-bold text-sm">
-                  1
-                </div>
+                <h3 className="text-xl font-bold text-white mb-4 text-center">Custom App Development</h3>
+                <p className="text-white/70 text-center">Order your custom application and receive it as a unique trading card when completed.</p>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-3">Requirements</h3>
-              <p className="text-white/70">Tell us about your application needs, features, and business goals through our comprehensive order form.</p>
-            </div>
-
-            <div className="text-center">
-              <div className="relative mb-6">
-                <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center text-3xl mx-auto">
-                  💳
+            </a>
+            
+            <a href="/dashboard" className="block group">
+              <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300 group-hover:scale-105">
+                <div className="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-6">
+                  📈
                 </div>
-                <div className="absolute -top-3 -right-3 w-8 h-8 bg-white text-purple-900 rounded-full flex items-center justify-center font-bold text-sm">
-                  2
-                </div>
+                <h3 className="text-xl font-bold text-white mb-4 text-center">Portfolio Dashboard</h3>
+                <p className="text-white/70 text-center">Track your app investments, monitor development progress, and manage your card collection.</p>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-3">Secure Payment</h3>
-              <p className="text-white/70">Pay securely through Stripe with transparent, fixed pricing. No hidden fees or surprises.</p>
-            </div>
-
-            <div className="text-center">
-              <div className="relative mb-6">
-                <div className="w-20 h-20 bg-gradient-to-r from-cyan-500 to-green-500 rounded-2xl flex items-center justify-center text-3xl mx-auto">
-                  🤖
-                </div>
-                <div className="absolute -top-3 -right-3 w-8 h-8 bg-white text-purple-900 rounded-full flex items-center justify-center font-bold text-sm">
-                  3
-                </div>
-              </div>
-              <h3 className="text-xl font-semibold text-white mb-3">AI Development</h3>
-              <p className="text-white/70">Our AI-powered development teams begin building your application with real-time progress tracking.</p>
-            </div>
-
-            <div className="text-center">
-              <div className="relative mb-6">
-                <div className="w-20 h-20 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center text-3xl mx-auto">
-                  🚀
-                </div>
-                <div className="absolute -top-3 -right-3 w-8 h-8 bg-white text-purple-900 rounded-full flex items-center justify-center font-bold text-sm">
-                  4
-                </div>
-              </div>
-              <h3 className="text-xl font-semibold text-white mb-3">Delivery</h3>
-              <p className="text-white/70">Receive your completed application via GitHub, ZIP download, or live deployment with full documentation.</p>
-            </div>
-          </div>
-
-          <div className="text-center mt-12">
-            <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8 inline-block">
-              <h3 className="text-2xl font-bold text-white mb-4">Average Project Timeline</h3>
-              <div className="flex items-center justify-center space-x-8 text-center">
-                <div>
-                  <div className="text-3xl font-bold text-green-400">24h</div>
-                  <p className="text-white/60 text-sm">Simple Apps</p>
-                </div>
-                <div className="text-white/40">•</div>
-                <div>
-                  <div className="text-3xl font-bold text-blue-400">3-7d</div>
-                  <p className="text-white/60 text-sm">Standard Apps</p>
-                </div>
-                <div className="text-white/40">•</div>
-                <div>
-                  <div className="text-3xl font-bold text-purple-400">1-2w</div>
-                  <p className="text-white/60 text-sm">Complex Apps</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section id="testimonials" className="relative z-10 py-20 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              What Our Clients Say
-            </h2>
-            <p className="text-xl text-white/80">
-              Join hundreds of satisfied customers who trusted us with their vision.
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300">
-                <div className="flex items-center mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <span key={i} className="text-yellow-400 text-xl">★</span>
-                  ))}
-                </div>
-                <p className="text-white/80 mb-6 leading-relaxed">"{testimonial.content}"</p>
-                <div>
-                  <div className="font-semibold text-white">{testimonial.name}</div>
-                  <div className="text-white/60 text-sm">{testimonial.role}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="relative z-10 py-20 px-6">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-xl text-white/80">
-              Everything you need to know about our development process.
-            </p>
-          </div>
-          
-          <div className="space-y-6">
-            <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-              <h3 className="text-xl font-semibold text-white mb-3">How fast can you really deliver?</h3>
-              <p className="text-white/70">Our AI-powered development teams can deliver simple applications in as little as 24 hours, with complex enterprise solutions typically taking 1-2 weeks. We provide realistic timelines during the order process based on your specific requirements.</p>
-            </div>
-
-            <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-              <h3 className="text-xl font-semibold text-white mb-3">What if I'm not satisfied with the result?</h3>
-              <p className="text-white/70">We offer unlimited revisions until you're completely satisfied. If for any reason we can't meet your requirements, we provide a full refund within 30 days. Your satisfaction is our guarantee.</p>
-            </div>
-
-            <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-              <h3 className="text-xl font-semibold text-white mb-3">Do I get the source code?</h3>
-              <p className="text-white/70">Absolutely! You receive complete ownership of your application, including full source code, documentation, and deployment instructions. We can deliver via GitHub repository, ZIP download, or live deployment.</p>
-            </div>
-
-            <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-              <h3 className="text-xl font-semibold text-white mb-3">What technologies do you use?</h3>
-              <p className="text-white/70">We use modern, industry-standard technologies including Next.js, React, Node.js, Python, PostgreSQL, MongoDB, AWS, Vercel, and more. Our tech stack is chosen based on your specific needs and scalability requirements.</p>
-            </div>
-
-            <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
-              <h3 className="text-xl font-semibold text-white mb-3">Do you provide ongoing support?</h3>
-              <p className="text-white/70">Yes! All plans include initial support (1-6 months depending on plan). We also offer ongoing maintenance packages for bug fixes, updates, and feature additions as your business grows.</p>
-            </div>
+            </a>
           </div>
         </div>
       </section>
@@ -601,182 +392,121 @@ export default function Home() {
         <div className="max-w-4xl mx-auto text-center">
           <div className="backdrop-blur-sm bg-gradient-to-r from-purple-500/20 to-blue-500/20 border border-white/20 rounded-3xl p-12">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Turn Your Idea Into Reality
+              Ready to Start Trading?
             </h2>
             <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
-              Join over 1,000 successful entrepreneurs who've launched their applications with ECE-CLI. 
-              Professional development, transparent pricing, guaranteed results.
+              Join thousands of entrepreneurs building their digital portfolios. 
+              Start discovering, investing, and creating today.
             </p>
             
-            {/* Key benefits */}
-            <div className="grid md:grid-cols-3 gap-6 mb-8">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-3">
-                  ⚡
-                </div>
-                <h3 className="text-white font-semibold mb-2">Lightning Fast</h3>
-                <p className="text-white/70 text-sm">24h to 2 weeks delivery</p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-3">
-                  🛡️
-                </div>
-                <h3 className="text-white font-semibold mb-2">Risk-Free</h3>
-                <p className="text-white/70 text-sm">30-day money-back guarantee</p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-3">
-                  💎
-                </div>
-                <h3 className="text-white font-semibold mb-2">Enterprise Quality</h3>
-                <p className="text-white/70 text-sm">Production-ready code</p>
-              </div>
-            </div>
-
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button 
-                onClick={() => window.location.href = '/order'}
-                className="px-8 py-4 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full text-white font-semibold text-lg hover:from-purple-600 hover:to-blue-600 transition-all duration-300 shadow-2xl shadow-purple-500/25 hover:shadow-purple-500/40 hover:scale-105"
+              <button
+                onClick={() => setCurrentView("trading")}
+                className="bg-gradient-to-r from-purple-500 to-blue-500 text-white text-lg px-8 py-4 rounded-lg hover:from-purple-600 hover:to-blue-600 transition-all duration-300"
               >
-                🚀 Start Building Now
+                ⚡ Start Trading Now
               </button>
-              <button 
-                onClick={() => setIsModalOpen(true)}
-                className="px-8 py-4 backdrop-blur-sm bg-white/10 border border-white/20 rounded-full text-white font-semibold text-lg hover:bg-white/20 transition-all duration-300"
+              <a
+                href="/order"
+                className="border-2 border-white/20 text-white text-lg px-8 py-4 rounded-lg hover:bg-white/10 transition-all duration-300"
               >
-                💬 Schedule a Consultation
-              </button>
+                💻 Order Custom App
+              </a>
             </div>
-            
-            <p className="text-white/60 text-sm mt-6">
-              🔒 Secure payment processing • 📞 24/7 support • 🎯 100% satisfaction guarantee
-            </p>
           </div>
         </div>
       </section>
+    </div>
+  );
 
-      {/* Footer */}
-      <footer className="relative z-10 border-t border-white/10 bg-black/20 backdrop-blur-sm py-12 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-5 gap-8">
-            <div className="md:col-span-2">
-              <div className="text-2xl font-bold text-white mb-4">ECE-CLI</div>
-              <p className="text-white/60 mb-4 max-w-sm">
-                Professional AI-powered app development on demand. Transform your ideas into production-ready applications with enterprise-grade quality and lightning-fast delivery.
-              </p>
-              <div className="flex space-x-4 mb-4">
-                <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center text-white/60 hover:bg-white/20 transition-colors cursor-pointer">
-                  🐦
-                </div>
-                <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center text-white/60 hover:bg-white/20 transition-colors cursor-pointer">
-                  💼
-                </div>
-                <div className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center text-white/60 hover:bg-white/20 transition-colors cursor-pointer">
-                  📧
-                </div>
-              </div>
-              <div className="text-white/60 text-sm">
-                � SOC 2 Compliant • 🌍 Global Team • ⚡ 24/7 Support
-              </div>
+  const renderTradingInterface = () => (
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-6">
+      <div className="max-w-2xl mx-auto">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-8">
+          <button 
+            onClick={() => setCurrentView("landing")}
+            className="p-2 rounded-full bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 transition-colors"
+          >
+            ← Back
+          </button>
+          <h1 className="text-2xl font-bold text-white">App Trading Cards</h1>
+          <div className="text-white/60">1 / {appCards.length}</div>
+        </div>
+
+        {/* Trading Card */}
+        <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+          <div className="relative">
+            <img 
+              src={appCards[0].image} 
+              alt={appCards[0].name}
+              className="w-full h-64 object-cover"
+            />
+            <div className="absolute top-4 left-4">
+              <span className="bg-green-500/20 text-green-300 border border-green-500/30 px-3 py-1 rounded-full text-xs font-medium">
+                💼 For Sale
+              </span>
             </div>
-            
-            <div>
-              <h4 className="text-white font-semibold mb-4">Services</h4>
-              <ul className="space-y-2 text-white/60 text-sm">
-                <li className="hover:text-white/80 transition-colors cursor-pointer">Web Applications</li>
-                <li className="hover:text-white/80 transition-colors cursor-pointer">Mobile Apps</li>
-                <li className="hover:text-white/80 transition-colors cursor-pointer">AI Integration</li>
-                <li className="hover:text-white/80 transition-colors cursor-pointer">E-commerce Platforms</li>
-                <li className="hover:text-white/80 transition-colors cursor-pointer">API Development</li>
-                <li className="hover:text-white/80 transition-colors cursor-pointer">MVP Development</li>
-              </ul>
-            </div>
-            
-            <div>
-              <h4 className="text-white font-semibold mb-4">Company</h4>
-              <ul className="space-y-2 text-white/60 text-sm">
-                <li className="hover:text-white/80 transition-colors cursor-pointer">About ECE-CLI</li>
-                <li className="hover:text-white/80 transition-colors cursor-pointer">Our Process</li>
-                <li className="hover:text-white/80 transition-colors cursor-pointer">Case Studies</li>
-                <li className="hover:text-white/80 transition-colors cursor-pointer">Careers</li>
-                <li className="hover:text-white/80 transition-colors cursor-pointer">Press Kit</li>
-                <li className="hover:text-white/80 transition-colors cursor-pointer">Contact Us</li>
-              </ul>
-            </div>
-            
-            <div>
-              <h4 className="text-white font-semibold mb-4">Resources</h4>
-              <ul className="space-y-2 text-white/60 text-sm">
-                <li className="hover:text-white/80 transition-colors cursor-pointer">Documentation</li>
-                <li className="hover:text-white/80 transition-colors cursor-pointer">API Reference</li>
-                <li className="hover:text-white/80 transition-colors cursor-pointer">Help Center</li>
-                <li className="hover:text-white/80 transition-colors cursor-pointer">System Status</li>
-                <li className="hover:text-white/80 transition-colors cursor-pointer">Privacy Policy</li>
-                <li className="hover:text-white/80 transition-colors cursor-pointer">Terms of Service</li>
-              </ul>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+            <div className="absolute bottom-4 left-4 right-4">
+              <h2 className="text-2xl font-bold text-white mb-2">{appCards[0].name}</h2>
+              <p className="text-white/80">{appCards[0].category}</p>
             </div>
           </div>
           
-          <div className="border-t border-white/10 mt-12 pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center">
-              <div className="text-white/60 text-sm mb-4 md:mb-0">
-                <p>&copy; 2024 ECE-CLI. All rights reserved. Built with ❤️ using AI-powered development.</p>
+          <div className="p-6">
+            <p className="text-gray-600 mb-4">{appCards[0].description}</p>
+            <div className="flex justify-between items-center mb-6">
+              <div className="text-3xl font-bold text-green-600">{appCards[0].price}</div>
+              <div className="text-right">
+                <div className="text-green-500 font-semibold">{appCards[0].revenue}</div>
+                <div className="text-gray-500 text-sm">{appCards[0].users} users</div>
               </div>
-              <div className="flex items-center space-x-6 text-white/60 text-sm">
-                <span className="flex items-center space-x-2">
-                  <span className="w-2 h-2 bg-green-400 rounded-full"></span>
-                  <span>All systems operational</span>
-                </span>
-                <span>|</span>
-                <span>99.9% uptime</span>
-                <span>|</span>
-                <span>1,000+ apps delivered</span>
-              </div>
+            </div>
+            
+            {/* Action Buttons */}
+            <div className="flex gap-4">
+              <button className="flex-1 bg-gradient-to-r from-red-500 to-pink-500 text-white py-3 rounded-lg font-medium hover:from-red-600 hover:to-pink-600 transition-all">
+                ❌ Pass
+              </button>
+              <button className="flex-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-white py-3 rounded-lg font-medium hover:from-yellow-600 hover:to-orange-600 transition-all">
+                ❤️ Save
+              </button>
+              <button className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white py-3 rounded-lg font-medium hover:from-green-600 hover:to-emerald-600 transition-all">
+                💰 Buy
+              </button>
             </div>
           </div>
         </div>
-      </footer>
 
-      {/* Auth Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-8 max-w-md w-full mx-4">
-            <h2 className="text-2xl font-bold text-white mb-6">Get Started</h2>
-            <div className="space-y-4">
-              <button 
-                onClick={() => handleAuth('google')}
-                disabled={isLoading}
-                className="w-full py-3 bg-white/10 border border-white/20 rounded-lg text-white hover:bg-white/20 transition-colors disabled:opacity-50 flex items-center justify-center space-x-2"
-              >
-                <span>🔐</span>
-                <span>{isLoading ? 'Loading...' : 'Continue with Google'}</span>
-              </button>
-              <button 
-                onClick={() => handleAuth('phantom')}
-                disabled={isLoading}
-                className="w-full py-3 bg-white/10 border border-white/20 rounded-lg text-white hover:bg-white/20 transition-colors disabled:opacity-50 flex items-center justify-center space-x-2"
-              >
-                <span>👻</span>
-                <span>{isLoading ? 'Loading...' : 'Connect Phantom Wallet'}</span>
-              </button>
-              <button 
-                onClick={() => handleAuth('demo')}
-                disabled={isLoading}
-                className="w-full py-3 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg text-white hover:from-purple-600 hover:to-blue-600 transition-colors disabled:opacity-50 flex items-center justify-center space-x-2"
-              >
-                <span>🎮</span>
-                <span>{isLoading ? 'Loading...' : 'Try Demo Mode'}</span>
-              </button>
-            </div>
-            <button 
-              onClick={() => setIsModalOpen(false)}
-              className="mt-6 text-white/60 hover:text-white w-full text-center"
-            >
-              Close
-            </button>
-          </div>
+        {/* Instructions */}
+        <div className="text-center text-white/60 mt-8">
+          <p>Swipe or use buttons: ❌ Pass • ❤️ Save • 💰 Buy/Invest</p>
         </div>
-      )}
+
+        {/* Quick Actions */}
+        <div className="grid grid-cols-2 gap-4 mt-8">
+          <a 
+            href="/order"
+            className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 text-center hover:bg-white/15 transition-all"
+          >
+            <div className="text-2xl mb-2">🛠️</div>
+            <h3 className="text-white font-semibold mb-1">Order Custom App</h3>
+            <p className="text-white/60 text-sm">Get your trading card built</p>
+          </a>
+          <a 
+            href="/dashboard"
+            className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 text-center hover:bg-white/15 transition-all"
+          >
+            <div className="text-2xl mb-2">📈</div>
+            <h3 className="text-white font-semibold mb-1">View Portfolio</h3>
+            <p className="text-white/60 text-sm">Track your investments</p>
+          </a>
+        </div>
+      </div>
     </div>
   );
+
+  // Switch between views
+  return currentView === "trading" ? renderTradingInterface() : renderLandingPage();
 }
