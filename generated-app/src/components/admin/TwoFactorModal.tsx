@@ -21,8 +21,8 @@ export default function TwoFactorModal({ isOpen, onClose, onSubmit, loading, err
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4">
+    <div className="fixed inset-0 theme-modal-overlay flex items-center justify-center z-50">
+      <div className="theme-modal-content rounded-lg p-6 max-w-md w-full mx-4 shadow-xl">
         <div className="text-center mb-6">
           <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
             <span className="text-2xl">🔐</span>

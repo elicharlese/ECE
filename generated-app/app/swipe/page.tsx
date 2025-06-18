@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { Smartphone, DollarSign, Rocket } from 'lucide-react';
 import { useTheme } from '@/src/lib/theme-context';
 import { ThemeToggle } from '@/src/components/theme-toggle';
 import { BottomNavigation } from '@/src/components/bottom-navigation';
@@ -425,7 +426,7 @@ export default function TinderStyleSwipe() {
 
               {/* App Screenshot/Preview */}
               <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                <div className="text-6xl opacity-50">📱</div>
+                <Smartphone className="w-16 h-16 opacity-50 text-gray-600" />
               </div>
 
               {/* Rarity Badge */}
@@ -473,7 +474,7 @@ export default function TinderStyleSwipe() {
                 <div className="flex items-center justify-between text-sm">
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center space-x-1">
-                      <span className="text-green-500">💰</span>
+                      <DollarSign className="w-4 h-4 text-green-500" />
                       <span className="font-semibold text-green-600">{formatPrice(currentCard.currentPrice)}</span>
                     </div>
                     <div className="flex items-center space-x-1">
@@ -553,8 +554,8 @@ export default function TinderStyleSwipe() {
 
       {/* Profile Modal */}
       {showProfile && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-end sm:items-center justify-center">
-          <div className="bg-theme-surface w-full sm:w-96 sm:rounded-2xl p-6 sm:m-4 rounded-t-2xl sm:rounded-t-2xl">
+        <div className="fixed inset-0 theme-modal-overlay z-50 flex items-end sm:items-center justify-center">
+          <div className="theme-modal-content w-full sm:w-96 sm:rounded-2xl p-6 sm:m-4 rounded-t-2xl sm:rounded-t-2xl shadow-xl">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-theme-text-primary">Profile</h2>
               <button
@@ -605,7 +606,7 @@ export default function TinderStyleSwipe() {
                 }}
                 className="w-full py-3 bg-theme-accent text-white rounded-xl font-semibold hover:bg-theme-accent/90 transition-colors"
               >
-                🚀 Order Custom App
+                <Rocket className="w-4 h-4 mr-2" />Order Custom App
               </button>
 
               <div className="pt-4 border-t border-theme-border">
@@ -632,8 +633,8 @@ export default function TinderStyleSwipe() {
 
       {/* Liked Cards Modal */}
       {showLiked && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-end sm:items-center justify-center">
-          <div className="bg-theme-surface w-full sm:w-96 sm:rounded-2xl p-6 sm:m-4 rounded-t-2xl sm:rounded-t-2xl max-h-[80vh] overflow-y-auto">
+        <div className="fixed inset-0 theme-modal-overlay z-50 flex items-end sm:items-center justify-center">
+          <div className="theme-modal-content w-full sm:w-96 sm:rounded-2xl p-6 sm:m-4 rounded-t-2xl sm:rounded-t-2xl max-h-[80vh] overflow-y-auto shadow-xl">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-theme-text-primary">Liked Apps ({likedCards.length})</h2>
               <button
@@ -656,7 +657,7 @@ export default function TinderStyleSwipe() {
                 likedCards.map((card) => (
                   <div key={card.id} className="flex items-center space-x-4 p-3 bg-theme-background rounded-xl">
                     <div className="w-12 h-12 bg-gradient-to-br from-gray-200 to-gray-300 rounded-lg flex items-center justify-center">
-                      <span className="text-lg">📱</span>
+                      <Smartphone className="w-5 h-5" />
                     </div>
                     <div className="flex-1">
                       <h4 className="font-semibold text-theme-text-primary">{card.title}</h4>

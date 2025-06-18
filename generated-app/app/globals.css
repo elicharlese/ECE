@@ -466,3 +466,53 @@ body {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* Theme-aware component classes */
+.theme-modal-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+.theme-modal-content {
+  background-color: var(--popover);
+  color: var(--popover-foreground);
+  border: 1px solid var(--border);
+}
+
+.theme-dropdown {
+  background-color: var(--popover);
+  color: var(--popover-foreground);
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] .theme-dropdown {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+}
+
+.theme-tooltip {
+  background-color: var(--card);
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+}
+
+/* Enhanced theme variables for components */
+
+/* Theme utility classes for better component theming */
+.theme-background { background-color: var(--background); }
+.theme-surface { background-color: var(--card); }
+.theme-border { border-color: var(--border); }
+
+.theme-text-primary { color: var(--foreground); }
+.theme-text-secondary { color: var(--muted-foreground); }
+.theme-text-accent { color: var(--accent); }
+
+/* Dark mode overrides for better modal contrast */
+[data-theme="dark"] .theme-modal-overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="dark"] .theme-modal-content {
+  background-color: var(--card);
+  color: var(--card-foreground);
+}

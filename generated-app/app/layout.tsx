@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Quicksand } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "../src/lib/theme-context";
+import { AuthProvider } from "../src/lib/auth-context";
+import { WalletProvider } from "../src/lib/wallet-context";
 
 const quicksand = Quicksand({
   variable: "--font-quicksand",
@@ -25,9 +27,13 @@ export default function RootLayout({
       <body
         className={`${quicksand.variable} font-quicksand antialiased`}
       >
-        <ThemeProvider>
-          {children}
-        </ThemeProvider>
+        <AuthProvider>
+          <WalletProvider>
+            <ThemeProvider>
+              {children}
+            </ThemeProvider>
+          </WalletProvider>
+        </AuthProvider>
       </body>
     </html>
   );

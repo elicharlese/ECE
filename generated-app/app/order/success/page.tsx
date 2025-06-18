@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { CheckCircle, ArrowRight } from 'lucide-react';
 
 export default function OrderSuccessPage() {
   const [order, setOrder] = useState<any>(null);
@@ -45,7 +46,7 @@ export default function OrderSuccessPage() {
     <div className="min-h-screen bg-gray-900 p-6">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <div className="text-6xl mb-4">🎉</div>
+          <CheckCircle className="w-16 h-16 mx-auto mb-4 text-green-500" />
           <h1 className="text-4xl font-bold text-white mb-4">
             Order Successful!
           </h1>
@@ -84,6 +85,15 @@ export default function OrderSuccessPage() {
         )}
 
         <div className="flex justify-center space-x-4">
+          {order && (
+            <button
+              onClick={() => window.location.href = `/project/${order.id}`}
+              className="px-8 py-3 bg-teal-500 rounded-xl text-white hover:bg-teal-600 transition-all flex items-center space-x-2"
+            >
+              <span>Track Project</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          )}
           <button
             onClick={() => window.location.href = '/dashboard'}
             className="px-8 py-3 bg-gray-700 rounded-xl text-white hover:bg-gray-600 transition-all"
@@ -92,7 +102,7 @@ export default function OrderSuccessPage() {
           </button>
           <button
             onClick={() => window.location.href = '/marketplace'}
-            className="px-8 py-3 bg-teal-500 rounded-xl text-white hover:bg-teal-600 transition-all"
+            className="px-8 py-3 bg-gray-700 rounded-xl text-white hover:bg-gray-600 transition-all"
           >
             Explore Marketplace
           </button>

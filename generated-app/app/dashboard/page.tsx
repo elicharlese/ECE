@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { DollarSign, BarChart3, Smartphone, Target, Rocket, Store } from 'lucide-react';
 import { useTheme } from '@/src/lib/theme-context';
 import { ThemeToggle } from '@/src/components/theme-toggle';
 import { BottomNavigation } from '@/src/components/bottom-navigation';
@@ -13,6 +14,8 @@ interface UserStats {
   appsLiked: number;
   totalSpent: number;
   avgAppPerformance: number;
+  activeOrders: number;
+  completedProjects: number;
 }
 
 interface OwnedApp {
@@ -27,6 +30,17 @@ interface OwnedApp {
   purchaseDate: string;
 }
 
+interface UserProject {
+  id: string;
+  name: string;
+  status: 'pending' | 'building' | 'completed' | 'failed';
+  progress: number;
+  framework: string;
+  orderDate: string;
+  estimatedCompletion?: string;
+  buildStep: string;
+}
+
 const mockUserStats: UserStats = {
   totalInvestments: 5,
   portfolioValue: 125400,
@@ -34,7 +48,9 @@ const mockUserStats: UserStats = {
   monthlyReturn: 8.5,
   appsLiked: 12,
   totalSpent: 89200,
-  avgAppPerformance: 92
+  avgAppPerformance: 92,
+  activeOrders: 2,
+  completedProjects: 5
 };
 
 const mockOwnedApps: OwnedApp[] = [
@@ -47,29 +63,29 @@ const mockOwnedApps: OwnedApp[] = [
     performance: 92,
     monthlyRevenue: 1250,
     status: 'active',
-    purchaseDate: '2024-01-15'
+    purchaseDate: '2024-11-15'
+  }
+];
+
+const mockUserProjects: UserProject[] = [
+  {
+    id: 'order_1734567890_abc123',
+    name: 'E-Commerce Platform',
+    status: 'building',
+    progress: 75,
+    framework: 'React',
+    orderDate: '2024-12-15',
+    estimatedCompletion: '2024-12-18',
+    buildStep: 'testing'
   },
   {
-    id: '2',
-    title: 'CryptoVault',
-    category: 'fintech',
-    purchasePrice: 3500,
-    currentValue: 4200,
-    performance: 96,
-    monthlyRevenue: 3750,
-    status: 'active',
-    purchaseDate: '2024-01-10'
-  },
-  {
-    id: '3',
-    title: 'TaskMaster Pro',
-    category: 'productivity',
-    purchasePrice: 1200,
-    currentValue: 1580,
-    performance: 88,
-    monthlyRevenue: 890,
-    status: 'development',
-    purchaseDate: '2024-02-01'
+    id: 'order_1734567891_def456',
+    name: 'Portfolio Website',
+    status: 'completed',
+    progress: 100,
+    framework: 'Next.js',
+    orderDate: '2024-12-10',
+    buildStep: 'finalizing'
   }
 ];
 
@@ -77,8 +93,9 @@ export default function DashboardPage() {
   const { theme } = useTheme();
   const [userStats, setUserStats] = useState<UserStats>(mockUserStats);
   const [ownedApps, setOwnedApps] = useState<OwnedApp[]>(mockOwnedApps);
+  const [userProjects, setUserProjects] = useState<UserProject[]>(mockUserProjects);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'overview' | 'apps' | 'analytics'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'apps' | 'analytics' | 'projects'>('overview');
 
   useEffect(() => {
     // Simulate loading user data
@@ -139,6 +156,7 @@ export default function DashboardPage() {
           <div className="flex space-x-1 bg-theme-background rounded-lg p-1">
             {[
               { id: 'overview', label: 'Overview' },
+              { id: 'projects', label: 'My Projects' },
               { id: 'apps', label: 'My Apps' },
               { id: 'analytics', label: 'Analytics' }
             ].map((tab) => (
@@ -166,7 +184,7 @@ export default function DashboardPage() {
               <div className="bg-theme-surface rounded-2xl p-6 border border-theme-border">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-theme-text-secondary text-sm">Portfolio Value</span>
-                  <span className="text-2xl">💰</span>
+                  <DollarSign className="w-6 h-6" />
                 </div>
                 <p className="text-2xl font-bold text-theme-text-primary">{formatPrice(userStats.portfolioValue)}</p>
                 <p className="text-green-500 text-sm">+{userStats.monthlyReturn}% this month</p>
@@ -175,7 +193,7 @@ export default function DashboardPage() {
               <div className="bg-theme-surface rounded-2xl p-6 border border-theme-border">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-theme-text-secondary text-sm">Total Investments</span>
-                  <span className="text-2xl">📊</span>
+                  <BarChart3 className="w-6 h-6" />
                 </div>
                 <p className="text-2xl font-bold text-theme-text-primary">{userStats.totalInvestments}</p>
                 <p className="text-theme-text-secondary text-sm">{formatPrice(userStats.totalSpent)} invested</p>
@@ -184,7 +202,7 @@ export default function DashboardPage() {
               <div className="bg-theme-surface rounded-2xl p-6 border border-theme-border">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-theme-text-secondary text-sm">Active Apps</span>
-                  <span className="text-2xl">📱</span>
+                  <Smartphone className="w-6 h-6" />
                 </div>
                 <p className="text-2xl font-bold text-theme-text-primary">{userStats.totalApps}</p>
                 <p className="text-theme-text-secondary text-sm">Avg {userStats.avgAppPerformance}% performance</p>
@@ -208,7 +226,7 @@ export default function DashboardPage() {
                   onClick={() => window.location.href = '/swipe'}
                   className="p-4 bg-theme-accent/10 border border-theme-accent/20 rounded-xl hover:bg-theme-accent/20 transition-colors text-left"
                 >
-                  <div className="text-2xl mb-2">🎯</div>
+                  <Target className="w-6 h-6 mb-2" />
                   <h4 className="font-semibold text-theme-text-primary">Discover Apps</h4>
                   <p className="text-sm text-theme-text-secondary">Find new investment opportunities</p>
                 </button>
@@ -217,7 +235,7 @@ export default function DashboardPage() {
                   onClick={() => window.location.href = '/order'}
                   className="p-4 bg-theme-accent/10 border border-theme-accent/20 rounded-xl hover:bg-theme-accent/20 transition-colors text-left"
                 >
-                  <div className="text-2xl mb-2">🚀</div>
+                  <Rocket className="w-6 h-6 mb-2" />
                   <h4 className="font-semibold text-theme-text-primary">Order Custom App</h4>
                   <p className="text-sm text-theme-text-secondary">Build your own trading card</p>
                 </button>
@@ -226,7 +244,7 @@ export default function DashboardPage() {
                   onClick={() => window.location.href = '/marketplace'}
                   className="p-4 bg-theme-accent/10 border border-theme-accent/20 rounded-xl hover:bg-theme-accent/20 transition-colors text-left"
                 >
-                  <div className="text-2xl mb-2">🏪</div>
+                  <Store className="w-6 h-6 mb-2" />
                   <h4 className="font-semibold text-theme-text-primary">Browse Marketplace</h4>
                   <p className="text-sm text-theme-text-secondary">Explore all available apps</p>
                 </button>
@@ -235,11 +253,92 @@ export default function DashboardPage() {
           </div>
         )}
 
+        {activeTab === 'projects' && (
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-theme-text-primary">My Projects</h2>
+              <button
+                onClick={() => window.location.href = '/order'}
+                className="px-4 py-2 bg-theme-accent text-white rounded-lg hover:bg-theme-accent/90 transition-colors"
+              >
+                New Project
+              </button>
+            </div>
+
+            {userProjects.length === 0 ? (
+              <div className="text-center py-16">
+                <Rocket className="w-16 h-16 mb-4 text-gray-400" />
+                <h3 className="text-xl font-semibold text-theme-text-primary mb-2">No active projects</h3>
+                <p className="text-theme-text-secondary mb-6">Start building your custom app</p>
+                <button
+                  onClick={() => window.location.href = '/order'}
+                  className="px-6 py-3 bg-theme-accent text-white rounded-xl font-semibold hover:bg-theme-accent/90 transition-colors"
+                >
+                  Order Custom App
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {userProjects.map((project) => (
+                  <div 
+                    key={project.id} 
+                    className="bg-theme-surface rounded-2xl p-6 border border-theme-border hover:shadow-lg transition-shadow cursor-pointer"
+                    onClick={() => window.location.href = `/project/${project.id}`}
+                  >
+                    <div className="flex items-center justify-between mb-4">
+                      <div>
+                        <h3 className="text-lg font-bold text-theme-text-primary">{project.name}</h3>
+                        <p className="text-sm text-theme-text-secondary">{project.framework} • Ordered {new Date(project.orderDate).toLocaleDateString()}</p>
+                      </div>
+                      <div className="flex items-center space-x-3">
+                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                          project.status === 'completed' ? 'bg-green-100 text-green-800' :
+                          project.status === 'building' ? 'bg-blue-100 text-blue-800' :
+                          project.status === 'failed' ? 'bg-red-100 text-red-800' :
+                          'bg-yellow-100 text-yellow-800'
+                        }`}>
+                          {project.status}
+                        </span>
+                        <div className="text-right">
+                          <div className="text-sm font-semibold text-theme-text-primary">{project.progress}%</div>
+                          <div className="text-xs text-theme-text-secondary">{project.buildStep}</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Progress bar */}
+                    <div className="mb-4">
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div 
+                          className="bg-theme-accent h-2 rounded-full transition-all duration-300"
+                          style={{ width: `${project.progress}%` }}
+                        ></div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-theme-text-secondary">
+                        {project.status === 'building' && project.estimatedCompletion ? 
+                          `Est. completion: ${new Date(project.estimatedCompletion).toLocaleDateString()}` :
+                          `Current step: ${project.buildStep}`
+                        }
+                      </span>
+                      <span className="text-theme-accent hover:text-theme-accent/80">
+                        View Details →
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {activeTab === 'apps' && (
           <div className="space-y-6">
             {ownedApps.length === 0 ? (
               <div className="text-center py-16">
-                <div className="text-6xl mb-4">📱</div>
+                <Smartphone className="w-16 h-16 mb-4 text-gray-400" />
                 <h3 className="text-xl font-semibold text-theme-text-primary mb-2">No apps in portfolio</h3>
                 <p className="text-theme-text-secondary mb-6">Start discovering and investing in apps</p>
                 <button
@@ -315,7 +414,7 @@ export default function DashboardPage() {
             <div className="bg-theme-surface rounded-2xl p-6 border border-theme-border">
               <h3 className="text-lg font-semibold text-theme-text-primary mb-4">Portfolio Analytics</h3>
               <div className="text-center py-16">
-                <div className="text-6xl mb-4">📈</div>
+                <BarChart3 className="w-16 h-16 mb-4 text-gray-400" />
                 <h4 className="text-xl font-semibold text-theme-text-primary mb-2">Analytics Coming Soon</h4>
                 <p className="text-theme-text-secondary">
                   Advanced portfolio analytics and insights will be available soon.

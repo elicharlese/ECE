@@ -1,15 +1,18 @@
 'use client';
 
 import { useState } from 'react';
+import { BarChart3 } from 'lucide-react';
 import { FinancialAnalytics } from '@/types/admin';
+import { useTheme } from '@/src/lib/theme-context';
 
 interface FinancialAnalyticsTabProps {
   analytics: FinancialAnalytics;
   onRefundAction: (orderId: string, amount: number, reason: string) => Promise<void>;
-  darkMode: boolean;
 }
 
-export default function FinancialAnalyticsTab({ analytics, onRefundAction, darkMode }: FinancialAnalyticsTabProps) {
+export default function FinancialAnalyticsTab({ analytics, onRefundAction }: FinancialAnalyticsTabProps) {
+  const { theme } = useTheme();
+  const darkMode = theme === 'dark';
   const [selectedPeriod, setSelectedPeriod] = useState('30d');
   const [showRefundModal, setShowRefundModal] = useState(false);
   const [refundForm, setRefundForm] = useState({ orderId: '', amount: 0, reason: '' });
@@ -103,7 +106,7 @@ export default function FinancialAnalyticsTab({ analytics, onRefundAction, darkM
           <h3 className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'} mb-4`}>Revenue Trend</h3>
           <div className="h-64 flex items-center justify-center">
             <div className={`text-center ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-              <div className="text-4xl mb-2">📊</div>
+              <BarChart3 className="text-4xl mb-2" />
               <p>Revenue chart visualization</p>
               <p className="text-sm">(Chart component would go here)</p>
             </div>
@@ -205,8 +208,8 @@ export default function FinancialAnalyticsTab({ analytics, onRefundAction, darkM
 
       {/* Refund Modal */}
       {showRefundModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-6 w-full max-w-md`}>
+        <div className="fixed inset-0 theme-modal-overlay flex items-center justify-center p-4 z-50">
+          <div className="theme-modal-content rounded-lg p-6 w-full max-w-md shadow-xl">
             <h3 className={`text-lg font-semibold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Process Refund
             </h3>

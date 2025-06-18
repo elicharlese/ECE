@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { Rocket, Target } from 'lucide-react';
 import { useTheme } from '@/src/lib/theme-context';
 import { ThemeToggle } from '@/src/components/theme-toggle';
 
@@ -301,7 +302,7 @@ export default function OrderPage() {
                   >
                     <div className="flex justify-between items-start">
                       <div>
-                        <h4 className="text-white font-medium">🚀 Rush Delivery</h4>
+                        <h4 className="text-white font-medium flex items-center"><Rocket className="w-4 h-4 mr-2" />Rush Delivery</h4>
                         <p className="text-sm text-theme-text-secondary">50% faster delivery (1.5x price)</p>
                       </div>
                       <div className="text-orange-400 font-bold">+50%</div>
@@ -351,7 +352,7 @@ export default function OrderPage() {
                   {rushDelivery && (
                     <div className="border-b border-white/10 pb-4 mb-4">
                       <div className="flex justify-between items-center">
-                        <span className="text-orange-400 font-medium">🚀 Rush Delivery</span>
+                        <span className="text-orange-400 font-medium flex items-center"><Rocket className="w-4 h-4 mr-1" />Rush Delivery</span>
                         <span className="text-orange-400">+50%</span>
                       </div>
                     </div>
@@ -409,7 +410,7 @@ export default function OrderPage() {
                 
                 {rushDelivery && (
                   <div className="flex justify-between items-center p-4 bg-orange-500/10 rounded-xl">
-                    <span className="text-orange-400 font-medium">🚀 Rush Delivery</span>
+                    <span className="text-orange-400 font-medium flex items-center"><Rocket className="w-4 h-4 mr-1" />Rush Delivery</span>
                     <span className="text-orange-400">+50%</span>
                   </div>
                 )}
@@ -438,7 +439,7 @@ export default function OrderPage() {
                   disabled={isLoading}
                   className="w-full px-8 py-4 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-2xl text-white font-semibold text-lg hover:from-teal-600 hover:to-cyan-600 transition-all duration-300 shadow-2xl shadow-teal-500/25 hover:shadow-teal-500/40 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isLoading ? 'Processing...' : '🎯 Complete Order & Pay'}
+                  {isLoading ? 'Processing...' : <><Target className="w-4 h-4 mr-2 inline" />Complete Order & Pay</>}
                 </button>
                 
                 <button

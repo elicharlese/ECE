@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Target, ClipboardList, Store, Gamepad2 } from 'lucide-react';
 import { useTheme } from '@/src/lib/theme-context';
 import { ThemeToggle } from '@/src/components/theme-toggle';
 import { BottomNavigation } from '@/src/components/bottom-navigation';
@@ -125,7 +126,7 @@ export default function TestPage() {
                 disabled={loading}
                 className="w-full px-6 py-3 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-xl text-white font-semibold hover:from-teal-600 hover:to-cyan-600 transition-all duration-300 disabled:opacity-50"
               >
-                {loading ? 'Creating...' : '🎯 Create Test Order & Generate Card'}
+                {loading ? 'Creating...' : <><Target className="w-4 h-4 mr-2 inline" />Create Test Order & Generate Card</>}
               </button>
               
               <button
@@ -133,14 +134,14 @@ export default function TestPage() {
                 disabled={loading}
                 className="w-full px-6 py-3 bg-white/10 border border-white/20 rounded-xl text-white font-medium hover:bg-white/20 transition-all duration-300 disabled:opacity-50"
               >
-                {loading ? 'Loading...' : '📋 View All Cards'}
+                {loading ? 'Loading...' : <><ClipboardList className="w-4 h-4 mr-2 inline" />View All Cards</>}
               </button>
               
               <button
                 onClick={() => window.location.href = '/marketplace'}
                 className="w-full px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl text-white font-semibold hover:from-purple-600 hover:to-pink-600 transition-all duration-300"
               >
-                🏪 Go to Marketplace
+                <Store className="w-4 h-4 mr-2 inline" />Go to Marketplace
               </button>
             </div>
           </div>
@@ -213,7 +214,7 @@ export default function TestPage() {
               </div>
             ) : (
               <div className="text-center py-12">
-                <div className="text-white/60 mb-4">🎮</div>
+                <Gamepad2 className="w-8 h-8 text-white/60 mb-4" />
                 <p className="text-white/60">
                   Click a button above to test the system
                 </p>

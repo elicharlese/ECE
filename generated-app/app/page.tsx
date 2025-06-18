@@ -4,6 +4,18 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTheme } from '@/src/lib/theme-context';
 import { ThemeToggle } from '@/src/components/theme-toggle';
+import { 
+  Zap, 
+  Store, 
+  TrendingUp, 
+  Sparkles,
+  ShoppingCart,
+  BarChart3,
+  Home,
+  X,
+  Building2,
+  Users
+} from 'lucide-react';
 
 export default function HomePage() {
   const router = useRouter();
@@ -27,7 +39,7 @@ export default function HomePage() {
       <header className="flex justify-between items-center p-6">
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 bg-theme-accent rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-lg">E</span>
+            <Sparkles className="w-6 h-6 text-white" />
           </div>
           <h1 className="text-2xl font-bold text-theme-text-primary">ECE Trading</h1>
         </div>
@@ -73,9 +85,7 @@ export default function HomePage() {
         <div className="grid md:grid-cols-3 gap-8 mb-16">
           <div className="bg-theme-surface rounded-2xl p-8 text-center">
             <div className="w-16 h-16 bg-theme-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-theme-accent" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
-              </svg>
+              <Zap className="w-8 h-8 text-theme-accent" />
             </div>
             <h3 className="text-xl font-semibold text-theme-text-primary mb-3">Swipe to Discover</h3>
             <p className="text-theme-text-secondary">Experience apps like never before with our Tinder-style interface. Swipe right to save, up to order.</p>
@@ -83,9 +93,7 @@ export default function HomePage() {
           
           <div className="bg-theme-surface rounded-2xl p-8 text-center">
             <div className="w-16 h-16 bg-theme-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-theme-accent" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
-              </svg>
+              <TrendingUp className="w-8 h-8 text-theme-accent" />
             </div>
             <h3 className="text-xl font-semibold text-theme-text-primary mb-3">Trading Cards</h3>
             <p className="text-theme-text-secondary">Every app becomes a unique trading card with stats, rarity levels, and market value.</p>
@@ -93,9 +101,7 @@ export default function HomePage() {
           
           <div className="bg-theme-surface rounded-2xl p-8 text-center">
             <div className="w-16 h-16 bg-theme-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-theme-accent" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm2 6a2 2 0 104 0 2 2 0 00-4 0zm6 0a2 2 0 100-4 2 2 0 000 4z" />
-              </svg>
+              <BarChart3 className="w-8 h-8 text-theme-accent" />
             </div>
             <h3 className="text-xl font-semibold text-theme-text-primary mb-3">Build Portfolio</h3>
             <p className="text-theme-text-secondary">Collect apps, track their performance, and build a valuable digital portfolio.</p>
@@ -110,7 +116,9 @@ export default function HomePage() {
               onClick={() => router.push('/swipe')}
               className="p-4 bg-theme-background hover:bg-theme-accent hover:text-white rounded-xl transition-colors group"
             >
-              <div className="text-2xl mb-2">🔥</div>
+              <div className="mb-2">
+                <Zap className="w-6 h-6 mx-auto" />
+              </div>
               <div className="font-semibold">Discover</div>
               <div className="text-sm text-theme-text-secondary group-hover:text-white/80">Swipe through apps</div>
             </button>
@@ -119,7 +127,9 @@ export default function HomePage() {
               onClick={() => router.push('/marketplace')}
               className="p-4 bg-theme-background hover:bg-theme-accent hover:text-white rounded-xl transition-colors group"
             >
-              <div className="text-2xl mb-2">🏪</div>
+              <div className="mb-2">
+                <Store className="w-6 h-6 mx-auto" />
+              </div>
               <div className="font-semibold">Marketplace</div>
               <div className="text-sm text-theme-text-secondary group-hover:text-white/80">Browse all apps</div>
             </button>
@@ -128,7 +138,9 @@ export default function HomePage() {
               onClick={() => router.push('/dashboard')}
               className="p-4 bg-theme-background hover:bg-theme-accent hover:text-white rounded-xl transition-colors group"
             >
-              <div className="text-2xl mb-2">📊</div>
+              <div className="mb-2">
+                <BarChart3 className="w-6 h-6 mx-auto" />
+              </div>
               <div className="font-semibold">Portfolio</div>
               <div className="text-sm text-theme-text-secondary group-hover:text-white/80">Your collection</div>
             </button>
@@ -137,7 +149,9 @@ export default function HomePage() {
               onClick={() => router.push('/order')}
               className="p-4 bg-theme-background hover:bg-theme-accent hover:text-white rounded-xl transition-colors group"
             >
-              <div className="text-2xl mb-2">🛒</div>
+              <div className="mb-2">
+                <ShoppingCart className="w-6 h-6 mx-auto" />
+              </div>
               <div className="font-semibold">Order</div>
               <div className="text-sm text-theme-text-secondary group-hover:text-white/80">Get custom app</div>
             </button>
@@ -147,15 +161,15 @@ export default function HomePage() {
 
       {/* Login Modal */}
       {showLogin && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-theme-surface rounded-2xl p-8 w-full max-w-md">
+        <div className="fixed inset-0 theme-modal-overlay flex items-center justify-center p-4 z-50">
+          <div className="theme-modal-content rounded-2xl p-8 w-full max-w-md shadow-xl">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-2xl font-semibold text-theme-text-primary">Admin Login</h3>
               <button
                 onClick={() => setShowLogin(false)}
                 className="text-theme-text-secondary hover:text-theme-text-primary"
               >
-                ✕
+                <X className="w-5 h-5" />
               </button>
             </div>
             

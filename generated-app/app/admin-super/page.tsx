@@ -12,6 +12,16 @@ import CustomerManagementTab from '@/components/admin/CustomerManagementTab';
 import SecurityManagementTab from '@/components/admin/SecurityManagementTab';
 import { useTheme } from '@/src/lib/theme-context';
 import { ThemeToggle } from '@/src/components/theme-toggle';
+import { 
+  Home, 
+  BarChart3, 
+  FileText, 
+  Users, 
+  Rocket, 
+  DollarSign, 
+  Settings, 
+  Shield 
+} from 'lucide-react';
 
 // Order Status Badge Component
 function OrderStatusBadge({ status, darkMode }: { status: string; darkMode: boolean }) {
@@ -133,8 +143,8 @@ function HandoffModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-6 w-full max-w-md mx-4`}>
+    <div className="fixed inset-0 theme-modal-overlay flex items-center justify-center z-50">
+      <div className="theme-modal-content rounded-lg p-6 w-full max-w-md mx-4 shadow-xl">
         <h3 className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'} mb-4`}>
           Complete App Handoff
         </h3>
@@ -763,14 +773,14 @@ export default function EnhancedAdminDashboard() {
 
           <nav className="space-y-2">
             {[
-              { id: 'dashboard', label: 'Dashboard', icon: '📊' },
-              { id: 'orders', label: 'Orders', icon: '📋' },
-              { id: 'customers', label: 'Customers', icon: '👥' },
-              { id: 'apps', label: 'App Management', icon: '🚀' },
-              { id: 'analytics', label: 'Financial Analytics', icon: '💰' },
-              { id: 'system', label: 'System Health', icon: '⚙️' },
-              { id: 'security', label: 'Security', icon: '🔒' },
-              { id: 'settings', label: 'Settings', icon: '⚙️' },
+              { id: 'dashboard', label: 'Dashboard', icon: <BarChart3 className="w-5 h-5" /> },
+              { id: 'orders', label: 'Orders', icon: <FileText className="w-5 h-5" /> },
+              { id: 'customers', label: 'Customers', icon: <Users className="w-5 h-5" /> },
+              { id: 'apps', label: 'App Management', icon: <Rocket className="w-5 h-5" /> },
+              { id: 'analytics', label: 'Financial Analytics', icon: <DollarSign className="w-5 h-5" /> },
+              { id: 'system', label: 'System Health', icon: <Settings className="w-5 h-5" /> },
+              { id: 'security', label: 'Security', icon: <Shield className="w-5 h-5" /> },
+              { id: 'settings', label: 'Settings', icon: <Settings className="w-5 h-5" /> },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -783,7 +793,7 @@ export default function EnhancedAdminDashboard() {
                     : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
-                <span>{tab.icon}</span>
+                {tab.icon}
                 {!sidebarCollapsed && <span>{tab.label}</span>}
               </button>
             ))}
@@ -803,7 +813,7 @@ export default function EnhancedAdminDashboard() {
                   darkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
-                <span>🏠</span>
+                <Home className="w-4 h-4" />
                 <span>Home</span>
               </button>
               <h2 className={`text-heading text-heading-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
@@ -968,7 +978,6 @@ export default function EnhancedAdminDashboard() {
             <AppManagementTab
               apps={apps}
               onAppAction={handleAppAction}
-              darkMode={darkMode}
             />
           )}
 
@@ -1103,7 +1112,6 @@ export default function EnhancedAdminDashboard() {
             <FinancialAnalyticsTab
               analytics={analytics}
               onRefundAction={handleRefundAction}
-              darkMode={darkMode}
             />
           )}
 
@@ -1111,7 +1119,6 @@ export default function EnhancedAdminDashboard() {
             <CustomerManagementTab
               customers={customers}
               onCustomerAction={handleCustomerAction}
-              darkMode={darkMode}
             />
           )}
 
@@ -1124,7 +1131,6 @@ export default function EnhancedAdminDashboard() {
               onRoleAction={handleRoleAction}
               onPermissionAction={handlePermissionAction}
               onSessionAction={handleSessionAction}
-              darkMode={darkMode}
             />
           )}
 

@@ -2,14 +2,16 @@
 
 import { useState } from 'react';
 import { AppManagement } from '@/types/admin';
+import { useTheme } from '@/src/lib/theme-context';
 
 interface AppManagementTabProps {
   apps: AppManagement[];
   onAppAction: (appId: string, action: string, params?: any) => Promise<void>;
-  darkMode: boolean;
 }
 
-export default function AppManagementTab({ apps, onAppAction, darkMode }: AppManagementTabProps) {
+export default function AppManagementTab({ apps, onAppAction }: AppManagementTabProps) {
+  const { theme } = useTheme();
+  const darkMode = theme === 'dark';
   const [selectedApp, setSelectedApp] = useState<AppManagement | null>(null);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
 
@@ -122,8 +124,8 @@ export default function AppManagementTab({ apps, onAppAction, darkMode }: AppMan
 
       {/* App Details Modal */}
       {selectedApp && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg max-w-4xl w-full max-h-screen overflow-y-auto`}>
+        <div className="fixed inset-0 theme-modal-overlay flex items-center justify-center z-50 p-4">
+          <div className="theme-modal-content rounded-lg max-w-4xl w-full max-h-screen overflow-y-auto shadow-xl">
             <div className="p-6 border-b border-gray-200 dark:border-gray-700">
               <div className="flex items-center justify-between">
                 <div>

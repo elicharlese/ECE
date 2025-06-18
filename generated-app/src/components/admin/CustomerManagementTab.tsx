@@ -2,14 +2,16 @@
 
 import { useState } from 'react';
 import { CustomerProfile } from '@/types/admin';
+import { useTheme } from '@/src/lib/theme-context';
 
 interface CustomerManagementTabProps {
   customers: CustomerProfile[];
   onCustomerAction: (customerId: string, action: string, params?: any) => Promise<void>;
-  darkMode: boolean;
 }
 
-export default function CustomerManagementTab({ customers, onCustomerAction, darkMode }: CustomerManagementTabProps) {
+export default function CustomerManagementTab({ customers, onCustomerAction }: CustomerManagementTabProps) {
+  const { theme } = useTheme();
+  const darkMode = theme === 'dark';
   const [selectedCustomer, setSelectedCustomer] = useState<CustomerProfile | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
@@ -317,8 +319,8 @@ export default function CustomerManagementTab({ customers, onCustomerAction, dar
 
       {/* Add Note Modal */}
       {showAddNoteModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-6 w-full max-w-md`}>
+        <div className="fixed inset-0 theme-modal-overlay flex items-center justify-center p-4 z-50">
+          <div className="theme-modal-content rounded-lg p-6 w-full max-w-md shadow-xl">
             <h3 className={`text-lg font-semibold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Add Note for {selectedCustomer?.name}
             </h3>

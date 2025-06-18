@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { Smartphone } from 'lucide-react';
 import { useTheme } from '@/src/lib/theme-context';
 import { ThemeToggle } from '@/src/components/theme-toggle';
 import { BottomNavigation } from '@/src/components/bottom-navigation';
@@ -280,7 +281,7 @@ export default function MarketplacePage() {
                 {/* App Image */}
                 <div className="relative h-48 bg-gradient-to-br from-gray-200 to-gray-300 group-hover:scale-105 transition-transform duration-300">
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-6xl opacity-60">📱</div>
+                    <Smartphone className="w-16 h-16 opacity-60 text-gray-600" />
                   </div>
                   
                   {/* Rarity Badge */}
