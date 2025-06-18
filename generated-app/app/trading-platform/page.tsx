@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useRef } from "react"
+import { BottomNavigation } from '@/src/components/bottom-navigation';
 
 // Simple UI Components
 const Card = ({ children, className = "", style = {}, ...props }: any) => (
@@ -1030,6 +1031,7 @@ export default function TradingCardAppPlatform() {
   return (
     <div className={`min-h-screen ${isDarkMode ? 'dark' : ''}`}>
       {renderCurrentScreen()}
+      <BottomNavigation />
     </div>
   )
 }

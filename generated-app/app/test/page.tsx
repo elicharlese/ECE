@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { useTheme } from '@/src/lib/theme-context';
 import { ThemeToggle } from '@/src/components/theme-toggle';
+import { BottomNavigation } from '@/src/components/bottom-navigation';
+import type { TradingCard } from '@/src/lib/card-store';
 
 export default function TestPage() {
   const { theme } = useTheme();
@@ -191,7 +193,7 @@ export default function TestPage() {
                   <div className="bg-white/5 rounded-xl p-4">
                     <h3 className="text-white font-semibold mb-2">All Cards:</h3>
                     <div className="text-sm text-white/80 space-y-2">
-                      {result.cards.map((card, index) => (
+                      {result.cards.map((card: TradingCard, index: number) => (
                         <div key={card.id} className="border-b border-white/10 pb-2">
                           <div>#{index + 1}: {card.title}</div>
                           <div>Rarity: {card.rarity} | Price: ${card.currentPrice}</div>
@@ -220,6 +222,8 @@ export default function TestPage() {
           </div>
         </div>
       </div>
+      
+      <BottomNavigation />
     </div>
   );
 }

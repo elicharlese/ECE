@@ -10,8 +10,8 @@ import AppManagementTab from '@/components/admin/AppManagementTab';
 import FinancialAnalyticsTab from '@/components/admin/FinancialAnalyticsTab';
 import CustomerManagementTab from '@/components/admin/CustomerManagementTab';
 import SecurityManagementTab from '@/components/admin/SecurityManagementTab';
-import { useTheme } from '../../src/lib/theme-context';
-import { ThemeToggle } from '../../src/components/theme-toggle';
+import { useTheme } from '@/src/lib/theme-context';
+import { ThemeToggle } from '@/src/components/theme-toggle';
 
 // Order Status Badge Component
 function OrderStatusBadge({ status, darkMode }: { status: string; darkMode: boolean }) {
@@ -797,6 +797,15 @@ export default function EnhancedAdminDashboard() {
         <header className={`${darkMode ? 'bg-gray-800' : 'bg-white'} border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'} px-6 py-4`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
+              <button
+                onClick={() => window.location.href = '/'}
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
+                  darkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                <span>🏠</span>
+                <span>Home</span>
+              </button>
               <h2 className={`text-heading text-heading-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 {currentTab.charAt(0).toUpperCase() + currentTab.slice(1)}
               </h2>

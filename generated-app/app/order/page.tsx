@@ -139,7 +139,6 @@ export default function OrderPage() {
   };
 
   return (
-    <div 
     <div className="min-h-screen bg-theme-background">
       <nav className="flex justify-between items-center p-6 backdrop-blur-sm bg-white/5 border-b border-white/10">
         <button 
@@ -207,15 +206,15 @@ export default function OrderPage() {
                   <div className="flex justify-between items-start mb-4">
                     <div>
                       <h3 className="text-xl font-bold text-white mb-1">{template.name}</h3>
-                      <p className="text-sm" style={{ color: theme.text }}>{template.category}</p>
+                      <p className="text-sm text-theme-text-secondary">{template.category}</p>
                     </div>
                     <div className="text-right">
                       <div className="text-2xl font-bold text-teal-400">${template.basePrice}</div>
-                      <div className="text-xs" style={{ color: theme.text }}>{template.timeline}</div>
+                      <div className="text-xs text-theme-text-secondary">{template.timeline}</div>
                     </div>
                   </div>
 
-                  <p className="text-sm mb-4" style={{ color: theme.text }}>
+                  <p className="text-sm mb-4 text-theme-text-secondary">
                     {template.description}
                   </p>
 
@@ -225,14 +224,13 @@ export default function OrderPage() {
                       {template.features.slice(0, 3).map((feature, index) => (
                         <span 
                           key={index}
-                          className="px-2 py-1 bg-white/10 rounded text-xs"
-                          style={{ color: theme.text }}
+                          className="px-2 py-1 bg-white/10 rounded text-xs text-theme-text-secondary"
                         >
                           {feature}
                         </span>
                       ))}
                       {template.features.length > 3 && (
-                        <span className="px-2 py-1 bg-white/10 rounded text-xs" style={{ color: theme.text }}>
+                        <span className="px-2 py-1 bg-white/10 rounded text-xs text-theme-text-secondary">
                           +{template.features.length - 3} more
                         </span>
                       )}
@@ -282,7 +280,7 @@ export default function OrderPage() {
                         <div className="flex justify-between items-start">
                           <div>
                             <h4 className="text-white font-medium">{feature.name}</h4>
-                            <p className="text-sm" style={{ color: theme.text }}>{feature.description}</p>
+                            <p className="text-sm text-theme-text-secondary">{feature.description}</p>
                           </div>
                           <div className="text-teal-400 font-bold">+${feature.price}</div>
                         </div>
@@ -304,7 +302,7 @@ export default function OrderPage() {
                     <div className="flex justify-between items-start">
                       <div>
                         <h4 className="text-white font-medium">🚀 Rush Delivery</h4>
-                        <p className="text-sm" style={{ color: theme.text }}>50% faster delivery (1.5x price)</p>
+                        <p className="text-sm text-theme-text-secondary">50% faster delivery (1.5x price)</p>
                       </div>
                       <div className="text-orange-400 font-bold">+50%</div>
                     </div>
@@ -330,7 +328,7 @@ export default function OrderPage() {
                     <div className="flex justify-between items-start mb-2">
                       <div>
                         <h4 className="text-white font-medium">{selectedTemplate.name}</h4>
-                        <p className="text-sm" style={{ color: theme.text }}>{selectedTemplate.category}</p>
+                        <p className="text-sm text-theme-text-secondary">{selectedTemplate.category}</p>
                       </div>
                       <div className="text-white">${selectedTemplate.basePrice}</div>
                     </div>
@@ -341,7 +339,7 @@ export default function OrderPage() {
                       <h4 className="text-white font-medium mb-2">Additional Features</h4>
                       {selectedFeatures.map(index => (
                         <div key={index} className="flex justify-between items-center mb-1">
-                          <span className="text-sm" style={{ color: theme.text }}>
+                          <span className="text-sm text-theme-text-secondary">
                             {additionalFeatures[index].name}
                           </span>
                           <span className="text-white text-sm">+${additionalFeatures[index].price}</span>
@@ -364,7 +362,7 @@ export default function OrderPage() {
                       <span className="text-xl font-bold text-white">Total</span>
                       <span className="text-2xl font-bold text-teal-400">${calculateTotalPrice()}</span>
                     </div>
-                    <p className="text-sm mt-2" style={{ color: theme.text }}>
+                    <p className="text-sm mt-2 text-theme-text-secondary">
                       Estimated delivery: {rushDelivery ? '50% faster' : selectedTemplate.timeline}
                     </p>
                   </div>
@@ -422,7 +420,7 @@ export default function OrderPage() {
                   <span className="text-2xl font-bold text-white">Total Amount</span>
                   <span className="text-3xl font-bold text-teal-400">${calculateTotalPrice()}</span>
                 </div>
-                <p className="text-sm mt-2" style={{ color: theme.text }}>
+                <p className="text-sm mt-2 text-theme-text-secondary">
                   Your app card will be delivered in {rushDelivery ? '50% less time' : selectedTemplate.timeline}
                 </p>
               </div>
@@ -430,7 +428,7 @@ export default function OrderPage() {
               {customRequirements && (
                 <div className="mb-8 p-4 bg-white/5 rounded-xl">
                   <h4 className="text-white font-medium mb-2">Custom Requirements:</h4>
-                  <p className="text-sm" style={{ color: theme.text }}>{customRequirements}</p>
+                  <p className="text-sm text-theme-text-secondary">{customRequirements}</p>
                 </div>
               )}
 
