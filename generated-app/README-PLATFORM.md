@@ -49,34 +49,34 @@ A revolutionary digital app marketplace where applications are traded like tradi
 ### Installation
 
 1. Clone the repository:
-```bash
+\`\`\`bash
 git clone <repository-url>
 cd ece-trading-platform/generated-app
-```
+\`\`\`
 
 2. Install dependencies:
-```bash
+\`\`\`bash
 npm install
-```
+\`\`\`
 
 3. Set up environment variables:
-```bash
+\`\`\`bash
 cp .env.local.example .env.local
 # Edit .env.local with your actual API keys
-```
+\`\`\`
 
 4. Run the development server:
-```bash
+\`\`\`bash
 npm run dev
-```
+\`\`\`
 
 5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### Production Build
-```bash
+\`\`\`bash
 npm run build
 npm start
-```
+\`\`\`
 
 ## 🔐 Admin Access
 
@@ -90,7 +90,7 @@ Access the admin panel by clicking "Admin" on the landing page.
 
 Create a `.env.local` file with:
 
-```env
+\`\`\`env
 # Stripe Configuration
 STRIPE_SECRET_KEY=sk_test_your_stripe_secret_key
 STRIPE_PUBLISHABLE_KEY=pk_test_your_stripe_publishable_key
@@ -103,7 +103,7 @@ NEXTAUTH_SECRET=your-super-secret-nextauth-secret
 
 # Admin Configuration
 ADMIN_EMAIL=admin@ece-cli.com
-```
+\`\`\`
 
 ## 🚀 Deployment
 

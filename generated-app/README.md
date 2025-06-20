@@ -85,7 +85,7 @@ ECE-CLI is a professional custom app development service that uses autonomous AI
 
 ### Environment Setup
 
-```bash
+\`\`\`bash
 # Clone the repository
 git clone <your-repo>
 cd ECE-CLI/generated-app
@@ -102,25 +102,25 @@ STRIPE_SECRET_KEY=sk_test_your_key
 STRIPE_WEBHOOK_SECRET=whsec_your_secret
 ADMIN_EMAIL=admin@yourdomain.com
 ADMIN_PASSWORD=your_secure_password
-```
+\`\`\`
 
 ### Run Development Server
 
-```bash
+\`\`\`bash
 npm run dev
 # Visit http://localhost:3000
-```
+\`\`\`
 
 ### Build for Production
 
-```bash
+\`\`\`bash
 npm run build
 npm start
-```
+\`\`\`
 
 ## 📁 Project Structure
 
-```
+\`\`\`
 generated-app/
 ├── src/
 │   ├── app/
@@ -146,7 +146,7 @@ generated-app/
 ├── .env.example                       # Environment template
 ├── .env.local                         # Local environment
 └── package.json
-```
+\`\`\`
 
 ## 🔧 API Endpoints
 
@@ -282,7 +282,7 @@ generated-app/
 ## 🚀 Deployment
 
 ### Vercel (Recommended)
-```bash
+\`\`\`bash
 # Install Vercel CLI
 npm i -g vercel
 
@@ -290,17 +290,17 @@ npm i -g vercel
 vercel --prod
 
 # Set environment variables in Vercel dashboard
-```
+\`\`\`
 
 ### Environment Variables for Production
-```bash
+\`\`\`bash
 STRIPE_PUBLISHABLE_KEY=pk_live_your_live_key
 STRIPE_SECRET_KEY=sk_live_your_live_key  
 STRIPE_WEBHOOK_SECRET=whsec_your_live_secret
 ADMIN_EMAIL=admin@yourdomain.com
 ADMIN_PASSWORD=your_production_password
 NEXT_PUBLIC_APP_URL=https://yourdomain.com
-```
+\`\`\`
 
 ### Stripe Webhook Setup
 1. Create webhook endpoint in Stripe dashboard
@@ -311,11 +311,11 @@ NEXT_PUBLIC_APP_URL=https://yourdomain.com
 ## 🧪 Testing
 
 ### Run Tests
-```bash
+\`\`\`bash
 npm test                    # Unit tests
 npm run test:integration    # Integration tests
 npm run test:e2e           # End-to-end tests
-```
+\`\`\`
 
 ### Test Order Flow
 1. Visit `/order` 

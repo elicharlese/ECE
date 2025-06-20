@@ -59,31 +59,31 @@ This document outlines the complete order-to-deployment flow and how to test it.
 ### Testing the Flow
 
 #### 1. Place a Test Order
-```bash
+\`\`\`bash
 # Visit the order page
 http://localhost:3000/order
 
 # Fill out the form with test data
 # Use Stripe test card: 4242 4242 4242 4242
-```
+\`\`\`
 
 #### 2. Track Order Progress
-```bash
+\`\`\`bash
 # Visit the project details page (from success page link)
 http://localhost:3000/project/[order-id]
 
 # Or check the dashboard
 http://localhost:3000/dashboard
-```
+\`\`\`
 
 #### 3. Admin Panel Verification
-```bash
+\`\`\`bash
 # Visit the admin panel
 http://localhost:3000/admin-super
 
 # Check the Orders tab to see new orders
 # Verify build progress and deployment info
-```
+\`\`\`
 
 ### Features Implemented
 

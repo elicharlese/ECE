@@ -68,7 +68,7 @@
 8. **Error handling and user feedback**
 
 ### File Structure
-```
+\`\`\`
 ece-trading-platform/
 ├── app/
 │   ├── page.tsx (Landing page)
@@ -94,7 +94,7 @@ ece-trading-platform/
     ├── README-PLATFORM.md
     ├── DEPLOYMENT-READY.md
     └── INTEGRATION-TEST.md
-```
+\`\`\`
 
 ## 🚀 READY FOR DEPLOYMENT
 

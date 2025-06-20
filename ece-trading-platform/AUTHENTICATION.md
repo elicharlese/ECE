@@ -47,7 +47,7 @@ The ECE Trading Platform includes a comprehensive authentication system supporti
 
 ## File Structure
 
-```
+\`\`\`
 app/
 ├── api/auth/
 │   ├── [...nextauth]/route.ts          # NextAuth configuration
@@ -69,13 +69,13 @@ src/
 │   └── theme-context.tsx               # Theme management
 └── types/
     └── admin.ts                        # Type definitions
-```
+\`\`\`
 
 ## Environment Configuration
 
 Required environment variables in `.env.local`:
 
-```bash
+\`\`\`bash
 # NextAuth Configuration
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=your-super-secret-nextauth-secret-here
@@ -83,13 +83,13 @@ NEXTAUTH_SECRET=your-super-secret-nextauth-secret-here
 # Google OAuth (optional)
 GOOGLE_CLIENT_ID=your-google-client-id
 GOOGLE_CLIENT_SECRET=your-google-client-secret
-```
+\`\`\`
 
 ## Usage Examples
 
 ### Sign In with Email/Password
 
-```tsx
+\`\`\`tsx
 import { useAuth } from '@/src/lib/auth-context';
 
 const { signIn } = useAuth();
@@ -104,11 +104,11 @@ const handleSignIn = async () => {
     router.push('/dashboard');
   }
 };
-```
+\`\`\`
 
 ### Connect Wallet
 
-```tsx
+\`\`\`tsx
 import { useWallet } from '@/src/lib/wallet-context';
 
 const { wallets, select, connect, connected, publicKey } = useWallet();
@@ -121,11 +121,11 @@ const handleWalletConnect = async () => {
     console.log('Connected:', publicKey.toBase58());
   }
 };
-```
+\`\`\`
 
 ### Check Authentication Status
 
-```tsx
+\`\`\`tsx
 import { useAuth } from '@/src/lib/auth-context';
 
 const { session, loading } = useAuth();
@@ -134,13 +134,13 @@ if (loading) return <div>Loading...</div>;
 if (!session) return <div>Please sign in</div>;
 
 return <div>Welcome, {session.user.name}!</div>;
-```
+\`\`\`
 
 ## Theme System
 
 All authentication modals and components use the theme system:
 
-```css
+\`\`\`css
 /* Modal backgrounds automatically adapt to theme */
 .theme-modal-overlay {
   background-color: rgba(0, 0, 0, 0.5);
@@ -156,16 +156,16 @@ All authentication modals and components use the theme system:
 [data-theme="dark"] .theme-modal-overlay {
   background-color: rgba(0, 0, 0, 0.7);
 }
-```
+\`\`\`
 
 ## Next Steps for Production
 
 ### High Priority
 
 1. **Install Real Wallet Adapters**
-   ```bash
+   \`\`\`bash
    npm install @solana/wallet-adapter-react @solana/wallet-adapter-wallets
-   ```
+   \`\`\`
 
 2. **Database Integration**
    - Replace in-memory user store with proper database

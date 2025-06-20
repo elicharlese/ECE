@@ -39,11 +39,11 @@ The platform now operates as a professional service with:
 
 ### 1. Launch the Platform
 
-```bash
+\`\`\`bash
 cd ~/ECE‑CLI/generated-app
 npm install
 npm run dev
-```
+\`\`\`
 
 Visit: http://localhost:3000
 
@@ -65,14 +65,14 @@ Visit: http://localhost:3000
 
 ### 4. Test the System
 
-```bash
+\`\`\`bash
 # Run full test suite
 ./scripts/test-autonomous.sh
 
 # Test order flow with Stripe test cards
 # Card: 4242 4242 4242 4242 (success)
 # Card: 4000 0000 0000 0002 (decline)
-```
+\`\`\`
 
 ## 🏗️ System Architecture
 
@@ -106,7 +106,7 @@ Visit: http://localhost:3000
 
 ## 📁 Project Structure
 
-```
+\`\`\`
 ECE-CLI/
 ├── README.md                               # Main project documentation
 ├── agents/
@@ -140,7 +140,7 @@ ECE-CLI/
     │   └── business.ts                   # Business logic & pricing
     ├── .env.example                      # Environment template
     └── package.json                      # Dependencies
-```
+\`\`\`
 
 ## 🧪 Testing & Business Validation
 
@@ -263,7 +263,7 @@ All business features are operational:
 
 ### Environment Setup
 
-```bash
+\`\`\`bash
 # Core platform setup
 cd ECE-CLI/generated-app
 cp .env.example .env.local
@@ -280,11 +280,11 @@ ADMIN_PASSWORD=your_secure_password
 # Platform settings
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 NODE_ENV=development
-```
+\`\`\`
 
 ### Production Deployment
 
-```bash
+\`\`\`bash
 # Build for production
 npm run build
 
@@ -293,7 +293,7 @@ vercel --prod
 
 # Or deploy to your preferred platform
 npm start
-```
+\`\`\`
 
 ## 🔍 Monitoring & Analytics
 
