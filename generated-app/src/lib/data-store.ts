@@ -77,9 +77,7 @@ export interface OrderData {
   completedAt?: string;
   progress?: number;
   deliveryUrl?: string;
-  githubUrl?: string;
   currentBuildStep?: string;
-  estimatedCompletionTime?: string;
   
   // Admin Management
   adminNotes?: Array<{ note: string; timestamp: string; admin: string }>;

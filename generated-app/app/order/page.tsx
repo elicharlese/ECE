@@ -1,9 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Rocket, Target } from 'lucide-react';
-import { useTheme } from '@/src/lib/theme-context';
-import { ThemeToggle } from '@/src/components/theme-toggle';
+import { Quicksand } from 'next/font/google';
+
+const quicksand = Quicksand({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-quicksand",
+});
 
 interface AppTemplate {
   id: number;
@@ -59,13 +63,21 @@ const additionalFeatures = [
 ];
 
 export default function OrderPage() {
-  const { theme } = useTheme();
   const [selectedTemplate, setSelectedTemplate] = useState<AppTemplate | null>(null);
   const [selectedFeatures, setSelectedFeatures] = useState<number[]>([]);
   const [rushDelivery, setRushDelivery] = useState(false);
   const [customRequirements, setCustomRequirements] = useState('');
   const [step, setStep] = useState<'select' | 'customize' | 'checkout'>('select');
   const [isLoading, setIsLoading] = useState(false);
+
+  const theme = {
+    primary: "#0a1312",
+    secondary: "#1a2625",
+    accent: "#0e5f59",
+    text: "#94a3a0",
+    textPrimary: "#ffffff",
+    border: "#0e5f59",
+  };
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -140,7 +152,10 @@ export default function OrderPage() {
   };
 
   return (
-    <div className="min-h-screen bg-theme-background">
+    <div 
+      className={`min-h-screen ${quicksand.className}`}
+      style={{ backgroundColor: theme.primary }}
+    >
       <nav className="flex justify-between items-center p-6 backdrop-blur-sm bg-white/5 border-b border-white/10">
         <button 
           onClick={() => window.location.href = '/'}
@@ -207,15 +222,15 @@ export default function OrderPage() {
                   <div className="flex justify-between items-start mb-4">
                     <div>
                       <h3 className="text-xl font-bold text-white mb-1">{template.name}</h3>
-                      <p className="text-sm text-theme-text-secondary">{template.category}</p>
+                      <p className="text-sm" style={{ color: theme.text }}>{template.category}</p>
                     </div>
                     <div className="text-right">
                       <div className="text-2xl font-bold text-teal-400">${template.basePrice}</div>
-                      <div className="text-xs text-theme-text-secondary">{template.timeline}</div>
+                      <div className="text-xs" style={{ color: theme.text }}>{template.timeline}</div>
                     </div>
                   </div>
 
-                  <p className="text-sm mb-4 text-theme-text-secondary">
+                  <p className="text-sm mb-4" style={{ color: theme.text }}>
                     {template.description}
                   </p>
 
@@ -225,13 +240,14 @@ export default function OrderPage() {
                       {template.features.slice(0, 3).map((feature, index) => (
                         <span 
                           key={index}
-                          className="px-2 py-1 bg-white/10 rounded text-xs text-theme-text-secondary"
+                          className="px-2 py-1 bg-white/10 rounded text-xs"
+                          style={{ color: theme.text }}
                         >
                           {feature}
                         </span>
                       ))}
                       {template.features.length > 3 && (
-                        <span className="px-2 py-1 bg-white/10 rounded text-xs text-theme-text-secondary">
+                        <span className="px-2 py-1 bg-white/10 rounded text-xs" style={{ color: theme.text }}>
                           +{template.features.length - 3} more
                         </span>
                       )}
@@ -281,7 +297,7 @@ export default function OrderPage() {
                         <div className="flex justify-between items-start">
                           <div>
                             <h4 className="text-white font-medium">{feature.name}</h4>
-                            <p className="text-sm text-theme-text-secondary">{feature.description}</p>
+                            <p className="text-sm" style={{ color: theme.text }}>{feature.description}</p>
                           </div>
                           <div className="text-teal-400 font-bold">+${feature.price}</div>
                         </div>
@@ -302,8 +318,8 @@ export default function OrderPage() {
                   >
                     <div className="flex justify-between items-start">
                       <div>
-                        <h4 className="text-white font-medium flex items-center"><Rocket className="w-4 h-4 mr-2" />Rush Delivery</h4>
-                        <p className="text-sm text-theme-text-secondary">50% faster delivery (1.5x price)</p>
+                        <h4 className="text-white font-medium">🚀 Rush Delivery</h4>
+                        <p className="text-sm" style={{ color: theme.text }}>50% faster delivery (1.5x price)</p>
                       </div>
                       <div className="text-orange-400 font-bold">+50%</div>
                     </div>
@@ -329,7 +345,7 @@ export default function OrderPage() {
                     <div className="flex justify-between items-start mb-2">
                       <div>
                         <h4 className="text-white font-medium">{selectedTemplate.name}</h4>
-                        <p className="text-sm text-theme-text-secondary">{selectedTemplate.category}</p>
+                        <p className="text-sm" style={{ color: theme.text }}>{selectedTemplate.category}</p>
                       </div>
                       <div className="text-white">${selectedTemplate.basePrice}</div>
                     </div>
@@ -340,7 +356,7 @@ export default function OrderPage() {
                       <h4 className="text-white font-medium mb-2">Additional Features</h4>
                       {selectedFeatures.map(index => (
                         <div key={index} className="flex justify-between items-center mb-1">
-                          <span className="text-sm text-theme-text-secondary">
+                          <span className="text-sm" style={{ color: theme.text }}>
                             {additionalFeatures[index].name}
                           </span>
                           <span className="text-white text-sm">+${additionalFeatures[index].price}</span>
@@ -352,7 +368,7 @@ export default function OrderPage() {
                   {rushDelivery && (
                     <div className="border-b border-white/10 pb-4 mb-4">
                       <div className="flex justify-between items-center">
-                        <span className="text-orange-400 font-medium flex items-center"><Rocket className="w-4 h-4 mr-1" />Rush Delivery</span>
+                        <span className="text-orange-400 font-medium">🚀 Rush Delivery</span>
                         <span className="text-orange-400">+50%</span>
                       </div>
                     </div>
@@ -363,7 +379,7 @@ export default function OrderPage() {
                       <span className="text-xl font-bold text-white">Total</span>
                       <span className="text-2xl font-bold text-teal-400">${calculateTotalPrice()}</span>
                     </div>
-                    <p className="text-sm mt-2 text-theme-text-secondary">
+                    <p className="text-sm mt-2" style={{ color: theme.text }}>
                       Estimated delivery: {rushDelivery ? '50% faster' : selectedTemplate.timeline}
                     </p>
                   </div>
@@ -410,7 +426,7 @@ export default function OrderPage() {
                 
                 {rushDelivery && (
                   <div className="flex justify-between items-center p-4 bg-orange-500/10 rounded-xl">
-                    <span className="text-orange-400 font-medium flex items-center"><Rocket className="w-4 h-4 mr-1" />Rush Delivery</span>
+                    <span className="text-orange-400 font-medium">🚀 Rush Delivery</span>
                     <span className="text-orange-400">+50%</span>
                   </div>
                 )}
@@ -421,7 +437,7 @@ export default function OrderPage() {
                   <span className="text-2xl font-bold text-white">Total Amount</span>
                   <span className="text-3xl font-bold text-teal-400">${calculateTotalPrice()}</span>
                 </div>
-                <p className="text-sm mt-2 text-theme-text-secondary">
+                <p className="text-sm mt-2" style={{ color: theme.text }}>
                   Your app card will be delivered in {rushDelivery ? '50% less time' : selectedTemplate.timeline}
                 </p>
               </div>
@@ -429,7 +445,7 @@ export default function OrderPage() {
               {customRequirements && (
                 <div className="mb-8 p-4 bg-white/5 rounded-xl">
                   <h4 className="text-white font-medium mb-2">Custom Requirements:</h4>
-                  <p className="text-sm text-theme-text-secondary">{customRequirements}</p>
+                  <p className="text-sm" style={{ color: theme.text }}>{customRequirements}</p>
                 </div>
               )}
 
@@ -439,7 +455,7 @@ export default function OrderPage() {
                   disabled={isLoading}
                   className="w-full px-8 py-4 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-2xl text-white font-semibold text-lg hover:from-teal-600 hover:to-cyan-600 transition-all duration-300 shadow-2xl shadow-teal-500/25 hover:shadow-teal-500/40 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isLoading ? 'Processing...' : <><Target className="w-4 h-4 mr-2 inline" />Complete Order & Pay</>}
+                  {isLoading ? 'Processing...' : '🎯 Complete Order & Pay'}
                 </button>
                 
                 <button

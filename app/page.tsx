@@ -1,7 +1,7 @@
 "use client"
 
-import WalletModal from "../ece-trading-platform/src/components/WalletModal"
+import AppManagementTab from "../generated-app/src/components/admin/AppManagementTab"
 
 export default function SyntheticV0PageForDeployment() {
-  return <WalletModal />
+  return <AppManagementTab />
 }

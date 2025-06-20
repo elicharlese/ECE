@@ -1,9 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Users, ClipboardList, Settings, User, Globe, Clock } from 'lucide-react';
 import { AdminRole, AdminPermission, AuditLog } from '@/types/admin';
-import { useTheme } from '@/src/lib/theme-context';
 
 interface SecurityManagementTabProps {
   roles: AdminRole[];
@@ -13,6 +11,7 @@ interface SecurityManagementTabProps {
   onRoleAction: (action: string, params?: any) => Promise<void>;
   onPermissionAction: (action: string, params?: any) => Promise<void>;
   onSessionAction: (sessionId: string, action: string) => Promise<void>;
+  darkMode: boolean;
 }
 
 export default function SecurityManagementTab({
@@ -22,10 +21,9 @@ export default function SecurityManagementTab({
   activeSessions,
   onRoleAction,
   onPermissionAction,
-  onSessionAction
+  onSessionAction,
+  darkMode
 }: SecurityManagementTabProps) {
-  const { theme } = useTheme();
-  const darkMode = theme === 'dark';
   const [activeSubTab, setActiveSubTab] = useState('roles');
   const [selectedRole, setSelectedRole] = useState<AdminRole | null>(null);
   const [showCreateRoleModal, setShowCreateRoleModal] = useState(false);
@@ -60,10 +58,10 @@ export default function SecurityManagementTab({
   };
 
   const subTabs = [
-    { id: 'roles', label: 'Roles & Permissions', icon: Users },
-    { id: 'audit', label: 'Audit Logs', icon: ClipboardList },
-    { id: 'sessions', label: 'Active Sessions', icon: User },
-    { id: 'settings', label: 'Security Settings', icon: Settings },
+    { id: 'roles', label: 'Roles & Permissions', icon: '👥' },
+    { id: 'audit', label: 'Audit Logs', icon: '📋' },
+    { id: 'sessions', label: 'Active Sessions', icon: '🔐' },
+    { id: 'settings', label: 'Security Settings', icon: '⚙️' },
   ];
 
   return (
@@ -83,7 +81,7 @@ export default function SecurityManagementTab({
                     : 'text-gray-700 hover:bg-gray-100'
               }`}
             >
-              <tab.icon className="w-4 h-4" />
+              <span>{tab.icon}</span>
               <span>{tab.label}</span>
             </button>
           ))}
@@ -238,9 +236,9 @@ export default function SecurityManagementTab({
                       {JSON.stringify(log.details)}
                     </p>
                     <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
-                      <span className="flex items-center gap-1"><User className="w-3 h-3" /> {log.adminEmail}</span>
-                      <span className="flex items-center gap-1"><Globe className="w-3 h-3" /> {log.ipAddress}</span>
-                      <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {new Date(log.timestamp).toLocaleString()}</span>
+                      <span>👤 {log.adminEmail}</span>
+                      <span>🌐 {log.ipAddress}</span>
+                      <span>🕒 {new Date(log.timestamp).toLocaleString()}</span>
                     </div>
                   </div>
                 </div>
@@ -301,8 +299,8 @@ export default function SecurityManagementTab({
 
       {/* Create Role Modal */}
       {showCreateRoleModal && (
-        <div className="fixed inset-0 theme-modal-overlay flex items-center justify-center p-4 z-50">
-          <div className="theme-modal-content rounded-lg p-6 w-full max-w-md shadow-xl">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-6 w-full max-w-md`}>
             <h3 className={`text-lg font-semibold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
               Create New Role
             </h3>

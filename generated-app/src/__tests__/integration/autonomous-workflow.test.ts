@@ -170,7 +170,7 @@ describe('Integration Tests - Full Autonomous Workflow', () => {
     });
 
     it('should handle special characters in app names', async () => {
-      const specialAppName = '测试应用 Rocket <script>alert("test")</script>';
+      const specialAppName = '测试应用 🚀 <script>alert("test")</script>';
       
       const buildRequest = createMockRequest('POST', {
         name: specialAppName,

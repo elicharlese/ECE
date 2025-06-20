@@ -1,14 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { Target, ClipboardList, Store, Gamepad2 } from 'lucide-react';
-import { useTheme } from '@/src/lib/theme-context';
-import { ThemeToggle } from '@/src/components/theme-toggle';
-import { BottomNavigation } from '@/src/components/bottom-navigation';
-import type { TradingCard } from '@/src/lib/card-store';
+import { Quicksand } from 'next/font/google';
+
+const quicksand = Quicksand({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-quicksand",
+});
 
 export default function TestPage() {
-  const { theme } = useTheme();
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [formData, setFormData] = useState({
@@ -16,6 +17,15 @@ export default function TestPage() {
     customerName: 'John Doe',
     customerEmail: 'john@example.com'
   });
+
+  const theme = {
+    primary: "#0a1312",
+    secondary: "#1a2625",
+    accent: "#0e5f59",
+    text: "#94a3a0",
+    textPrimary: "#ffffff",
+    border: "#0e5f59",
+  };
 
   const handleCreateTestOrder = async () => {
     setLoading(true);
@@ -63,21 +73,23 @@ export default function TestPage() {
   };
 
   return (
-    <div className="min-h-screen bg-theme-background">
-      <nav className="flex justify-between items-center p-6 bg-theme-surface border-b border-theme-border">
+    <div 
+      className={`min-h-screen ${quicksand.className}`}
+      style={{ backgroundColor: theme.primary }}
+    >
+      <nav className="flex justify-between items-center p-6 backdrop-blur-sm bg-white/5 border-b border-white/10">
         <button 
           onClick={() => window.location.href = '/'}
           className="flex items-center space-x-2"
         >
-          <div className="text-2xl font-bold text-theme-text-primary">ECE</div>
-          <span className="px-2 py-1 bg-theme-accent/20 text-theme-accent rounded text-xs font-medium">TEST</span>
+          <div className="text-2xl font-bold text-white">ECE</div>
+          <span className="px-2 py-1 bg-teal-500/20 text-teal-300 rounded text-xs font-medium">TEST</span>
         </button>
-        <ThemeToggle />
       </nav>
 
       <div className="max-w-4xl mx-auto p-6">
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-theme-text-primary mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
             Trading Card System Test
           </h1>
           <p className="text-xl text-white/80 max-w-2xl mx-auto">
@@ -126,7 +138,7 @@ export default function TestPage() {
                 disabled={loading}
                 className="w-full px-6 py-3 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-xl text-white font-semibold hover:from-teal-600 hover:to-cyan-600 transition-all duration-300 disabled:opacity-50"
               >
-                {loading ? 'Creating...' : <><Target className="w-4 h-4 mr-2 inline" />Create Test Order & Generate Card</>}
+                {loading ? 'Creating...' : '🎯 Create Test Order & Generate Card'}
               </button>
               
               <button
@@ -134,14 +146,14 @@ export default function TestPage() {
                 disabled={loading}
                 className="w-full px-6 py-3 bg-white/10 border border-white/20 rounded-xl text-white font-medium hover:bg-white/20 transition-all duration-300 disabled:opacity-50"
               >
-                {loading ? 'Loading...' : <><ClipboardList className="w-4 h-4 mr-2 inline" />View All Cards</>}
+                {loading ? 'Loading...' : '📋 View All Cards'}
               </button>
               
               <button
                 onClick={() => window.location.href = '/marketplace'}
                 className="w-full px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl text-white font-semibold hover:from-purple-600 hover:to-pink-600 transition-all duration-300"
               >
-                <Store className="w-4 h-4 mr-2 inline" />Go to Marketplace
+                🏪 Go to Marketplace
               </button>
             </div>
           </div>
@@ -194,7 +206,7 @@ export default function TestPage() {
                   <div className="bg-white/5 rounded-xl p-4">
                     <h3 className="text-white font-semibold mb-2">All Cards:</h3>
                     <div className="text-sm text-white/80 space-y-2">
-                      {result.cards.map((card: TradingCard, index: number) => (
+                      {result.cards.map((card, index) => (
                         <div key={card.id} className="border-b border-white/10 pb-2">
                           <div>#{index + 1}: {card.title}</div>
                           <div>Rarity: {card.rarity} | Price: ${card.currentPrice}</div>
@@ -214,7 +226,7 @@ export default function TestPage() {
               </div>
             ) : (
               <div className="text-center py-12">
-                <Gamepad2 className="w-8 h-8 text-white/60 mb-4" />
+                <div className="text-white/60 mb-4">🎮</div>
                 <p className="text-white/60">
                   Click a button above to test the system
                 </p>
@@ -223,8 +235,6 @@ export default function TestPage() {
           </div>
         </div>
       </div>
-      
-      <BottomNavigation />
     </div>
   );
 }

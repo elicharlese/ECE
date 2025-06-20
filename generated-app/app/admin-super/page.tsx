@@ -10,18 +10,6 @@ import AppManagementTab from '@/components/admin/AppManagementTab';
 import FinancialAnalyticsTab from '@/components/admin/FinancialAnalyticsTab';
 import CustomerManagementTab from '@/components/admin/CustomerManagementTab';
 import SecurityManagementTab from '@/components/admin/SecurityManagementTab';
-import { useTheme } from '@/src/lib/theme-context';
-import { ThemeToggle } from '@/src/components/theme-toggle';
-import { 
-  Home, 
-  BarChart3, 
-  FileText, 
-  Users, 
-  Rocket, 
-  DollarSign, 
-  Settings, 
-  Shield 
-} from 'lucide-react';
 
 // Order Status Badge Component
 function OrderStatusBadge({ status, darkMode }: { status: string; darkMode: boolean }) {
@@ -143,8 +131,8 @@ function HandoffModal({
   };
 
   return (
-    <div className="fixed inset-0 theme-modal-overlay flex items-center justify-center z-50">
-      <div className="theme-modal-content rounded-lg p-6 w-full max-w-md mx-4 shadow-xl">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className={`${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg p-6 w-full max-w-md mx-4`}>
         <h3 className={`text-lg font-semibold ${darkMode ? 'text-white' : 'text-gray-900'} mb-4`}>
           Complete App Handoff
         </h3>
@@ -242,9 +230,6 @@ function HandoffModal({
 }
 
 export default function EnhancedAdminDashboard() {
-  const { theme, toggleTheme } = useTheme();
-  const darkMode = theme === 'dark';
-  
   // Authentication & Session State
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -255,6 +240,7 @@ export default function EnhancedAdminDashboard() {
   // UI State
   const [currentTab, setCurrentTab] = useState('dashboard');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
   const [refreshInterval, setRefreshInterval] = useState(30000); // 30 seconds
   
   // Dashboard Data
@@ -759,7 +745,7 @@ export default function EnhancedAdminDashboard() {
         <div className="p-4">
           <div className="flex items-center justify-between mb-8">
             {!sidebarCollapsed && (
-              <h1 className={`text-heading text-heading-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>ECE-CLI Admin</h1>
+              <h1 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>ECE-CLI Admin</h1>
             )}
             <button
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
@@ -773,14 +759,14 @@ export default function EnhancedAdminDashboard() {
 
           <nav className="space-y-2">
             {[
-              { id: 'dashboard', label: 'Dashboard', icon: <BarChart3 className="w-5 h-5" /> },
-              { id: 'orders', label: 'Orders', icon: <FileText className="w-5 h-5" /> },
-              { id: 'customers', label: 'Customers', icon: <Users className="w-5 h-5" /> },
-              { id: 'apps', label: 'App Management', icon: <Rocket className="w-5 h-5" /> },
-              { id: 'analytics', label: 'Financial Analytics', icon: <DollarSign className="w-5 h-5" /> },
-              { id: 'system', label: 'System Health', icon: <Settings className="w-5 h-5" /> },
-              { id: 'security', label: 'Security', icon: <Shield className="w-5 h-5" /> },
-              { id: 'settings', label: 'Settings', icon: <Settings className="w-5 h-5" /> },
+              { id: 'dashboard', label: 'Dashboard', icon: '📊' },
+              { id: 'orders', label: 'Orders', icon: '📋' },
+              { id: 'customers', label: 'Customers', icon: '👥' },
+              { id: 'apps', label: 'App Management', icon: '🚀' },
+              { id: 'analytics', label: 'Financial Analytics', icon: '💰' },
+              { id: 'system', label: 'System Health', icon: '⚙️' },
+              { id: 'security', label: 'Security', icon: '🔒' },
+              { id: 'settings', label: 'Settings', icon: '⚙️' },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -793,7 +779,7 @@ export default function EnhancedAdminDashboard() {
                     : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
-                {tab.icon}
+                <span>{tab.icon}</span>
                 {!sidebarCollapsed && <span>{tab.label}</span>}
               </button>
             ))}
@@ -807,16 +793,7 @@ export default function EnhancedAdminDashboard() {
         <header className={`${darkMode ? 'bg-gray-800' : 'bg-white'} border-b ${darkMode ? 'border-gray-700' : 'border-gray-200'} px-6 py-4`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <button
-                onClick={() => window.location.href = '/'}
-                className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
-                  darkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'
-                }`}
-              >
-                <Home className="w-4 h-4" />
-                <span>Home</span>
-              </button>
-              <h2 className={`text-heading text-heading-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+              <h2 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 {currentTab.charAt(0).toUpperCase() + currentTab.slice(1)}
               </h2>
               {systemHealth && (
@@ -841,7 +818,7 @@ export default function EnhancedAdminDashboard() {
               </div>
 
               <button
-                onClick={toggleTheme}
+                onClick={() => setDarkMode(!darkMode)}
                 className={`p-2 rounded-lg ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
               >
                 <span className={`${darkMode ? 'text-white' : 'text-gray-900'}`}>
@@ -978,6 +955,7 @@ export default function EnhancedAdminDashboard() {
             <AppManagementTab
               apps={apps}
               onAppAction={handleAppAction}
+              darkMode={darkMode}
             />
           )}
 
@@ -1112,6 +1090,7 @@ export default function EnhancedAdminDashboard() {
             <FinancialAnalyticsTab
               analytics={analytics}
               onRefundAction={handleRefundAction}
+              darkMode={darkMode}
             />
           )}
 
@@ -1119,6 +1098,7 @@ export default function EnhancedAdminDashboard() {
             <CustomerManagementTab
               customers={customers}
               onCustomerAction={handleCustomerAction}
+              darkMode={darkMode}
             />
           )}
 
@@ -1131,6 +1111,7 @@ export default function EnhancedAdminDashboard() {
               onRoleAction={handleRoleAction}
               onPermissionAction={handlePermissionAction}
               onSessionAction={handleSessionAction}
+              darkMode={darkMode}
             />
           )}
 
@@ -1162,7 +1143,7 @@ export default function EnhancedAdminDashboard() {
                       Dark Mode
                     </label>
                     <button
-                      onClick={toggleTheme}
+                      onClick={() => setDarkMode(!darkMode)}
                       className={`relative w-12 h-6 rounded-full transition-colors ${
                         darkMode ? 'bg-purple-500' : 'bg-gray-300'
                       }`}

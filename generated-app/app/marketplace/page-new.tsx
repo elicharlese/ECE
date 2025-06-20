@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Quicksand } from 'next/font/google';
-import type { TradingCard } from '@/src/lib/card-store';
+import type { TradingCard } from '@/lib/card-store';
 
 const quicksand = Quicksand({
   subsets: ["latin"],

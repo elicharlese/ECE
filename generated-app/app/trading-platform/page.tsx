@@ -1,9 +1,6 @@
 "use client"
 
 import React, { useState, useRef } from "react"
-import { useTheme } from '@/src/lib/theme-context'
-import { Rocket, DollarSign as DollarIcon, Target as TargetIcon, Trophy as TrophyIcon } from 'lucide-react';
-import { BottomNavigation } from '@/src/components/bottom-navigation';
 
 // Simple UI Components
 const Card = ({ children, className = "", style = {}, ...props }: any) => (
@@ -322,13 +319,13 @@ const defaultUser: User = {
 }
 
 export default function TradingCardAppPlatform() {
-  const { theme, toggleTheme } = useTheme()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
   const [dragRotation, setDragRotation] = useState(0)
   const [swipeDirection, setSwipeDirection] = useState<string | null>(null)
   const [currentScreen, setCurrentScreen] = useState<"landing" | "swipe" | "portfolio" | "order" | "marketplace">("landing")
+  const [isDarkMode, setIsDarkMode] = useState(true)
   const [user] = useState<User>(defaultUser)
   const [cartItems, setCartItems] = useState<AppCard[]>([])
   const [wishlistItems, setWishlistItems] = useState<AppCard[]>([])
@@ -360,7 +357,7 @@ export default function TradingCardAppPlatform() {
     }
   }
 
-  const currentTheme = theme === 'dark' ? themes.dark : themes.light
+  const currentTheme = isDarkMode ? themes.dark : themes.light
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-US", {
@@ -489,10 +486,10 @@ export default function TradingCardAppPlatform() {
         </div>
         <div className="flex items-center space-x-4">
           <button
-            onClick={toggleTheme}
+            onClick={() => setIsDarkMode(!isDarkMode)}
             className="p-2 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-colors"
           >
-            {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            {isDarkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </button>
           <Button
             onClick={() => setCurrentScreen("swipe")}
@@ -543,28 +540,28 @@ export default function TradingCardAppPlatform() {
           <div className="grid md:grid-cols-4 gap-6 max-w-4xl mx-auto">
             <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
               <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center text-2xl mb-4 mx-auto">
-                <Rocket className="w-6 h-6 text-white" />
+                🚀
               </div>
               <h3 className="text-white font-semibold mb-2">Swipe & Discover</h3>
               <p className="text-white/70 text-sm">Browse apps like trading cards</p>
             </div>
             <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
               <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center text-2xl mb-4 mx-auto">
-                <DollarIcon className="w-6 h-6 text-white" />
+                💰
               </div>
               <h3 className="text-white font-semibold mb-2">Invest & Trade</h3>
               <p className="text-white/70 text-sm">Buy, sell, and trade app ownership</p>
             </div>
             <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
               <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center text-2xl mb-4 mx-auto">
-                <TargetIcon className="w-6 h-6 text-white" />
+                🎯
               </div>
               <h3 className="text-white font-semibold mb-2">Place Bets</h3>
               <p className="text-white/70 text-sm">Bet on app success and growth</p>
             </div>
             <div className="backdrop-blur-sm bg-white/5 border border-white/10 rounded-2xl p-6">
               <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl flex items-center justify-center text-2xl mb-4 mx-auto">
-                <TrophyIcon className="w-6 h-6 text-white" />
+                🏆
               </div>
               <h3 className="text-white font-semibold mb-2">Build Portfolio</h3>
               <p className="text-white/70 text-sm">Create your digital asset collection</p>
@@ -1031,9 +1028,8 @@ export default function TradingCardAppPlatform() {
   }
 
   return (
-    <div className={`min-h-screen ${theme === 'dark' ? 'dark' : ''}`}>
+    <div className={`min-h-screen ${isDarkMode ? 'dark' : ''}`}>
       {renderCurrentScreen()}
-      <BottomNavigation />
     </div>
   )
 }
