@@ -1,0 +1,422 @@
+// Prisma Schema for ECE Trading Cards Production Database
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// User Management
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  username  String   @unique
+  firstName String?
+  lastName  String?
+  avatar    String?
+  
+  // Authentication
+  passwordHash String?
+  emailVerified DateTime?
+  
+  // Subscription & Billing
+  subscription UserSubscription?
+  
+  // Trading & Wallet
+  eceBalance    Float   @default(0.0)
+  cryptoWallets CryptoWallet[]
+  physicalCard  PhysicalCard?
+  
+  // Collections & Trading
+  ownedCards     Card[]        @relation("CardOwner")
+  tradingHistory Transaction[]
+  bids          Bid[]
+  listings      MarketplaceListing[]
+  
+  // Social & Notifications
+  notifications Notification[]
+  socialFeeds   SocialFeed[]
+  followers     Follow[]      @relation("Follower")
+  following     Follow[]      @relation("Following")
+  
+  // Metadata
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  lastActive DateTime @default(now())
+  
+  @@map("users")
+}
+
+// Subscription Management
+model UserSubscription {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  plan           SubscriptionPlan @default(FREE)
+  status         SubscriptionStatus @default(ACTIVE)
+  currentPeriodStart DateTime
+  currentPeriodEnd   DateTime
+  cancelAtPeriodEnd  Boolean @default(false)
+  
+  // Features & Usage
+  features SubscriptionFeatures?
+  usage    SubscriptionUsage?
+  
+  // Billing
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("user_subscriptions")
+}
+
+model SubscriptionFeatures {
+  id             String @id @default(cuid())
+  subscriptionId String @unique
+  subscription   UserSubscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  
+  // Trading Features
+  maxTrades          Int     @default(10)
+  advancedAnalytics  Boolean @default(false)
+  prioritySupport    Boolean @default(false)
+  
+  // Marketplace Features
+  marketplaceAccess  Boolean @default(true)
+  premiumListings    Boolean @default(false)
+  bulkOperations     Boolean @default(false)
+  
+  // Financial Features
+  cryptoPayments     Boolean @default(false)
+  physicalCard       Boolean @default(false)
+  businessStipend    Float   @default(0.0)
+  withdrawalLimit    Float   @default(1000.0)
+  
+  @@map("subscription_features")
+}
+
+model SubscriptionUsage {
+  id             String @id @default(cuid())
+  subscriptionId String @unique
+  subscription   UserSubscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  
+  tradesThisMonth    Int   @default(0)
+  listingsThisMonth  Int   @default(0)
+  stipendUsed        Float @default(0.0)
+  
+  lastResetAt DateTime @default(now())
+  
+  @@map("subscription_usage")
+}
+
+// Card System
+model Card {
+  id           String @id @default(cuid())
+  name         String
+  description  String?
+  category     CardCategory
+  rarity       CardRarity
+  company      String?
+  
+  // Valuation
+  currentPrice    Float
+  historicalPrices Json? // Array of price history
+  
+  // Metadata
+  imageUrl     String?
+  metadata     Json? // Additional card-specific data
+  stats        Json? // Card stats (speed, luxury, etc.)
+  
+  // Ownership & Trading
+  ownerId      String
+  owner        User   @relation("CardOwner", fields: [ownerId], references: [id])
+  
+  // Marketplace
+  listing      MarketplaceListing?
+  bids         Bid[]
+  transactions Transaction[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("cards")
+}
+
+// Marketplace System
+model MarketplaceListing {
+  id     String @id @default(cuid())
+  cardId String @unique
+  card   Card   @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  
+  sellerId String
+  seller   User   @relation(fields: [sellerId], references: [id])
+  
+  price        Float
+  listingType  ListingType @default(FIXED_PRICE)
+  auctionEnd   DateTime?
+  
+  status    ListingStatus @default(ACTIVE)
+  featured  Boolean @default(false)
+  
+  bids      Bid[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("marketplace_listings")
+}
+
+model Bid {
+  id        String @id @default(cuid())
+  listingId String
+  listing   MarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  
+  bidderId String
+  bidder   User   @relation(fields: [bidderId], references: [id])
+  
+  cardId String
+  card   Card   @relation(fields: [cardId], references: [id])
+  
+  amount   Float
+  status   BidStatus @default(PENDING)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("bids")
+}
+
+// Transaction System
+model Transaction {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+  
+  cardId String?
+  card   Card?  @relation(fields: [cardId], references: [id])
+  
+  type        TransactionType
+  amount      Float
+  currency    String @default("ECE")
+  
+  status      TransactionStatus @default(PENDING)
+  description String?
+  metadata    Json? // Additional transaction data
+  
+  // Payment Processing
+  paymentMethod String?
+  paymentId     String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("transactions")
+}
+
+// Crypto Wallet System
+model CryptoWallet {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  currency String // BTC, ETH, USDC, etc.
+  address  String
+  balance  Float  @default(0.0)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([userId, currency])
+  @@map("crypto_wallets")
+}
+
+model PhysicalCard {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  cardNumber String  @unique
+  expiryDate String
+  cvv        String
+  status     PhysicalCardStatus @default(ACTIVE)
+  
+  // Apple Wallet Integration
+  appleWalletPassId String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("physical_cards")
+}
+
+// Notification System
+model Notification {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  type     NotificationType
+  title    String
+  message  String
+  data     Json? // Additional notification data
+  
+  read     Boolean @default(false)
+  priority NotificationPriority @default(MEDIUM)
+  
+  requiresSubscription SubscriptionPlan?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("notifications")
+}
+
+// Social System
+model SocialFeed {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  type    SocialFeedType
+  content String
+  data    Json? // Additional feed data
+  
+  likes    Int @default(0)
+  comments Int @default(0)
+  shares   Int @default(0)
+  
+  visibility SocialVisibility @default(PUBLIC)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("social_feeds")
+}
+
+model Follow {
+  id          String @id @default(cuid())
+  followerId  String
+  follower    User   @relation("Follower", fields: [followerId], references: [id], onDelete: Cascade)
+  followingId String
+  following   User   @relation("Following", fields: [followingId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  
+  @@unique([followerId, followingId])
+  @@map("follows")
+}
+
+// Enums
+enum SubscriptionPlan {
+  FREE
+  PRO
+  ENTERPRISE
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  PAST_DUE
+  UNPAID
+}
+
+enum CardCategory {
+  AUTOMOTIVE
+  TECHNOLOGY
+  REAL_ESTATE
+  LUXURY
+  COLLECTIBLES
+  GAMING
+  SPORTS
+  ENTERTAINMENT
+}
+
+enum CardRarity {
+  COMMON
+  RARE
+  EPIC
+  LEGENDARY
+  MYTHIC
+}
+
+enum ListingType {
+  FIXED_PRICE
+  AUCTION
+  DUTCH_AUCTION
+}
+
+enum ListingStatus {
+  ACTIVE
+  SOLD
+  EXPIRED
+  CANCELED
+}
+
+enum BidStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  EXPIRED
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  PURCHASE
+  SALE
+  TRADE
+  REWARD
+  REFUND
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  CANCELED
+  REFUNDED
+}
+
+enum PhysicalCardStatus {
+  ACTIVE
+  BLOCKED
+  EXPIRED
+  REQUESTED
+}
+
+enum NotificationType {
+  MARKET
+  SOCIAL
+  TRADING
+  IPO
+  PRICE_ALERT
+  SYSTEM
+}
+
+enum NotificationPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum SocialFeedType {
+  TRADE
+  PURCHASE
+  ACHIEVEMENT
+  POST
+  SHARE
+}
+
+enum SocialVisibility {
+  PUBLIC
+  FRIENDS
+  PRIVATE
+}
