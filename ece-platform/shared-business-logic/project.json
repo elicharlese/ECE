@@ -1,9 +1,0 @@
-{
-  "name": "shared-business-logic",
-  "$schema": "../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "shared-business-logic/src",
-  "projectType": "library",
-  "tags": [],
-  "// targets": "to see all targets run: nx show project shared-business-logic --web",
-  "targets": {}
-}
