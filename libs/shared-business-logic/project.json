@@ -1,9 +1,31 @@
 {
   "name": "shared-business-logic",
-  "$schema": "../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "shared-business-logic/src",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared-business-logic/src",
   "projectType": "library",
-  "tags": [],
-  "// targets": "to see all targets run: nx show project shared-business-logic --web",
-  "targets": {}
+  "tags": ["scope:shared", "type:business-logic"],
+  "targets": {
+    "build": {
+      "executor": "@nx/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shared-business-logic"
+      }
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "passWithNoTests": true,
+        "reportsDirectory": "../../coverage/libs/shared-business-logic"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/shared-business-logic/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  }
 }

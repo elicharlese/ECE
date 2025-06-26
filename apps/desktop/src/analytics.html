@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECE Analytics Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #272822 0%, #1e1f1a 100%);
+            color: #F8EFD6;
+            overflow-x: hidden;
+        }
+        
+        .analytics-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto auto;
+            gap: 20px;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .analytics-card {
+            background: rgba(248, 239, 214, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(249, 38, 114, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .analytics-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(249, 38, 114, 0.3);
+            box-shadow: 0 8px 32px rgba(249, 38, 114, 0.1);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #A6E22E;
+        }
+        
+        .card-subtitle {
+            font-size: 12px;
+            color: #75715E;
+            margin-top: 4px;
+        }
+        
+        .realtime-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #66D9EF;
+        }
+        
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #3EBA7C;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+        
+        .webgl-container {
+            height: 300px;
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+        
+        .metric-item {
+            text-align: center;
+            padding: 12px;
+            background: rgba(129, 154, 255, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(129, 154, 255, 0.2);
+        }
+        
+        .metric-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #819AFF;
+            display: block;
+        }
+        
+        .metric-label {
+            font-size: 12px;
+            color: #75715E;
+            margin-top: 4px;
+        }
+        
+        .metric-change {
+            font-size: 11px;
+            margin-top: 2px;
+        }
+        
+        .positive { color: #3EBA7C; }
+        .negative { color: #FD5C63; }
+        
+        .portfolio-3d {
+            grid-column: 1 / -1;
+            height: 400px;
+        }
+        
+        .heatmap-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 2px;
+            margin-top: 20px;
+        }
+        
+        .heatmap-cell {
+            aspect-ratio: 1;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .heatmap-cell:hover {
+            transform: scale(1.1);
+            z-index: 10;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        }
+        
+        .controls-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(39, 40, 34, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(249, 38, 114, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            z-index: 100;
+        }
+        
+        .control-group {
+            margin-bottom: 12px;
+        }
+        
+        .control-label {
+            font-size: 12px;
+            color: #A6E22E;
+            margin-bottom: 4px;
+            display: block;
+        }
+        
+        .control-input {
+            width: 100%;
+            padding: 6px;
+            background: rgba(248, 239, 214, 0.1);
+            border: 1px solid rgba(249, 38, 114, 0.2);
+            border-radius: 4px;
+            color: #F8EFD6;
+            font-size: 12px;
+        }
+        
+        .btn-control {
+            background: linear-gradient(90deg, #66D9EF, #3EBA7C);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 8px;
+        }
+        
+        .btn-control:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 217, 239, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="controls-panel">
+        <div class="control-group">
+            <label class="control-label">Time Range</label>
+            <select class="control-input" id="timeRange">
+                <option value="1h">1 Hour</option>
+                <option value="24h" selected>24 Hours</option>
+                <option value="7d">7 Days</option>
+                <option value="30d">30 Days</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Update Interval</label>
+            <select class="control-input" id="updateInterval">
+                <option value="1000">1 Second</option>
+                <option value="5000" selected>5 Seconds</option>
+                <option value="30000">30 Seconds</option>
+                <option value="60000">1 Minute</option>
+            </select>
+        </div>
+        <button class="btn-control" onclick="exportAnalytics()">Export Data</button>
+        <button class="btn-control" onclick="resetView()">Reset View</button>
+    </div>
+
+    <div class="analytics-container">
+        <!-- Portfolio Performance Chart -->
+        <div class="analytics-card">
+            <div class="card-header">
+                <div>
+                    <div class="card-title">Portfolio Performance</div>
+                    <div class="card-subtitle">Real-time value tracking</div>
+                </div>
+                <div class="realtime-indicator">
+                    <span class="pulse-dot"></span>
+                    <span>Live</span>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="portfolioChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Market Analytics -->
+        <div class="analytics-card">
+            <div class="card-header">
+                <div>
+                    <div class="card-title">Market Analytics</div>
+                    <div class="card-subtitle">Price movements and volume</div>
+                </div>
+                <div class="realtime-indicator">
+                    <span class="pulse-dot"></span>
+                    <span>Live</span>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="marketChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Trading Metrics -->
+        <div class="analytics-card">
+            <div class="card-header">
+                <div>
+                    <div class="card-title">Trading Metrics</div>
+                    <div class="card-subtitle">Performance indicators</div>
+                </div>
+            </div>
+            <div class="metric-grid">
+                <div class="metric-item">
+                    <span class="metric-value" id="totalValue">$12,847</span>
+                    <div class="metric-label">Portfolio Value</div>
+                    <div class="metric-change positive">+5.2%</div>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-value" id="dailyPnL">+$642</span>
+                    <div class="metric-label">Daily P&L</div>
+                    <div class="metric-change positive">+3.1%</div>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-value" id="activeOrders">23</span>
+                    <div class="metric-label">Active Orders</div>
+                    <div class="metric-change">-2</div>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-value" id="winRate">73.2%</span>
+                    <div class="metric-label">Win Rate</div>
+                    <div class="metric-change positive">+1.8%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Market Heatmap -->
+        <div class="analytics-card">
+            <div class="card-header">
+                <div>
+                    <div class="card-title">Market Heatmap</div>
+                    <div class="card-subtitle">Card rarity performance</div>
+                </div>
+            </div>
+            <div class="heatmap-grid" id="heatmapGrid">
+                <!-- Heatmap cells will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- 3D Portfolio Visualization -->
+        <div class="analytics-card portfolio-3d">
+            <div class="card-header">
+                <div>
+                    <div class="card-title">3D Portfolio Composition</div>
+                    <div class="card-subtitle">Interactive card distribution</div>
+                </div>
+                <div class="realtime-indicator">
+                    <span class="pulse-dot"></span>
+                    <span>Interactive</span>
+                </div>
+            </div>
+            <div class="webgl-container" id="threejsContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        // Chart.js Configuration
+        const chartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#F8EFD6'
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: { color: '#75715E' },
+                    grid: { color: 'rgba(249, 38, 114, 0.1)' }
+                },
+                y: {
+                    ticks: { color: '#75715E' },
+                    grid: { color: 'rgba(249, 38, 114, 0.1)' }
+                }
+            }
+        };
+
+        // Portfolio Performance Chart
+        const portfolioCtx = document.getElementById('portfolioChart').getContext('2d');
+        const portfolioChart = new Chart(portfolioCtx, {
+            type: 'line',
+            data: {
+                labels: generateTimeLabels(24),
+                datasets: [{
+                    label: 'Portfolio Value',
+                    data: generateRandomData(24, 12000, 15000),
+                    borderColor: '#A6E22E',
+                    backgroundColor: 'rgba(166, 226, 46, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: chartOptions
+        });
+
+        // Market Analytics Chart
+        const marketCtx = document.getElementById('marketChart').getContext('2d');
+        const marketChart = new Chart(marketCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary'],
+                datasets: [{
+                    label: 'Volume',
+                    data: [1250, 890, 340, 120, 45],
+                    backgroundColor: [
+                        'rgba(117, 113, 94, 0.8)',
+                        'rgba(102, 217, 239, 0.8)',
+                        'rgba(166, 226, 46, 0.8)',
+                        'rgba(249, 38, 114, 0.8)',
+                        'rgba(230, 219, 116, 0.8)'
+                    ],
+                    borderColor: [
+                        '#75715E',
+                        '#66D9EF',
+                        '#A6E22E',
+                        '#F92672',
+                        '#E6DB74'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: chartOptions
+        });
+
+        // Generate heatmap
+        function generateHeatmap() {
+            const grid = document.getElementById('heatmapGrid');
+            const rarities = ['Common', 'Uncommon', 'Rare', 'Epic', 'Legendary'];
+            const colors = ['#75715E', '#66D9EF', '#A6E22E', '#F92672', '#E6DB74'];
+            
+            for (let i = 0; i < 40; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'heatmap-cell';
+                const rarity = Math.floor(Math.random() * 5);
+                const intensity = Math.random();
+                cell.style.backgroundColor = colors[rarity];
+                cell.style.opacity = 0.3 + (intensity * 0.7);
+                cell.textContent = Math.floor(Math.random() * 100);
+                cell.title = `${rarities[rarity]} - Value: ${cell.textContent}`;
+                grid.appendChild(cell);
+            }
+        }
+
+        // Three.js 3D Visualization
+        function init3DVisualization() {
+            const container = document.getElementById('threejsContainer');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, container.offsetWidth / container.offsetHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            
+            renderer.setSize(container.offsetWidth, container.offsetHeight);
+            renderer.setClearColor(0x000000, 0);
+            container.appendChild(renderer.domElement);
+
+            // Create portfolio visualization (floating cards)
+            const cardGeometry = new THREE.PlaneGeometry(2, 3);
+            const cards = [];
+            
+            for (let i = 0; i < 50; i++) {
+                const cardMaterial = new THREE.MeshBasicMaterial({
+                    color: new THREE.Color().setHSL(Math.random(), 0.8, 0.6),
+                    transparent: true,
+                    opacity: 0.8
+                });
+                
+                const card = new THREE.Mesh(cardGeometry, cardMaterial);
+                card.position.set(
+                    (Math.random() - 0.5) * 20,
+                    (Math.random() - 0.5) * 20,
+                    (Math.random() - 0.5) * 20
+                );
+                card.rotation.set(
+                    Math.random() * Math.PI,
+                    Math.random() * Math.PI,
+                    Math.random() * Math.PI
+                );
+                
+                scene.add(card);
+                cards.push(card);
+            }
+
+            camera.position.z = 15;
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                // Rotate cards slowly
+                cards.forEach(card => {
+                    card.rotation.x += 0.001;
+                    card.rotation.y += 0.002;
+                });
+                
+                // Camera orbit
+                const time = Date.now() * 0.0005;
+                camera.position.x = Math.cos(time) * 15;
+                camera.position.z = Math.sin(time) * 15;
+                camera.lookAt(scene.position);
+                
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = container.offsetWidth / container.offsetHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.offsetWidth, container.offsetHeight);
+            });
+        }
+
+        // Utility functions
+        function generateTimeLabels(count) {
+            const labels = [];
+            const now = new Date();
+            for (let i = count - 1; i >= 0; i--) {
+                const time = new Date(now.getTime() - i * 60 * 60 * 1000);
+                labels.push(time.getHours() + ':00');
+            }
+            return labels;
+        }
+
+        function generateRandomData(count, min, max) {
+            const data = [];
+            let current = (min + max) / 2;
+            for (let i = 0; i < count; i++) {
+                current += (Math.random() - 0.5) * (max - min) * 0.1;
+                current = Math.max(min, Math.min(max, current));
+                data.push(Math.round(current));
+            }
+            return data;
+        }
+
+        // Real-time updates
+        function updateCharts() {
+            // Update portfolio chart
+            const newValue = 12000 + Math.random() * 3000;
+            portfolioChart.data.datasets[0].data.shift();
+            portfolioChart.data.datasets[0].data.push(newValue);
+            portfolioChart.data.labels.shift();
+            portfolioChart.data.labels.push(new Date().getHours() + ':' + new Date().getMinutes());
+            portfolioChart.update('none');
+
+            // Update metrics
+            document.getElementById('totalValue').textContent = '$' + newValue.toFixed(0);
+            document.getElementById('dailyPnL').textContent = '+$' + (Math.random() * 1000).toFixed(0);
+        }
+
+        // Control functions
+        function exportAnalytics() {
+            console.log('Exporting analytics data...');
+            // Implement data export
+        }
+
+        function resetView() {
+            console.log('Resetting view...');
+            // Reset all charts and 3D view
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            generateHeatmap();
+            init3DVisualization();
+            
+            // Start real-time updates
+            setInterval(updateCharts, 5000);
+            
+            // Setup Electron IPC listeners
+            if (window.electronAPI) {
+                // Listen for generate report command
+                window.electronAPI.onGenerateReport(() => {
+                    generateReport();
+                });
+                
+                // Listen for export analytics command
+                window.electronAPI.onExportAnalytics(() => {
+                    exportAnalytics();
+                });
+                
+                console.log('Analytics dashboard initialized in Electron');
+            }
+        });
+
+        // Enhanced functions for Electron integration
+        function generateReport() {
+            console.log('Generating comprehensive analytics report...');
+            
+            const reportData = {
+                timestamp: new Date().toISOString(),
+                portfolioValue: parseFloat(document.getElementById('totalValue').textContent.replace('$', '')),
+                dailyPnL: parseFloat(document.getElementById('dailyPnL').textContent.replace('+$', '')),
+                chartData: {
+                    portfolio: portfolioChart.data,
+                    market: marketChart.data
+                },
+                metrics: {
+                    totalCards: Math.floor(Math.random() * 1000),
+                    activeOrders: Math.floor(Math.random() * 50),
+                    completedTrades: Math.floor(Math.random() * 200)
+                }
+            };
+            
+            // Send report data to main process for saving
+            if (window.electronAPI) {
+                window.electronAPI.exportToFile(reportData, 'analytics-report.json');
+            }
+            
+            return reportData;
+        }
+
+        function exportAnalytics() {
+            console.log('Exporting analytics data...');
+            
+            const analyticsData = {
+                exportType: 'analytics',
+                timestamp: new Date().toISOString(),
+                data: generateReport()
+            };
+            
+            if (window.electronAPI) {
+                window.electronAPI.exportToFile(analyticsData, 'ece-analytics-export.json');
+            }
+        }
+    </script>
+</body>
+</html>

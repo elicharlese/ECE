@@ -1,9 +1,22 @@
 {
-  "name": "@ece-platform/shared-types",
+  "name": "@ece/shared-types",
   "version": "0.0.1",
-  "private": true,
   "type": "module",
-  "main": "./index.js",
-  "types": "./index.d.ts",
-  "dependencies": {}
+  "description": "Shared TypeScript types for ECE Trading Cards",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "types": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "nx build shared-types",
+    "test": "nx test shared-types",
+    "lint": "nx lint shared-types"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "peerDependencies": {}
 }

@@ -5,7 +5,7 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
-    "dev": "electron . --dev",
+    "dev": "NODE_ENV=development electron .",
     "build": "electron-builder",
     "pack": "electron-builder --dir",
     "dist": "electron-builder --publish=never"
@@ -18,26 +18,8 @@
     "electron-builder": "^25.0.0"
   },
   "dependencies": {
-    "electron-updater": "^6.0.0"
-  },
-  "build": {
-    "appId": "com.ece.trading-cards",
-    "productName": "ECE Trading Cards",
-    "directories": {
-      "output": "dist"
-    },
-    "files": [
-      "src/**/*",
-      "node_modules/**/*"
-    ],
-    "mac": {
-      "category": "public.app-category.finance"
-    },
-    "win": {
-      "target": "nsis"
-    },
-    "linux": {
-      "target": "AppImage"
-    }
+    "sqlite3": "^5.1.7",
+    "axios": "^1.6.0",
+    "electron-updater": "^6.1.0"
   }
 }

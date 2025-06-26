@@ -1,9 +1,22 @@
 {
-  "name": "@ece-platform/shared-business-logic",
+  "name": "@ece/shared-business-logic",
   "version": "0.0.1",
-  "private": true,
   "type": "module",
-  "main": "./index.js",
-  "types": "./index.d.ts",
-  "dependencies": {}
+  "description": "Shared business logic for ECE Trading Cards",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "exports": {
+    ".": {
+      "import": "./src/index.ts",
+      "types": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "nx build shared-business-logic",
+    "test": "nx test shared-business-logic",
+    "lint": "nx lint shared-business-logic"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "peerDependencies": {}
 }

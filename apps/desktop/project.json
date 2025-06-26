@@ -1,0 +1,39 @@
+{
+  "name": "desktop",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/desktop/src",
+  "projectType": "application",
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "electron . --dev",
+        "cwd": "apps/desktop"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "command": "electron-builder",
+        "cwd": "apps/desktop",
+        "outputPath": "dist/apps/desktop"
+      }
+    },
+    "pack": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "electron-builder --dir",
+        "cwd": "apps/desktop"
+      }
+    },
+    "dist": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "electron-builder --publish=never",
+        "cwd": "apps/desktop"
+      }
+    }
+  },
+  "tags": []
+}
