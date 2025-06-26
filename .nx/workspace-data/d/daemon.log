@@ -1,0 +1,203 @@
+[NX Daemon Server] - 2025-06-26T00:02:21.898Z - Started listening on: /var/folders/s5/cc79jkh962vg8mrfnqhynjl40000gn/T/46b93282b1740dea5b8d/d.sock
+[NX Daemon Server] - 2025-06-26T00:02:21.903Z - [WATCHER]: Subscribed to changes within: /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE (native)
+[NX Daemon Server] - 2025-06-26T00:02:21.907Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-06-26T00:02:21.908Z - Established a connection. Number of open connections: 2
+[NX Daemon Server] - 2025-06-26T00:02:21.913Z - Closed a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-06-26T00:02:21.917Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2025-06-26T00:02:22.252Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2025-06-26T00:02:22.252Z - [REQUEST]: 
+[NX Daemon Server] - 2025-06-26T00:02:22.252Z - [REQUEST]: 
+[NX Daemon Server] - 2025-06-26T00:02:22.263Z - Time taken for 'loadNxPlugins' 330.992084ms
+[NX Daemon Server] - 2025-06-26T00:02:22.332Z - Time taken for 'build-project-configs' 47.34162500000002ms
+[NX Daemon Server] - 2025-06-26T00:02:22.711Z - Error detected when creating a project graph: Failed to create project graph. See above for errors
+[NX Daemon Server] - 2025-06-26T00:02:22.712Z - [REQUEST]: Responding to the client with an error. Error when preparing serialized project graph. Failed to process project graph. Run "nx reset" to fix this. Please report the issue if you keep seeing it.
+Failed to process project graph. Run "nx reset" to fix this. Please report the issue if you keep seeing it.
+      An error occurred while processing files for the nx/core/project-json plugin.
+    - apps/desktop/project.json: ValueExpected in /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/apps/desktop/project.json at 1:1
+  > 1 | 
+      | ^
+  
+      Error: ValueExpected in /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/apps/desktop/project.json at 1:1
+      > 1 | 
+          | ^
+      
+          at parseJson (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/utils/json.js:29:15)
+          at readJsonFile (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/utils/fileutils.js:32:37)
+          at /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/plugins/project-json/build-nodes/project-json.js:16:59
+          at /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/utils.js:10:33
+          at Array.map (<anonymous>)
+          at createNodesFromFiles (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/utils.js:8:35)
+          at exports.ProjectJsonProjectsPlugin.createNodesV2 (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/plugins/project-json/build-nodes/project-json.js:15:55)
+          at LoadedNxPlugin.createNodes (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/internal-api.js:34:65)
+          at LoadedNxPlugin.createNodes.<computed> (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/internal-api.js:44:34)
+          at createNodes (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/isolation/plugin-worker.js:66:63)
+    - apps/ece-web/project.json: ValueExpected in /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/apps/ece-web/project.json at 1:1
+  > 1 | 
+      | ^
+  
+      Error: ValueExpected in /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/apps/ece-web/project.json at 1:1
+      > 1 | 
+          | ^
+      
+          at parseJson (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/utils/json.js:29:15)
+          at readJsonFile (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/utils/fileutils.js:32:37)
+          at /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/plugins/project-json/build-nodes/project-json.js:16:59
+          at /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/utils.js:10:33
+          at Array.map (<anonymous>)
+          at createNodesFromFiles (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/utils.js:8:35)
+          at exports.ProjectJsonProjectsPlugin.createNodesV2 (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/plugins/project-json/build-nodes/project-json.js:15:55)
+          at LoadedNxPlugin.createNodes (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/internal-api.js:34:65)
+          at LoadedNxPlugin.createNodes.<computed> (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/internal-api.js:44:34)
+          at createNodes (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/isolation/plugin-worker.js:66:63)
+    WorkspaceValidityError: Configuration Error
+  The following implicitDependencies point to non-existent project(s):
+    ece-web-e2e
+      ece-web
+      at assertWorkspaceValidity (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/utils/assert-workspace-validity.js:71:11)
+      at buildProjectGraphUsingProjectFileMap (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/build-project-graph.js:55:65)
+      at createAndSerializeProjectGraph (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/daemon/server/project-graph-incremental-recomputation.js:241:124)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async processFilesAndCreateAndSerializeProjectGraph (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/daemon/server/project-graph-incremental-recomputation.js:172:19)
+      at async getCachedSerializedProjectGraphPromise (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/daemon/server/project-graph-incremental-recomputation.js:52:24)
+      at async handleRequestProjectGraph (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/daemon/server/handle-request-project-graph.js:12:24)
+      at async handleResult (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/daemon/server/server.js:172:16)
+      at async handleMessage (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/daemon/server/server.js:107:9)
+      at async /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/daemon/server/server.js:72:9
+[NX Daemon Server] - 2025-06-26T00:02:22.712Z - Time taken for 'build project graph' 384.006167ms
+[NX Daemon Server] - 2025-06-26T00:02:22.713Z - Done responding to the client null
+[NX Daemon Server] - 2025-06-26T00:02:22.713Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 794. Response time: 2.
+[NX Daemon Server] - 2025-06-26T00:02:22.714Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2025-06-26T00:04:07.194Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-06-26T00:04:07.195Z - Established a connection. Number of open connections: 2
+[NX Daemon Server] - 2025-06-26T00:04:07.195Z - Closed a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-06-26T00:04:07.196Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2025-06-26T00:04:07.206Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2025-06-26T00:04:07.206Z - [REQUEST]: 
+[NX Daemon Server] - 2025-06-26T00:04:07.206Z - [REQUEST]: 
+[NX Daemon Server] - 2025-06-26T00:04:07.209Z - Time taken for 'hash changed files from watcher' 9.300082999994629ms
+[NX Daemon Server] - 2025-06-26T00:04:07.232Z - Time taken for 'build-project-configs' 20.06679100000474ms
+[NX Daemon Server] - 2025-06-26T00:04:07.291Z - Error detected when creating a project graph: Failed to create project graph. See above for errors
+[NX Daemon Server] - 2025-06-26T00:04:07.292Z - [REQUEST]: Responding to the client with an error. Error when preparing serialized project graph. Failed to process project graph. Run "nx reset" to fix this. Please report the issue if you keep seeing it.
+Failed to process project graph. Run "nx reset" to fix this. Please report the issue if you keep seeing it.
+      An error occurred while processing files for the nx/core/project-json plugin.
+    - apps/desktop/project.json: ValueExpected in /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/apps/desktop/project.json at 1:1
+  > 1 | 
+      | ^
+  
+      Error: ValueExpected in /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/apps/desktop/project.json at 1:1
+      > 1 | 
+          | ^
+      
+          at parseJson (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/utils/json.js:29:15)
+          at readJsonFile (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/utils/fileutils.js:32:37)
+          at /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/plugins/project-json/build-nodes/project-json.js:16:59
+          at /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/utils.js:10:33
+          at Array.map (<anonymous>)
+          at createNodesFromFiles (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/utils.js:8:35)
+          at exports.ProjectJsonProjectsPlugin.createNodesV2 (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/plugins/project-json/build-nodes/project-json.js:15:55)
+          at LoadedNxPlugin.createNodes (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/internal-api.js:34:65)
+          at LoadedNxPlugin.createNodes.<computed> (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/internal-api.js:44:34)
+          at createNodes (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/isolation/plugin-worker.js:66:63)
+    - apps/ece-web/project.json: ValueExpected in /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/apps/ece-web/project.json at 1:1
+  > 1 | 
+      | ^
+  
+      Error: ValueExpected in /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/apps/ece-web/project.json at 1:1
+      > 1 | 
+          | ^
+      
+          at parseJson (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/utils/json.js:29:15)
+          at readJsonFile (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/utils/fileutils.js:32:37)
+          at /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/plugins/project-json/build-nodes/project-json.js:16:59
+          at /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/utils.js:10:33
+          at Array.map (<anonymous>)
+          at createNodesFromFiles (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/utils.js:8:35)
+          at exports.ProjectJsonProjectsPlugin.createNodesV2 (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/plugins/project-json/build-nodes/project-json.js:15:55)
+          at LoadedNxPlugin.createNodes (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/internal-api.js:34:65)
+          at LoadedNxPlugin.createNodes.<computed> (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/internal-api.js:44:34)
+          at createNodes (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/isolation/plugin-worker.js:66:63)
+    WorkspaceValidityError: Configuration Error
+  The following implicitDependencies point to non-existent project(s):
+    ece-web-e2e
+      ece-web
+      at assertWorkspaceValidity (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/utils/assert-workspace-validity.js:71:11)
+      at buildProjectGraphUsingProjectFileMap (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/build-project-graph.js:55:65)
+      at createAndSerializeProjectGraph (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/daemon/server/project-graph-incremental-recomputation.js:241:124)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async processFilesAndCreateAndSerializeProjectGraph (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/daemon/server/project-graph-incremental-recomputation.js:172:19)
+      at async getCachedSerializedProjectGraphPromise (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/daemon/server/project-graph-incremental-recomputation.js:52:24)
+      at async handleRequestProjectGraph (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/daemon/server/handle-request-project-graph.js:12:24)
+      at async handleResult (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/daemon/server/server.js:172:16)
+      at async handleMessage (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/daemon/server/server.js:107:9)
+      at async /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/daemon/server/server.js:72:9
+[NX Daemon Server] - 2025-06-26T00:04:07.292Z - Time taken for 'build project graph' 63.019916999997804ms
+[NX Daemon Server] - 2025-06-26T00:04:07.293Z - Done responding to the client null
+[NX Daemon Server] - 2025-06-26T00:04:07.293Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 96. Response time: 1.
+[NX Daemon Server] - 2025-06-26T00:04:07.297Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2025-06-26T00:04:30.999Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-06-26T00:04:31.000Z - Established a connection. Number of open connections: 2
+[NX Daemon Server] - 2025-06-26T00:04:31.000Z - Closed a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-06-26T00:04:31.001Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2025-06-26T00:04:31.007Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2025-06-26T00:04:31.007Z - [REQUEST]: 
+[NX Daemon Server] - 2025-06-26T00:04:31.007Z - [REQUEST]: 
+[NX Daemon Server] - 2025-06-26T00:04:31.010Z - Time taken for 'hash changed files from watcher' 5.134666999991168ms
+[NX Daemon Server] - 2025-06-26T00:04:31.037Z - Time taken for 'build-project-configs' 24.89304200001061ms
+[NX Daemon Server] - 2025-06-26T00:04:31.119Z - Error detected when creating a project graph: Failed to create project graph. See above for errors
+[NX Daemon Server] - 2025-06-26T00:04:31.119Z - [REQUEST]: Responding to the client with an error. Error when preparing serialized project graph. Failed to process project graph. Run "nx reset" to fix this. Please report the issue if you keep seeing it.
+Failed to process project graph. Run "nx reset" to fix this. Please report the issue if you keep seeing it.
+      An error occurred while processing files for the nx/core/project-json plugin.
+    - apps/desktop/project.json: ValueExpected in /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/apps/desktop/project.json at 1:1
+  > 1 | 
+      | ^
+  
+      Error: ValueExpected in /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/apps/desktop/project.json at 1:1
+      > 1 | 
+          | ^
+      
+          at parseJson (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/utils/json.js:29:15)
+          at readJsonFile (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/utils/fileutils.js:32:37)
+          at /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/plugins/project-json/build-nodes/project-json.js:16:59
+          at /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/utils.js:10:33
+          at Array.map (<anonymous>)
+          at createNodesFromFiles (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/utils.js:8:35)
+          at exports.ProjectJsonProjectsPlugin.createNodesV2 (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/plugins/project-json/build-nodes/project-json.js:15:55)
+          at LoadedNxPlugin.createNodes (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/internal-api.js:34:65)
+          at LoadedNxPlugin.createNodes.<computed> (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/internal-api.js:44:34)
+          at createNodes (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/isolation/plugin-worker.js:66:63)
+    - apps/ece-web/project.json: ValueExpected in /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/apps/ece-web/project.json at 1:1
+  > 1 | 
+      | ^
+  
+      Error: ValueExpected in /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/apps/ece-web/project.json at 1:1
+      > 1 | 
+          | ^
+      
+          at parseJson (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/utils/json.js:29:15)
+          at readJsonFile (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/utils/fileutils.js:32:37)
+          at /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/plugins/project-json/build-nodes/project-json.js:16:59
+          at /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/utils.js:10:33
+          at Array.map (<anonymous>)
+          at createNodesFromFiles (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/utils.js:8:35)
+          at exports.ProjectJsonProjectsPlugin.createNodesV2 (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/plugins/project-json/build-nodes/project-json.js:15:55)
+          at LoadedNxPlugin.createNodes (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/internal-api.js:34:65)
+          at LoadedNxPlugin.createNodes.<computed> (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/internal-api.js:44:34)
+          at createNodes (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/plugins/isolation/plugin-worker.js:66:63)
+    WorkspaceValidityError: Configuration Error
+  The following implicitDependencies point to non-existent project(s):
+    ece-web-e2e
+      ece-web
+      at assertWorkspaceValidity (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/utils/assert-workspace-validity.js:71:11)
+      at buildProjectGraphUsingProjectFileMap (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/project-graph/build-project-graph.js:55:65)
+      at createAndSerializeProjectGraph (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/daemon/server/project-graph-incremental-recomputation.js:241:124)
+      at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+      at async processFilesAndCreateAndSerializeProjectGraph (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/daemon/server/project-graph-incremental-recomputation.js:172:19)
+      at async getCachedSerializedProjectGraphPromise (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/daemon/server/project-graph-incremental-recomputation.js:52:24)
+      at async handleRequestProjectGraph (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/daemon/server/handle-request-project-graph.js:12:24)
+      at async handleResult (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/daemon/server/server.js:172:16)
+      at async handleMessage (/Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/daemon/server/server.js:107:9)
+      at async /Users/elicharlese/Documents/Elias Estrada/Personal/Freelance Documents/ECE/node_modules/nx/src/daemon/server/server.js:72:9
+[NX Daemon Server] - 2025-06-26T00:04:31.120Z - Time taken for 'build project graph' 85.2626670000027ms
+[NX Daemon Server] - 2025-06-26T00:04:31.120Z - Done responding to the client null
+[NX Daemon Server] - 2025-06-26T00:04:31.120Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 118. Response time: 1.
+[NX Daemon Server] - 2025-06-26T00:04:31.122Z - Closed a connection. Number of open connections: 0
