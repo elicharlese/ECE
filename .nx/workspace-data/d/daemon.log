@@ -201,3 +201,20 @@ Failed to process project graph. Run "nx reset" to fix this. Please report the i
 [NX Daemon Server] - 2025-06-26T00:04:31.120Z - Done responding to the client null
 [NX Daemon Server] - 2025-06-26T00:04:31.120Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 118. Response time: 1.
 [NX Daemon Server] - 2025-06-26T00:04:31.122Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2025-06-30T20:13:53.669Z - Started listening on: /tmp/ac78d6c3339da31778c4/d.sock
+[NX Daemon Server] - 2025-06-30T20:13:53.683Z - [WATCHER]: Subscribed to changes within: /workspaces/ECE (native)
+[NX Daemon Server] - 2025-06-30T20:13:53.705Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-06-30T20:13:53.712Z - Established a connection. Number of open connections: 2
+[NX Daemon Server] - 2025-06-30T20:13:53.721Z - [REQUEST]: Responding to the client. Shutdown initiated
+[NX Daemon Server] - 2025-06-30T20:13:53.725Z - Done responding to the client Shutdown initiated
+[NX Daemon Server] - 2025-06-30T20:13:53.725Z - Handled FORCE_SHUTDOWN. Handling time: 2. Response time: 4.
+[NX Daemon Server] - 2025-06-30T20:13:53.725Z - Closed a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-06-30T20:13:53.729Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2025-06-30T20:13:55.468Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2025-06-30T20:13:55.468Z - [REQUEST]: 
+[NX Daemon Server] - 2025-06-30T20:13:55.470Z - [REQUEST]: 
+[NX Daemon Server] - 2025-06-30T20:13:55.541Z - Time taken for 'loadNxPlugins' 1674.7891230000532ms
+[NX Daemon Server] - 2025-06-30T20:13:55.770Z - Time taken for 'build-project-configs' 169.362695000018ms
+[NX Daemon Server] - 2025-06-30T20:13:56.165Z - [WATCHER]: Stopping the watcher for /workspaces/ECE (sources)
+[NX Daemon Server] - 2025-06-30T20:13:56.166Z - [WATCHER]: Stopping the watcher for /workspaces/ECE (outputs)
+[NX Daemon Server] - 2025-06-30T20:13:56.166Z - Server stopped because: "Request to shutdown"

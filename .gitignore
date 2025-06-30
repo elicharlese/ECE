@@ -28,3 +28,4 @@ coverage
 bower_components
 
 # node-wa
+node_modules
