@@ -394,6 +394,74 @@ export interface QuickOrder {
   createdAt: Date
 }
 
+// App Ordering System Interfaces
+export interface AppOrder {
+  id: string
+  userId: string
+  projectType: 'SAAS_DASHBOARD' | 'PORTFOLIO_SITE' | 'ECOMMERCE_STORE' | 'LANDING_PAGE' | 'MOBILE_APP' | 'WEB_APP' | 'CUSTOM'
+  title: string
+  description: string
+  requirements?: any // JSON object with detailed requirements
+  timeline: 'RUSH_2_WEEKS' | 'STANDARD_1_MONTH'
+  estimatedCost: number
+  actualCost?: number
+  currency: string
+  status: 'PENDING' | 'APPROVED' | 'IN_PROGRESS' | 'REVIEW' | 'REVISION_REQUESTED' | 'COMPLETED' | 'DELIVERED' | 'CANCELLED'
+  priority: 'STANDARD' | 'HIGH' | 'URGENT'
+  deliveryDate?: Date
+  githubRepo?: string
+  vercelLink?: string
+  downloadLink?: string
+  progressPercentage: number
+  currentMilestone?: string
+  assignedAdminId?: string
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface OrderRevision {
+  id: string
+  orderId: string
+  userId: string
+  revisionNumber: number
+  title: string
+  description: string
+  status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'COMPLETED'
+  adminResponse?: string
+  adminId?: string
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface OrderCommunication {
+  id: string
+  orderId: string
+  userId: string
+  messageType: 'MESSAGE' | 'PROGRESS_UPDATE' | 'REVISION_REQUEST' | 'DELIVERY_NOTIFICATION' | 'SYSTEM_ALERT'
+  subject?: string
+  message: string
+  isFromAdmin: boolean
+  attachments?: any // JSON array of file URLs and metadata
+  read: boolean
+  important: boolean
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface OrderDeliverable {
+  id: string
+  orderId: string
+  type: 'GITHUB_REPO' | 'VERCEL_DEPLOYMENT' | 'ZIP_DOWNLOAD' | 'DOCUMENTATION' | 'ASSETS' | 'APP_CARD'
+  title: string
+  description?: string
+  url?: string
+  filePath?: string
+  status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'DELIVERED'
+  delivered: boolean
+  createdAt: Date
+  updatedAt: Date
+}
+
 // API Response Types
 export interface ApiResponse<T> {
   success: boolean

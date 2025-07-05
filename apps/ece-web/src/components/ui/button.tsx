@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 import { forwardRef } from 'react'
 
 interface ButtonProps {
-  variant?: 'primary' | 'secondary' | 'accent' | 'ghost'
+  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'outline'
   size?: 'sm' | 'md' | 'lg'
   children: React.ReactNode
   className?: string
@@ -30,7 +30,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     primary: "bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl",
     secondary: "bg-secondary hover:bg-secondary/90 text-secondary-foreground shadow-lg hover:shadow-xl",
     accent: "bg-gradient-ocean text-accent-foreground shadow-lg hover:shadow-xl hover:scale-105",
-    ghost: "bg-transparent hover:bg-muted text-foreground border border-border hover:border-border/80"
+    ghost: "bg-transparent hover:bg-muted text-foreground border border-border hover:border-border/80",
+    outline: "bg-transparent border border-input text-foreground hover:bg-accent hover:text-accent-foreground"
   }
 
   const sizes = {

@@ -10,6 +10,8 @@ import { ThemeToggle } from './theme-toggle'
 
 const navigationItems = [
   { name: 'Features', href: '/features' },
+  { name: 'Orders', href: '/orders' },
+  { name: 'Admin', href: '/admin/orders' },
   { name: 'Pricing', href: '/pricing' }
 ]
 

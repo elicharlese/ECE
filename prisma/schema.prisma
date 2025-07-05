@@ -38,6 +38,11 @@ model User {
   bids          Bid[]
   listings      MarketplaceListing[]
   
+  // App Ordering System
+  appOrders      AppOrder[]
+  orderRevisions OrderRevision[]
+  orderCommunications OrderCommunication[]
+  
   // Social & Notifications
   notifications Notification[]
   socialFeeds   SocialFeed[]
@@ -311,6 +316,188 @@ model Follow {
   
   @@unique([followerId, followingId])
   @@map("follows")
+}
+
+// App Ordering System
+model AppOrder {
+  id      String @id @default(cuid())
+  userId  String
+  user    User   @relation(fields: [userId], references: [id])
+  
+  // Order Details
+  projectType    ProjectType
+  title          String
+  description    String
+  requirements   Json? // Detailed requirements from form
+  
+  // Timeline & Pricing
+  timeline       OrderTimeline
+  estimatedCost  Float
+  actualCost     Float?
+  currency       String @default("ECE")
+  
+  // Status Management
+  status         OrderStatus @default(PENDING)
+  priority       OrderPriority @default(STANDARD)
+  
+  // Delivery Details
+  deliveryDate   DateTime?
+  githubRepo     String?
+  vercelLink     String?
+  downloadLink   String?
+  
+  // Tracking
+  progressPercentage Int @default(0)
+  currentMilestone   String?
+  
+  // Relations
+  revisions      OrderRevision[]
+  communications OrderCommunication[]
+  deliverables   OrderDeliverable[]
+  
+  // Admin Assignment
+  assignedAdminId String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("app_orders")
+}
+
+model OrderRevision {
+  id      String @id @default(cuid())
+  orderId String
+  order   AppOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  userId  String
+  user    User   @relation(fields: [userId], references: [id])
+  
+  revisionNumber Int
+  title          String
+  description    String
+  status         RevisionStatus @default(PENDING)
+  
+  // Admin Response
+  adminResponse  String?
+  adminId        String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("order_revisions")
+}
+
+model OrderCommunication {
+  id      String @id @default(cuid())
+  orderId String
+  order   AppOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  userId  String
+  user    User   @relation(fields: [userId], references: [id])
+  
+  // Message Details
+  messageType CommunicationType
+  subject     String?
+  message     String
+  isFromAdmin Boolean @default(false)
+  
+  // Attachments
+  attachments Json? // File URLs and metadata
+  
+  // Status
+  read        Boolean @default(false)
+  important   Boolean @default(false)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("order_communications")
+}
+
+model OrderDeliverable {
+  id      String @id @default(cuid())
+  orderId String
+  order   AppOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  // Deliverable Details
+  type        DeliverableType
+  title       String
+  description String?
+  url         String?
+  filePath    String?
+  
+  // Status
+  status      DeliverableStatus @default(IN_PROGRESS)
+  delivered   Boolean @default(false)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("order_deliverables")
+}
+
+// App Ordering Enums
+enum ProjectType {
+  SAAS_DASHBOARD
+  PORTFOLIO_SITE
+  ECOMMERCE_STORE
+  LANDING_PAGE
+  MOBILE_APP
+  WEB_APP
+  CUSTOM
+}
+
+enum OrderTimeline {
+  RUSH_2_WEEKS    // $8,000
+  STANDARD_1_MONTH // $4,000
+}
+
+enum OrderStatus {
+  PENDING
+  APPROVED
+  IN_PROGRESS
+  REVIEW
+  REVISION_REQUESTED
+  COMPLETED
+  DELIVERED
+  CANCELLED
+}
+
+enum OrderPriority {
+  STANDARD
+  HIGH
+  URGENT
+}
+
+enum RevisionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  COMPLETED
+}
+
+enum CommunicationType {
+  MESSAGE
+  PROGRESS_UPDATE
+  REVISION_REQUEST
+  DELIVERY_NOTIFICATION
+  SYSTEM_ALERT
+}
+
+enum DeliverableType {
+  GITHUB_REPO
+  VERCEL_DEPLOYMENT
+  ZIP_DOWNLOAD
+  DOCUMENTATION
+  ASSETS
+  APP_CARD
+}
+
+enum DeliverableStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  DELIVERED
 }
 
 // Enums

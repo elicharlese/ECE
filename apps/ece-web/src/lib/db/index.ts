@@ -13,7 +13,11 @@ import {
   Notification,
   MarketplaceListing,
   Bid,
-  SocialFeed 
+  SocialFeed,
+  AppOrder,
+  OrderRevision,
+  OrderCommunication,
+  OrderDeliverable
 } from './schema'
 
 // declare global {
@@ -39,6 +43,11 @@ export const mockDatabase = {
   marketplaceListings: new Map<string, MarketplaceListing>(),
   bids: new Map<string, Bid>(),
   socialFeeds: new Map<string, SocialFeed>(),
+  // App Ordering System
+  appOrders: new Map<string, AppOrder>(),
+  orderRevisions: new Map<string, OrderRevision>(),
+  orderCommunications: new Map<string, OrderCommunication>(),
+  orderDeliverables: new Map<string, OrderDeliverable>(),
 }
 
 // Initialize with sample data
