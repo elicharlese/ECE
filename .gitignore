@@ -27,4 +27,27 @@ coverage
 # Bower dependency directory (https://bower.io/)
 bower_components
 
-# node-wa
+# node_modules
+node_modules/
+
+# Next.js build outputs and cache
+.next/
+apps/*/next-env.d.ts
+apps/*/.next/
+*/.next/
+
+# Build outputs
+dist/
+build/
+out/
+
+# Cache directories
+*.cache/
+.nx/cache/
+.nx/workspace-data/
+
+# Large binaries and webpack cache
+**/*.node
+**/webpack/
+**/.pack
+**/.pack.gz
