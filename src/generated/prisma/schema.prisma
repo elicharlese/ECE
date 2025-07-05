@@ -1,0 +1,1329 @@
+// Prisma Schema for ECE Trading Cards Production Database
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// User Management
+model User {
+  id        String  @id @default(cuid())
+  email     String  @unique
+  username  String  @unique
+  firstName String?
+  lastName  String?
+  avatar    String?
+
+  // Authentication
+  passwordHash  String?
+  emailVerified DateTime?
+
+  // Subscription & Billing
+  subscription UserSubscription?
+
+  // Trading & Wallet
+  eceBalance    Float          @default(0.0)
+  cryptoWallets CryptoWallet[]
+  physicalCard  PhysicalCard?
+
+  // Collections & Trading
+  ownedCards     Card[]               @relation("CardOwner")
+  tradingHistory Transaction[]
+  bids           Bid[]
+  listings       MarketplaceListing[]
+
+  // App Ordering System
+  appOrders           AppOrder[]
+  orderRevisions      OrderRevision[]
+  orderCommunications OrderCommunication[]
+
+  // Marketplace Features
+  bettingPositions   BettingPosition[] @relation("BettingPositions")
+  bettingPayouts     BettingPayout[]   @relation("BettingPayouts")
+  ownedAuctions      CardAuction[]     @relation("OwnedAuctions")
+  wonAuctions        CardAuction[]     @relation("WonAuctions")
+  placedAuctionBids  AuctionBid[]      @relation("PlacedAuctionBids")
+  watchedAuctions    AuctionWatcher[]  @relation("WatchedAuctions")
+  initiatedMABattles MABattle[]        @relation("InitiatedMABattles")
+  targetedMABattles  MABattle[]        @relation("TargetedMABattles")
+  battleProposals    BattleProposal[]  @relation("BattleProposals")
+  battleVotes        BattleVoting[]    @relation("BattleVotes")
+
+  // Staking & Governance
+  stakingPositions    StakingPosition[]    @relation("StakingPositions")
+  stakingRewards      StakingReward[]      @relation("StakingRewards")
+  governanceProposals GovernanceProposal[] @relation("ProposedGovernance")
+  governanceVotes     GovernanceVote[]     @relation("GovernanceVotes")
+
+  // Social & Notifications
+  notifications Notification[]
+  socialFeeds   SocialFeed[]
+  followers     Follow[]       @relation("Follower")
+  following     Follow[]       @relation("Following")
+
+  // Metadata
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  lastActive DateTime @default(now())
+
+  @@map("users")
+}
+
+// Subscription Management
+model UserSubscription {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  plan               SubscriptionPlan   @default(FREE)
+  status             SubscriptionStatus @default(ACTIVE)
+  currentPeriodStart DateTime
+  currentPeriodEnd   DateTime
+  cancelAtPeriodEnd  Boolean            @default(false)
+
+  // Features & Usage
+  features SubscriptionFeatures?
+  usage    SubscriptionUsage?
+
+  // Billing
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("user_subscriptions")
+}
+
+model SubscriptionFeatures {
+  id             String           @id @default(cuid())
+  subscriptionId String           @unique
+  subscription   UserSubscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  // Trading Features
+  maxTrades         Int     @default(10)
+  advancedAnalytics Boolean @default(false)
+  prioritySupport   Boolean @default(false)
+
+  // Marketplace Features
+  marketplaceAccess Boolean @default(true)
+  premiumListings   Boolean @default(false)
+  bulkOperations    Boolean @default(false)
+
+  // Financial Features
+  cryptoPayments  Boolean @default(false)
+  physicalCard    Boolean @default(false)
+  businessStipend Float   @default(0.0)
+  withdrawalLimit Float   @default(1000.0)
+
+  @@map("subscription_features")
+}
+
+model SubscriptionUsage {
+  id             String           @id @default(cuid())
+  subscriptionId String           @unique
+  subscription   UserSubscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  tradesThisMonth   Int   @default(0)
+  listingsThisMonth Int   @default(0)
+  stipendUsed       Float @default(0.0)
+
+  lastResetAt DateTime @default(now())
+
+  @@map("subscription_usage")
+}
+
+// Card System
+model Card {
+  id          String       @id @default(cuid())
+  name        String
+  description String?
+  category    CardCategory
+  rarity      CardRarity
+  company     String?
+
+  // Valuation
+  currentPrice     Float
+  historicalPrices Json? // Array of price history
+
+  // Metadata
+  imageUrl String?
+  metadata Json? // Additional card-specific data
+  stats    Json? // Card stats (speed, luxury, etc.)
+
+  // Ownership & Trading
+  ownerId String
+  owner   User   @relation("CardOwner", fields: [ownerId], references: [id])
+
+  // Marketplace
+  listing      MarketplaceListing?
+  bids         Bid[]
+  transactions Transaction[]
+
+  // Advanced Marketplace Features
+  bettingMarkets   BettingMarket[]  @relation("BettingMarkets")
+  marketMetrics    MarketMetrics[]  @relation("MarketMetrics")
+  auction          CardAuction?     @relation("CardAuction")
+  auctionHistory   AuctionHistory[] @relation("AuctionHistory")
+  initiatedBattles MABattle[]       @relation("InitiatedBattles")
+  targetedBattles  MABattle[]       @relation("TargetedBattles")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("cards")
+}
+
+// Marketplace System
+model MarketplaceListing {
+  id     String @id @default(cuid())
+  cardId String @unique
+  card   Card   @relation(fields: [cardId], references: [id], onDelete: Cascade)
+
+  sellerId String
+  seller   User   @relation(fields: [sellerId], references: [id])
+
+  price       Float
+  listingType ListingType @default(FIXED_PRICE)
+  auctionEnd  DateTime?
+
+  status   ListingStatus @default(ACTIVE)
+  featured Boolean       @default(false)
+
+  bids Bid[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("marketplace_listings")
+}
+
+model Bid {
+  id        String             @id @default(cuid())
+  listingId String
+  listing   MarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  bidderId String
+  bidder   User   @relation(fields: [bidderId], references: [id])
+
+  cardId String
+  card   Card   @relation(fields: [cardId], references: [id])
+
+  amount Float
+  status BidStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("bids")
+}
+
+// Transaction System
+model Transaction {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  cardId String?
+  card   Card?   @relation(fields: [cardId], references: [id])
+
+  type     TransactionType
+  amount   Float
+  currency String          @default("ECE")
+
+  status      TransactionStatus @default(PENDING)
+  description String?
+  metadata    Json? // Additional transaction data
+
+  // Payment Processing
+  paymentMethod String?
+  paymentId     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("transactions")
+}
+
+// Crypto Wallet System
+model CryptoWallet {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  currency String // BTC, ETH, USDC, etc.
+  address  String
+  balance  Float  @default(0.0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, currency])
+  @@map("crypto_wallets")
+}
+
+model PhysicalCard {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  cardNumber String             @unique
+  expiryDate String
+  cvv        String
+  status     PhysicalCardStatus @default(ACTIVE)
+
+  // Apple Wallet Integration
+  appleWalletPassId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("physical_cards")
+}
+
+// Notification System
+model Notification {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type    NotificationType
+  title   String
+  message String
+  data    Json? // Additional notification data
+
+  read     Boolean              @default(false)
+  priority NotificationPriority @default(MEDIUM)
+
+  requiresSubscription SubscriptionPlan?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("notifications")
+}
+
+// Social System
+model SocialFeed {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type    SocialFeedType
+  content String
+  data    Json? // Additional feed data
+
+  likes    Int @default(0)
+  comments Int @default(0)
+  shares   Int @default(0)
+
+  visibility SocialVisibility @default(PUBLIC)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("social_feeds")
+}
+
+model Follow {
+  id          String @id @default(cuid())
+  followerId  String
+  follower    User   @relation("Follower", fields: [followerId], references: [id], onDelete: Cascade)
+  followingId String
+  following   User   @relation("Following", fields: [followingId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([followerId, followingId])
+  @@map("follows")
+}
+
+// App Ordering System
+model AppOrder {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  // Order Details
+  projectType  ProjectType
+  title        String
+  description  String
+  requirements Json? // Detailed requirements from form
+
+  // Timeline & Pricing
+  timeline      OrderTimeline
+  estimatedCost Float
+  actualCost    Float?
+  currency      String        @default("ECE")
+
+  // Status Management
+  status   OrderStatus   @default(PENDING)
+  priority OrderPriority @default(STANDARD)
+
+  // Delivery Details
+  deliveryDate DateTime?
+  githubRepo   String?
+  vercelLink   String?
+  downloadLink String?
+
+  // Tracking
+  progressPercentage Int     @default(0)
+  currentMilestone   String?
+
+  // Relations
+  revisions      OrderRevision[]
+  communications OrderCommunication[]
+  deliverables   OrderDeliverable[]
+
+  // Admin Assignment
+  assignedAdminId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("app_orders")
+}
+
+model OrderRevision {
+  id      String   @id @default(cuid())
+  orderId String
+  order   AppOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  revisionNumber Int
+  title          String
+  description    String
+  status         RevisionStatus @default(PENDING)
+
+  // Admin Response
+  adminResponse String?
+  adminId       String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("order_revisions")
+}
+
+model OrderCommunication {
+  id      String   @id @default(cuid())
+  orderId String
+  order   AppOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  // Message Details
+  messageType CommunicationType
+  subject     String?
+  message     String
+  isFromAdmin Boolean           @default(false)
+
+  // Attachments
+  attachments Json? // File URLs and metadata
+
+  // Status
+  read      Boolean @default(false)
+  important Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("order_communications")
+}
+
+model OrderDeliverable {
+  id      String   @id @default(cuid())
+  orderId String
+  order   AppOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  // Deliverable Details
+  type        DeliverableType
+  title       String
+  description String?
+  url         String?
+  filePath    String?
+
+  // Status
+  status    DeliverableStatus @default(IN_PROGRESS)
+  delivered Boolean           @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("order_deliverables")
+}
+
+// ===========================================
+// MARKETPLACE SYSTEM - Advanced Trading Features
+// ===========================================
+
+// Betting System (Prize Picks Style)
+model BettingMarket {
+  id     String @id @default(cuid())
+  cardId String
+  card   Card   @relation("BettingMarkets", fields: [cardId], references: [id], onDelete: Cascade)
+
+  // Market Details
+  metricType       MarketMetricType
+  title            String
+  description      String
+  currentValue     Float
+  predictionTarget Float
+  targetDirection  PredictionDirection // UP or DOWN
+
+  // Market Parameters
+  odds       Float  @default(2.0)
+  totalPot   Float  @default(0.0)
+  minimumBet Float  @default(10.0)
+  maximumBet Float?
+
+  // Timeline
+  startTime      DateTime  @default(now())
+  expiryDate     DateTime
+  settlementDate DateTime?
+
+  // Status
+  status           MarketStatus         @default(ACTIVE)
+  settled          Boolean              @default(false)
+  settledValue     Float?
+  winningDirection PredictionDirection?
+
+  // Relations
+  positions BettingPosition[]
+  payouts   BettingPayout[]
+  metrics   MarketMetrics[]
+
+  // Metadata
+  marketMakerFee Float   @default(0.05) // 5% house edge
+  createdBy      String? // Admin who created market
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("betting_markets")
+}
+
+model BettingPosition {
+  id       String        @id @default(cuid())
+  marketId String
+  market   BettingMarket @relation(fields: [marketId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation("BettingPositions", fields: [userId], references: [id])
+
+  // Position Details
+  position         PredictionDirection // UP or DOWN
+  amount           Float
+  odds             Float
+  potentialWinning Float
+
+  // Multi-Pick Support (Prize Picks style)
+  pickGroupId String? // For combining multiple picks
+  multiplier  Float   @default(1.0)
+  powerPlay   Boolean @default(false)
+
+  // Status
+  status  PositionStatus @default(ACTIVE)
+  settled Boolean        @default(false)
+  won     Boolean?
+  payout  Float?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("betting_positions")
+}
+
+model MarketMetrics {
+  id     String @id @default(cuid())
+  cardId String
+  card   Card   @relation("MarketMetrics", fields: [cardId], references: [id])
+
+  marketId String?
+  market   BettingMarket? @relation(fields: [marketId], references: [id])
+
+  // Company Performance Metrics
+  revenue         Float?
+  userGrowth      Float?
+  valuation       Float?
+  marketCap       Float?
+  quarterlyGrowth Float?
+  userEngagement  Float?
+  productLaunches Int?
+  competitorRank  Int?
+
+  // Market Sentiment
+  sentimentScore Float?
+  trendingScore  Float?
+  socialMentions Int?
+
+  // Timestamp
+  recordDate DateTime @default(now())
+  dataSource String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("market_metrics")
+}
+
+model BettingPayout {
+  id       String        @id @default(cuid())
+  marketId String
+  market   BettingMarket @relation(fields: [marketId], references: [id])
+
+  userId String
+  user   User   @relation("BettingPayouts", fields: [userId], references: [id])
+
+  positionId String
+
+  // Payout Details
+  winnings    Float
+  originalBet Float
+  multiplier  Float
+
+  // Status
+  status        PayoutStatus @default(PENDING)
+  payoutDate    DateTime?
+  transactionId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("betting_payouts")
+}
+
+// Auction System (Enhanced Marketplace)
+model CardAuction {
+  id     String @id @default(cuid())
+  cardId String @unique
+  card   Card   @relation("CardAuction", fields: [cardId], references: [id], onDelete: Cascade)
+
+  ownerId String
+  owner   User   @relation("OwnedAuctions", fields: [ownerId], references: [id])
+
+  // Auction Details
+  title        String
+  description  String?
+  startPrice   Float
+  reservePrice Float?
+  currentBid   Float?
+  bidIncrement Float   @default(10.0)
+
+  // Timeline
+  startTime  DateTime @default(now())
+  endTime    DateTime
+  autoExtend Boolean  @default(true) // Extend if bid in last 5 minutes
+
+  // Auction Conditions
+  conditions AuctionConditions?
+
+  // Status
+  status    AuctionStatus @default(ACTIVE)
+  finalized Boolean       @default(false)
+  winnerId  String?
+  winner    User?         @relation("WonAuctions", fields: [winnerId], references: [id])
+
+  // Relations
+  bids     AuctionBid[]
+  watchers AuctionWatcher[]
+  history  AuctionHistory[]
+
+  // Analytics
+  viewCount    Int @default(0)
+  watcherCount Int @default(0)
+  bidCount     Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("card_auctions")
+}
+
+model AuctionConditions {
+  id        String      @id @default(cuid())
+  auctionId String      @unique
+  auction   CardAuction @relation(fields: [auctionId], references: [id], onDelete: Cascade)
+
+  // Access Restrictions
+  proMembersOnly         Boolean  @default(false)
+  minimumRating          Float?
+  geographicRestrictions String[] // Country codes
+
+  // Financial Requirements
+  minimumNetWorth      Float?
+  verificationRequired Boolean @default(false)
+
+  // Portfolio Requirements
+  minimumPortfolioValue Float?
+  minimumCardsOwned     Int?
+  industryRestrictions  String[] // Specific industries only
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("auction_conditions")
+}
+
+model AuctionBid {
+  id        String      @id @default(cuid())
+  auctionId String
+  auction   CardAuction @relation(fields: [auctionId], references: [id], onDelete: Cascade)
+
+  bidderId String
+  bidder   User   @relation("PlacedAuctionBids", fields: [bidderId], references: [id])
+
+  // Bid Details
+  bidAmount  Float
+  maxAutoBid Float? // For auto-bidding
+  bidType    BidType @default(MANUAL)
+
+  // Status
+  status         AuctionBidStatus @default(ACTIVE)
+  isWinning      Boolean          @default(false)
+  outbidNotified Boolean          @default(false)
+
+  // Metadata
+  userAgent String?
+  ipAddress String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("auction_bids")
+}
+
+model AuctionWatcher {
+  id        String      @id @default(cuid())
+  auctionId String
+  auction   CardAuction @relation(fields: [auctionId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation("WatchedAuctions", fields: [userId], references: [id])
+
+  // Notification Preferences
+  bidNotifications    Boolean @default(true)
+  endingNotifications Boolean @default(true)
+  priceAlerts         Boolean @default(false)
+  alertThreshold      Float?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([auctionId, userId])
+  @@map("auction_watchers")
+}
+
+model AuctionHistory {
+  id     String @id @default(cuid())
+  cardId String
+  card   Card   @relation("AuctionHistory", fields: [cardId], references: [id])
+
+  auctionId String?
+  auction   CardAuction? @relation(fields: [auctionId], references: [id])
+
+  // Sale Details
+  salePrice Float
+  sellerId  String
+  buyerId   String
+  saleType  SaleType
+
+  // Market Context
+  marketTrends Json? // Market conditions at time of sale
+  priceHistory Json? // Previous price points
+
+  // Analytics
+  daysSinceListing Int?
+  numberOfBids     Int?
+  highestBid       Float?
+
+  saleDate  DateTime @default(now())
+  createdAt DateTime @default(now())
+
+  @@map("auction_history")
+}
+
+// M&A Battle System (Gamified Corporate Actions)
+model MABattle {
+  id              String @id @default(cuid())
+  initiatorCardId String
+  initiatorCard   Card   @relation("InitiatedBattles", fields: [initiatorCardId], references: [id])
+
+  targetCardId String
+  targetCard   Card   @relation("TargetedBattles", fields: [targetCardId], references: [id])
+
+  initiatorUserId String
+  initiator       User   @relation("InitiatedMABattles", fields: [initiatorUserId], references: [id])
+
+  targetUserId String?
+  target       User?   @relation("TargetedMABattles", fields: [targetUserId], references: [id])
+
+  // Battle Details
+  battleType  BattleType
+  title       String
+  description String
+  stakes      Float // ECE tokens at stake
+
+  // Battle Parameters
+  timeline     DateTime // Battle duration
+  votingPeriod DateTime // Community voting deadline
+
+  // Status
+  status   BattleStatus   @default(PENDING)
+  winner   BattleOutcome? @relation("BattleWinner")
+  resolved Boolean        @default(false)
+
+  // Relations
+  proposals BattleProposal[]
+  votes     BattleVoting[]
+  outcomes  BattleOutcome[]  @relation("BattleOutcomes")
+
+  // Analytics
+  viewCount        Int @default(0)
+  participantCount Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("ma_battles")
+}
+
+model BattleProposal {
+  id       String   @id @default(cuid())
+  battleId String
+  battle   MABattle @relation(fields: [battleId], references: [id], onDelete: Cascade)
+
+  proposerId String
+  proposer   User   @relation("BattleProposals", fields: [proposerId], references: [id])
+
+  // Proposal Details
+  proposalType ProposalType
+  title        String
+  description  String
+  terms        Json // Detailed deal terms
+  valuation    Float
+
+  // Deal Structure
+  paymentStructure Json // Cash, stock, token mix
+  timeline         Json // Implementation timeline
+  synergies        Json // Expected synergies
+
+  // Conditions
+  conditions    Json // Regulatory, financial conditions
+  contingencies Json // Deal breakers
+
+  // Status
+  status ProposalStatus @default(PENDING)
+  votes  BattleVoting[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("battle_proposals")
+}
+
+model BattleVoting {
+  id       String   @id @default(cuid())
+  battleId String
+  battle   MABattle @relation(fields: [battleId], references: [id], onDelete: Cascade)
+
+  proposalId String?
+  proposal   BattleProposal? @relation(fields: [proposalId], references: [id])
+
+  voterId String
+  voter   User   @relation("BattleVotes", fields: [voterId], references: [id])
+
+  // Vote Details
+  vote       VoteDirection
+  voteWeight Float // Based on ECE holdings, reputation
+  reasoning  String?
+  confidence Float? // 1-10 confidence level
+
+  // Voter Influence
+  eceStaked      Float? // ECE tokens staked on vote
+  expertRating   Float? // If voter is industry expert
+  portfolioValue Float? // Voter's total portfolio value
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([battleId, proposalId, voterId])
+  @@map("battle_voting")
+}
+
+model BattleOutcome {
+  id              String    @id @default(cuid())
+  battleId        String    @unique
+  battle          MABattle  @relation("BattleOutcomes", fields: [battleId], references: [id], onDelete: Cascade)
+  winningBattle   MABattle? @relation("BattleWinner", fields: [winningBattleId], references: [id])
+  winningBattleId String?   @unique
+
+  // Outcome Details
+  winner            BattleWinner
+  winningProposalId String?
+
+  // Final Terms
+  finalTerms     Json
+  finalValuation Float
+  implementation Json // Implementation plan
+
+  // Payouts
+  stakeholdersPayouts Json // ECE distribution
+  tokenRewards        Json // Reward distribution
+
+  // Completion
+  completionDate  DateTime?
+  realWorldImpact String? // Actual business impact
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("battle_outcomes")
+}
+
+// Additional Relations for Marketplace
+// Add to existing User model relations:
+// bettingPositions   BettingPosition[] @relation("BettingPositions")
+// bettingPayouts     BettingPayout[]   @relation("BettingPayouts")
+// ownedAuctions      CardAuction[]     @relation("OwnedAuctions")
+// wonAuctions        CardAuction[]     @relation("WonAuctions")
+// placedAuctionBids  AuctionBid[]      @relation("PlacedAuctionBids")
+// watchedAuctions    AuctionWatcher[]  @relation("WatchedAuctions")
+// initiatedMABattles MABattle[]        @relation("InitiatedMABattles")
+// targetedMABattles  MABattle[]        @relation("TargetedMABattles")
+// battleProposals    BattleProposal[]  @relation("BattleProposals")
+// battleVotes        BattleVoting[]    @relation("BattleVotes")
+
+// Add to existing Card model relations:
+// bettingMarkets     BettingMarket[]   @relation("BettingMarkets")
+// marketMetrics      MarketMetrics[]   @relation("MarketMetrics")
+// auction            CardAuction?      @relation("CardAuction")
+// auctionHistory     AuctionHistory[]  @relation("AuctionHistory")
+// initiatedBattles   MABattle[]        @relation("InitiatedBattles")
+// targetedBattles    MABattle[]        @relation("TargetedBattles")
+
+// Marketplace Enums
+enum MarketMetricType {
+  REVENUE_GROWTH
+  USER_GROWTH
+  VALUATION_CHANGE
+  MARKET_CAP
+  QUARTERLY_PERFORMANCE
+  PRODUCT_LAUNCH_SUCCESS
+  COMPETITIVE_POSITION
+  SOCIAL_SENTIMENT
+  TECHNOLOGY_ADOPTION
+  REGULATORY_IMPACT
+}
+
+enum PredictionDirection {
+  UP
+  DOWN
+}
+
+enum MarketStatus {
+  ACTIVE
+  SUSPENDED
+  SETTLED
+  CANCELLED
+}
+
+enum PositionStatus {
+  ACTIVE
+  SETTLED
+  CANCELLED
+  EXPIRED
+}
+
+enum PayoutStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum AuctionStatus {
+  PENDING
+  ACTIVE
+  ENDING_SOON
+  ENDED
+  COMPLETED
+  CANCELLED
+}
+
+enum BidType {
+  MANUAL
+  AUTO_BID
+  PROXY_BID
+}
+
+enum AuctionBidStatus {
+  ACTIVE
+  OUTBID
+  WINNING
+  WON
+  LOST
+  CANCELLED
+}
+
+enum SaleType {
+  AUCTION
+  FIXED_PRICE
+  PRIVATE_SALE
+  TRADE
+}
+
+enum BattleType {
+  MERGER
+  ACQUISITION
+  STRATEGIC_ALLIANCE
+  COMPETITIVE_CHALLENGE
+  MARKET_DOMINATION
+}
+
+enum BattleStatus {
+  PENDING
+  ACTIVE
+  VOTING
+  RESOLVING
+  COMPLETED
+  CANCELLED
+}
+
+enum ProposalType {
+  MERGER_PROPOSAL
+  ACQUISITION_OFFER
+  ALLIANCE_TERMS
+  CHALLENGE_TERMS
+}
+
+enum ProposalStatus {
+  PENDING
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  WITHDRAWN
+}
+
+enum VoteDirection {
+  APPROVE
+  REJECT
+  ABSTAIN
+}
+
+enum BattleWinner {
+  INITIATOR
+  TARGET
+  MUTUAL_BENEFIT
+  NO_WINNER
+}
+
+// App Ordering Enums
+enum ProjectType {
+  SAAS_DASHBOARD
+  PORTFOLIO_SITE
+  ECOMMERCE_STORE
+  LANDING_PAGE
+  MOBILE_APP
+  WEB_APP
+  CUSTOM
+}
+
+enum OrderTimeline {
+  RUSH_2_WEEKS // $8,000
+  STANDARD_1_MONTH // $4,000
+}
+
+enum OrderStatus {
+  PENDING
+  APPROVED
+  IN_PROGRESS
+  REVIEW
+  REVISION_REQUESTED
+  COMPLETED
+  DELIVERED
+  CANCELLED
+}
+
+enum OrderPriority {
+  STANDARD
+  HIGH
+  URGENT
+}
+
+enum RevisionStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  COMPLETED
+}
+
+enum CommunicationType {
+  MESSAGE
+  PROGRESS_UPDATE
+  REVISION_REQUEST
+  DELIVERY_NOTIFICATION
+  SYSTEM_ALERT
+}
+
+enum DeliverableType {
+  GITHUB_REPO
+  VERCEL_DEPLOYMENT
+  ZIP_DOWNLOAD
+  DOCUMENTATION
+  ASSETS
+  APP_CARD
+}
+
+enum DeliverableStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  DELIVERED
+}
+
+// Enums
+enum SubscriptionPlan {
+  FREE
+  PRO
+  ENTERPRISE
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  PAST_DUE
+  UNPAID
+}
+
+enum CardCategory {
+  AUTOMOTIVE
+  TECHNOLOGY
+  REAL_ESTATE
+  LUXURY
+  COLLECTIBLES
+  GAMING
+  SPORTS
+  ENTERTAINMENT
+}
+
+enum CardRarity {
+  COMMON
+  RARE
+  EPIC
+  LEGENDARY
+  MYTHIC
+}
+
+enum ListingType {
+  FIXED_PRICE
+  AUCTION
+  DUTCH_AUCTION
+}
+
+enum ListingStatus {
+  ACTIVE
+  SOLD
+  EXPIRED
+  CANCELED
+}
+
+enum BidStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  EXPIRED
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  PURCHASE
+  SALE
+  TRADE
+  REWARD
+  REFUND
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  CANCELED
+  REFUNDED
+}
+
+enum PhysicalCardStatus {
+  ACTIVE
+  BLOCKED
+  EXPIRED
+  REQUESTED
+}
+
+enum NotificationType {
+  MARKET
+  SOCIAL
+  TRADING
+  IPO
+  PRICE_ALERT
+  SYSTEM
+}
+
+enum NotificationPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum SocialFeedType {
+  TRADE
+  PURCHASE
+  ACHIEVEMENT
+  POST
+  SHARE
+}
+
+enum SocialVisibility {
+  PUBLIC
+  FRIENDS
+  PRIVATE
+}
+
+// Staking System
+model StakingPool {
+  id             String          @id @default(cuid())
+  name           String
+  description    String?
+  poolType       StakingPoolType
+  totalStaked    Float           @default(0.0)
+  totalRewards   Float           @default(0.0)
+  apy            Float           @default(0.0)
+  minStakeAmount Float           @default(100.0)
+  lockupPeriod   Int             @default(0) // days
+  isActive       Boolean         @default(true)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  stakes  StakingPosition[]
+  rewards StakingReward[]
+
+  @@map("staking_pools")
+}
+
+model StakingPosition {
+  id           String    @id @default(cuid())
+  userId       String
+  poolId       String
+  amount       Float
+  stakedAt     DateTime  @default(now())
+  unstakedAt   DateTime?
+  lockupEndsAt DateTime?
+  isActive     Boolean   @default(true)
+
+  user    User            @relation("StakingPositions", fields: [userId], references: [id], onDelete: Cascade)
+  pool    StakingPool     @relation(fields: [poolId], references: [id], onDelete: Cascade)
+  rewards StakingReward[]
+
+  @@map("staking_positions")
+}
+
+model StakingReward {
+  id         String            @id @default(cuid())
+  userId     String
+  poolId     String
+  positionId String
+  amount     Float
+  rewardType StakingRewardType
+  claimedAt  DateTime?
+  createdAt  DateTime          @default(now())
+
+  user     User            @relation("StakingRewards", fields: [userId], references: [id], onDelete: Cascade)
+  pool     StakingPool     @relation(fields: [poolId], references: [id], onDelete: Cascade)
+  position StakingPosition @relation(fields: [positionId], references: [id], onDelete: Cascade)
+
+  @@map("staking_rewards")
+}
+
+// Governance System
+model GovernanceProposal {
+  id             String           @id @default(cuid())
+  title          String
+  description    String
+  proposalType   ProposalType
+  proposerId     String
+  status         GovernanceStatus @default(ACTIVE)
+  votingStartsAt DateTime
+  votingEndsAt   DateTime
+  executionDate  DateTime?
+  minQuorum      Float            @default(0.1) // 10% of total staked tokens
+  minApproval    Float            @default(0.51) // 51% approval threshold
+  totalVotes     Float            @default(0.0)
+  yesVotes       Float            @default(0.0)
+  noVotes        Float            @default(0.0)
+  abstainVotes   Float            @default(0.0)
+  isExecuted     Boolean          @default(false)
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  proposer   User             @relation("ProposedGovernance", fields: [proposerId], references: [id], onDelete: Cascade)
+  votes      GovernanceVote[]
+  parameters Json? // Proposal-specific parameters
+
+  @@map("governance_proposals")
+}
+
+model GovernanceVote {
+  id          String     @id @default(cuid())
+  proposalId  String
+  userId      String
+  voteChoice  VoteChoice
+  votingPower Float // Based on staked ECE amount
+  reason      String? // Optional reasoning for vote
+  votedAt     DateTime   @default(now())
+
+  proposal GovernanceProposal @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+  user     User               @relation("GovernanceVotes", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([proposalId, userId])
+  @@map("governance_votes")
+}
+
+// Enums for Staking & Governance
+enum StakingPoolType {
+  MARKETPLACE_REWARDS
+  GOVERNANCE_PARTICIPATION
+  LIQUIDITY_PROVISION
+  TRADING_BONUSES
+}
+
+enum StakingRewardType {
+  TRADING_FEES
+  MARKETPLACE_PROFITS
+  GOVERNANCE_REWARDS
+  LIQUIDITY_REWARDS
+}
+
+enum GovernanceStatus {
+  DRAFT
+  ACTIVE
+  PASSED
+  REJECTED
+  EXECUTED
+  EXPIRED
+}
+
+enum VoteChoice {
+  YES
+  NO
+  ABSTAIN
+}

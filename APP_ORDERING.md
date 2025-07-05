@@ -1,8 +1,14 @@
 # 🚧 Dev Notes – App Ordering Platform
 
-## 🧱 1. Build Flow Overview
+## 🧱 1. Build Flow Overview## � 6. Pricing & Timeline
 
-### ✅ Goal:
+### App Order Cost Structure:
+- **$8,000** for a 2 week project (Premium Rush)
+- **$4,000** for a 1 month project (Standard Timeline)
+
+### Service Tiers:
+- **Rush Delivery** (2 weeks): Premium pricing for expedited development
+- **Standard Delivery** (1 month): Standard pricing with thorough development cycleoal:
 Enable users to order full-stack apps through a streamlined front-end experience, with robust back-end handling and a smooth administrative workflow.
 
 ### 💡 Core Workflow:
@@ -66,7 +72,19 @@ Ensure all orders conclude with a seamless handoff including:
 
 ---
 
-## 💎 6. Incentives & UX Features
+## � 6. Pricing & Timeline
+
+### App Order Cost Structure:
+- **$8,000** for a 2 week project (Premium Rush)
+- **$4,000** for a 1 month project (Standard Timeline)
+
+### Service Tiers:
+- **Rush Delivery** (2 weeks): Premium pricing for expedited development
+- **Standard Delivery** (1 month): Standard pricing with thorough development cycle
+
+---
+
+## �💎 7. Incentives & UX Features
 
 - 3 free revisions per project
 - Delivery ETA: 2 weeks – 1 month
@@ -77,7 +95,7 @@ Ensure all orders conclude with a seamless handoff including:
 
 ---
 
-## 🧮 7. Tokenomics & Rewards System (Powered by Solana)
+## 🧮 8. Tokenomics & Rewards System (Powered by Solana)
 
 ### 📦 Token: `ECE`
 - Built using **Solana Program Library (SPL)** via **Rust**
@@ -109,7 +127,7 @@ Ensure all orders conclude with a seamless handoff including:
 
 ---
 
-## 🧲 8. Marketing & Referrals
+## 🧲 9. Marketing & Referrals
 
 - **Boost Advertising**:
   - Add "Boost App" feature to user dashboards
@@ -121,7 +139,7 @@ Ensure all orders conclude with a seamless handoff including:
 
 ---
 
-## 🛡️ 9. Security & Scalability
+## 🛡️ 10. Security & Scalability
 
 - End-to-end encrypted transactions and secure token handling
 - Role-based access controls (RBAC)
@@ -134,7 +152,7 @@ Ensure all orders conclude with a seamless handoff including:
 
 ---
 
-## 📁 10. File & Agent Expansion
+## 📁 11. File & Agent Expansion
 
 - Modular app agents based on product catalog:
   - SaaS Dashboard Agent

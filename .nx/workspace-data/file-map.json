@@ -1,0 +1,2276 @@
+{
+  "version": "6.0",
+  "nxVersion": "20.1.4",
+  "pathMappings": {
+    "@ece-platform/shared-business-logic": [
+      "libs/shared-business-logic/src/index.ts"
+    ],
+    "@ece-platform/shared-types": [
+      "libs/shared-types/src/index.ts"
+    ],
+    "@ece-platform/shared-ui": [
+      "libs/shared-ui/src/index.ts"
+    ]
+  },
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "nonProjectFiles": [],
+    "projectFileMap": {
+      "shared-types": [
+        {
+          "file": "libs/shared-types/README.md",
+          "hash": "9741169815637935730"
+        },
+        {
+          "file": "libs/shared-types/eslint.config.mjs",
+          "hash": "11826975816517087630",
+          "deps": [
+            [
+              "npm:jsonc-eslint-parser",
+              "dynamic"
+            ]
+          ]
+        },
+        {
+          "file": "libs/shared-types/jest.config.ts",
+          "hash": "1721507008425632231"
+        },
+        {
+          "file": "libs/shared-types/package.json",
+          "hash": "10279833790713293006"
+        },
+        {
+          "file": "libs/shared-types/project.json",
+          "hash": "12401808863209002924"
+        },
+        {
+          "file": "libs/shared-types/src/index.ts",
+          "hash": "1748383720051645230"
+        },
+        {
+          "file": "libs/shared-types/src/lib/shared-types.spec.ts",
+          "hash": "8827448832389543054"
+        },
+        {
+          "file": "libs/shared-types/src/lib/shared-types.ts",
+          "hash": "11715063447328923451"
+        },
+        {
+          "file": "libs/shared-types/src/lib/types.ts",
+          "hash": "9516476006630011643"
+        },
+        {
+          "file": "libs/shared-types/tsconfig.json",
+          "hash": "10148903843036702529"
+        },
+        {
+          "file": "libs/shared-types/tsconfig.lib.json",
+          "hash": "16543235636027670259"
+        },
+        {
+          "file": "libs/shared-types/tsconfig.spec.json",
+          "hash": "5394994266788668641"
+        },
+        {
+          "file": "libs/shared-types/vite.config.ts",
+          "hash": "6242914135730288799",
+          "deps": [
+            "npm:vite",
+            "npm:vite-plugin-dts",
+            "npm:@nx/vite"
+          ]
+        }
+      ],
+      "ece-web": [
+        {
+          "file": "apps/ece-web/.next/app-build-manifest.json",
+          "hash": "1871632307687118238"
+        },
+        {
+          "file": "apps/ece-web/.next/build-manifest.json",
+          "hash": "5125768831124365349"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/.rscinfo",
+          "hash": "3142086820325297595"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development-fallback/0.pack.gz",
+          "hash": "11427830563164855222"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development-fallback/1.pack.gz",
+          "hash": "16446173956246913371"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development-fallback/index.pack.gz",
+          "hash": "16877790631333250809"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development-fallback/index.pack.gz.old",
+          "hash": "12796726698696123788"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/0.pack.gz",
+          "hash": "8097664564775628918"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/1.pack.gz",
+          "hash": "4613015978427009962"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/10.pack.gz",
+          "hash": "1712725415699029682"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/11.pack.gz",
+          "hash": "6494967270391747984"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/12.pack.gz",
+          "hash": "12506660448652652413"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/13.pack.gz",
+          "hash": "457186045612208077"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/14.pack.gz",
+          "hash": "8915641985826980085"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/15.pack.gz",
+          "hash": "6737535199249188965"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/16.pack.gz",
+          "hash": "16208122550351265123"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/17.pack.gz",
+          "hash": "14084321625820022006"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/18.pack.gz",
+          "hash": "2510375675684873213"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/19.pack.gz",
+          "hash": "5640817311185471062"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/2.pack.gz",
+          "hash": "7761875034789780248"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/20.pack.gz",
+          "hash": "1750098103491639107"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/21.pack.gz",
+          "hash": "4096676348077345319"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/22.pack.gz_",
+          "hash": "16323548426472771966"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/3.pack.gz",
+          "hash": "15102012608357876006"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/4.pack.gz",
+          "hash": "4841621112001959799"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/5.pack.gz",
+          "hash": "17076514548972311878"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/6.pack.gz",
+          "hash": "7793532409916109996"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/7.pack.gz",
+          "hash": "3931326960448453783"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/8.pack.gz",
+          "hash": "7488154678961528841"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/9.pack.gz",
+          "hash": "2105754187867926205"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/index.pack.gz",
+          "hash": "1803497629497173970"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/client-development/index.pack.gz.old",
+          "hash": "12012207664088860245"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/0.pack.gz",
+          "hash": "16066859983634481337"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/1.pack.gz",
+          "hash": "15621545300100310542"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/10.pack.gz",
+          "hash": "911044864725192916"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/11.pack.gz",
+          "hash": "1150597397247360125"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/12.pack.gz",
+          "hash": "6672726200728992788"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/13.pack.gz",
+          "hash": "3995726284119433233"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/14.pack.gz",
+          "hash": "413096552338891403"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/15.pack.gz",
+          "hash": "17133435604573142131"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/15.pack.gz_",
+          "hash": "2881930427193920203"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/16.pack.gz",
+          "hash": "11548562807375056510"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/17.pack.gz",
+          "hash": "12039541064702404328"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/18.pack.gz",
+          "hash": "7888245381634803780"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/19.pack.gz",
+          "hash": "15434468501903099903"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/2.pack.gz",
+          "hash": "2108862884688855143"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/20.pack.gz",
+          "hash": "9794222746128531200"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/3.pack.gz",
+          "hash": "8349339734025953911"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/4.pack.gz",
+          "hash": "15658021291024125471"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/5.pack.gz",
+          "hash": "1765902474264716229"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/6.pack.gz",
+          "hash": "6434155720095104997"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/7.pack.gz",
+          "hash": "11987220845417193254"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/7.pack.gz_",
+          "hash": "14650739826936209339"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/8.pack.gz",
+          "hash": "7888701305646474676"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/9.pack.gz",
+          "hash": "12369493511848885381"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/index.pack.gz",
+          "hash": "10483871267603551859"
+        },
+        {
+          "file": "apps/ece-web/.next/cache/webpack/server-development/index.pack.gz.old",
+          "hash": "13488530573945474125"
+        },
+        {
+          "file": "apps/ece-web/.next/package.json",
+          "hash": "11338307439248427064"
+        },
+        {
+          "file": "apps/ece-web/.next/react-loadable-manifest.json",
+          "hash": "1389868326933519382"
+        },
+        {
+          "file": "apps/ece-web/.next/server/app-paths-manifest.json",
+          "hash": "2923558352130606743"
+        },
+        {
+          "file": "apps/ece-web/.next/server/app/admin/marketplace/page.js",
+          "hash": "9300328296676935527",
+          "deps": [
+            [
+              "npm:next",
+              "dynamic"
+            ]
+          ]
+        },
+        {
+          "file": "apps/ece-web/.next/server/app/admin/marketplace/page_client-reference-manifest.js",
+          "hash": "13596285675555007665"
+        },
+        {
+          "file": "apps/ece-web/.next/server/app/admin/orders/page_client-reference-manifest.js",
+          "hash": "4009222398575090950"
+        },
+        {
+          "file": "apps/ece-web/.next/server/app/api/admin/orders/route_client-reference-manifest.js",
+          "hash": "11858686135764145854"
+        },
+        {
+          "file": "apps/ece-web/.next/server/app/api/notifications/route_client-reference-manifest.js",
+          "hash": "14053691076170704354"
+        },
+        {
+          "file": "apps/ece-web/.next/server/app/api/orders/route_client-reference-manifest.js",
+          "hash": "11613582857785851206"
+        },
+        {
+          "file": "apps/ece-web/.next/server/app/api/subscription/route_client-reference-manifest.js",
+          "hash": "9064977002634743702"
+        },
+        {
+          "file": "apps/ece-web/.next/server/app/api/wallet/route_client-reference-manifest.js",
+          "hash": "14705880910245821422"
+        },
+        {
+          "file": "apps/ece-web/.next/server/app/app/discover/page_client-reference-manifest.js",
+          "hash": "13589733652994412865"
+        },
+        {
+          "file": "apps/ece-web/.next/server/app/app/marketplace/page_client-reference-manifest.js",
+          "hash": "787073496147768827"
+        },
+        {
+          "file": "apps/ece-web/.next/server/app/app/page_client-reference-manifest.js",
+          "hash": "14118398670915913674"
+        },
+        {
+          "file": "apps/ece-web/.next/server/app/app/profile/page_client-reference-manifest.js",
+          "hash": "4900064847568463834"
+        },
+        {
+          "file": "apps/ece-web/.next/server/app/features/page_client-reference-manifest.js",
+          "hash": "12791731023420377287"
+        },
+        {
+          "file": "apps/ece-web/.next/server/app/governance/page.js",
+          "hash": "676207926325049198",
+          "deps": [
+            [
+              "npm:next",
+              "dynamic"
+            ]
+          ]
+        },
+        {
+          "file": "apps/ece-web/.next/server/app/governance/page_client-reference-manifest.js",
+          "hash": "15565128929064568024"
+        },
+        {
+          "file": "apps/ece-web/.next/server/app/marketplace/page_client-reference-manifest.js",
+          "hash": "2139055704784687292"
+        },
+        {
+          "file": "apps/ece-web/.next/server/app/orders/page.js",
+          "hash": "8610399281495927838",
+          "deps": [
+            [
+              "npm:next",
+              "dynamic"
+            ]
+          ]
+        },
+        {
+          "file": "apps/ece-web/.next/server/app/orders/page_client-reference-manifest.js",
+          "hash": "12971777624909983790"
+        },
+        {
+          "file": "apps/ece-web/.next/server/app/page.js",
+          "hash": "16083304341361043070",
+          "deps": [
+            [
+              "npm:next",
+              "dynamic"
+            ]
+          ]
+        },
+        {
+          "file": "apps/ece-web/.next/server/app/page_client-reference-manifest.js",
+          "hash": "12739598026937388548"
+        },
+        {
+          "file": "apps/ece-web/.next/server/app/pricing/page_client-reference-manifest.js",
+          "hash": "7666817295234677974"
+        },
+        {
+          "file": "apps/ece-web/.next/server/app/signin/page_client-reference-manifest.js",
+          "hash": "8361403100939360329"
+        },
+        {
+          "file": "apps/ece-web/.next/server/app/staking/page.js",
+          "hash": "18260017732535975356",
+          "deps": [
+            [
+              "npm:next",
+              "dynamic"
+            ]
+          ]
+        },
+        {
+          "file": "apps/ece-web/.next/server/app/staking/page_client-reference-manifest.js",
+          "hash": "3811005825211446980"
+        },
+        {
+          "file": "apps/ece-web/.next/server/interception-route-rewrite-manifest.js",
+          "hash": "10484309360224763022"
+        },
+        {
+          "file": "apps/ece-web/.next/server/middleware-build-manifest.js",
+          "hash": "6124380739019081129"
+        },
+        {
+          "file": "apps/ece-web/.next/server/middleware-manifest.json",
+          "hash": "9889576824779923310"
+        },
+        {
+          "file": "apps/ece-web/.next/server/middleware-react-loadable-manifest.js",
+          "hash": "9185069726031651908"
+        },
+        {
+          "file": "apps/ece-web/.next/server/next-font-manifest.js",
+          "hash": "16541577805185552134"
+        },
+        {
+          "file": "apps/ece-web/.next/server/next-font-manifest.json",
+          "hash": "11891788324563068681"
+        },
+        {
+          "file": "apps/ece-web/.next/server/pages-manifest.json",
+          "hash": "1389868326933519382"
+        },
+        {
+          "file": "apps/ece-web/.next/server/server-reference-manifest.js",
+          "hash": "13062913855343812063"
+        },
+        {
+          "file": "apps/ece-web/.next/server/server-reference-manifest.json",
+          "hash": "11974060097037625753"
+        },
+        {
+          "file": "apps/ece-web/.next/server/vendor-chunks/lucide-react.js",
+          "hash": "15273242734975083449"
+        },
+        {
+          "file": "apps/ece-web/.next/server/vendor-chunks/next.js",
+          "hash": "4596174227606166943"
+        },
+        {
+          "file": "apps/ece-web/.next/server/webpack-runtime.js",
+          "hash": "7294300421800610439"
+        },
+        {
+          "file": "apps/ece-web/.next/static/chunks/app/layout.js",
+          "hash": "13909339402592608256"
+        },
+        {
+          "file": "apps/ece-web/.next/static/chunks/polyfills.js",
+          "hash": "8152964857117933876"
+        },
+        {
+          "file": "apps/ece-web/.next/static/chunks/webpack.js",
+          "hash": "7336149819084646498"
+        },
+        {
+          "file": "apps/ece-web/.next/static/development/_buildManifest.js",
+          "hash": "13063724784290855366"
+        },
+        {
+          "file": "apps/ece-web/.next/static/development/_ssgManifest.js",
+          "hash": "17018243955171961484"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/2cf81ad5e3a3d0f5.webpack.hot-update.json",
+          "hash": "8773209185785337189"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/312c3abe59b38717.webpack.hot-update.json",
+          "hash": "8773209185785337189"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/7b8a90ddb5147682.webpack.hot-update.json",
+          "hash": "8773209185785337189"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/app/layout.2cf81ad5e3a3d0f5.hot-update.js",
+          "hash": "8065121245417567230"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/app/layout.312c3abe59b38717.hot-update.js",
+          "hash": "2531593186083905922"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/app/layout.7b8a90ddb5147682.hot-update.js",
+          "hash": "9130891027083845421"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/app/layout.b00bc675491c2b7b.hot-update.js",
+          "hash": "13034006405436076604"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/app/layout.b74f35a29c8719b7.hot-update.js",
+          "hash": "12540208980536486955"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/app/layout.dae3e0dc856d6dfd.hot-update.js",
+          "hash": "137414030124405824"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/app/layout.df35e387ec8381ca.hot-update.js",
+          "hash": "17439691845727625389"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/app/layout.e4fe85c48fa2c9a8.hot-update.js",
+          "hash": "1949200145314611277"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/app/layout.f4eaa3b13f5ccb1f.hot-update.js",
+          "hash": "14815238126136745977"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/app/layout.faeb14e57fc564d1.hot-update.js",
+          "hash": "5590838924621727930"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/b00bc675491c2b7b.webpack.hot-update.json",
+          "hash": "8773209185785337189"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/b74f35a29c8719b7.webpack.hot-update.json",
+          "hash": "8773209185785337189"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/dae3e0dc856d6dfd.webpack.hot-update.json",
+          "hash": "8773209185785337189"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/df35e387ec8381ca.webpack.hot-update.json",
+          "hash": "8773209185785337189"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/e4fe85c48fa2c9a8.webpack.hot-update.json",
+          "hash": "8773209185785337189"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/f4eaa3b13f5ccb1f.webpack.hot-update.json",
+          "hash": "4548203834451068287"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/faeb14e57fc564d1.webpack.hot-update.json",
+          "hash": "8773209185785337189"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/webpack.2cf81ad5e3a3d0f5.hot-update.js",
+          "hash": "7688711242418365908"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/webpack.312c3abe59b38717.hot-update.js",
+          "hash": "17032313161045660491"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/webpack.7b8a90ddb5147682.hot-update.js",
+          "hash": "8794134433944633482"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/webpack.b00bc675491c2b7b.hot-update.js",
+          "hash": "17120441432410850820"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/webpack.b74f35a29c8719b7.hot-update.js",
+          "hash": "14477947779931615908"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/webpack.dae3e0dc856d6dfd.hot-update.js",
+          "hash": "9086209437171128412"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/webpack.df35e387ec8381ca.hot-update.js",
+          "hash": "8049201602322777439"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/webpack.e4fe85c48fa2c9a8.hot-update.js",
+          "hash": "15306086393706900296"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/webpack.f4eaa3b13f5ccb1f.hot-update.js",
+          "hash": "8762174036789923976"
+        },
+        {
+          "file": "apps/ece-web/.next/static/webpack/webpack.faeb14e57fc564d1.hot-update.js",
+          "hash": "9527122654397742382"
+        },
+        {
+          "file": "apps/ece-web/.next/trace",
+          "hash": "14123942952605137978"
+        },
+        {
+          "file": "apps/ece-web/.next/types/app/admin/marketplace/page.ts",
+          "hash": "6188738894998600892",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/.next/types/app/governance/page.ts",
+          "hash": "11069704870275134391",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/.next/types/app/layout.ts",
+          "hash": "17380950891668997296",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/.next/types/app/orders/page.ts",
+          "hash": "12859089269319484238",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/.next/types/app/page.ts",
+          "hash": "4138299613156830252",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/.next/types/app/staking/page.ts",
+          "hash": "15557239257023219503",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/.next/types/cache-life.d.ts",
+          "hash": "6907153628263661087",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/.next/types/package.json",
+          "hash": "6094546126370684104"
+        },
+        {
+          "file": "apps/ece-web/.swcrc",
+          "hash": "2742566327615098680"
+        },
+        {
+          "file": "apps/ece-web/index.d.ts",
+          "hash": "5498222895072842432"
+        },
+        {
+          "file": "apps/ece-web/jest.config.ts",
+          "hash": "4960582570543316266"
+        },
+        {
+          "file": "apps/ece-web/next-env.d.ts",
+          "hash": "1320675027584673186"
+        },
+        {
+          "file": "apps/ece-web/next.config.ts",
+          "hash": "3514541120444480463"
+        },
+        {
+          "file": "apps/ece-web/postcss.config.js",
+          "hash": "2590905004531294579"
+        },
+        {
+          "file": "apps/ece-web/project.json",
+          "hash": "4165367396437134616"
+        },
+        {
+          "file": "apps/ece-web/public/favicon.ico",
+          "hash": "9303420814833116677"
+        },
+        {
+          "file": "apps/ece-web/specs/index.spec.tsx",
+          "hash": "2873936096691223229",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/admin/marketplace/page.tsx",
+          "hash": "7879729044742873022",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/admin/orders/page.tsx",
+          "hash": "14439369589013665369",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/admin/page.tsx",
+          "hash": "17505502595978383339",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/admin/marketplace/route.ts",
+          "hash": "3613570550247116804",
+          "deps": [
+            "npm:next",
+            "npm:@prisma/client"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/admin/orders/route.ts",
+          "hash": "4180307454319527772",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/admin/route.ts",
+          "hash": "5526110447843003624",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/auth/route.ts",
+          "hash": "3096102830704275582",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/battles/route.ts",
+          "hash": "10103054360543559213",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/bets/route.ts",
+          "hash": "2812090347308840787",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/bids/route.ts",
+          "hash": "12036276745574661028",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/cards/route.ts",
+          "hash": "17726357874892147483",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/governance/route.ts",
+          "hash": "13589444004408929599",
+          "deps": [
+            "npm:next",
+            "npm:@prisma/client"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/marketplace/analytics/route.ts",
+          "hash": "3356671720980189606",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/marketplace/auctions/route.ts",
+          "hash": "12843502241283746868",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/marketplace/automation/route.ts",
+          "hash": "8775453051352346998",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/marketplace/battles/route.ts",
+          "hash": "14729113134480699401",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/marketplace/betting/route.ts",
+          "hash": "6387087098089905575",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/marketplace/compliance/route.ts",
+          "hash": "5039742334712876894",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/marketplace/derivatives/route.ts",
+          "hash": "17168741255135115884",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/marketplace/institutional/route.ts",
+          "hash": "12115291457176728937",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/marketplace/optimization/route.ts",
+          "hash": "15481534626633031010",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/notifications/route.ts",
+          "hash": "901224495765309908",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/orders/[orderId]/files/route.ts",
+          "hash": "3432371665688998846",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/orders/[orderId]/handoff/route.ts",
+          "hash": "12707171797141465910",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/orders/route.ts",
+          "hash": "16950945469706547084",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/social/route.ts",
+          "hash": "14775443738656636310",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/solana/wallet/[userId]/route.ts",
+          "hash": "5628199805007457085",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/staking/route.ts",
+          "hash": "4346721349511764522",
+          "deps": [
+            "npm:next",
+            "npm:@prisma/client"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/subscription/route.ts",
+          "hash": "7861187407192686070",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/api/wallet/route.ts",
+          "hash": "13787942210144220025",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/app/discover/page-backup.tsx",
+          "hash": "13699484902512287579"
+        },
+        {
+          "file": "apps/ece-web/src/app/app/discover/page.tsx",
+          "hash": "13699484902512287579"
+        },
+        {
+          "file": "apps/ece-web/src/app/app/layout.tsx",
+          "hash": "12816563822702574201"
+        },
+        {
+          "file": "apps/ece-web/src/app/app/marketplace/page.tsx",
+          "hash": "15369387291683179376",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/app/orders/page.tsx",
+          "hash": "15013617575910087427",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/app/page.tsx",
+          "hash": "3404338849575774373",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/app/profile/page.tsx",
+          "hash": "717421835584247252",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/color-test/page.tsx",
+          "hash": "12787588210881003056"
+        },
+        {
+          "file": "apps/ece-web/src/app/enterprise/page.tsx",
+          "hash": "3502019004301755749",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/features/page.tsx",
+          "hash": "14800653124672395188",
+          "deps": [
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/globals.css",
+          "hash": "17887007411631636796"
+        },
+        {
+          "file": "apps/ece-web/src/app/governance/page.tsx",
+          "hash": "75352987693886332",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/layout.tsx",
+          "hash": "15825030136804600681",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/marketplace-overview/page.tsx",
+          "hash": "16151067838833053176",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:next",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/marketplace/page.tsx",
+          "hash": "13630603940148528213",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/orders/page.tsx",
+          "hash": "733020215532597937",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/page.tsx",
+          "hash": "7653889105915280448",
+          "deps": [
+            "npm:framer-motion",
+            "npm:lucide-react",
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/pricing/page.tsx",
+          "hash": "5121634085212493654",
+          "deps": [
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/signin/page.tsx",
+          "hash": "10814417687139149752",
+          "deps": [
+            "npm:react",
+            "npm:next",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/signup/page.tsx",
+          "hash": "2786275502466470697",
+          "deps": [
+            "npm:react",
+            "npm:next",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/staking/page.tsx",
+          "hash": "9796981886380549582",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/app/test/marketplace/page.tsx",
+          "hash": "16502497134172990241",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/admin-orders.tsx",
+          "hash": "4451783643718979116",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/analytics-dashboard.tsx",
+          "hash": "8557196398900340920",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/app-layout.tsx",
+          "hash": "12283398098480434852",
+          "deps": [
+            "npm:react",
+            "npm:next",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/betting-markets.tsx",
+          "hash": "7900647616054291576",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/card-auctions.tsx",
+          "hash": "16972294774935949357",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/file-upload.tsx",
+          "hash": "16952670827240784348",
+          "deps": [
+            "npm:react",
+            "npm:lucide-react",
+            "npm:framer-motion"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/footer.tsx",
+          "hash": "3938295815612113870",
+          "deps": [
+            "npm:next",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/glass-card.tsx",
+          "hash": "4067376819010131925",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/ma-battles.tsx",
+          "hash": "6834967434361752588",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/marketplace-dashboard.tsx",
+          "hash": "6335624406006726085",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/navigation.tsx",
+          "hash": "16590410892805545764",
+          "deps": [
+            "npm:react",
+            "npm:next",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/notifications-popout.tsx",
+          "hash": "4863667150383843076",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/order-communication.tsx",
+          "hash": "6928597467592400057",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/order-form.tsx",
+          "hash": "3591976373158599592",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/order-handoff.tsx",
+          "hash": "5412761653560375175",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/orders-dashboard.tsx",
+          "hash": "9828828808995152312",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/solana-wallet.tsx",
+          "hash": "15706872974733013460",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/subscription-ui.tsx",
+          "hash": "7881646035430394752",
+          "deps": [
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/theme-provider.tsx",
+          "hash": "11117270000082309740",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/theme-toggle.tsx",
+          "hash": "17253543186921747879",
+          "deps": [
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/toast-provider.tsx",
+          "hash": "4047531760970473286",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/ui/badge.tsx",
+          "hash": "7247386235705732741",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/ui/button.tsx",
+          "hash": "11486733326490319678",
+          "deps": [
+            "npm:framer-motion",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/ui/card.tsx",
+          "hash": "14600111016663466340",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/ui/glass-card.tsx",
+          "hash": "15654547623531630495",
+          "deps": [
+            "npm:framer-motion"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/ui/input.tsx",
+          "hash": "7690478433905907879",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/ui/progress.tsx",
+          "hash": "5243090678512797472",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/ui/tabs.tsx",
+          "hash": "11149088486002730921",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/ui/textarea.tsx",
+          "hash": "12968896650177939044",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/components/wallet-popout.tsx",
+          "hash": "16755587822736388891",
+          "deps": [
+            "npm:react",
+            "npm:framer-motion",
+            "npm:lucide-react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/contexts/subscription-context.tsx",
+          "hash": "5965020802041637398",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/generated/prisma/client.d.ts",
+          "hash": "6801102947810818358"
+        },
+        {
+          "file": "apps/ece-web/src/generated/prisma/client.js",
+          "hash": "10400671776495891936"
+        },
+        {
+          "file": "apps/ece-web/src/generated/prisma/default.d.ts",
+          "hash": "6801102947810818358"
+        },
+        {
+          "file": "apps/ece-web/src/generated/prisma/default.js",
+          "hash": "10400671776495891936"
+        },
+        {
+          "file": "apps/ece-web/src/generated/prisma/edge.d.ts",
+          "hash": "11303388507078878756"
+        },
+        {
+          "file": "apps/ece-web/src/generated/prisma/edge.js",
+          "hash": "16909106623057784788"
+        },
+        {
+          "file": "apps/ece-web/src/generated/prisma/index-browser.js",
+          "hash": "18343437326476578063"
+        },
+        {
+          "file": "apps/ece-web/src/generated/prisma/index.d.ts",
+          "hash": "16939109895590551708"
+        },
+        {
+          "file": "apps/ece-web/src/generated/prisma/index.js",
+          "hash": "6850341561563942810"
+        },
+        {
+          "file": "apps/ece-web/src/generated/prisma/libquery_engine-darwin-arm64.dylib.node",
+          "hash": "13126181802194184516"
+        },
+        {
+          "file": "apps/ece-web/src/generated/prisma/package.json",
+          "hash": "4574156416570877674"
+        },
+        {
+          "file": "apps/ece-web/src/generated/prisma/runtime/edge-esm.js",
+          "hash": "10321367880788769195"
+        },
+        {
+          "file": "apps/ece-web/src/generated/prisma/runtime/edge.js",
+          "hash": "11884814479833669105"
+        },
+        {
+          "file": "apps/ece-web/src/generated/prisma/runtime/index-browser.d.ts",
+          "hash": "4654535025334731519"
+        },
+        {
+          "file": "apps/ece-web/src/generated/prisma/runtime/index-browser.js",
+          "hash": "17568067715518458519"
+        },
+        {
+          "file": "apps/ece-web/src/generated/prisma/runtime/library.d.ts",
+          "hash": "11237586502755346457"
+        },
+        {
+          "file": "apps/ece-web/src/generated/prisma/runtime/library.js",
+          "hash": "2222598174664670711"
+        },
+        {
+          "file": "apps/ece-web/src/generated/prisma/runtime/react-native.js",
+          "hash": "13997820595719522128"
+        },
+        {
+          "file": "apps/ece-web/src/generated/prisma/runtime/wasm-compiler-edge.js",
+          "hash": "10741367247027077168"
+        },
+        {
+          "file": "apps/ece-web/src/generated/prisma/runtime/wasm-engine-edge.js",
+          "hash": "3992703999900195880"
+        },
+        {
+          "file": "apps/ece-web/src/generated/prisma/schema.prisma",
+          "hash": "12205304132483875668"
+        },
+        {
+          "file": "apps/ece-web/src/generated/prisma/wasm.d.ts",
+          "hash": "6801102947810818358"
+        },
+        {
+          "file": "apps/ece-web/src/generated/prisma/wasm.js",
+          "hash": "18343437326476578063"
+        },
+        {
+          "file": "apps/ece-web/src/lib/api-utils.ts",
+          "hash": "5714210331030814257",
+          "deps": [
+            "npm:next"
+          ]
+        },
+        {
+          "file": "apps/ece-web/src/lib/db/index.ts",
+          "hash": "11698177026958006764"
+        },
+        {
+          "file": "apps/ece-web/src/lib/db/schema.ts",
+          "hash": "8466284525832595946"
+        },
+        {
+          "file": "apps/ece-web/src/lib/sample-data.ts",
+          "hash": "5857127598461981849"
+        },
+        {
+          "file": "apps/ece-web/src/lib/utils.ts",
+          "hash": "10858145696951751223",
+          "deps": [
+            "npm:clsx",
+            "npm:tailwind-merge"
+          ]
+        },
+        {
+          "file": "apps/ece-web/tailwind.config.ts",
+          "hash": "17658707231392825468",
+          "deps": [
+            "npm:tailwindcss"
+          ]
+        },
+        {
+          "file": "apps/ece-web/tsconfig.json",
+          "hash": "1516374132852153778"
+        },
+        {
+          "file": "apps/ece-web/tsconfig.spec.json",
+          "hash": "11067654942057386280"
+        }
+      ],
+      "shared-business-logic": [
+        {
+          "file": "libs/shared-business-logic/README.md",
+          "hash": "7691711771860681270"
+        },
+        {
+          "file": "libs/shared-business-logic/eslint.config.mjs",
+          "hash": "11826975816517087630",
+          "deps": [
+            [
+              "npm:jsonc-eslint-parser",
+              "dynamic"
+            ]
+          ]
+        },
+        {
+          "file": "libs/shared-business-logic/jest.config.ts",
+          "hash": "8412687878477585675"
+        },
+        {
+          "file": "libs/shared-business-logic/package.json",
+          "hash": "3516208740701617261"
+        },
+        {
+          "file": "libs/shared-business-logic/project.json",
+          "hash": "3947153253559568826"
+        },
+        {
+          "file": "libs/shared-business-logic/src/index.ts",
+          "hash": "1150731588348031051"
+        },
+        {
+          "file": "libs/shared-business-logic/src/lib/shared-business-logic.spec.ts",
+          "hash": "578004967408684131"
+        },
+        {
+          "file": "libs/shared-business-logic/src/lib/shared-business-logic.ts",
+          "hash": "13351556840110555430"
+        },
+        {
+          "file": "libs/shared-business-logic/src/lib/sync/ECESyncService.ts",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "libs/shared-business-logic/src/lib/sync/MobileSyncAdapter.ts",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "libs/shared-business-logic/src/lib/sync/WebSyncAdapter.ts",
+          "hash": "14939631955552552773"
+        },
+        {
+          "file": "libs/shared-business-logic/src/lib/sync/index.ts",
+          "hash": "2636617700137479103"
+        },
+        {
+          "file": "libs/shared-business-logic/src/lib/trading-utils.ts",
+          "hash": "5573814109560716220",
+          "deps": [
+            "shared-types"
+          ]
+        },
+        {
+          "file": "libs/shared-business-logic/tsconfig.json",
+          "hash": "10148903843036702529"
+        },
+        {
+          "file": "libs/shared-business-logic/tsconfig.lib.json",
+          "hash": "16543235636027670259"
+        },
+        {
+          "file": "libs/shared-business-logic/tsconfig.spec.json",
+          "hash": "5394994266788668641"
+        },
+        {
+          "file": "libs/shared-business-logic/vite.config.ts",
+          "hash": "2067858003696907504",
+          "deps": [
+            "npm:vite",
+            "npm:vite-plugin-dts",
+            "npm:@nx/vite"
+          ]
+        }
+      ],
+      "ece-mobile": [
+        {
+          "file": "apps/ece-mobile/App.tsx",
+          "hash": "12243639565482609529",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/ece-mobile/README.md",
+          "hash": "13933368532573440445"
+        },
+        {
+          "file": "apps/ece-mobile/jest.config.js",
+          "hash": "15412694524226393789"
+        },
+        {
+          "file": "apps/ece-mobile/package.json",
+          "hash": "17167296927303451783",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/ece-mobile/project.json",
+          "hash": "12086962138121596863"
+        },
+        {
+          "file": "apps/ece-mobile/src/components/CardScanner.tsx",
+          "hash": "1163549853936543006",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/ece-mobile/src/components/MobileSyncStatus.tsx",
+          "hash": "5354455840916811864",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/ece-mobile/src/components/MobileTabNavigation.tsx",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/ece-mobile/src/components/TouchUI.tsx",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/ece-mobile/src/components/TradingCard.tsx",
+          "hash": "11295333758577322392",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/ece-mobile/src/screens/DemoScreen.tsx",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/ece-mobile/src/screens/DiscoverScreen.tsx",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/ece-mobile/src/screens/MarketplaceScreen.tsx",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/ece-mobile/src/screens/NativeFeaturesScreen.tsx",
+          "hash": "3400747814142758207",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/ece-mobile/src/screens/ProfileScreen.tsx",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/ece-mobile/src/screens/TradingScreen.tsx",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/ece-mobile/src/services/BiometricService.ts",
+          "hash": "5662191692947779209"
+        },
+        {
+          "file": "apps/ece-mobile/src/services/CameraService.ts",
+          "hash": "18187591807409670534"
+        },
+        {
+          "file": "apps/ece-mobile/src/services/LocationService.ts",
+          "hash": "6152064105620023189"
+        },
+        {
+          "file": "apps/ece-mobile/src/services/MobileNativeService.ts",
+          "hash": "15211060942255612713"
+        },
+        {
+          "file": "apps/ece-mobile/src/services/MobileNativeServiceManager.ts",
+          "hash": "14841653766448699876"
+        },
+        {
+          "file": "apps/ece-mobile/src/services/MobileSyncManager.ts",
+          "hash": "69286850113801900",
+          "deps": [
+            "shared-business-logic"
+          ]
+        },
+        {
+          "file": "apps/ece-mobile/src/services/NativeServicesManager.ts",
+          "hash": "11964930022395249980"
+        },
+        {
+          "file": "apps/ece-mobile/src/services/PushNotificationService.ts",
+          "hash": "2349199532317158387"
+        },
+        {
+          "file": "apps/ece-mobile/tsconfig.json",
+          "hash": "3244421341483603138"
+        }
+      ],
+      "ece-web-e2e": [
+        {
+          "file": "e2e/ece-web-e2e/playwright.config.ts",
+          "hash": "308208587828875820",
+          "deps": [
+            "npm:@nx/playwright",
+            "npm:@nx/devkit"
+          ]
+        },
+        {
+          "file": "e2e/ece-web-e2e/project.json",
+          "hash": "4699817458731246753"
+        },
+        {
+          "file": "e2e/ece-web-e2e/src/example.spec.ts",
+          "hash": "16019101014373124625"
+        },
+        {
+          "file": "e2e/ece-web-e2e/tsconfig.json",
+          "hash": "8714607179129573500"
+        }
+      ],
+      "desktop": [
+        {
+          "file": "apps/desktop/package.json",
+          "hash": "15675332595398578393",
+          "deps": [
+            "npm:axios"
+          ]
+        },
+        {
+          "file": "apps/desktop/project.json",
+          "hash": "1716352840669419584"
+        },
+        {
+          "file": "apps/desktop/src/DesktopSyncManager.js",
+          "hash": "4653052281706328209"
+        },
+        {
+          "file": "apps/desktop/src/analytics.html",
+          "hash": "10573116732773250217"
+        },
+        {
+          "file": "apps/desktop/src/index.html",
+          "hash": "5995625656578986019"
+        },
+        {
+          "file": "apps/desktop/src/main.js",
+          "hash": "16146064454694010374"
+        },
+        {
+          "file": "apps/desktop/src/preload.js",
+          "hash": "5717072301536996641"
+        }
+      ],
+      "ece-trading-cards": [
+        {
+          "file": ".editorconfig",
+          "hash": "5443105041930014821"
+        },
+        {
+          "file": ".github/copilot-instructions.md",
+          "hash": "14947351738250283857"
+        },
+        {
+          "file": ".gitignore",
+          "hash": "645796083863325869"
+        },
+        {
+          "file": ".prettierignore",
+          "hash": "14688272390704683536"
+        },
+        {
+          "file": ".prettierrc",
+          "hash": "16267754514737964994"
+        },
+        {
+          "file": ".vscode/tasks.json",
+          "hash": "15826113795871541426"
+        },
+        {
+          "file": "APP_ORDERING.md",
+          "hash": "9935934576004357123"
+        },
+        {
+          "file": "README.md",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "docs/README.md",
+          "hash": "7075501182508996510"
+        },
+        {
+          "file": "docs/core/MULTI_PLATFORM_EXPANSION.md",
+          "hash": "8354258189004458215"
+        },
+        {
+          "file": "docs/core/PROJECT_COMPLETION_SUMMARY.md",
+          "hash": "13949899453348005046"
+        },
+        {
+          "file": "docs/deployment/DEPLOYMENT_SUMMARY.md",
+          "hash": "16051198414850766203"
+        },
+        {
+          "file": "docs/deployment/PHASE_5_STATUS_REPORT.md",
+          "hash": "755971141386983327"
+        },
+        {
+          "file": "docs/deployment/PRODUCTION_DEPLOYMENT_GUIDE.md",
+          "hash": "5744061744388370450"
+        },
+        {
+          "file": "docs/development/APP_ORDERING.md",
+          "hash": "16779834439174742904"
+        },
+        {
+          "file": "docs/development/APP_ORDERING_COMPLETION_SUMMARY.md",
+          "hash": "12047999412675143781"
+        },
+        {
+          "file": "docs/development/APP_ORDERING_IMPLEMENTATION_PLAN.md",
+          "hash": "672884641760338082"
+        },
+        {
+          "file": "docs/development/MARKETPLACE_COMPLETION_SUMMARY.md",
+          "hash": "2405191148793689986"
+        },
+        {
+          "file": "docs/development/MARKETPLACE_IMPLEMENTATION_PLAN.md",
+          "hash": "763751973406946225"
+        },
+        {
+          "file": "docs/development/MULTI_PLATFORM_EXPANSION.md",
+          "hash": "16828805440806157124"
+        },
+        {
+          "file": "eslint.config.mjs",
+          "hash": "8940908934439040535",
+          "deps": [
+            "npm:@eslint/eslintrc"
+          ]
+        },
+        {
+          "file": "jest.config.ts",
+          "hash": "6870352021923392442",
+          "deps": [
+            "npm:jest",
+            "npm:@nx/jest"
+          ]
+        },
+        {
+          "file": "jest.preset.js",
+          "hash": "9430166341120122740",
+          "deps": [
+            "npm:@nx/jest"
+          ]
+        },
+        {
+          "file": "nx.json",
+          "hash": "17863535225483346015"
+        },
+        {
+          "file": "package-lock.json",
+          "hash": "10153754154313257038"
+        },
+        {
+          "file": "package.json",
+          "hash": "10825811327216319023",
+          "deps": [
+            "npm:@nx/devkit",
+            "npm:@nx/eslint",
+            "npm:@nx/eslint-plugin",
+            "npm:@nx/jest",
+            "npm:@nx/js",
+            "npm:@nx/next",
+            "npm:@nx/playwright",
+            "npm:@nx/react",
+            "npm:@nx/vite",
+            "npm:@nx/workspace",
+            "npm:@swc-node/register",
+            "npm:@swc/core",
+            "npm:@swc/helpers",
+            "npm:@types/jest",
+            "npm:@types/node",
+            "npm:@types/react",
+            "npm:@types/react-dom",
+            "npm:@typescript-eslint/eslint-plugin",
+            "npm:@typescript-eslint/parser",
+            "npm:@vitejs/plugin-react",
+            "npm:autoprefixer",
+            "npm:eslint",
+            "npm:eslint-config-next",
+            "npm:eslint-config-prettier",
+            "npm:eslint-plugin-import",
+            "npm:eslint-plugin-jsx-a11y",
+            "npm:eslint-plugin-playwright",
+            "npm:eslint-plugin-react",
+            "npm:eslint-plugin-react-hooks",
+            "npm:jest",
+            "npm:jest-environment-jsdom",
+            "npm:jest-environment-node",
+            "npm:nx",
+            "npm:postcss",
+            "npm:prettier",
+            "npm:prisma",
+            "npm:tailwindcss",
+            "npm:ts-jest",
+            "npm:ts-node",
+            "npm:typescript",
+            "npm:vite",
+            "npm:vite-plugin-dts",
+            "npm:@next/bundle-analyzer",
+            "npm:@prisma/client",
+            "npm:clsx",
+            "npm:framer-motion",
+            "npm:lucide-react",
+            "npm:next",
+            "npm:react",
+            "npm:react-dom",
+            "npm:tailwind-merge",
+            "npm:tslib"
+          ]
+        },
+        {
+          "file": "postcss.config.mjs",
+          "hash": "10959265366293393748"
+        },
+        {
+          "file": "prisma/schema.prisma",
+          "hash": "1004178251461736914"
+        },
+        {
+          "file": "scripts/deploy.sh",
+          "hash": "12868873027206620836"
+        },
+        {
+          "file": "scripts/maintain.sh",
+          "hash": "16957250447120975230"
+        },
+        {
+          "file": "scripts/seed-marketplace.ts",
+          "hash": "10863559932940979996",
+          "deps": [
+            "npm:@prisma/client"
+          ]
+        },
+        {
+          "file": "src/generated/prisma/client.d.ts",
+          "hash": "6801102947810818358"
+        },
+        {
+          "file": "src/generated/prisma/client.js",
+          "hash": "10400671776495891936"
+        },
+        {
+          "file": "src/generated/prisma/default.d.ts",
+          "hash": "6801102947810818358"
+        },
+        {
+          "file": "src/generated/prisma/default.js",
+          "hash": "10400671776495891936"
+        },
+        {
+          "file": "src/generated/prisma/edge.d.ts",
+          "hash": "11303388507078878756"
+        },
+        {
+          "file": "src/generated/prisma/edge.js",
+          "hash": "8374252137890411073"
+        },
+        {
+          "file": "src/generated/prisma/index-browser.js",
+          "hash": "7067568260518818182"
+        },
+        {
+          "file": "src/generated/prisma/index.d.ts",
+          "hash": "1640983390919815165"
+        },
+        {
+          "file": "src/generated/prisma/index.js",
+          "hash": "11587145693030075884"
+        },
+        {
+          "file": "src/generated/prisma/libquery_engine-darwin-arm64.dylib.node",
+          "hash": "17431595027377866608"
+        },
+        {
+          "file": "src/generated/prisma/package.json",
+          "hash": "10043747410709764286"
+        },
+        {
+          "file": "src/generated/prisma/runtime/edge-esm.js",
+          "hash": "14451564791056330507"
+        },
+        {
+          "file": "src/generated/prisma/runtime/edge.js",
+          "hash": "4725136367186614354"
+        },
+        {
+          "file": "src/generated/prisma/runtime/index-browser.d.ts",
+          "hash": "4654535025334731519"
+        },
+        {
+          "file": "src/generated/prisma/runtime/index-browser.js",
+          "hash": "17568067715518458519"
+        },
+        {
+          "file": "src/generated/prisma/runtime/library.d.ts",
+          "hash": "15007798288831119609"
+        },
+        {
+          "file": "src/generated/prisma/runtime/library.js",
+          "hash": "15982501023143075012"
+        },
+        {
+          "file": "src/generated/prisma/runtime/react-native.js",
+          "hash": "16632523338567644588"
+        },
+        {
+          "file": "src/generated/prisma/runtime/wasm-compiler-edge.js",
+          "hash": "15918453340519076677"
+        },
+        {
+          "file": "src/generated/prisma/runtime/wasm-engine-edge.js",
+          "hash": "6099463132011934420"
+        },
+        {
+          "file": "src/generated/prisma/schema.prisma",
+          "hash": "11920617176668448456"
+        },
+        {
+          "file": "src/generated/prisma/wasm.d.ts",
+          "hash": "6801102947810818358"
+        },
+        {
+          "file": "src/generated/prisma/wasm.js",
+          "hash": "7067568260518818182"
+        },
+        {
+          "file": "tsconfig.base.json",
+          "hash": "15136043474840230248"
+        },
+        {
+          "file": "tsconfig.json",
+          "hash": "13256485557542773608"
+        },
+        {
+          "file": "vercel.json",
+          "hash": "5552551533237258510"
+        }
+      ],
+      "web-e2e": [
+        {
+          "file": "e2e/web-e2e/playwright.config.ts",
+          "hash": "3014261020544714599",
+          "deps": [
+            "npm:@nx/playwright",
+            "npm:@nx/devkit"
+          ]
+        },
+        {
+          "file": "e2e/web-e2e/project.json",
+          "hash": "6697331838746456709"
+        },
+        {
+          "file": "e2e/web-e2e/src/example.spec.ts",
+          "hash": "16019101014373124625"
+        },
+        {
+          "file": "e2e/web-e2e/tsconfig.json",
+          "hash": "8714607179129573500"
+        }
+      ],
+      "shared-ui": [
+        {
+          "file": "libs/shared-ui/README.md",
+          "hash": "2557450524317973513"
+        },
+        {
+          "file": "libs/shared-ui/eslint.config.mjs",
+          "hash": "11826975816517087630",
+          "deps": [
+            [
+              "npm:jsonc-eslint-parser",
+              "dynamic"
+            ]
+          ]
+        },
+        {
+          "file": "libs/shared-ui/jest.config.ts",
+          "hash": "6638110818519735295"
+        },
+        {
+          "file": "libs/shared-ui/package.json",
+          "hash": "5517314703171148824",
+          "deps": [
+            "npm:react",
+            "npm:react-dom",
+            "npm:@types/react",
+            "npm:@types/react-dom"
+          ]
+        },
+        {
+          "file": "libs/shared-ui/project.json",
+          "hash": "7687315152933355539"
+        },
+        {
+          "file": "libs/shared-ui/src/index.ts",
+          "hash": "2126519575717112944"
+        },
+        {
+          "file": "libs/shared-ui/src/lib/button.tsx",
+          "hash": "2040190031912621474",
+          "deps": [
+            "npm:framer-motion",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "libs/shared-ui/src/lib/components/SyncStatus.tsx",
+          "hash": "3055014826775751396",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "libs/shared-ui/src/lib/glass-card.tsx",
+          "hash": "7694323105187374460",
+          "deps": [
+            "npm:framer-motion"
+          ]
+        },
+        {
+          "file": "libs/shared-ui/src/lib/hooks/useECESync.ts",
+          "hash": "104283647057592963",
+          "deps": [
+            "npm:react",
+            "shared-business-logic"
+          ]
+        },
+        {
+          "file": "libs/shared-ui/src/lib/shared-ui.spec.ts",
+          "hash": "2509970278259042013"
+        },
+        {
+          "file": "libs/shared-ui/src/lib/shared-ui.ts",
+          "hash": "7407998346348386527"
+        },
+        {
+          "file": "libs/shared-ui/src/lib/utils.ts",
+          "hash": "9541062503082763861",
+          "deps": [
+            "npm:clsx",
+            "npm:tailwind-merge"
+          ]
+        },
+        {
+          "file": "libs/shared-ui/tsconfig.json",
+          "hash": "8970013936271606426"
+        },
+        {
+          "file": "libs/shared-ui/tsconfig.lib.json",
+          "hash": "2817637080214075990"
+        },
+        {
+          "file": "libs/shared-ui/tsconfig.spec.json",
+          "hash": "5394994266788668641"
+        },
+        {
+          "file": "libs/shared-ui/vite.config.ts",
+          "hash": "11196890332326358161",
+          "deps": [
+            "npm:vite",
+            "npm:@vitejs/plugin-react",
+            "npm:vite-plugin-dts",
+            "npm:@nx/vite"
+          ]
+        }
+      ],
+      "web": [
+        {
+          "file": "apps/web/index.html",
+          "hash": "10230306946906184829"
+        },
+        {
+          "file": "apps/web/jest.config.ts",
+          "hash": "16481880068010347016"
+        },
+        {
+          "file": "apps/web/project.json",
+          "hash": "14497540780527087769"
+        },
+        {
+          "file": "apps/web/public/favicon.ico",
+          "hash": "9303420814833116677"
+        },
+        {
+          "file": "apps/web/src/app/app.module.css",
+          "hash": "8887387885984320532"
+        },
+        {
+          "file": "apps/web/src/app/app.spec.tsx",
+          "hash": "18099215379187327647"
+        },
+        {
+          "file": "apps/web/src/app/app.tsx",
+          "hash": "12265527719748384964"
+        },
+        {
+          "file": "apps/web/src/app/nx-welcome.tsx",
+          "hash": "2348102959109701629"
+        },
+        {
+          "file": "apps/web/src/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/web/src/main.tsx",
+          "hash": "6494962159756833686",
+          "deps": [
+            "npm:react",
+            "npm:react-dom"
+          ]
+        },
+        {
+          "file": "apps/web/src/styles.css",
+          "hash": "5195668842064076916"
+        },
+        {
+          "file": "apps/web/tsconfig.app.json",
+          "hash": "6666002661749922104"
+        },
+        {
+          "file": "apps/web/tsconfig.json",
+          "hash": "548923470133819599"
+        },
+        {
+          "file": "apps/web/tsconfig.spec.json",
+          "hash": "11537943481495421274"
+        },
+        {
+          "file": "apps/web/vite.config.ts",
+          "hash": "597701884017850558",
+          "deps": [
+            "npm:vite",
+            "npm:@vitejs/plugin-react",
+            "npm:@nx/vite"
+          ]
+        }
+      ]
+    }
+  }
+}

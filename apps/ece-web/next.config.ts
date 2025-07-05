@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
   transpilePackages: ['@ece-platform/shared-ui'],
+  experimental: {
+    // Remove deprecated appDir option as it's now the default in Next.js 15
+  }
 }
 
 module.exports = nextConfig

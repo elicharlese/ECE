@@ -1,0 +1,27 @@
+{
+  "name": "ece-mobile",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/ece-mobile/src",
+  "projectType": "application",
+  "tags": ["scope:app", "type:mobile"],
+  "targets": {
+    "build": {
+      "executor": "@nx/react-native:build",
+      "options": {}
+    },
+    "serve": {
+      "executor": "@nx/react-native:start",
+      "options": {}
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/ece-mobile/jest.config.js"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

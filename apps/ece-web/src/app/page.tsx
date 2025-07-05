@@ -1,7 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowRight, Sparkles, TrendingUp, Users, Shield } from 'lucide-react'
+import { ArrowRight, Sparkles, TrendingUp, Users, Shield, Target, Gavel, Sword } from 'lucide-react'
+import Link from 'next/link'
 import { Navigation } from '@/components/navigation'
 import { Footer } from '@/components/footer'
 import { Button } from '@/components/ui/button'
@@ -27,6 +28,33 @@ const features = [
     icon: Shield,
     title: 'Secure Platform',
     description: 'Your cards and transactions are protected by industry-leading security measures.'
+  }
+]
+
+const marketplaceFeatures = [
+  {
+    icon: Target,
+    title: 'Prediction Markets',
+    description: 'Bet on company performance metrics with Prize Picks style prediction markets.',
+    href: '/marketplace?tab=betting',
+    color: 'from-[#F92672] to-[#FD5C63]',
+    bgColor: 'from-[#F92672]/20 to-[#FD5C63]/20'
+  },
+  {
+    icon: Gavel,
+    title: 'Card Auctions',
+    description: 'Trade rare cards with Webull-style analytics and real-time bidding.',
+    href: '/marketplace?tab=auctions',
+    color: 'from-[#A6E22E] to-[#3EBA7C]',
+    bgColor: 'from-[#A6E22E]/20 to-[#3EBA7C]/20'
+  },
+  {
+    icon: Sword,
+    title: 'M&A Battles',
+    description: 'Tinder-style company matching for epic merger & acquisition battles.',
+    href: '/marketplace?tab=battles',
+    color: 'from-[#66D9EF] to-[#819AFF]',
+    bgColor: 'from-[#66D9EF]/20 to-[#819AFF]/20'
   }
 ]
 
@@ -169,6 +197,71 @@ export default function Home() {
                     {feature.description}
                   </p>
                 </GlassCard>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Marketplace Preview Section */}
+      <section className="py-32 bg-gradient-to-br from-[#272822]/50 to-[#272822]/30">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-6xl font-bold mb-6">
+              <span className="bg-gradient-to-r from-[#F92672] to-[#66D9EF] bg-clip-text text-transparent">
+                Advanced Trading
+              </span>
+              <br />
+              <span className="text-foreground">Marketplace</span>
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Experience next-generation trading with prediction markets, auctions, and M&A battles. 
+              Trade smarter with advanced analytics and social features.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {marketplaceFeatures.map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: index * 0.1 }}
+              >
+                <Link href={feature.href}>
+                  <GlassCard 
+                    variant="dark" 
+                    animation="float" 
+                    className={`p-8 h-full text-center cursor-pointer group hover:scale-105 transition-all duration-300 bg-gradient-to-br ${feature.bgColor} border border-[#75715E]/30 hover:border-opacity-60`}
+                  >
+                    <div className={`inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r ${feature.color} rounded-full mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                      <feature.icon className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-[#F8EFD6] mb-4 group-hover:text-white transition-colors">
+                      {feature.title}
+                    </h3>
+                    <p className="text-[#75715E] group-hover:text-[#F8EFD6]/80 transition-colors">
+                      {feature.description}
+                    </p>
+                    <div className="mt-6">
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        className={`border-[#75715E]/30 text-[#75715E] hover:bg-gradient-to-r hover:${feature.color} hover:text-white hover:border-transparent group-hover:translate-y-[-2px] transition-all duration-300`}
+                      >
+                        Try Now
+                        <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </Button>
+                    </div>
+                  </GlassCard>
+                </Link>
               </motion.div>
             ))}
           </div>

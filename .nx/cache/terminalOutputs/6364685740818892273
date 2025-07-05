@@ -1,0 +1,33 @@
+   [1m[38;2;173;127;168m▲ Next.js 15.1.4[39m[22m
+
+ [37m[1m [22m[39m Creating an optimized production build ...
+[31mFailed to compile.
+[39m
+./src/app/api/marketplace/auctions/route.ts
+[31m[1mModule not found[22m[39m: Can't resolve '[32m@/lib/prisma[39m'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./src/app/api/marketplace/auctions/route.ts
+[31m[1mModule not found[22m[39m: Can't resolve '[32m@/lib/auth[39m'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./src/app/api/marketplace/automation/route.ts
+[31m[1mModule not found[22m[39m: Can't resolve '[32m@/lib/prisma[39m'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./src/app/api/marketplace/battles/route.ts
+[31m[1mModule not found[22m[39m: Can't resolve '[32m@/lib/prisma[39m'
+
+https://nextjs.org/docs/messages/module-not-found
+
+./src/app/api/marketplace/battles/route.ts
+[31m[1mModule not found[22m[39m: Can't resolve '[32m@/lib/auth[39m'
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+> Build failed because of webpack errors
+[1m[31mBuild process exited due to code 1  [39m[22m
