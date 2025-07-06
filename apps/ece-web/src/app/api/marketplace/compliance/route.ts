@@ -291,7 +291,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Filter by compliance type if specified
-    let filteredData = complianceFramework
+    let filteredData: any = complianceFramework
     if (complianceType !== 'all') {
       filteredData = { [complianceType]: complianceFramework[complianceType as keyof typeof complianceFramework] }
     }

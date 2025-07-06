@@ -76,9 +76,10 @@ initializeMockData()
 // GET /api/solana/wallet/[userId] - Get wallet info and ECE balance
 export async function GET(
   request: NextRequest,
-  { params }: { params: { userId: string } }
+  context: { params: Promise<{ userId: string }> }
 ) {
   try {
+    const params = await context.params
     const { userId } = params
     
     if (!userId) {
@@ -122,9 +123,10 @@ export async function GET(
 // POST /api/solana/wallet/[userId] - Connect wallet or perform transaction
 export async function POST(
   request: NextRequest,
-  { params }: { params: { userId: string } }
+  context: { params: Promise<{ userId: string }> }
 ) {
   try {
+    const params = await context.params
     const { userId } = params
     const body = await request.json()
     
@@ -183,7 +185,7 @@ export async function POST(
           description,
           timestamp: new Date(),
           signature: `${Math.random().toString(36).substr(2, 5)}...${Math.random().toString(36).substr(2, 4)}`,
-          status: 'pending' as const
+          status: 'pending' as 'pending' | 'completed'
         }
 
         userData.transactions.unshift(newTransaction)
@@ -301,9 +303,10 @@ export async function POST(
 // PUT /api/solana/wallet/[userId] - Update wallet settings
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { userId: string } }
+  context: { params: Promise<{ userId: string }> }
 ) {
   try {
+    const params = await context.params
     const { userId } = params
     const body = await request.json()
     

@@ -238,7 +238,7 @@ export function AnalyticsDashboard({ data = mockAnalyticsData }: AnalyticsDashbo
           {(['24h', '7d', '30d', '90d'] as const).map((period) => (
             <Button
               key={period}
-              variant={timeframe === period ? 'default' : 'outline'}
+              variant={timeframe === period ? 'primary' : 'outline'}
               size="sm"
               onClick={() => setTimeframe(period)}
               className={
@@ -399,9 +399,6 @@ export function AnalyticsDashboard({ data = mockAnalyticsData }: AnalyticsDashbo
                   <Progress 
                     value={stats.percentage} 
                     className="h-2 bg-[#272822]"
-                    style={{
-                      '--progress-color': getTypeColor(market)
-                    } as any}
                   />
                   
                   <div className="flex items-center justify-between text-sm">
@@ -445,11 +442,6 @@ export function AnalyticsDashboard({ data = mockAnalyticsData }: AnalyticsDashbo
                       <div className="flex items-center gap-2 mt-1">
                         <Badge 
                           className="text-xs"
-                          style={{ 
-                            backgroundColor: `${getTypeColor(performer.type)}20`, 
-                            color: getTypeColor(performer.type),
-                            borderColor: `${getTypeColor(performer.type)}30`
-                          }}
                         >
                           {performer.type}
                         </Badge>

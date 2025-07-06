@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { 
   Users, 
@@ -88,6 +89,7 @@ const quickActions: QuickAction[] = [
 ]
 
 export default function AdminDashboard() {
+  const router = useRouter()
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [recentActivity, setRecentActivity] = useState<Array<{
@@ -98,6 +100,11 @@ export default function AdminDashboard() {
     status: 'success' | 'warning' | 'error'
   }>>([])
 
+  const services = [
+    { name: 'API Gateway', status: 'operational' as const, responseTime: 120, uptime: 99.9 },
+    { name: 'Database', status: 'operational' as const, responseTime: 45, uptime: 99.8 },
+    { name: 'Payment Service', status: 'operational' as const, responseTime: 180, uptime: 99.7 }
+  ]
   useEffect(() => {
     fetchDashboardData()
     fetchRecentActivity()
@@ -213,33 +220,28 @@ export default function AdminDashboard() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-          >
-            <StatsCard 
+          >            <StatsCard 
               title="Total Users" 
               value={dashboardData.totalUsers.toString()} 
-              change="+12%" 
-              changeType="positive"
+              change={12} 
               icon={Users}
             />
             <StatsCard 
               title="Pending Orders" 
               value={dashboardData.pendingOrders.toString()} 
-              change="+8%" 
-              changeType="positive"
+              change={8} 
               icon={Package}
             />
             <StatsCard 
               title="Active Markets" 
               value={dashboardData.activeMarkets.toString()} 
-              change="-3%" 
-              changeType="negative"
+              change={-3} 
               icon={Store}
             />
             <StatsCard 
               title="Monthly Revenue" 
               value={`$${dashboardData.totalRevenue}`} 
-              change="+15%" 
-              changeType="positive"
+              change={15} 
               icon={DollarSign}
             />
           </motion.div>
@@ -254,35 +256,30 @@ export default function AdminDashboard() {
           <h2 className="text-xl font-semibold text-foreground mb-6">Quick Actions</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <QuickAction 
-              id="users"
               title="Manage Users" 
               description="User accounts & permissions" 
-              href="/admin/users" 
+              onClick={() => router.push('/admin/users')}
               icon={Users} 
               color="blue" 
             />
             <QuickAction 
-              id="orders"
               title="Process Orders" 
               description="Order fulfillment & tracking" 
-              href="/admin/orders" 
+              onClick={() => router.push('/admin/orders')}
               icon={Package} 
               color="green"
-              count={dashboardData?.pendingOrders || 12}
             />
             <QuickAction 
-              id="marketplace"
               title="Marketplace Control" 
               description="Trading & market operations" 
-              href="/admin/marketplace" 
+              onClick={() => router.push('/admin/marketplace')}
               icon={Store} 
               color="purple" 
             />
             <QuickAction 
-              id="analytics"
               title="View Analytics" 
               description="Platform insights & reports" 
-              href="/admin/analytics" 
+              onClick={() => router.push('/admin/analytics')}
               icon={BarChart3} 
               color="yellow" 
             />
@@ -311,10 +308,10 @@ export default function AdminDashboard() {
                 {recentActivity.map((activity) => (
                   <ActivityItem 
                     key={activity.id}
-                    id={activity.id}
-                    type={activity.type}
-                    message={activity.message}
-                    timestamp={formatTimeAgo(activity.timestamp)}
+                    title={activity.message}
+                    description={`${activity.type} activity`}
+                    type={activity.status === 'success' ? 'success' : activity.status === 'warning' ? 'warning' : activity.status === 'error' ? 'error' : 'info'}
+                    timestamp={activity.timestamp}
                   />
                 ))}
               </div>
@@ -327,7 +324,7 @@ export default function AdminDashboard() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
-            <SystemStatus />
+            <SystemStatus services={services} />
           </motion.div>
         </div>
       </div>

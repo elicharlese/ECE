@@ -222,14 +222,18 @@ export default function Discover() {
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {categories.map(category => (
-                    <Badge
+                    <div
                       key={category}
-                      variant={selectedCategories.includes(category) ? "default" : "outline"}
-                      className="cursor-pointer capitalize"
+                      className="cursor-pointer"
                       onClick={() => toggleCategory(category)}
                     >
-                      {category}
-                    </Badge>
+                      <Badge
+                        variant={selectedCategories.includes(category) ? "default" : "outline"}
+                        className="capitalize"
+                      >
+                        {category}
+                      </Badge>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -241,14 +245,18 @@ export default function Discover() {
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {rarities.map(rarity => (
-                    <Badge
+                    <div
                       key={rarity}
-                      variant={selectedRarities.includes(rarity) ? "default" : "outline"}
-                      className="cursor-pointer capitalize"
+                      className="cursor-pointer"
                       onClick={() => toggleRarity(rarity)}
                     >
-                      {rarity}
-                    </Badge>
+                      <Badge
+                        variant={selectedRarities.includes(rarity) ? "default" : "outline"}
+                        className="capitalize"
+                      >
+                        {rarity}
+                      </Badge>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -294,17 +302,11 @@ export default function Discover() {
         {/* Swipeable Card Stack */}
         <div className="flex justify-center">
           <SwipeableCardStack
-            cards={filteredCards}
+            cards={filteredCards as any}
             onSwipeLeft={handleSwipeLeft}
             onSwipeRight={handleSwipeRight}
-            onSwipeUp={handleSwipeUp}
-            onSwipeDown={handleSwipeDown}
-            onCardTap={handleCardTap}
-            showActionButtons={true}
-            enableKeyboardNavigation={true}
             swipeThreshold={100}
-            maxStackSize={3}
-            preloadCount={5}
+            maxVisibleCards={3}
           />
         </div>
 

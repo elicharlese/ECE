@@ -25,7 +25,11 @@
       "cache": true
     },
     "lint": {
-      "inputs": ["default", "{workspaceRoot}/.eslintrc.json", "{workspaceRoot}/eslint.config.js"],
+      "inputs": [
+        "default",
+        "{workspaceRoot}/.eslintrc.json",
+        "{workspaceRoot}/eslint.config.js"
+      ],
       "cache": true
     },
     "serve": {
@@ -44,5 +48,6 @@
       }
     }
   },
-  "defaultProject": "ece-web"
+  "defaultProject": "ece-web",
+  "nxCloudId": "686a1d14bfa2330a2054e8f6"
 }

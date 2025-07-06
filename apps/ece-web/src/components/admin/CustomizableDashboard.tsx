@@ -10,12 +10,15 @@ import {
   Eye, 
   EyeOff,
   RotateCcw,
-  Save
+  Save,
+  BarChart3,
+  Mail,
+  Download
 } from 'lucide-react'
-import { StatsCard } from './widgets/StatsCard'
-import { QuickAction } from './widgets/QuickAction'
-import { ActivityItem } from './widgets/ActivityItem'
-import { SystemStatus } from './widgets/SystemStatus'
+import { StatsCard } from './widgets'
+import { QuickAction } from './widgets'
+import { ActivityItem } from './widgets'
+import { SystemStatus } from './widgets'
 
 interface DashboardWidget {
   id: string
@@ -187,9 +190,8 @@ export function CustomizableDashboard({ onSave, className = '' }: CustomizableDa
             <StatsCard
               title={widget.title}
               value="42"
-              change="+12%"
-              trend="up"
-              className="h-full"
+              change={12}
+              icon={BarChart3}
             />
           )}
           
@@ -197,10 +199,10 @@ export function CustomizableDashboard({ onSave, className = '' }: CustomizableDa
             <div className="bg-card rounded-lg border border-border p-4 h-full">
               <h3 className="font-semibold mb-4">{widget.title}</h3>
               <div className="grid grid-cols-2 gap-2">
-                <QuickAction icon="Plus" label="Add User" />
-                <QuickAction icon="Mail" label="Send Alert" />
-                <QuickAction icon="Download" label="Export" />
-                <QuickAction icon="Settings" label="Configure" />
+                <QuickAction icon={Plus} title="Add User" description="Create new user" onClick={() => {}} />
+                <QuickAction icon={Mail} title="Send Alert" description="Send notification" onClick={() => {}} />
+                <QuickAction icon={Download} title="Export" description="Download data" onClick={() => {}} />
+                <QuickAction icon={Settings} title="Configure" description="System settings" onClick={() => {}} />
               </div>
             </div>
           )}
@@ -210,19 +212,22 @@ export function CustomizableDashboard({ onSave, className = '' }: CustomizableDa
               <h3 className="font-semibold mb-4">{widget.title}</h3>
               <div className="space-y-2">
                 <ActivityItem 
-                  type="user" 
+                  title="New User"
+                  type="info" 
                   description="New user registration"
-                  timestamp="2 min ago"
+                  timestamp={new Date(Date.now() - 2 * 60 * 1000)}
                 />
                 <ActivityItem 
-                  type="order" 
+                  title="Order Completed"
+                  type="success" 
                   description="Order #1234 completed"
-                  timestamp="5 min ago"
+                  timestamp={new Date(Date.now() - 5 * 60 * 1000)}
                 />
                 <ActivityItem 
-                  type="system" 
+                  title="Database Backup"
+                  type="warning" 
                   description="Database backup completed"
-                  timestamp="10 min ago"
+                  timestamp={new Date(Date.now() - 10 * 60 * 1000)}
                 />
               </div>
             </div>
@@ -230,14 +235,12 @@ export function CustomizableDashboard({ onSave, className = '' }: CustomizableDa
           
           {widget.type === 'system-status' && (
             <SystemStatus 
-              title={widget.title}
-              status="healthy"
-              metrics={[
-                { label: 'CPU', value: '45%', status: 'good' },
-                { label: 'Memory', value: '67%', status: 'warning' },
-                { label: 'Disk', value: '23%', status: 'good' }
+              services={[
+                { name: 'API Server', status: 'operational', responseTime: 120, uptime: 99.9 },
+                { name: 'Database', status: 'operational', responseTime: 45, uptime: 99.8 },
+                { name: 'CDN', status: 'degraded', responseTime: 250, uptime: 98.5 },
+                { name: 'Email Service', status: 'operational', responseTime: 89, uptime: 99.9 }
               ]}
-              className="h-full"
             />
           )}
         </div>

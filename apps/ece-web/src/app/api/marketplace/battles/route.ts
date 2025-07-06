@@ -91,7 +91,7 @@ export async function GET(request: NextRequest) {
     })
 
     const enrichedBattles = await Promise.all(
-      battles.map(async (battle) => {
+      battles.map(async (battle: any) => {
         // Get vote counts
         const challengerVotes = await prisma.mABattleVote.count({
           where: {
@@ -141,8 +141,8 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await auth()
-    if (!session?.user?.id) {
+    const user = await getCurrentUser(request)
+    if (!user?.id) {
       return NextResponse.json(
         { success: false, error: 'Authentication required' },
         { status: 401 }
@@ -181,7 +181,7 @@ export async function POST(request: NextRequest) {
         data: {
           challengerId,
           defenderId,
-          creatorId: session.user.id,
+          creatorId: user.id,
           status: 'VOTING',
           endTime
         },
@@ -221,12 +221,12 @@ export async function POST(request: NextRequest) {
       }
 
       // Check user balance
-      const user = await prisma.user.findUnique({
-        where: { id: session.user.id },
+      const userBalance = await prisma.user.findUnique({
+        where: { id: user.id },
         select: { eceBalance: true }
       })
 
-      if (!user || user.eceBalance < amount) {
+      if (!userBalance || userBalance.eceBalance < amount) {
         return NextResponse.json(
           { success: false, error: 'Insufficient ECE balance' },
           { status: 400 }
@@ -234,18 +234,18 @@ export async function POST(request: NextRequest) {
       }
 
       // Create vote and update balance
-      const result = await prisma.$transaction(async (tx) => {
+      const result = await prisma.$transaction(async (tx: any) => {
         const vote = await tx.mABattleVote.create({
           data: {
             battleId,
-            userId: session.user.id,
+            userId: user.id,
             choice: choice as 'CHALLENGER' | 'DEFENDER',
             amount
           }
         })
 
         await tx.user.update({
-          where: { id: session.user.id },
+          where: { id: user.id },
           data: { eceBalance: { decrement: amount } }
         })
 

@@ -43,6 +43,7 @@ export function OrdersDashboard({ userId, userBalance }: OrdersDashboardProps) {
   const [orders, setOrders] = useState<OrderWithDetails[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [showOrderForm, setShowOrderForm] = useState(false)
+  const [activeTab, setActiveTab] = useState('active')
   const [selectedOrder, setSelectedOrder] = useState<OrderWithDetails | null>(null)
   const [statusFilter, setStatusFilter] = useState('all')
   const [showCommunication, setShowCommunication] = useState<OrderWithDetails | null>(null)
@@ -252,7 +253,7 @@ export function OrdersDashboard({ userId, userBalance }: OrdersDashboardProps) {
       </div>
 
       {/* Orders List */}
-      <Tabs defaultValue="active" className="space-y-6">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="active">Active Orders ({activeOrders.length})</TabsTrigger>
           <TabsTrigger value="completed">Completed ({completedOrders.length})</TabsTrigger>

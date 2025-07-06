@@ -33,10 +33,6 @@ interface MarketplaceStats {
   totalRewards: number
 }
 
-interface MarketplacePageProps {
-  stats?: MarketplaceStats
-}
-
 const defaultStats: MarketplaceStats = {
   totalVolume: 2850000,
   activeUsers: 15420,
@@ -44,7 +40,8 @@ const defaultStats: MarketplaceStats = {
   totalRewards: 450000
 }
 
-export default function MarketplacePage({ stats = defaultStats }: MarketplacePageProps) {
+export default function MarketplacePage() {
+  const stats = defaultStats
   const [activeTab, setActiveTab] = useState('betting')
   const [userBalance, setUserBalance] = useState(5000)
   const [notifications, setNotifications] = useState([

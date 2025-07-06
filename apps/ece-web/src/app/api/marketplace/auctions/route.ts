@@ -74,7 +74,7 @@ export async function GET(request: NextRequest) {
       }
     })
 
-    const enrichedAuctions = auctions.map(auction => ({
+    const enrichedAuctions = auctions.map((auction: any) => ({
       ...auction,
       timeLeft: auction.endTime.getTime() - Date.now(),
       cardName: auction.card.name,
@@ -138,7 +138,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (auction.sellerId === session.user.id) {
+    if (auction.sellerId === user.id) {
       return NextResponse.json(
         { success: false, error: 'Cannot bid on your own auction' },
         { status: 400 }
@@ -167,16 +167,16 @@ export async function POST(request: NextRequest) {
       }
 
       // Process instant buy
-      const result = await prisma.$transaction(async (tx) => {
+      const result = await prisma.$transaction(async (tx: any) => {
         // Transfer card ownership
         await tx.card.update({
           where: { id: auction.cardId },
-          data: { ownerId: session.user.id }
+          data: { ownerId: user.id }
         })
 
         // Update user balances
         await tx.user.update({
-          where: { id: session.user.id },
+          where: { id: user.id },
           data: { eceBalance: { decrement: amount } }
         })
 
@@ -190,7 +190,7 @@ export async function POST(request: NextRequest) {
           where: { id: auctionId },
           data: { 
             status: 'COMPLETED',
-            winnerId: session.user.id,
+            winnerId: user.id,
             finalPrice: amount
           }
         })
@@ -214,12 +214,12 @@ export async function POST(request: NextRequest) {
       }
 
       // Create bid and update auction
-      const result = await prisma.$transaction(async (tx) => {
+      const result = await prisma.$transaction(async (tx: any) => {
         // Create the bid
         const bid = await tx.auctionBid.create({
           data: {
             auctionId,
-            bidderId: session.user.id,
+            bidderId: user.id,
             amount
           }
         })
@@ -229,7 +229,7 @@ export async function POST(request: NextRequest) {
           where: { id: auctionId },
           data: {
             currentBid: amount,
-            highestBidderId: session.user.id,
+            highestBidderId: user.id,
             totalBids: { increment: 1 }
           }
         })

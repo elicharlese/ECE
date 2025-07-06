@@ -22,7 +22,7 @@ import {
   Sparkles
 } from 'lucide-react'
 import { GlassCard } from '@/components/ui/glass-card'
-import { Button } from '@/components/ui/Button'
+import { Button } from '@/components/ui/button'
 
 interface TierProgress {
   tierId: string

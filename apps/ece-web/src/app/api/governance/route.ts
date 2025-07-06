@@ -58,7 +58,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       success: true,
       data: {
-        proposals: proposals.map(proposal => ({
+        proposals: proposals.map((proposal: any) => ({
           ...proposal,
           userVote: proposal.votes?.[0] || null,
           totalVoters: proposal._count.votes,
@@ -164,7 +164,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Create vote and update proposal counts
-        await prisma.$transaction(async (tx) => {
+        await prisma.$transaction(async (tx: any) => {
           // Create the vote
           await tx.governanceVote.create({
             data: {

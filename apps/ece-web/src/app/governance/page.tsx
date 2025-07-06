@@ -548,7 +548,7 @@ export default function GovernancePage() {
                   <div className="grid grid-cols-3 gap-4">
                     <Button
                       onClick={() => setVoteChoice('YES')}
-                      variant={voteChoice === 'YES' ? 'default' : 'outline'}
+                      variant={voteChoice === 'YES' ? 'primary' : 'outline'}
                       className={voteChoice === 'YES' 
                         ? 'bg-gradient-to-r from-[#A6E22E] to-[#3EBA7C] text-[#272822] font-semibold'
                         : 'border-[#A6E22E]/30 text-[#A6E22E] hover:bg-[#A6E22E]/10'
@@ -560,7 +560,7 @@ export default function GovernancePage() {
                     
                     <Button
                       onClick={() => setVoteChoice('NO')}
-                      variant={voteChoice === 'NO' ? 'default' : 'outline'}
+                      variant={voteChoice === 'NO' ? 'primary' : 'outline'}
                       className={voteChoice === 'NO' 
                         ? 'bg-gradient-to-r from-[#F92672] to-[#FD5C63] text-[#F8EFD6] font-semibold'
                         : 'border-[#F92672]/30 text-[#F92672] hover:bg-[#F92672]/10'
@@ -572,7 +572,7 @@ export default function GovernancePage() {
                     
                     <Button
                       onClick={() => setVoteChoice('ABSTAIN')}
-                      variant={voteChoice === 'ABSTAIN' ? 'default' : 'outline'}
+                      variant={voteChoice === 'ABSTAIN' ? 'primary' : 'outline'}
                       className={voteChoice === 'ABSTAIN' 
                         ? 'bg-gradient-to-r from-[#75715E] to-[#75715E] text-[#F8EFD6] font-semibold'
                         : 'border-[#75715E]/30 text-[#75715E] hover:bg-[#75715E]/10'

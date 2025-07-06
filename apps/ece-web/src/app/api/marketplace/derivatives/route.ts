@@ -155,7 +155,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Filter by type if specified
-    let filteredData = derivatives
+    let filteredData: any = derivatives
     if (type !== 'all') {
       switch (type) {
         case 'options':

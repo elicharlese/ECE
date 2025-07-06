@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
       }
     })
 
-    const enrichedMarkets = markets.map(market => ({
+    const enrichedMarkets = markets.map((market: any) => ({
       ...market,
       participantCount: market._count.bets,
       timeLeft: market.endTime.getTime() - Date.now(),
@@ -84,8 +84,8 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await auth()
-    if (!session?.user?.id) {
+    const user = await getCurrentUser(request)
+    if (!user?.id) {
       return NextResponse.json(
         { success: false, error: 'Authentication required' },
         { status: 401 }
@@ -122,12 +122,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Check user balance
-    const user = await prisma.user.findUnique({
-      where: { id: session.user.id },
+    const userBalance = await prisma.user.findUnique({
+      where: { id: user.id },
       select: { eceBalance: true }
     })
 
-    if (!user || user.eceBalance < amount) {
+    if (!userBalance || userBalance.eceBalance < amount) {
       return NextResponse.json(
         { success: false, error: 'Insufficient ECE balance' },
         { status: 400 }
@@ -135,11 +135,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Create bet and update balances in transaction
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: any) => {
       // Create the bet
       const bet = await tx.bet.create({
         data: {
-          userId: session.user.id,
+          userId: user.id,
           marketId,
           direction: direction as 'UP' | 'DOWN',
           amount,
@@ -150,7 +150,7 @@ export async function POST(request: NextRequest) {
 
       // Update user balance
       await tx.user.update({
-        where: { id: session.user.id },
+        where: { id: user.id },
         data: {
           eceBalance: {
             decrement: amount

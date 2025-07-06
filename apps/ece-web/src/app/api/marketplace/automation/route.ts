@@ -39,12 +39,12 @@ async function settleBettingMarket(marketId: string) {
   const winningDirection = targetMet ? market.targetDirection : (market.targetDirection === 'UP' ? 'DOWN' : 'UP')
 
   // Process payouts
-  const winners = market.bets.filter(bet => bet.direction === winningDirection)
-  const totalWinningBets = winners.reduce((sum, bet) => sum + bet.amount, 0)
-  const totalPot = market.bets.reduce((sum, bet) => sum + bet.amount, 0)
+  const winners = market.bets.filter((bet: any) => bet.direction === winningDirection)
+  const totalWinningBets = winners.reduce((sum: number, bet: any) => sum + bet.amount, 0)
+  const totalPot = market.bets.reduce((sum: number, bet: any) => sum + bet.amount, 0)
 
   const payouts = await Promise.all(
-    winners.map(async (bet) => {
+    winners.map(async (bet: any) => {
       const winnings = (bet.amount / totalWinningBets) * totalPot * 0.95 // 5% house edge
       
       // Update user balance
@@ -115,7 +115,7 @@ async function createDailyMarkets() {
   })
 
   const markets = await Promise.all(
-    companies.map(async (company) => {
+    companies.map(async (company: any) => {
       const metricTypes = ['REVENUE_GROWTH', 'USER_GROWTH', 'VALUATION_CHANGE']
       const metricType = metricTypes[Math.floor(Math.random() * metricTypes.length)]
       
@@ -188,7 +188,7 @@ export async function GET(request: NextRequest) {
       })
 
       const settlements = await Promise.all(
-        expiredMarkets.map(market => settleBettingMarket(market.id))
+        expiredMarkets.map((market: any) => settleBettingMarket(market.id))
       )
 
       return NextResponse.json({

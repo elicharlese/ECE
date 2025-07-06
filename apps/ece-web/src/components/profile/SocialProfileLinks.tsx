@@ -14,7 +14,7 @@ import {
   Linkedin,
   Youtube,
   Twitch,
-  Discord,
+  MessageCircle,
   Globe,
   Link as LinkIcon
 } from 'lucide-react'
@@ -57,7 +57,7 @@ export function SocialProfileLinks({ className = '' }: SocialProfileLinksProps) 
       id: '3',
       platform: 'Discord',
       url: 'alexrivera#1234',
-      icon: Discord,
+      icon: MessageCircle,
       color: '#5865F2',
       isVisible: true
     }
@@ -74,7 +74,7 @@ export function SocialProfileLinks({ className = '' }: SocialProfileLinksProps) 
     { name: 'LinkedIn', icon: Linkedin, color: '#0077B5' },
     { name: 'YouTube', icon: Youtube, color: '#FF0000' },
     { name: 'Twitch', icon: Twitch, color: '#9146FF' },
-    { name: 'Discord', icon: Discord, color: '#5865F2' },
+    { name: 'Discord', icon: MessageCircle, color: '#5865F2' },
     { name: 'Website', icon: Globe, color: '#66D9EF' }
   ]
 

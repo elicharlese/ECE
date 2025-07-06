@@ -204,7 +204,7 @@ export function ActionButtons({
           >
             <Button
               onClick={() => handleAction(onUndo, 'undo', 2000, 'light')}
-              disabled={!canUndo || cooldowns.undo}
+              disabled={!canUndo || !!cooldowns.undo}
               size="sm"
               className="w-10 h-10 rounded-full bg-[#75715E]/20 hover:bg-[#75715E]/30 text-[#75715E] hover:text-[#F8EFD6] border border-[#75715E]/30"
             >
@@ -297,7 +297,6 @@ export function ActionButtons({
                       ${config.size === 'lg' ? 'mx-2' : ''}
                       group relative overflow-hidden
                     `}
-                    title={config.description}
                   >
                     {/* Button Background Effect */}
                     <motion.div

@@ -123,6 +123,13 @@ export default function SystemMonitoringPage() {
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [autoRefresh, setAutoRefresh] = useState(true)
 
+  const services = [
+    { name: 'API Gateway', status: 'operational' as const, responseTime: 120, uptime: 99.9 },
+    { name: 'Database', status: 'operational' as const, responseTime: 45, uptime: 99.8 },
+    { name: 'File Storage', status: 'degraded' as const, responseTime: 250, uptime: 98.5 },
+    { name: 'Payment Service', status: 'operational' as const, responseTime: 180, uptime: 99.7 }
+  ]
+
   // Auto-refresh every 30 seconds
   useEffect(() => {
     if (!autoRefresh) return
@@ -234,7 +241,7 @@ export default function SystemMonitoringPage() {
         </div>
 
         {/* System Status Overview */}
-        <SystemStatus />
+        <SystemStatus services={services} />
 
         {/* System Metrics Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

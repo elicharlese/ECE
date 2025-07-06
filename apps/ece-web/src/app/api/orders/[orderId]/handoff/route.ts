@@ -21,9 +21,10 @@ const mockHandoffData = new Map<string, {
 // GET /api/orders/[orderId]/handoff - Get handoff status
 export async function GET(
   request: NextRequest,
-  { params }: { params: { orderId: string } }
+  context: { params: Promise<{ orderId: string }> }
 ) {
   try {
+    const params = await context.params
     const { orderId } = params
     
     if (!orderId) {
@@ -58,9 +59,10 @@ export async function GET(
 // POST /api/orders/[orderId]/handoff - Initiate handoff process
 export async function POST(
   request: NextRequest,
-  { params }: { params: { orderId: string } }
+  context: { params: Promise<{ orderId: string }> }
 ) {
   try {
+    const params = await context.params
     const { orderId } = params
     const body = await request.json()
     
@@ -176,9 +178,10 @@ async function processHandoff(orderId: string, orderTitle: string, orderType: st
 // PUT /api/orders/[orderId]/handoff - Update handoff status
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { orderId: string } }
+  context: { params: Promise<{ orderId: string }> }
 ) {
   try {
+    const params = await context.params
     const { orderId } = params
     const body = await request.json()
     

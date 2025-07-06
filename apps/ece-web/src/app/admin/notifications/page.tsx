@@ -417,7 +417,7 @@ export default function NotificationsPage() {
                     </div>
                     <div className="flex gap-2">
                       <Button
-                        variant={filterStatus === 'all' ? 'default' : 'outline'}
+                        variant={filterStatus === 'all' ? 'primary' : 'outline'}
                         size="sm"
                         onClick={() => setFilterStatus('all')}
                         className="border-border/30"
@@ -425,7 +425,7 @@ export default function NotificationsPage() {
                         All
                       </Button>
                       <Button
-                        variant={filterStatus === 'sent' ? 'default' : 'outline'}
+                        variant={filterStatus === 'sent' ? 'primary' : 'outline'}
                         size="sm"
                         onClick={() => setFilterStatus('sent')}
                         className="border-border/30"
@@ -433,7 +433,7 @@ export default function NotificationsPage() {
                         Sent
                       </Button>
                       <Button
-                        variant={filterStatus === 'scheduled' ? 'default' : 'outline'}
+                        variant={filterStatus === 'scheduled' ? 'primary' : 'outline'}
                         size="sm"
                         onClick={() => setFilterStatus('scheduled')}
                         className="border-border/30"

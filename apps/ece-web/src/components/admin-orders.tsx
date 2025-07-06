@@ -414,7 +414,7 @@ export function AdminOrders({ isAdmin = false }: AdminOrdersProps) {
                 </Button>
               </div>
 
-              <Tabs value="overview" className="space-y-6">
+              <Tabs value="overview" onValueChange={() => {}} className="space-y-6">
                 <TabsList className="grid w-full grid-cols-4">
                   <TabsTrigger value="overview">Overview</TabsTrigger>
                   <TabsTrigger value="files">Files</TabsTrigger>

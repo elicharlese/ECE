@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { AdminLayout } from '@/components/admin/AdminLayout'
 import { AdminBreadcrumbs } from '@/components/admin/AdminBreadcrumbs'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -18,6 +18,8 @@ import {
 } from 'lucide-react'
 
 export default function AdvancedFeaturesPage() {
+  const [activeTab, setActiveTab] = useState('rate-limiting')
+
   return (
     <AdminLayout>
       <div className="flex-1 space-y-6 p-6">
@@ -91,7 +93,7 @@ export default function AdvancedFeaturesPage() {
         </div>
 
         {/* Main Content */}
-        <Tabs defaultValue="rate-limiting" className="space-y-6">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="rate-limiting" className="flex items-center gap-2">
               <Shield className="w-4 h-4" />

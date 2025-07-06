@@ -226,9 +226,6 @@ export function BettingMarkets({ onPlaceBet }: BettingMarketsProps) {
             <Progress 
               value={progress} 
               className="h-2 bg-[#272822] border border-[#75715E]/30"
-              style={{
-                '--progress-color': isUp ? '#A6E22E' : '#F92672'
-              } as any}
             />
             <div className="flex items-center justify-between mt-2 text-xs">
               <span className="text-[#75715E]">{progress.toFixed(1)}% to target</span>
@@ -269,7 +266,7 @@ export function BettingMarkets({ onPlaceBet }: BettingMarketsProps) {
           <div className="space-y-3">
             <div className="flex gap-2">
               <Button
-                variant={selectedDirection === 'UP' ? 'default' : 'outline'}
+                variant={selectedDirection === 'UP' ? 'primary' : 'outline'}
                 size="sm"
                 onClick={() => setSelectedDirection('UP')}
                 className={`flex-1 ${
@@ -283,7 +280,7 @@ export function BettingMarkets({ onPlaceBet }: BettingMarketsProps) {
               </Button>
               
               <Button
-                variant={selectedDirection === 'DOWN' ? 'default' : 'outline'}
+                variant={selectedDirection === 'DOWN' ? 'primary' : 'outline'}
                 size="sm"
                 onClick={() => setSelectedDirection('DOWN')}
                 className={`flex-1 ${

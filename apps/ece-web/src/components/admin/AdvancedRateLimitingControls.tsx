@@ -43,6 +43,7 @@ interface RateLimitRule {
 }
 
 export function AdvancedRateLimitingControls() {
+  const [activeTab, setActiveTab] = useState('rules')
   const [rules, setRules] = useState<RateLimitRule[]>([
     {
       id: '1',
@@ -133,7 +134,7 @@ export function AdvancedRateLimitingControls() {
         </Button>
       </div>
 
-      <Tabs defaultValue="rules" className="space-y-6">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="rules">Active Rules</TabsTrigger>
           <TabsTrigger value="analytics">Analytics</TabsTrigger>

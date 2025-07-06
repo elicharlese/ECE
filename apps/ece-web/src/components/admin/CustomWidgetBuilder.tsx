@@ -81,6 +81,7 @@ const DATA_SOURCES = [
 ]
 
 export function CustomWidgetBuilder() {
+  const [activeTab, setActiveTab] = useState('builder')
   const [widgets, setWidgets] = useState<Widget[]>([
     {
       id: '1',
@@ -181,7 +182,7 @@ export function CustomWidgetBuilder() {
         </div>
         <div className="flex gap-2">
           <Button 
-            variant={previewMode ? "default" : "outline"}
+            variant={previewMode ? "primary" : "outline"}
             onClick={() => setPreviewMode(!previewMode)}
             className="flex items-center gap-2"
           >
@@ -195,7 +196,7 @@ export function CustomWidgetBuilder() {
         </div>
       </div>
 
-      <Tabs defaultValue="builder" className="space-y-6">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="builder">Widget Builder</TabsTrigger>
           <TabsTrigger value="library">Widget Library</TabsTrigger>

@@ -277,9 +277,7 @@ export function CardAuctions({ onPlaceBid, onInstantBuy, onWatchAuction }: CardA
                       Trending
                     </Badge>
                   )}
-                  <Badge 
-                    style={{ backgroundColor: `${rarityColor}20`, color: rarityColor, borderColor: `${rarityColor}30` }}
-                  >
+                  <Badge>
                     {auction.rarity}
                   </Badge>
                 </div>

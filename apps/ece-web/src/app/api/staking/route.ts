@@ -56,19 +56,19 @@ export async function GET(request: NextRequest) {
     })
 
     // Calculate user's total staked and rewards
-    const totalStaked = userPositions.reduce((sum, pos) => sum + pos.amount, 0)
-    const totalRewards = userPositions.reduce((sum, pos) => 
-      sum + pos.rewards.reduce((rewardSum, reward) => rewardSum + reward.amount, 0), 0
+    const totalStaked = userPositions.reduce((sum: number, pos: any) => sum + pos.amount, 0)
+    const totalRewards = userPositions.reduce((sum: number, pos: any) => 
+      sum + pos.rewards.reduce((rewardSum: number, reward: any) => rewardSum + reward.amount, 0), 0
     )
 
     return NextResponse.json({
       success: true,
       data: {
-        pools: pools.map(pool => ({
+        pools: pools.map((pool: any) => ({
           ...pool,
-          userStaked: pool.stakes.reduce((sum, stake) => sum + stake.amount, 0),
-          userRewards: pool.stakes.reduce((sum, stake) => 
-            sum + stake.rewards.reduce((rewardSum, reward) => rewardSum + reward.amount, 0), 0
+          userStaked: pool.stakes.reduce((sum: number, stake: any) => sum + stake.amount, 0),
+          userRewards: pool.stakes.reduce((sum: number, stake: any) => 
+            sum + stake.rewards.reduce((rewardSum: number, reward: any) => rewardSum + reward.amount, 0), 0
           ),
           totalStakers: pool._count.stakes
         })),
@@ -302,7 +302,7 @@ export async function POST(request: NextRequest) {
           }, { status: 400 })
         }
 
-        const totalRewards = rewards.reduce((sum, reward) => sum + reward.amount, 0)
+        const totalRewards = rewards.reduce((sum: number, reward: any) => sum + reward.amount, 0)
 
         // Claim rewards and update balance
         await prisma.$transaction([

@@ -60,7 +60,8 @@ export class SwipePhysicsEngine {
    * Calculate scale based on distance from center
    */
   createScaleTransform(x: MotionValue<number>, y: MotionValue<number>) {
-    return useTransform([x, y], ([xVal, yVal]) => {
+    return useTransform([x, y], (input: number[]) => {
+      const [xVal = 0, yVal = 0] = input
       const distance = Math.sqrt(xVal * xVal + yVal * yVal)
       const maxDistance = 300
       const scale = 1 + (distance / maxDistance) * 0.1
@@ -275,7 +276,7 @@ export class SwipePhysicsEngine {
 /**
  * Hook for creating swipe physics engine instance
  */
-export function useSwipePhysics(config?: Parameters<typeof SwipePhysicsEngine.constructor>[0]) {
+export function useSwipePhysics(config?: ConstructorParameters<typeof SwipePhysicsEngine>[0]) {
   return new SwipePhysicsEngine(config)
 }
 

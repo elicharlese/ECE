@@ -249,7 +249,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Filter by service type if specified
-    let filteredData = institutionalServices
+    let filteredData: any = institutionalServices
     if (serviceType !== 'all') {
       filteredData = { [serviceType]: institutionalServices[serviceType as keyof typeof institutionalServices] }
     }
