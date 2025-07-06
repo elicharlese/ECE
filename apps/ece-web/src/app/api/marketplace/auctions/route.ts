@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { auth } from '@/lib/auth'
+import { getCurrentUser } from '@/lib/auth'
 
 export async function GET(request: NextRequest) {
   try {
@@ -105,8 +105,8 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await auth()
-    if (!session?.user?.id) {
+    const user = await getCurrentUser(request)
+    if (!user?.id) {
       return NextResponse.json(
         { success: false, error: 'Authentication required' },
         { status: 401 }
@@ -146,12 +146,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Check user balance
-    const user = await prisma.user.findUnique({
-      where: { id: session.user.id },
+    const userBalance = await prisma.user.findUnique({
+      where: { id: user.id },
       select: { eceBalance: true }
     })
 
-    if (!user || user.eceBalance < amount) {
+    if (!userBalance || userBalance.eceBalance < amount) {
       return NextResponse.json(
         { success: false, error: 'Insufficient ECE balance' },
         { status: 400 }

@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { MarketplaceDashboard } from '@/components/marketplace-dashboard'
+import { AdminLayout } from '@/components/admin/AdminLayout'
 import { 
   Settings, 
   Play, 
@@ -190,48 +191,48 @@ export default function MarketplaceAdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#272822] via-[#272822] to-[#1a1a15] p-6">
-      <div className="max-w-7xl mx-auto">
+    <AdminLayout>
+      <div className="space-y-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          className="text-center"
         >
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-[#F92672] to-[#66D9EF] bg-clip-text text-transparent mb-4">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-[#F92672] to-[#66D9EF] bg-clip-text text-transparent mb-4">
             Marketplace Administration
           </h1>
-          <p className="text-lg text-[#75715E]">
+          <p className="text-lg text-muted-foreground">
             Monitor and manage all marketplace operations
           </p>
         </motion.div>
 
         <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 bg-[#272822]/50 border border-[#75715E]/30 mb-8">
+          <TabsList className="grid w-full grid-cols-4 bg-white/10 border border-border/30 mb-8">
             <TabsTrigger 
               value="overview"
-              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#A6E22E] data-[state=active]:to-[#3EBA7C] data-[state=active]:text-[#272822]"
+              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-ocean-accent data-[state=active]:to-monokai-blue data-[state=active]:text-white"
             >
               <BarChart3 className="h-4 w-4 mr-2" />
               Overview
             </TabsTrigger>
             <TabsTrigger 
               value="automation"
-              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#66D9EF] data-[state=active]:to-[#819AFF] data-[state=active]:text-[#272822]"
+              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-monokai-blue data-[state=active]:to-monokai-purple data-[state=active]:text-white"
             >
               <Zap className="h-4 w-4 mr-2" />
               Automation
             </TabsTrigger>
             <TabsTrigger 
               value="management"
-              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#F92672] data-[state=active]:to-[#FD5C63] data-[state=active]:text-[#F8EFD6]"
+              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-monokai-pink data-[state=active]:to-monokai-orange data-[state=active]:text-white"
             >
               <Settings className="h-4 w-4 mr-2" />
               Management
             </TabsTrigger>
             <TabsTrigger 
               value="logs"
-              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#E6DB74] data-[state=active]:to-[#E6DB74] data-[state=active]:text-[#272822]"
+              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-monokai-green data-[state=active]:to-ocean-accent data-[state=active]:text-white"
             >
               <Activity className="h-4 w-4 mr-2" />
               System Logs
@@ -262,15 +263,15 @@ export default function MarketplaceAdminPage() {
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {adminActions.filter(action => action.type === 'automation').map((action) => (
-                    <Card key={action.id} className="p-6 bg-gradient-to-br from-[#272822]/80 to-[#272822]/60 backdrop-blur-xl border border-[#75715E]/30">
+                    <Card key={action.id} className="p-6 bg-white/10 backdrop-blur-xl border border-border/30">
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex items-center gap-3">
-                          <div className="p-2 bg-[#66D9EF]/20 rounded-lg">
-                            <action.icon className="h-5 w-5 text-[#66D9EF]" />
+                          <div className="p-2 bg-monokai-blue/20 rounded-lg">
+                            <action.icon className="h-5 w-5 text-monokai-blue" />
                           </div>
                           <div>
-                            <h3 className="text-lg font-semibold text-[#F8EFD6]">{action.title}</h3>
-                            <p className="text-sm text-[#75715E]">{action.description}</p>
+                            <h3 className="text-lg font-semibold text-foreground">{action.title}</h3>
+                            <p className="text-sm text-muted-foreground">{action.description}</p>
                           </div>
                         </div>
                         <Badge className={getStatusColor(action.status)}>
@@ -279,7 +280,7 @@ export default function MarketplaceAdminPage() {
                       </div>
 
                       {action.lastRun && (
-                        <div className="text-xs text-[#75715E] mb-4">
+                        <div className="text-xs text-muted-foreground mb-4">
                           Last run: {formatTimeAgo(action.lastRun)}
                         </div>
                       )}
@@ -288,7 +289,7 @@ export default function MarketplaceAdminPage() {
                         <Button
                           onClick={() => executeAction(action.id)}
                           disabled={loading === action.id}
-                          className="flex-1 bg-gradient-to-r from-[#66D9EF] to-[#819AFF] hover:from-[#66D9EF]/80 hover:to-[#819AFF]/80 text-[#272822] font-semibold"
+                          className="flex-1 bg-gradient-to-r from-monokai-blue to-monokai-purple hover:from-monokai-blue/80 hover:to-monokai-purple/80 text-white font-semibold"
                         >
                           {loading === action.id ? (
                             <motion.div
@@ -305,7 +306,7 @@ export default function MarketplaceAdminPage() {
                         
                         <Button
                           variant="outline"
-                          className="border-[#75715E]/30 text-[#75715E] hover:bg-[#75715E]/10"
+                          className="border-border/30 text-muted-foreground hover:bg-white/10"
                         >
                           <Settings className="h-4 w-4" />
                         </Button>
@@ -327,15 +328,15 @@ export default function MarketplaceAdminPage() {
               >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {adminActions.filter(action => action.type === 'management' || action.type === 'security').map((action) => (
-                    <Card key={action.id} className="p-6 bg-gradient-to-br from-[#272822]/80 to-[#272822]/60 backdrop-blur-xl border border-[#75715E]/30">
+                    <Card key={action.id} className="p-6 bg-white/10 backdrop-blur-xl border border-border/30">
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex items-center gap-3">
-                          <div className={`p-2 rounded-lg ${action.type === 'security' ? 'bg-[#F92672]/20' : 'bg-[#A6E22E]/20'}`}>
-                            <action.icon className={`h-5 w-5 ${action.type === 'security' ? 'text-[#F92672]' : 'text-[#A6E22E]'}`} />
+                          <div className={`p-2 rounded-lg ${action.type === 'security' ? 'bg-monokai-pink/20' : 'bg-monokai-green/20'}`}>
+                            <action.icon className={`h-5 w-5 ${action.type === 'security' ? 'text-monokai-pink' : 'text-monokai-green'}`} />
                           </div>
                           <div>
-                            <h3 className="text-lg font-semibold text-[#F8EFD6]">{action.title}</h3>
-                            <p className="text-sm text-[#75715E]">{action.description}</p>
+                            <h3 className="text-lg font-semibold text-foreground">{action.title}</h3>
+                            <p className="text-sm text-muted-foreground">{action.description}</p>
                           </div>
                         </div>
                         <Badge className={getStatusColor(action.status)}>
@@ -346,8 +347,8 @@ export default function MarketplaceAdminPage() {
                       <div className="flex gap-2">
                         <Button
                           className={`flex-1 ${action.type === 'security' 
-                            ? 'bg-gradient-to-r from-[#F92672] to-[#FD5C63] hover:from-[#F92672]/80 hover:to-[#FD5C63]/80 text-[#F8EFD6]'
-                            : 'bg-gradient-to-r from-[#A6E22E] to-[#3EBA7C] hover:from-[#A6E22E]/80 hover:to-[#3EBA7C]/80 text-[#272822]'
+                            ? 'bg-gradient-to-r from-monokai-pink to-monokai-orange hover:from-monokai-pink/80 hover:to-monokai-orange/80 text-white'
+                            : 'bg-gradient-to-r from-monokai-green to-ocean-accent hover:from-monokai-green/80 hover:to-ocean-accent/80 text-white'
                           } font-semibold`}
                         >
                           <Settings className="h-4 w-4 mr-2" />
@@ -368,9 +369,9 @@ export default function MarketplaceAdminPage() {
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.3 }}
               >
-                <Card className="p-6 bg-gradient-to-br from-[#272822]/80 to-[#272822]/60 backdrop-blur-xl border border-[#75715E]/30">
-                  <h3 className="text-lg font-semibold text-[#F8EFD6] mb-4 flex items-center">
-                    <Activity className="h-5 w-5 mr-2 text-[#E6DB74]" />
+                <Card className="p-6 bg-white/10 backdrop-blur-xl border border-border/30">
+                  <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center">
+                    <Activity className="h-5 w-5 mr-2 text-monokai-green" />
                     System Activity Logs
                   </h3>
                   
@@ -380,7 +381,7 @@ export default function MarketplaceAdminPage() {
                         key={log.id}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="flex items-start gap-3 p-4 bg-[#272822]/50 rounded-lg border border-[#75715E]/20"
+                        className="flex items-start gap-3 p-4 bg-white/5 rounded-lg border border-border/20"
                       >
                         <div className={`mt-1 ${getLogStatusColor(log.status)}`}>
                           {log.status === 'success' && <CheckCircle className="h-4 w-4" />}
@@ -389,14 +390,14 @@ export default function MarketplaceAdminPage() {
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center justify-between mb-1">
-                            <span className="text-sm font-medium text-[#F8EFD6]">
+                            <span className="text-sm font-medium text-foreground">
                               {adminActions.find(a => a.id === log.action)?.title || log.action}
                             </span>
-                            <span className="text-xs text-[#75715E]">
+                            <span className="text-xs text-muted-foreground">
                               {formatTimeAgo(log.timestamp)}
                             </span>
                           </div>
-                          <p className="text-sm text-[#75715E]">{log.message}</p>
+                          <p className="text-sm text-muted-foreground">{log.message}</p>
                         </div>
                       </motion.div>
                     ))}
@@ -407,6 +408,6 @@ export default function MarketplaceAdminPage() {
           </AnimatePresence>
         </Tabs>
       </div>
-    </div>
+    </AdminLayout>
   )
 }

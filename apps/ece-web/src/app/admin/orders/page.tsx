@@ -1,6 +1,7 @@
 'use client'
 
 import { AdminOrders } from '@/components/admin-orders'
+import { AdminLayout } from '@/components/admin/AdminLayout'
 import { useState, useEffect } from 'react'
 
 // Mock admin authentication - in production, this would check actual user roles
@@ -28,14 +29,20 @@ export default function AdminOrdersPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
-          <p className="text-gray-600">Checking admin access...</p>
+      <AdminLayout>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <div className="animate-spin w-8 h-8 border-4 border-ocean-accent border-t-transparent rounded-full mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Checking admin access...</p>
+          </div>
         </div>
-      </div>
+      </AdminLayout>
     )
   }
 
-  return <AdminOrders isAdmin={isAdmin} />
+  return (
+    <AdminLayout>
+      <AdminOrders isAdmin={isAdmin} />
+    </AdminLayout>
+  )
 }

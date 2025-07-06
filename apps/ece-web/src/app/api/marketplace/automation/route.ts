@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { auth } from '@/lib/auth'
+import { getCurrentUser } from '@/lib/auth'
 
 // Market maker algorithm for automatic liquidity provision
-export async function calculateMarketOdds(marketId: string, totalVolume: number, directionVolume: { up: number, down: number }) {
+async function calculateMarketOdds(marketId: string, totalVolume: number, directionVolume: { up: number, down: number }) {
   const baseOdds = 2.0
   const volumeRatio = directionVolume.up / (directionVolume.up + directionVolume.down)
   
@@ -15,7 +15,7 @@ export async function calculateMarketOdds(marketId: string, totalVolume: number,
 }
 
 // Automated market settlement and payout processing
-export async function settleBettingMarket(marketId: string) {
+async function settleBettingMarket(marketId: string) {
   const market = await prisma.bettingMarket.findUnique({
     where: { id: marketId },
     include: {
@@ -104,7 +104,7 @@ async function fetchActualMetricValue(cardId: string, metricType: string): Promi
 }
 
 // Daily market creation job
-export async function createDailyMarkets() {
+async function createDailyMarkets() {
   const companies = await prisma.card.findMany({
     where: {
       category: {

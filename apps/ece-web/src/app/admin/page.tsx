@@ -13,11 +13,17 @@ import {
   Settings,
   Send,
   Shield,
-  BarChart3
+  BarChart3,
+  Package,
+  Activity,
+  AlertTriangle,
+  CheckCircle
 } from 'lucide-react'
+import { AdminLayout } from '@/components/admin/AdminLayout'
 import { GlassCard } from '@/components/ui/glass-card'
 import { Button } from '@/components/ui/button'
 import { SubscriptionBadge } from '@/components/subscription-ui'
+import { StatsCard, QuickAction, ActivityItem, SystemStatus } from '@/components/admin/widgets'
 
 interface DashboardData {
   totalUsers: number
@@ -30,35 +36,71 @@ interface DashboardData {
   totalRevenue: number
   notifications: number
   marketplaceListings: number
+  pendingOrders: number
+  activeMarkets: number
+  systemAlerts: number
 }
 
-interface User {
+interface QuickAction {
   id: string
-  email: string
-  username: string
-  firstName: string
-  lastName: string
-  tier: string
-  eceBalance: number
-  isVerified: boolean
-  role: string
-  subscription: {
-    plan: 'free' | 'pro' | 'enterprise'
-    status: string
-    features: any
-  }
-  createdAt: string
+  title: string
+  description: string
+  icon: React.ComponentType<any>
+  href: string
+  color: string
+  count?: number
 }
+
+const quickActions: QuickAction[] = [
+  {
+    id: 'users',
+    title: 'Manage Users',
+    description: 'User accounts and subscriptions',
+    icon: Users,
+    href: '/admin/users',
+    color: 'blue'
+  },
+  {
+    id: 'orders',
+    title: 'Process Orders',
+    description: 'Order fulfillment and tracking',
+    icon: Package,
+    href: '/admin/orders',
+    color: 'green',
+    count: 12
+  },
+  {
+    id: 'marketplace',
+    title: 'Marketplace Control',
+    description: 'Trading and market operations',
+    icon: Store,
+    href: '/admin/marketplace',
+    color: 'purple'
+  },
+  {
+    id: 'analytics',
+    title: 'View Analytics',
+    description: 'Platform insights and reports',
+    icon: BarChart3,
+    href: '/admin/analytics',
+    color: 'yellow'
+  }
+]
 
 export default function AdminDashboard() {
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null)
-  const [users, setUsers] = useState<User[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState('dashboard')
+  const [recentActivity, setRecentActivity] = useState<Array<{
+    id: string
+    type: 'user' | 'order' | 'marketplace' | 'system'
+    message: string
+    timestamp: Date
+    status: 'success' | 'warning' | 'error'
+  }>>([])
 
   useEffect(() => {
     fetchDashboardData()
-    fetchUsers()
+    fetchRecentActivity()
   }, [])
 
   const fetchDashboardData = async () => {
@@ -70,327 +112,225 @@ export default function AdminDashboard() {
       })
       if (response.ok) {
         const data = await response.json()
-        setDashboardData(data.dashboard)
+        setDashboardData({
+          ...data.dashboard,
+          pendingOrders: 12,
+          activeMarkets: 8,
+          systemAlerts: 2
+        })
       }
     } catch (error) {
       console.error('Failed to fetch dashboard data:', error)
     }
   }
 
-  const fetchUsers = async () => {
+  const fetchRecentActivity = async () => {
     try {
-      const response = await fetch('/api/admin?action=users', {
-        headers: {
-          'Authorization': 'Bearer admin_token_demo'
+      // Mock recent activity data
+      setRecentActivity([
+        {
+          id: '1',
+          type: 'user',
+          message: 'New user registered: john.doe@example.com',
+          timestamp: new Date(Date.now() - 5 * 60 * 1000),
+          status: 'success'
+        },
+        {
+          id: '2',
+          type: 'order',
+          message: 'Order #1234 completed and delivered',
+          timestamp: new Date(Date.now() - 15 * 60 * 1000),
+          status: 'success'
+        },
+        {
+          id: '3',
+          type: 'marketplace',
+          message: 'High trading volume detected in Tesla cards',
+          timestamp: new Date(Date.now() - 30 * 60 * 1000),
+          status: 'warning'
+        },
+        {
+          id: '4',
+          type: 'system',
+          message: 'Database backup completed successfully',
+          timestamp: new Date(Date.now() - 60 * 60 * 1000),
+          status: 'success'
         }
-      })
-      if (response.ok) {
-        const data = await response.json()
-        setUsers(data.users)
-      }
+      ])
     } catch (error) {
-      console.error('Failed to fetch users:', error)
+      console.error('Failed to fetch recent activity:', error)
     } finally {
       setIsLoading(false)
     }
   }
 
-  const updateUserSubscription = async (userId: string, plan: 'pro' | 'enterprise') => {
-    try {
-      const response = await fetch('/api/admin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer admin_token_demo'
-        },
-        body: JSON.stringify({
-          action: 'update_subscription',
-          userId,
-          data: { plan, status: 'active' }
-        })
-      })
-      
-      if (response.ok) {
-        fetchUsers()
-        fetchDashboardData()
-      }
-    } catch (error) {
-      console.error('Failed to update subscription:', error)
-    }
-  }
-
-  const sendNotification = async (userId: string | 'all', notification: any) => {
-    try {
-      const response = await fetch('/api/admin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer admin_token_demo'
-        },
-        body: JSON.stringify({
-          action: 'send_notification',
-          userId,
-          data: { notification }
-        })
-      })
-      
-      if (response.ok) {
-        alert('Notification sent successfully!')
-      }
-    } catch (error) {
-      console.error('Failed to send notification:', error)
-    }
+  const formatTimeAgo = (date: Date) => {
+    const now = new Date()
+    const diffMs = now.getTime() - date.getTime()
+    const diffMins = Math.floor(diffMs / 60000)
+    
+    if (diffMins < 1) return 'Just now'
+    if (diffMins < 60) return `${diffMins}m ago`
+    const diffHours = Math.floor(diffMins / 60)
+    if (diffHours < 24) return `${diffHours}h ago`
+    return `${Math.floor(diffHours / 24)}d ago`
   }
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-8 h-8 border-4 border-ocean-accent border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading admin dashboard...</p>
+      <AdminLayout>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <div className="w-8 h-8 border-4 border-ocean-accent border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading dashboard...</p>
+          </div>
         </div>
-      </div>
+      </AdminLayout>
     )
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Admin Header */}
-      <div className="border-b border-border/50 bg-background/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <Shield className="w-8 h-8 text-monokai-purple" />
-              <div>
-                <h1 className="text-2xl font-bold text-foreground">ECE Admin</h1>
-                <p className="text-sm text-muted-foreground">Platform Management Dashboard</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              <div className="text-right">
-                <p className="text-sm font-medium text-foreground">Admin User</p>
-                <p className="text-xs text-muted-foreground">admin@ece.com</p>
-              </div>
-              <div className="w-10 h-10 bg-gradient-to-br from-monokai-purple to-monokai-blue rounded-full flex items-center justify-center">
-                <Crown className="w-5 h-5 text-white" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <AdminLayout>
+      <div className="space-y-8">
+        {/* Welcome Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center"
+        >
+          <h1 className="text-3xl font-bold text-foreground mb-2">
+            Welcome to ECE Admin
+          </h1>
+          <p className="text-muted-foreground">
+            Complete platform management and control center
+          </p>
+        </motion.div>
 
-      <div className="container mx-auto px-4 py-8">
-        {/* Navigation Tabs */}
-        <div className="mb-8">
-          <div className="flex space-x-1 bg-white/10 rounded-lg p-1 max-w-md">
-            {[
-              { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
-              { id: 'users', label: 'Users', icon: Users },
-              { id: 'notifications', label: 'Notifications', icon: Bell }
-            ].map((tab) => {
-              const Icon = tab.icon
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex-1 flex items-center justify-center space-x-2 py-2 px-4 rounded-md transition-all duration-200 ${
-                    activeTab === tab.id
-                      ? 'bg-gradient-ocean text-white shadow-lg'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-white/5'
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  <span className="font-medium">{tab.label}</span>
-                </button>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* Dashboard Tab */}
-        {activeTab === 'dashboard' && dashboardData && (
+        {/* Stats Grid */}
+        {dashboardData && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="space-y-8"
+            transition={{ delay: 0.1 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
           >
-            {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <GlassCard className="p-6">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-ocean-accent/20 rounded-lg flex items-center justify-center">
-                    <Users className="w-6 h-6 text-ocean-accent" />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-foreground">{dashboardData.totalUsers}</p>
-                    <p className="text-sm text-muted-foreground">Total Users</p>
-                  </div>
-                </div>
-              </GlassCard>
+            <StatsCard 
+              title="Total Users" 
+              value={dashboardData.totalUsers.toString()} 
+              change="+12%" 
+              changeType="positive"
+              icon={Users}
+            />
+            <StatsCard 
+              title="Pending Orders" 
+              value={dashboardData.pendingOrders.toString()} 
+              change="+8%" 
+              changeType="positive"
+              icon={Package}
+            />
+            <StatsCard 
+              title="Active Markets" 
+              value={dashboardData.activeMarkets.toString()} 
+              change="-3%" 
+              changeType="negative"
+              icon={Store}
+            />
+            <StatsCard 
+              title="Monthly Revenue" 
+              value={`$${dashboardData.totalRevenue}`} 
+              change="+15%" 
+              changeType="positive"
+              icon={DollarSign}
+            />
+          </motion.div>
+        )}
 
-              <GlassCard className="p-6">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-monokai-pink/20 rounded-lg flex items-center justify-center">
-                    <Star className="w-6 h-6 text-monokai-pink" />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-foreground">{dashboardData.activeSubscriptions}</p>
-                    <p className="text-sm text-muted-foreground">Active Subscriptions</p>
-                  </div>
-                </div>
-              </GlassCard>
+        {/* Quick Actions */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          <h2 className="text-xl font-semibold text-foreground mb-6">Quick Actions</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <QuickAction 
+              id="users"
+              title="Manage Users" 
+              description="User accounts & permissions" 
+              href="/admin/users" 
+              icon={Users} 
+              color="blue" 
+            />
+            <QuickAction 
+              id="orders"
+              title="Process Orders" 
+              description="Order fulfillment & tracking" 
+              href="/admin/orders" 
+              icon={Package} 
+              color="green"
+              count={dashboardData?.pendingOrders || 12}
+            />
+            <QuickAction 
+              id="marketplace"
+              title="Marketplace Control" 
+              description="Trading & market operations" 
+              href="/admin/marketplace" 
+              icon={Store} 
+              color="purple" 
+            />
+            <QuickAction 
+              id="analytics"
+              title="View Analytics" 
+              description="Platform insights & reports" 
+              href="/admin/analytics" 
+              icon={BarChart3} 
+              color="yellow" 
+            />
+          </div>
+        </motion.div>
 
-              <GlassCard className="p-6">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-monokai-green/20 rounded-lg flex items-center justify-center">
-                    <DollarSign className="w-6 h-6 text-monokai-green" />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-foreground">${dashboardData.totalRevenue}</p>
-                    <p className="text-sm text-muted-foreground">Monthly Revenue</p>
-                  </div>
-                </div>
-              </GlassCard>
-
-              <GlassCard className="p-6">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-monokai-blue/20 rounded-lg flex items-center justify-center">
-                    <Store className="w-6 h-6 text-monokai-blue" />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-foreground">{dashboardData.marketplaceListings}</p>
-                    <p className="text-sm text-muted-foreground">Marketplace Items</p>
-                  </div>
-                </div>
-              </GlassCard>
-            </div>
-
-            {/* Subscription Breakdown */}
+        <div className="grid lg:grid-cols-2 gap-8">
+          {/* Recent Activity */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
             <GlassCard className="p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-4">Subscription Breakdown</h3>
-              <div className="grid grid-cols-3 gap-4">
-                <div className="text-center">
-                  <p className="text-2xl font-bold text-muted-foreground">{dashboardData.subscriptionStats.free}</p>
-                  <p className="text-sm text-muted-foreground">Free Users</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-2xl font-bold text-monokai-pink">{dashboardData.subscriptionStats.pro}</p>
-                  <p className="text-sm text-muted-foreground">Pro Users</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-2xl font-bold text-monokai-purple">{dashboardData.subscriptionStats.enterprise}</p>
-                  <p className="text-sm text-muted-foreground">Enterprise Users</p>
-                </div>
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-semibold text-foreground flex items-center">
+                  <Activity className="w-5 h-5 mr-2 text-ocean-accent" />
+                  Recent Activity
+                </h3>
+                <Button variant="ghost" size="sm">
+                  View All
+                </Button>
+              </div>
+              
+              <div className="space-y-4">
+                {recentActivity.map((activity) => (
+                  <ActivityItem 
+                    key={activity.id}
+                    id={activity.id}
+                    type={activity.type}
+                    message={activity.message}
+                    timestamp={formatTimeAgo(activity.timestamp)}
+                  />
+                ))}
               </div>
             </GlassCard>
           </motion.div>
-        )}
 
-        {/* Users Tab */}
-        {activeTab === 'users' && (
+          {/* System Status */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="space-y-6"
+            transition={{ delay: 0.4 }}
           >
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-foreground">User Management</h2>
-              <div className="text-sm text-muted-foreground">{users.length} total users</div>
-            </div>
-
-            <div className="grid gap-4">
-              {users.map((user) => (
-                <GlassCard key={user.id} className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 bg-gradient-tide rounded-full flex items-center justify-center">
-                        <span className="text-white font-semibold">
-                          {user.firstName[0]}{user.lastName[0]}
-                        </span>
-                      </div>
-                      <div>
-                        <div className="flex items-center space-x-2">
-                          <h3 className="font-semibold text-foreground">{user.firstName} {user.lastName}</h3>
-                          <SubscriptionBadge plan={user.subscription.plan} />
-                        </div>
-                        <p className="text-sm text-muted-foreground">@{user.username} • {user.email}</p>
-                        <p className="text-xs text-muted-foreground">Balance: {user.eceBalance} ECE</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center space-x-2">
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => updateUserSubscription(user.id, 'pro')}
-                        disabled={user.subscription.plan === 'pro' || user.subscription.plan === 'enterprise'}
-                      >
-                        Upgrade to Pro
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => updateUserSubscription(user.id, 'enterprise')}
-                        disabled={user.subscription.plan === 'enterprise'}
-                      >
-                        Upgrade to Enterprise
-                      </Button>
-                    </div>
-                  </div>
-                </GlassCard>
-              ))}
-            </div>
+            <SystemStatus />
           </motion.div>
-        )}
-
-        {/* Notifications Tab */}
-        {activeTab === 'notifications' && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="space-y-6"
-          >
-            <h2 className="text-xl font-semibold text-foreground">Send Notifications</h2>
-
-            <div className="grid md:grid-cols-2 gap-6">
-              <GlassCard className="p-6">
-                <h3 className="font-semibold text-foreground mb-4">IPO Alert (Pro/Enterprise)</h3>
-                <Button
-                  onClick={() => sendNotification('all', {
-                    type: 'ipo',
-                    title: 'New IPO Available!',
-                    message: 'Tesla Cybertruck card is now available for early access trading.',
-                    requiresSubscription: 'pro',
-                    priority: 'high'
-                  })}
-                  className="w-full"
-                >
-                  <Send className="w-4 h-4 mr-2" />
-                  Send IPO Alert
-                </Button>
-              </GlassCard>
-
-              <GlassCard className="p-6">
-                <h3 className="font-semibold text-foreground mb-4">Enterprise Support (Enterprise)</h3>
-                <Button
-                  onClick={() => sendNotification('all', {
-                    type: 'system',
-                    title: '24/7 Support Available',
-                    message: 'Your dedicated account manager is now available for immediate assistance.',
-                    requiresSubscription: 'enterprise',
-                    priority: 'medium'
-                  })}
-                  className="w-full"
-                >
-                  <Send className="w-4 h-4 mr-2" />
-                  Send Support Notice
-                </Button>
-              </GlassCard>
-            </div>
-          </motion.div>
-        )}
+        </div>
       </div>
-    </div>
+    </AdminLayout>
   )
 }
