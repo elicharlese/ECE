@@ -1,18 +1,18 @@
 {
   "run": {
-    "command": "nx build ece-web --skip-nx-cache",
-    "startTime": "2025-07-06T02:02:02.774Z",
-    "endTime": "2025-07-06T02:02:03.275Z",
+    "command": "nx test ece-web",
+    "startTime": "2025-07-06T05:16:15.307Z",
+    "endTime": "2025-07-06T05:16:15.929Z",
     "inner": false
   },
   "tasks": [
     {
-      "taskId": "ece-web:build:production",
-      "target": "build",
+      "taskId": "ece-web:test",
+      "target": "test",
       "projectName": "ece-web",
-      "hash": "4465580899509498793",
-      "startTime": "2025-07-06T02:02:02.783Z",
-      "endTime": "2025-07-06T02:02:03.275Z",
+      "hash": "15889869033993611649",
+      "startTime": "2025-07-06T05:16:15.320Z",
+      "endTime": "2025-07-06T05:16:15.928Z",
       "params": "",
       "cacheStatus": "cache-miss",
       "status": 1
