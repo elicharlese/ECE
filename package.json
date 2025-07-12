@@ -1,8 +1,8 @@
 {
-  "name": "ece-trading-cards",
+  "name": "ece",
   "version": "1.0.0",
   "private": true,
-  "description": "ECE Trading Cards - Multi-Platform Trading Card Application",
+  "description": "ECE - Multi-Platform Trading Card Ecosystem",
   "scripts": {
     "build": "nx build",
     "test": "nx test",
