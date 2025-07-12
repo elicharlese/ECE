@@ -1,0 +1,127 @@
+name: Feature Request
+description: Suggest a new feature for ECE Trading Cards
+title: "[FEATURE] "
+labels: ["enhancement", "needs-review"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a new feature for ECE Trading Cards!
+        
+  - type: dropdown
+    id: feature-type
+    attributes:
+      label: Feature Type
+      description: What type of feature is this?
+      options:
+        - Trading System Enhancement
+        - Marketplace Improvement
+        - Social Feature
+        - Mobile Native Feature
+        - Desktop Integration
+        - Performance Optimization
+        - UI/UX Enhancement
+        - Security Feature
+        - Analytics/Reporting
+        - Other
+    validations:
+      required: true
+      
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Target Platform
+      description: Which platform(s) should this feature target?
+      multiple: true
+      options:
+        - Web (Next.js)
+        - Mobile (React Native)
+        - Desktop (Electron)
+        - All platforms
+    validations:
+      required: true
+      
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What problem does this feature solve?
+      placeholder: Describe the problem or need this feature addresses...
+    validations:
+      required: true
+      
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe your proposed solution
+      placeholder: Describe how you'd like this feature to work...
+    validations:
+      required: true
+      
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Solutions
+      description: Describe any alternative solutions you've considered
+      placeholder: What other approaches could solve this problem?
+      
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority Level
+      description: How important is this feature?
+      options:
+        - Low - Nice to have
+        - Medium - Would improve user experience
+        - High - Important for user satisfaction
+        - Critical - Blocking core functionality
+    validations:
+      required: true
+      
+  - type: dropdown
+    id: complexity
+    attributes:
+      label: Estimated Complexity
+      description: How complex do you think this feature would be to implement?
+      options:
+        - Simple - Few hours
+        - Medium - Few days
+        - Complex - Few weeks
+        - Major - Requires significant planning
+        
+  - type: textarea
+    id: user-stories
+    attributes:
+      label: User Stories
+      description: Write user stories for this feature
+      placeholder: |
+        As a [user type], I want [goal] so that [reason].
+        
+        Examples:
+        - As a trader, I want to filter cards by rarity so that I can find specific cards faster
+        - As a mobile user, I want haptic feedback when I swipe cards so that I have better tactile feedback
+        
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Define what success looks like for this feature
+      placeholder: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+        - [ ] Criterion 3
+        
+  - type: textarea
+    id: mockups
+    attributes:
+      label: Mockups/Wireframes
+      description: If you have any visual ideas, please share them
+      placeholder: Paste images or describe the visual design...
+      
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Add any other context about the feature here
+      placeholder: Any additional information...
