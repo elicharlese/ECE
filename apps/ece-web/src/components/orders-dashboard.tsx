@@ -406,27 +406,33 @@ export function OrdersDashboard({ userId, userBalance }: OrdersDashboardProps) {
                         {/* Deliverables */}
                         <div className="flex flex-wrap gap-2">
                           {order.githubRepo && (
-                            <Button variant="outline" size="sm" asChild>
-                              <a href={order.githubRepo} target="_blank" rel="noopener noreferrer">
-                                <Github className="w-4 h-4 mr-1" />
-                                View Code
-                              </a>
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              onClick={() => window.open(order.githubRepo, '_blank', 'noopener noreferrer')}
+                            >
+                              <Github className="w-4 h-4 mr-1" />
+                              View Code
                             </Button>
                           )}
                           {order.vercelLink && (
-                            <Button variant="outline" size="sm" asChild>
-                              <a href={order.vercelLink} target="_blank" rel="noopener noreferrer">
-                                <ExternalLink className="w-4 h-4 mr-1" />
-                                Live Demo
-                              </a>
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              onClick={() => window.open(order.vercelLink, '_blank', 'noopener noreferrer')}
+                            >
+                              <ExternalLink className="w-4 h-4 mr-1" />
+                              Live Demo
                             </Button>
                           )}
                           {order.downloadLink && (
-                            <Button variant="outline" size="sm" asChild>
-                              <a href={order.downloadLink} target="_blank" rel="noopener noreferrer">
-                                <Download className="w-4 h-4 mr-1" />
-                                Download
-                              </a>
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              onClick={() => window.open(order.downloadLink, '_blank', 'noopener noreferrer')}
+                            >
+                              <Download className="w-4 h-4 mr-1" />
+                              Download
                             </Button>
                           )}
                         </div>

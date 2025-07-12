@@ -1022,7 +1022,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/elicharlese/Downloads/ECE/src/generated/prisma",
+      "value": "/workspaces/ECE/src/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -1031,12 +1031,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "darwin-arm64",
+        "value": "debian-openssl-1.1.x",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/elicharlese/Downloads/ECE/prisma/schema.prisma",
+    "sourceFilePath": "/workspaces/ECE/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

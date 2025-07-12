@@ -545,11 +545,7 @@ export function BiddingSystem({ className = '' }: BiddingSystemProps) {
                             <div className="flex items-center space-x-3 mb-2">
                               <h4 className="text-xl font-bold text-[#F8EFD6]">{auction.cardName}</h4>
                               <Badge 
-                                style={{
-                                  backgroundColor: `${getTierColor(auction.cardTier)}20`,
-                                  color: getTierColor(auction.cardTier),
-                                  borderColor: `${getTierColor(auction.cardTier)}30`
-                                }}
+                                className="bg-[#66D9EF]/20 text-[#66D9EF] border-[#66D9EF]/30"
                               >
                                 {auction.cardTier.charAt(0).toUpperCase() + auction.cardTier.slice(1)}
                               </Badge>

@@ -34,7 +34,6 @@ import {
   Award,
   Timer,
   Calculator,
-  TrendingRightUp,
   Percent,
   Info
 } from 'lucide-react'
@@ -477,11 +476,7 @@ export function BettingSystem({ className = '' }: BettingSystemProps) {
                               <div className="flex items-center space-x-3 mb-2">
                                 <h4 className="text-lg font-semibold text-[#F8EFD6]">{market.title}</h4>
                                 <Badge 
-                                  style={{
-                                    backgroundColor: `${getStatusColor(market.status)}20`,
-                                    color: getStatusColor(market.status),
-                                    borderColor: `${getStatusColor(market.status)}30`
-                                  }}
+                                  className="bg-[#A6E22E]/20 text-[#A6E22E] border-[#A6E22E]/30"
                                 >
                                   {market.status.replace('_', ' ').charAt(0).toUpperCase() + market.status.slice(1)}
                                 </Badge>

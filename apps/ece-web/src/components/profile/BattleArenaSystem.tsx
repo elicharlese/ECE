@@ -517,7 +517,7 @@ export function BattleArenaSystem() {
                           )}
                           
                           {battle.status === 'in_progress' && (
-                            <Button variant="success" size="sm">
+                            <Button variant="accent" size="sm">
                               <Eye className="w-4 h-4 mr-2" />
                               Spectate
                             </Button>
@@ -638,7 +638,7 @@ export function BattleArenaSystem() {
                     <div className="flex-1">
                       <div className="flex items-center space-x-3 mb-2">
                         <h3 className="text-xl font-bold text-[#F8EFD6]">{tournament.name}</h3>
-                        <Badge variant={tournament.status === 'registration' ? 'success' : 'secondary'}>
+                        <Badge variant={tournament.status === 'registration' ? 'default' : 'secondary'}>
                           {tournament.status.replace('_', ' ').toUpperCase()}
                         </Badge>
                         {tournament.sponsor && (
@@ -690,7 +690,7 @@ export function BattleArenaSystem() {
                       )}
                       
                       {tournament.status === 'in_progress' && (
-                        <Button variant="success" size="sm">
+                        <Button variant="accent" size="sm">
                           <Eye className="w-4 h-4 mr-2" />
                           View Bracket
                         </Button>

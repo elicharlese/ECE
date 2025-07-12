@@ -497,7 +497,7 @@ export function MABattles({ onSwipeLeft, onSwipeRight, onCreateBattle, onVote }:
       <div className="flex justify-center mb-8">
         <div className="bg-[#272822]/50 p-1 rounded-lg border border-[#75715E]/30">
           <Button
-            variant={!showBattles ? "default" : "ghost"}
+            variant={!showBattles ? "primary" : "ghost"}
             onClick={() => setShowBattles(false)}
             className={!showBattles ? "bg-[#A6E22E] text-[#272822]" : "text-[#75715E]"}
           >
@@ -505,7 +505,7 @@ export function MABattles({ onSwipeLeft, onSwipeRight, onCreateBattle, onVote }:
             Discover Companies
           </Button>
           <Button
-            variant={showBattles ? "default" : "ghost"}
+            variant={showBattles ? "primary" : "ghost"}
             onClick={() => setShowBattles(true)}
             className={showBattles ? "bg-[#F92672] text-[#F8EFD6]" : "text-[#75715E]"}
           >

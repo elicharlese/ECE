@@ -685,7 +685,7 @@ export function TradingControlsDashboard() {
                       <h4 className="text-lg font-semibold text-[#F8EFD6]">Two-Factor Authentication</h4>
                       <p className="text-sm text-[#75715E]">Add an extra layer of security for high-value trades</p>
                     </div>
-                    <Badge variant="success">Enabled</Badge>
+                    <Badge variant="default">Enabled</Badge>
                   </div>
                   
                   <div className="flex space-x-3">

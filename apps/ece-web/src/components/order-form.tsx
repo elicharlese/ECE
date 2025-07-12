@@ -476,7 +476,7 @@ export function OrderForm({ onSubmit, onClose, isOpen, userBalance }: OrderFormP
                           <p className="text-muted-foreground mb-6">Review your order before confirmation</p>
                         </div>
 
-                        <GlassCard variant="dark" className="p-6">
+                        <GlassCard variant="modal" className="p-6">
                           <div className="space-y-4">
                             <div className="flex justify-between items-start">
                               <div>
