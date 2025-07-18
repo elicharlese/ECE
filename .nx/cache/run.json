@@ -1,54 +1,9 @@
 {
   "run": {
-    "command": "nx build ece-web",
-    "startTime": "2025-07-18T00:30:49.852Z",
-    "endTime": "2025-07-18T00:31:10.820Z",
+    "command": "nx serve ece-web",
+    "startTime": "2025-07-18T01:03:15.521Z",
+    "endTime": "2025-07-18T01:36:38.146Z",
     "inner": false
   },
-  "tasks": [
-    {
-      "taskId": "shared-types:build",
-      "target": "build",
-      "projectName": "shared-types",
-      "hash": "6002504613375254460",
-      "startTime": "2025-07-18T00:30:49.879Z",
-      "endTime": "2025-07-18T00:30:49.886Z",
-      "params": "",
-      "cacheStatus": "local-cache-hit",
-      "status": 0
-    },
-    {
-      "taskId": "shared-business-logic:build",
-      "target": "build",
-      "projectName": "shared-business-logic",
-      "hash": "15979456440154167610",
-      "startTime": "2025-07-18T00:30:49.889Z",
-      "endTime": "2025-07-18T00:30:49.903Z",
-      "params": "",
-      "cacheStatus": "local-cache-hit",
-      "status": 0
-    },
-    {
-      "taskId": "shared-ui:build",
-      "target": "build",
-      "projectName": "shared-ui",
-      "hash": "13615405314603400871",
-      "startTime": "2025-07-18T00:30:49.906Z",
-      "endTime": "2025-07-18T00:30:49.914Z",
-      "params": "",
-      "cacheStatus": "local-cache-hit",
-      "status": 0
-    },
-    {
-      "taskId": "ece-web:build:production",
-      "target": "build",
-      "projectName": "ece-web",
-      "hash": "4810729992879327974",
-      "startTime": "2025-07-18T00:30:49.916Z",
-      "endTime": "2025-07-18T00:31:10.818Z",
-      "params": "",
-      "cacheStatus": "cache-miss",
-      "status": 1
-    }
-  ]
+  "tasks": []
 }

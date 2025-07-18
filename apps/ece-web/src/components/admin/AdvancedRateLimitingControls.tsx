@@ -2,7 +2,14 @@
 
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, C        <div>
+          <h2 className="text-2xl font-bold text-[#F8EFD6]">
+            Advanced Rate Limiting
+          </h2>
+          <p className="text-[#75715E] mt-1">
+            Configure advanced rate limiting rules and monitoring
+          </p>
+        </div>r, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -121,10 +128,10 @@ export function AdvancedRateLimitingControls() {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+          <h2 className="text-2xl font-bold text-[#75715E] dark:text-[#75715E]">
             Advanced Rate Limiting
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mt-1">
+          <p className="text-[#75715E] dark:text-[#75715E] mt-1">
             Configure custom rate limiting rules for API endpoints
           </p>
         </div>
@@ -150,18 +157,18 @@ export function AdvancedRateLimitingControls() {
                 animate={{ opacity: 1, y: 0 }}
                 className="group"
               >
-                <Card className="border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-colors">
+                <Card className="border border-white/10 hover:border-[#66D9EF]/50 transition-colors">
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <div className={`w-3 h-3 rounded-full ${
-                          rule.isActive ? 'bg-green-500' : 'bg-gray-400'
+                          rule.isActive ? 'bg-[#A6E22E]' : 'bg-[#75715E]'
                         }`} />
                         <CardTitle className="text-lg">{rule.name}</CardTitle>
                         <div className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          rule.action === 'block' ? 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300' :
-                          rule.action === 'throttle' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300' :
-                          'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
+                          rule.action === 'block' ? 'bg-[#F92672]/20 text-[#F92672]' :
+                          rule.action === 'throttle' ? 'bg-[#E6DB74]/20 text-[#E6DB74]' :
+                          'bg-[#66D9EF]/20 text-[#66D9EF]'
                         }`}>
                           {rule.action.toUpperCase()}
                         </div>
@@ -184,14 +191,14 @@ export function AdvancedRateLimitingControls() {
                           {rule.isActive ? (
                             <CheckCircle className="w-4 h-4 text-green-500" />
                           ) : (
-                            <AlertTriangle className="w-4 h-4 text-gray-400" />
+                            <AlertTriangle className="w-4 h-4 text-[#75715E]" />
                           )}
                         </Button>
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => deleteRule(rule.id)}
-                          className="h-8 w-8 p-0 text-red-500 hover:text-red-700"
+                          className="h-8 w-8 p-0 text-[#F92672] hover:text-[#FD5C63]"
                         >
                           <Trash2 className="w-4 h-4" />
                         </Button>
@@ -200,22 +207,22 @@ export function AdvancedRateLimitingControls() {
                   </CardHeader>
                   <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                     <div>
-                      <Label className="text-gray-500 dark:text-gray-400">Endpoint</Label>
-                      <p className="font-mono text-gray-900 dark:text-gray-100">{rule.method} {rule.endpoint}</p>
+                      <Label className="text-[#75715E]">Endpoint</Label>
+                      <p className="font-mono text-[#F8EFD6]">{rule.method} {rule.endpoint}</p>
                     </div>
                     <div>
-                      <Label className="text-gray-500 dark:text-gray-400">Limit</Label>
-                      <p className="font-semibold text-gray-900 dark:text-gray-100">
+                      <Label className="text-[#75715E]">Limit</Label>
+                      <p className="font-semibold text-[#F8EFD6]">
                         {rule.limit} / {rule.window} {rule.windowUnit}
                       </p>
                     </div>
                     <div>
-                      <Label className="text-gray-500 dark:text-gray-400">Hit Count</Label>
-                      <p className="font-semibold text-gray-900 dark:text-gray-100">{rule.hitCount.toLocaleString()}</p>
+                      <Label className="text-[#75715E]">Hit Count</Label>
+                      <p className="font-semibold text-[#F8EFD6]">{rule.hitCount.toLocaleString()}</p>
                     </div>
                     <div>
-                      <Label className="text-gray-500 dark:text-gray-400">Last Triggered</Label>
-                      <p className="text-gray-600 dark:text-gray-400">
+                      <Label className="text-[#75715E] dark:text-[#75715E]">Last Triggered</Label>
+                      <p className="text-[#75715E] dark:text-[#75715E]">
                         {rule.lastTriggered ? rule.lastTriggered.toLocaleString() : 'Never'}
                       </p>
                     </div>
@@ -225,13 +232,13 @@ export function AdvancedRateLimitingControls() {
             ))}
 
             {rules.length === 0 && (
-              <Card className="border-dashed border-2 border-gray-300 dark:border-gray-600">
+              <Card className="border-dashed border-2 border-white/10 dark:border-white/10">
                 <CardContent className="flex flex-col items-center justify-center py-12">
-                  <Shield className="w-12 h-12 text-gray-400 mb-4" />
-                  <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+                  <Shield className="w-12 h-12 text-[#75715E] mb-4" />
+                  <h3 className="text-lg font-medium text-[#75715E] dark:text-[#75715E] mb-2">
                     No rate limiting rules configured
                   </h3>
-                  <p className="text-gray-500 dark:text-gray-400 text-center mb-4">
+                  <p className="text-[#75715E] dark:text-[#75715E] text-center mb-4">
                     Create your first rate limiting rule to protect your API endpoints
                   </p>
                   <Button onClick={() => setShowCreateModal(true)}>
@@ -247,13 +254,13 @@ export function AdvancedRateLimitingControls() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                <CardTitle className="text-sm font-medium text-[#75715E] dark:text-[#75715E]">
                   Total Requests Blocked
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-red-600 dark:text-red-400">2,847</div>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                <p className="text-xs text-[#75715E] dark:text-[#75715E] mt-1">
                   +12% from last hour
                 </p>
               </CardContent>
@@ -261,7 +268,7 @@ export function AdvancedRateLimitingControls() {
 
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                <CardTitle className="text-sm font-medium text-[#75715E] dark:text-[#75715E]">
                   Active Rules
                 </CardTitle>
               </CardHeader>
@@ -269,7 +276,7 @@ export function AdvancedRateLimitingControls() {
                 <div className="text-2xl font-bold text-green-600 dark:text-green-400">
                   {rules.filter(r => r.isActive).length}
                 </div>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                <p className="text-xs text-[#75715E] dark:text-[#75715E] mt-1">
                   of {rules.length} total rules
                 </p>
               </CardContent>
@@ -277,13 +284,13 @@ export function AdvancedRateLimitingControls() {
 
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                <CardTitle className="text-sm font-medium text-[#75715E] dark:text-[#75715E]">
                   Response Time Impact
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">+12ms</div>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                <p className="text-xs text-[#75715E] dark:text-[#75715E] mt-1">
                   Average latency overhead
                 </p>
               </CardContent>
@@ -331,7 +338,7 @@ export function AdvancedRateLimitingControls() {
                   <Label>Enable IP Whitelisting</Label>
                   <div className="flex items-center space-x-2">
                     <input type="checkbox" className="rounded" defaultChecked />
-                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                    <span className="text-sm text-[#75715E] dark:text-[#75715E]">
                       Allow whitelisted IPs to bypass rate limits
                     </span>
                   </div>
@@ -362,7 +369,7 @@ export function AdvancedRateLimitingControls() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-md mx-4"
+            className="bg-white dark:bg-[#75715E] rounded-lg p-6 w-full max-w-md mx-4"
           >
             <h3 className="text-lg font-semibold mb-4">Edit Rate Limit Rule</h3>
             <div className="space-y-4">

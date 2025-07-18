@@ -94,14 +94,14 @@ export function AdminBreadcrumbs({ className = '' }: AdminBreadcrumbsProps) {
         {breadcrumbs.map((crumb, index) => (
           <div key={crumb.href} className="flex items-center space-x-2">
             {index > 0 && (
-              <ChevronRight className="w-4 h-4 text-muted-foreground" />
+              <ChevronRight className="w-4 h-4 text-[#75715E]" />
             )}
             
             {crumb.isActive ? (
               <motion.span
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="text-foreground font-medium flex items-center"
+                className="text-[#F8EFD6] font-medium flex items-center"
               >
                 {index === 0 && <Home className="w-4 h-4 mr-1" />}
                 {crumb.label}
@@ -110,7 +110,7 @@ export function AdminBreadcrumbs({ className = '' }: AdminBreadcrumbsProps) {
               <Link
                 href={crumb.href}
                 onClick={() => handleBreadcrumbClick(crumb.href)}
-                className="text-muted-foreground hover:text-foreground transition-colors flex items-center group"
+                className="text-[#75715E] hover:text-[#F8EFD6] transition-colors flex items-center group"
               >
                 {index === 0 && <Home className="w-4 h-4 mr-1 group-hover:text-primary transition-colors" />}
                 <span className="group-hover:text-primary transition-colors">
@@ -125,18 +125,18 @@ export function AdminBreadcrumbs({ className = '' }: AdminBreadcrumbsProps) {
       {/* Quick navigation dropdown for history */}
       {navigationHistory.length > 1 && (
         <div className="ml-4 relative group">
-          <button className="text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded bg-white/5 hover:bg-white/10">
+          <button className="text-xs text-[#75715E] hover:text-[#F8EFD6] transition-colors px-2 py-1 rounded bg-white/5 hover:bg-white/10">
             Quick Nav
           </button>
           
-          <div className="absolute top-full left-0 mt-1 w-48 bg-background/95 backdrop-blur-xl border border-border/50 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+          <div className="absolute top-full left-0 mt-1 w-48 bg-gradient-to-br from-[#272822] via-[#2c2d24] to-[#1e1f1a] backdrop-blur-xl border border-white/10 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
             <div className="p-2">
-              <p className="text-xs text-muted-foreground mb-2">Recent Pages</p>
+              <p className="text-xs text-[#75715E] mb-2">Recent Pages</p>
               {navigationHistory.slice(-5).reverse().map((path, index) => (
                 <Link
                   key={`${path}-${index}`}
                   href={path}
-                  className="block px-2 py-1 text-sm text-foreground hover:bg-white/10 rounded transition-colors"
+                  className="block px-2 py-1 text-sm text-[#F8EFD6] hover:bg-white/10 rounded transition-colors"
                 >
                   {routeLabels[path] || path.split('/').pop()}
                 </Link>

@@ -173,10 +173,10 @@ export function CustomWidgetBuilder() {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+          <h2 className="text-2xl font-bold text-[#75715E] dark:text-[#75715E]">
             Custom Widget Builder
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mt-1">
+          <p className="text-[#75715E] dark:text-[#75715E] mt-1">
             Create and customize dashboard widgets with visual editor
           </p>
         </div>
@@ -218,7 +218,7 @@ export function CustomWidgetBuilder() {
                     className={`col-span-${widget.config.size === 'small' ? '1' : widget.config.size === 'large' ? '2' : '1'}`}
                   >
                     <Card 
-                      className="h-full border border-gray-200 dark:border-gray-700"
+                      className="h-full border border-white/10 dark:border-white/10"
                       style={{ borderColor: widget.config.color + '40' }}
                     >
                       <CardHeader className="pb-3">
@@ -236,17 +236,17 @@ export function CustomWidgetBuilder() {
                         </div>
                       </CardHeader>
                       <CardContent>
-                        <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                        <div className="text-2xl font-bold text-[#75715E] dark:text-[#75715E]">
                           {Math.floor(Math.random() * 10000).toLocaleString()}
                         </div>
                         {widget.config.showTrend && (
                           <div className="flex items-center gap-1 mt-2">
                             <TrendingUp className="w-4 h-4 text-green-500" />
                             <span className="text-sm text-green-500">+12%</span>
-                            <span className="text-xs text-gray-500">vs last period</span>
+                            <span className="text-xs text-[#75715E]">vs last period</span>
                           </div>
                         )}
-                        <p className="text-xs text-gray-500 mt-2">
+                        <p className="text-xs text-[#75715E] mt-2">
                           Updates every {widget.config.refreshInterval}s
                         </p>
                       </CardContent>
@@ -272,11 +272,11 @@ export function CustomWidgetBuilder() {
                         whileHover={{ scale: 1.01 }}
                         className="group"
                       >
-                        <Card className="border border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 transition-colors">
+                        <Card className="border border-white/10 dark:border-white/10 hover:border-white/10 dark:hover:border-white/10 transition-colors">
                           <CardHeader className="pb-3">
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-3">
-                                <GripVertical className="w-5 h-5 text-gray-400 cursor-grab" />
+                                <GripVertical className="w-5 h-5 text-[#75715E] cursor-grab" />
                                 <div 
                                   className="p-2 rounded-lg"
                                   style={{ backgroundColor: widget.config.color + '20' }}
@@ -288,7 +288,7 @@ export function CustomWidgetBuilder() {
                                 </div>
                                 <div>
                                   <CardTitle className="text-lg">{widget.name}</CardTitle>
-                                  <p className="text-sm text-gray-500">{widget.title}</p>
+                                  <p className="text-sm text-[#75715E]">{widget.title}</p>
                                 </div>
                                 <div className={`px-2 py-1 rounded-full text-xs font-medium ${
                                   widget.config.size === 'small' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300' :
@@ -328,23 +328,23 @@ export function CustomWidgetBuilder() {
                           </CardHeader>
                           <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                             <div>
-                              <Label className="text-gray-500 dark:text-gray-400">Data Source</Label>
-                              <p className="font-mono text-gray-900 dark:text-gray-100">{widget.dataSource}</p>
+                              <Label className="text-[#75715E] dark:text-[#75715E]">Data Source</Label>
+                              <p className="font-mono text-[#75715E] dark:text-[#75715E]">{widget.dataSource}</p>
                             </div>
                             <div>
-                              <Label className="text-gray-500 dark:text-gray-400">Refresh Rate</Label>
-                              <p className="text-gray-900 dark:text-gray-100">{widget.config.refreshInterval}s</p>
+                              <Label className="text-[#75715E] dark:text-[#75715E]">Refresh Rate</Label>
+                              <p className="text-[#75715E] dark:text-[#75715E]">{widget.config.refreshInterval}s</p>
                             </div>
                             <div>
-                              <Label className="text-gray-500 dark:text-gray-400">Type</Label>
-                              <p className="capitalize text-gray-900 dark:text-gray-100">{widget.type}</p>
+                              <Label className="text-[#75715E] dark:text-[#75715E]">Type</Label>
+                              <p className="capitalize text-[#75715E] dark:text-[#75715E]">{widget.type}</p>
                             </div>
                             <div>
-                              <Label className="text-gray-500 dark:text-gray-400">Status</Label>
+                              <Label className="text-[#75715E] dark:text-[#75715E]">Status</Label>
                               <p className={`capitalize font-medium ${
                                 widget.isVisible 
                                   ? 'text-green-600 dark:text-green-400' 
-                                  : 'text-gray-500 dark:text-gray-400'
+                                  : 'text-[#75715E] dark:text-[#75715E]'
                               }`}>
                                 {widget.isVisible ? 'Active' : 'Hidden'}
                               </p>
@@ -358,13 +358,13 @@ export function CustomWidgetBuilder() {
               </Reorder.Group>
 
               {widgets.length === 0 && (
-                <Card className="border-dashed border-2 border-gray-300 dark:border-gray-600">
+                <Card className="border-dashed border-2 border-white/10 dark:border-white/10">
                   <CardContent className="flex flex-col items-center justify-center py-12">
-                    <Palette className="w-12 h-12 text-gray-400 mb-4" />
-                    <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+                    <Palette className="w-12 h-12 text-[#75715E] mb-4" />
+                    <h3 className="text-lg font-medium text-[#75715E] dark:text-[#75715E] mb-2">
                       No widgets created yet
                     </h3>
-                    <p className="text-gray-500 dark:text-gray-400 text-center mb-4">
+                    <p className="text-[#75715E] dark:text-[#75715E] text-center mb-4">
                       Create your first custom widget to get started
                     </p>
                     <Button onClick={() => setShowCreateModal(true)}>
@@ -384,7 +384,7 @@ export function CustomWidgetBuilder() {
               <CardContent className="p-6 text-center">
                 <BarChart3 className="w-12 h-12 text-blue-500 mx-auto mb-4" />
                 <h3 className="font-medium mb-2">Analytics Widget</h3>
-                <p className="text-sm text-gray-500 mb-4">Track key metrics with charts</p>
+                <p className="text-sm text-[#75715E] mb-4">Track key metrics with charts</p>
                 <Button size="sm" onClick={createNewWidget}>Use Template</Button>
               </CardContent>
             </Card>
@@ -394,11 +394,11 @@ export function CustomWidgetBuilder() {
 
         <TabsContent value="templates">
           <div className="text-center py-8">
-            <Code className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+            <Code className="w-16 h-16 text-[#75715E] mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-[#75715E] dark:text-[#75715E] mb-2">
               Widget Templates Coming Soon
             </h3>
-            <p className="text-gray-500 dark:text-gray-400">
+            <p className="text-[#75715E] dark:text-[#75715E]">
               Pre-built templates for common use cases
             </p>
           </div>
@@ -412,7 +412,7 @@ export function CustomWidgetBuilder() {
                   <CardTitle className="text-base">{widget.name} - Generated Code</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg text-sm overflow-x-auto">
+                  <pre className="bg-[#75715E] dark:bg-[#75715E] p-4 rounded-lg text-sm overflow-x-auto">
                     <code>{generateWidgetCode(widget)}</code>
                   </pre>
                   <Button size="sm" className="mt-2">Copy Code</Button>
@@ -429,7 +429,7 @@ export function CustomWidgetBuilder() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto"
+            className="bg-white dark:bg-[#75715E] rounded-lg p-6 w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto"
           >
             <h3 className="text-lg font-semibold mb-4">Edit Widget</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">

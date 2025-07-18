@@ -248,7 +248,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   )
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-[#272822] via-[#2c2d24] to-[#1e1f1a]">
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {sidebarOpen && (
@@ -268,17 +268,17 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         animate={{
           x: sidebarOpen ? 0 : '-100%'
         }}
-        className="fixed top-0 left-0 z-50 w-80 h-full bg-background/95 backdrop-blur-xl border-r border-border/50 lg:translate-x-0 lg:static lg:z-auto"
+        className="fixed top-0 left-0 z-50 w-80 h-full bg-[#272822]/95 backdrop-blur-xl border-r border-white/10 lg:translate-x-0 lg:static lg:z-auto"
       >
         {/* Sidebar Header */}
-        <div className="flex items-center justify-between p-6 border-b border-border/50">
+        <div className="flex items-center justify-between p-6 border-b border-white/10">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-monokai-purple to-monokai-blue rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#F92672] to-[#66D9EF] rounded-lg flex items-center justify-center">
               <Shield className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-foreground">ECE Admin</h1>
-              <p className="text-xs text-muted-foreground">Platform Control</p>
+              <h1 className="text-xl font-bold text-[#F8EFD6]">ECE Admin</h1>
+              <p className="text-xs text-[#75715E]">Platform Control</p>
             </div>
           </div>
           
@@ -286,14 +286,14 @@ export function AdminLayout({ children }: AdminLayoutProps) {
             onClick={() => setSidebarOpen(false)}
             className="p-2 rounded-lg hover:bg-white/10 lg:hidden"
           >
-            <X className="w-5 h-5 text-muted-foreground" />
+            <X className="w-5 h-5 text-[#75715E]" />
           </button>
         </div>
 
         {/* Search */}
-        <div className="p-4 border-b border-border/50">
+        <div className="p-4 border-b border-white/10">
           <div className="relative" onClick={(e) => e.stopPropagation()}>
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#75715E]" />
             <input
               type="text"
               placeholder="Search admin functions..."
@@ -301,7 +301,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setShowSearchResults(true)}
               data-admin-search
-              className="w-full pl-10 pr-4 py-2 bg-white/5 border border-border/30 rounded-lg text-foreground placeholder-muted-foreground focus:outline-none focus:border-ocean-accent focus:bg-white/10 transition-all"
+              className="w-full pl-10 pr-4 py-2 bg-white/5 border border-white/10 rounded-lg text-[#F8EFD6] placeholder-[#75715E] focus:outline-none focus:border-[#66D9EF] focus:bg-white/10 transition-all"
             />
             
             {/* Enhanced Search Results Dropdown */}
@@ -309,7 +309,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="absolute top-full left-0 right-0 mt-2 bg-white/10 backdrop-blur-xl border border-border/30 rounded-lg shadow-lg z-50"
+                className="absolute top-full left-0 right-0 mt-2 bg-white/10 backdrop-blur-xl border border-white/10 rounded-lg shadow-lg z-50"
               >
                 <div className="p-2 max-h-64 overflow-y-auto">
                   {getSearchResults().map((result, index) => (
@@ -319,10 +319,10 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                       onClick={() => handleSearchResultClick(result)}
                       className="w-full text-left p-3 rounded-lg hover:bg-white/10 transition-colors flex items-center gap-3"
                     >
-                      <result.icon className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                      <result.icon className="h-4 w-4 text-[#75715E] flex-shrink-0" />
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-foreground truncate">{result.label}</p>
-                        <p className="text-xs text-muted-foreground truncate">{result.description}</p>
+                        <p className="text-sm font-medium text-[#F8EFD6] truncate">{result.label}</p>
+                        <p className="text-xs text-[#75715E] truncate">{result.description}</p>
                       </div>
                     </Link>
                   ))}
@@ -335,9 +335,9 @@ export function AdminLayout({ children }: AdminLayoutProps) {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="absolute top-full left-0 right-0 mt-2 bg-white/10 backdrop-blur-xl border border-border/30 rounded-lg shadow-lg z-50"
+                className="absolute top-full left-0 right-0 mt-2 bg-white/10 backdrop-blur-xl border border-white/10 rounded-lg shadow-lg z-50"
               >
-                <div className="p-4 text-center text-muted-foreground">
+                <div className="p-4 text-center text-[#75715E]">
                   <p className="text-sm">No results found for "{searchQuery}"</p>
                 </div>
               </motion.div>
@@ -361,16 +361,16 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                   className={`group flex items-center justify-between p-3 rounded-lg transition-all duration-200 ${
                     isActive
                       ? 'bg-gradient-ocean text-white shadow-lg'
-                      : 'hover:bg-white/5 text-muted-foreground hover:text-foreground'
+                      : 'hover:bg-white/5 text-[#75715E] hover:text-[#F8EFD6]'
                   }`}
                 >
                   <div className="flex items-center space-x-3">
-                    <Icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-muted-foreground group-hover:text-foreground'}`} />
+                    <Icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-[#75715E] group-hover:text-[#F8EFD6]'}`} />
                     <div>
-                      <p className={`font-medium ${isActive ? 'text-white' : 'text-foreground'}`}>
+                      <p className={`font-medium ${isActive ? 'text-white' : 'text-[#F8EFD6]'}`}>
                         {item.label}
                       </p>
-                      <p className={`text-xs ${isActive ? 'text-white/80' : 'text-muted-foreground'}`}>
+                      <p className={`text-xs ${isActive ? 'text-white/80' : 'text-[#75715E]'}`}>
                         {item.description}
                       </p>
                     </div>
@@ -380,7 +380,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                     <div className={`px-2 py-1 rounded-full text-xs font-medium ${
                       isActive 
                         ? 'bg-white/20 text-white' 
-                        : 'bg-ocean-accent/20 text-ocean-accent'
+                        : 'bg-[#66D9EF]/20 text-[#66D9EF]'
                     }`}>
                       {item.badge}
                     </div>
@@ -392,14 +392,14 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         </div>
 
         {/* Admin User Info */}
-        <div className="p-4 border-t border-border/50">
+        <div className="p-4 border-t border-white/10">
           <div className="flex items-center space-x-3 p-3 bg-white/5 rounded-lg">
-            <div className="w-10 h-10 bg-gradient-to-br from-monokai-green to-monokai-blue rounded-full flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#A6E22E] to-[#66D9EF] rounded-full flex items-center justify-center">
               <span className="text-white font-semibold text-sm">AD</span>
             </div>
             <div>
-              <p className="font-medium text-foreground">Admin User</p>
-              <p className="text-xs text-muted-foreground">admin@ece.com</p>
+              <p className="font-medium text-[#F8EFD6]">Admin User</p>
+              <p className="text-xs text-[#75715E]">admin@ece.com</p>
             </div>
           </div>
         </div>
@@ -408,14 +408,14 @@ export function AdminLayout({ children }: AdminLayoutProps) {
       {/* Main Content */}
       <div className="lg:ml-80">
         {/* Top Bar */}
-        <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-sm border-b border-border/50">
+        <header className="sticky top-0 z-30 bg-gradient-to-br from-[#272822] via-[#2c2d24] to-[#1e1f1a] backdrop-blur-sm border-b border-white/10">
           <div className="flex items-center justify-between p-4">
             {/* Mobile Menu Button */}
             <button
               onClick={() => setSidebarOpen(true)}
               className="p-2 rounded-lg hover:bg-white/10 lg:hidden"
             >
-              <Menu className="w-6 h-6 text-foreground" />
+              <Menu className="w-6 h-6 text-[#F8EFD6]" />
             </button>
 
             {/* Enhanced Breadcrumbs */}
@@ -424,11 +424,11 @@ export function AdminLayout({ children }: AdminLayoutProps) {
             {/* Quick Actions */}
             <div className="flex items-center space-x-2">
               <button className="p-2 rounded-lg hover:bg-white/10 relative">
-                <Bell className="w-5 h-5 text-muted-foreground" />
-                <div className="absolute -top-1 -right-1 w-3 h-3 bg-ocean-accent rounded-full"></div>
+                <Bell className="w-5 h-5 text-[#75715E]" />
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-[#66D9EF] rounded-full"></div>
               </button>
               <button className="p-2 rounded-lg hover:bg-white/10">
-                <Settings className="w-5 h-5 text-muted-foreground" />
+                <Settings className="w-5 h-5 text-[#75715E]" />
               </button>
               <ThemeToggle className="p-2 rounded-lg hover:bg-white/10" />
             </div>
@@ -450,8 +450,8 @@ export function AdminLayout({ children }: AdminLayoutProps) {
             exit={{ opacity: 0, y: 50 }}
             className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50"
           >
-            <div className="bg-background/90 backdrop-blur-xl border border-border/50 rounded-lg px-4 py-2 shadow-lg">
-              <p className="text-sm text-foreground font-medium">{indicatorText}</p>
+            <div className="bg-gradient-to-br from-[#272822] via-[#2c2d24] to-[#1e1f1a] backdrop-blur-xl border border-white/10 rounded-lg px-4 py-2 shadow-lg">
+              <p className="text-sm text-[#F8EFD6] font-medium">{indicatorText}</p>
             </div>
           </motion.div>
         )}
