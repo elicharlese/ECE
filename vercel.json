@@ -1,6 +1,6 @@
 {
-  "buildCommand": "cd apps/ece-web && npm install && npx next build",
-  "outputDirectory": "apps/ece-web/.next",
+  "buildCommand": "npm install && npm run build",
+  "outputDirectory": "dist/apps/ece-web",
   "headers": [
     {
       "source": "/api/(.*)",
