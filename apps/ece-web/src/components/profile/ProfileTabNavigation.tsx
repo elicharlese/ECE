@@ -17,7 +17,8 @@ import {
   Gavel,
   TrendingUp,
   Sword,
-  Target
+  Target,
+  Zap
 } from 'lucide-react'
 import { GlassCard } from '@/components/ui/glass-card'
 import { Button } from '@/components/ui/button'
@@ -117,6 +118,13 @@ export function ProfileTabNavigation({
       icon: Gavel,
       badge: 5,
       description: 'Card auctions and bidding'
+    },
+    { 
+      id: 'powerups', 
+      label: 'Powerups', 
+      icon: Zap,
+      badge: 12,
+      description: 'Card enhancement powerups'
     },
     { 
       id: 'settings', 

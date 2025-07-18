@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { Navigation } from '@/components/navigation'
 import { Footer } from '@/components/footer'
 import { GlassCard } from '@/components/ui/glass-card'
+import { Feature3DIcon, Feature3DGrid } from '@/components/3d/Feature3DIcon'
 import { 
   Sparkles, 
   TrendingUp, 
@@ -22,6 +23,7 @@ import {
 const mainFeatures = [
   {
     icon: Sparkles,
+    type: 'trading' as const,
     title: 'Unique Card Collection',
     description: 'Discover thousands of rare and exclusive digital trading cards from top brands, artists, and creators.',
     details: [
@@ -33,6 +35,7 @@ const mainFeatures = [
   },
   {
     icon: TrendingUp,
+    type: 'marketplace' as const,
     title: 'Advanced Trading',
     description: 'Trade with confidence using our sophisticated marketplace with real-time pricing and analytics.',
     details: [
@@ -44,6 +47,7 @@ const mainFeatures = [
   },
   {
     icon: Users,
+    type: 'profile' as const,
     title: 'Social Features',
     description: 'Connect with collectors worldwide, join communities, and participate in exclusive events.',
     details: [
@@ -55,6 +59,7 @@ const mainFeatures = [
   },
   {
     icon: Shield,
+    type: 'wallet' as const,
     title: 'Enterprise Security',
     description: 'Your collection is protected by military-grade security and blockchain verification.',
     details: [
@@ -152,8 +157,12 @@ export default function Features() {
               >
                 <GlassCard variant="light" animation="breathe" className="p-8 h-full">
                   <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0 w-16 h-16 bg-gradient-tide rounded-full flex items-center justify-center">
-                      <feature.icon className="w-8 h-8 text-white" />
+                    <div className="flex-shrink-0">
+                      <Feature3DIcon 
+                        type={feature.type} 
+                        size="lg" 
+                        animated={true}
+                      />
                     </div>
                     <div className="flex-grow">
                       <h3 className="text-2xl font-bold text-foreground mb-3">
@@ -176,6 +185,37 @@ export default function Features() {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Interactive 3D Features Grid */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+              Experience Our Platform
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Interactive 3D preview of all ECE features and capabilities.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <GlassCard variant="dark" className="p-8">
+              <Feature3DGrid />
+            </GlassCard>
+          </motion.div>
         </div>
       </section>
 

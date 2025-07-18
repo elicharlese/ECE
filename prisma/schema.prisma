@@ -38,6 +38,13 @@ model User {
   bids          Bid[]
   listings      MarketplaceListing[]
   
+  // Powerups System
+  powerupInventory UserPowerup[]     @relation("PowerupInventory")
+  powerupHistory   PowerupHistory[]  @relation("PowerupHistory")
+  powerupCrafts    PowerupCraft[]    @relation("PowerupCrafts")
+  powerupTrades    PowerupTrade[]    @relation("PowerupTrades")
+  powerupPurchases PowerupPurchase[] @relation("PowerupPurchases")
+  
   // App Ordering System
   appOrders      AppOrder[]
   orderRevisions OrderRevision[]
@@ -173,6 +180,11 @@ model Card {
   auctionHistory     AuctionHistory[]  @relation("AuctionHistory")
   initiatedBattles   MABattle[]        @relation("InitiatedBattles")
   targetedBattles    MABattle[]        @relation("TargetedBattles")
+  
+  // Powerups System
+  appliedPowerups    CardPowerup[]     @relation("CardPowerups")
+  powerupEffects     PowerupEffect[]   @relation("PowerupEffects")
+  powerupHistory     PowerupHistory[]  @relation("CardPowerupHistory")
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -1027,6 +1039,350 @@ enum BattleWinner {
   NO_WINNER
 }
 
+// ===========================================
+// POWERUPS SYSTEM - Card Enhancement Features
+// ===========================================
+
+// Powerup Definitions
+model PowerupType {
+  id           String @id @default(cuid())
+  name         String @unique
+  displayName  String
+  description  String
+  category     PowerupCategory
+  rarity       PowerupRarity
+  
+  // Visual & Effects
+  iconUrl      String?
+  animationUrl String?
+  effectColor  String? // Hex color for visual effects
+  glowEffect   Boolean @default(false)
+  particleEffect String? // Particle system type
+  
+  // Gameplay Effects
+  effects      Json // Array of effect definitions
+  duration     Int? // Duration in seconds (null = permanent)
+  cooldown     Int? // Cooldown in seconds
+  stackable    Boolean @default(false)
+  maxStacks    Int @default(1)
+  
+  // Acquisition & Economics
+  baseCost     Float? // ECE cost if purchasable
+  craftable    Boolean @default(false)
+  tradeable    Boolean @default(true)
+  
+  // Metadata
+  version      String @default("1.0")
+  isActive     Boolean @default(true)
+  releaseDate  DateTime @default(now())
+  deprecatedAt DateTime?
+  
+  // Relations
+  userInventory UserPowerup[]
+  cardApplications CardPowerup[]
+  craftingRecipes  PowerupRecipe[] @relation("PowerupRecipes")
+  craftingIngredients PowerupRecipe[] @relation("PowerupIngredients")
+  marketListings   PowerupMarketListing[]
+  purchaseHistory  PowerupPurchase[]
+  tradeHistory     PowerupTrade[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("powerup_types")
+}
+
+// User Powerup Inventory
+model UserPowerup {
+  id         String @id @default(cuid())
+  userId     String
+  powerupId  String
+  quantity   Int @default(1)
+  
+  // Acquisition
+  acquiredAt   DateTime @default(now())
+  acquiredFrom PowerupSource
+  sourceId     String? // Reference to purchase, craft, trade, etc.
+  
+  // Enhancement & Progression
+  level        Int @default(1)
+  experience   Float @default(0.0)
+  masteryLevel Int @default(0)
+  
+  // Metadata
+  isLocked     Boolean @default(false)
+  notes        String? // User notes
+  tags         String[] // User-defined tags
+  
+  // Relations
+  user         User @relation("PowerupInventory", fields: [userId], references: [id], onDelete: Cascade)
+  powerupType  PowerupType @relation(fields: [powerupId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([userId, powerupId])
+  @@map("user_powerups")
+}
+
+// Card Powerup Applications
+model CardPowerup {
+  id         String @id @default(cuid())
+  cardId     String
+  powerupId  String
+  appliedBy  String // User who applied the powerup
+  
+  // Application Details
+  appliedAt    DateTime @default(now())
+  expiresAt    DateTime? // For temporary powerups
+  isActive     Boolean @default(true)
+  
+  // Powerup State
+  level        Int @default(1)
+  stackCount   Int @default(1)
+  effectiveness Float @default(1.0) // Multiplier for effect strength
+  
+  // Cooldown Management
+  lastActivated DateTime?
+  cooldownEnds  DateTime?
+  usageCount    Int @default(0)
+  maxUsages     Int? // For limited-use powerups
+  
+  // Custom Configuration
+  customConfig Json? // User-specific powerup configuration
+  
+  // Relations
+  card        Card @relation("CardPowerups", fields: [cardId], references: [id], onDelete: Cascade)
+  powerupType PowerupType @relation(fields: [powerupId], references: [id], onDelete: Cascade)
+  effects     PowerupEffect[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("card_powerups")
+}
+
+// Powerup Effect Instances
+model PowerupEffect {
+  id            String @id @default(cuid())
+  cardId        String
+  cardPowerupId String
+  
+  // Effect Definition
+  effectType    PowerupEffectType
+  targetStat    String // Which stat is affected
+  modifier      Float // Modifier value
+  modifierType  ModifierType // ADD, MULTIPLY, SET, etc.
+  
+  // Timing & Duration
+  startedAt     DateTime @default(now())
+  endsAt        DateTime?
+  isActive      Boolean @default(true)
+  isPermanent   Boolean @default(false)
+  
+  // Conditional Effects
+  triggerCondition String? // Condition for effect activation
+  triggerValue     Float? // Threshold value
+  remainingTriggers Int? // For limited-trigger effects
+  
+  // Visual & Feedback
+  visualIndicator  String? // Icon or visual indicator
+  description      String? // Human-readable effect description
+  
+  // Relations
+  card         Card @relation("PowerupEffects", fields: [cardId], references: [id], onDelete: Cascade)
+  cardPowerup  CardPowerup @relation(fields: [cardPowerupId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("powerup_effects")
+}
+
+// Powerup History & Analytics
+model PowerupHistory {
+  id        String @id @default(cuid())
+  userId    String
+  cardId    String?
+  powerupId String
+  
+  // Action Details
+  action      PowerupAction
+  actionData  Json? // Additional action-specific data
+  timestamp   DateTime @default(now())
+  
+  // Context
+  contextType PowerupContext? // BATTLE, TRADE, MARKETPLACE, etc.
+  contextId   String? // Reference to battle, trade, etc.
+  
+  // Performance Tracking
+  effectiveness Float? // How effective was the powerup
+  outcomeData   Json? // Results of powerup usage
+  
+  // Relations
+  user User @relation("PowerupHistory", fields: [userId], references: [id], onDelete: Cascade)
+  card Card? @relation("CardPowerupHistory", fields: [cardId], references: [id], onDelete: SetNull)
+  
+  @@map("powerup_history")
+}
+
+// Powerup Crafting System
+model PowerupRecipe {
+  id          String @id @default(cuid())
+  resultId    String // Powerup that gets created
+  name        String
+  description String?
+  
+  // Recipe Requirements
+  ingredients Json // Array of {powerupId, quantity} objects
+  eceRequired Float @default(0.0)
+  
+  // Crafting Mechanics
+  craftTime   Int @default(0) // Seconds to craft
+  successRate Float @default(1.0) // 0.0 to 1.0
+  maxPerDay   Int? // Daily crafting limit
+  
+  // Access Control
+  requiredLevel Int @default(1)
+  requiredBadge String? // Badge requirement
+  isActive      Boolean @default(true)
+  
+  // Analytics
+  craftCount    Int @default(0)
+  successCount  Int @default(0)
+  
+  // Relations
+  result      PowerupType @relation("PowerupRecipes", fields: [resultId], references: [id], onDelete: Cascade)
+  crafts      PowerupCraft[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("powerup_recipes")
+}
+
+model PowerupCraft {
+  id       String @id @default(cuid())
+  userId   String
+  recipeId String
+  
+  // Crafting Session
+  startedAt   DateTime @default(now())
+  completedAt DateTime?
+  successful  Boolean?
+  
+  // Resources Used
+  ingredientsUsed Json // What was consumed
+  eceSpent        Float @default(0.0)
+  
+  // Results
+  resultPowerupId String? // If successful
+  bonusRewards    Json? // Any bonus items received
+  
+  // Relations
+  user   User @relation("PowerupCrafts", fields: [userId], references: [id], onDelete: Cascade)
+  recipe PowerupRecipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  
+  @@map("powerup_crafts")
+}
+
+// Powerup Marketplace
+model PowerupMarketListing {
+  id        String @id @default(cuid())
+  sellerId  String
+  powerupId String
+  
+  // Listing Details
+  quantity    Int
+  pricePerUnit Float
+  totalPrice   Float
+  listingType  PowerupListingType @default(FIXED_PRICE)
+  
+  // Auction Details (if applicable)
+  auctionEnd    DateTime?
+  currentBid    Float?
+  bidIncrement  Float?
+  reservePrice  Float?
+  
+  // Status
+  status        PowerupListingStatus @default(ACTIVE)
+  viewCount     Int @default(0)
+  watcherCount  Int @default(0)
+  
+  // Relations
+  powerupType PowerupType @relation(fields: [powerupId], references: [id], onDelete: Cascade)
+  purchases   PowerupPurchase[]
+  trades      PowerupTrade[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("powerup_market_listings")
+}
+
+model PowerupPurchase {
+  id        String @id @default(cuid())
+  buyerId   String
+  listingId String?
+  powerupId String
+  
+  // Purchase Details
+  quantity     Int
+  pricePerUnit Float
+  totalPrice   Float
+  paymentMethod String @default("ECE")
+  
+  // Status
+  status       PurchaseStatus @default(PENDING)
+  completedAt  DateTime?
+  
+  // Relations
+  buyer       User @relation("PowerupPurchases", fields: [buyerId], references: [id], onDelete: Cascade)
+  listing     PowerupMarketListing? @relation(fields: [listingId], references: [id], onDelete: SetNull)
+  powerupType PowerupType @relation(fields: [powerupId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("powerup_purchases")
+}
+
+model PowerupTrade {
+  id          String @id @default(cuid())
+  initiatorId String
+  receiverId  String
+  listingId   String?
+  
+  // Trade Details
+  initiatorOffer Json // {powerupId, quantity}[]
+  receiverOffer  Json // {powerupId, quantity}[]
+  eceOffered     Float @default(0.0)
+  eceRequested   Float @default(0.0)
+  
+  // Status
+  status      TradeStatus @default(PENDING)
+  acceptedAt  DateTime?
+  completedAt DateTime?
+  canceledAt  DateTime?
+  
+  // Negotiation
+  messages    Json? // Trade chat messages
+  counterOffers Json? // History of counter-offers
+  
+  // Relations
+  initiator User @relation("PowerupTrades", fields: [initiatorId], references: [id], onDelete: Cascade)
+  listing   PowerupMarketListing? @relation(fields: [listingId], references: [id], onDelete: SetNull)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("powerup_trades")
+}
+
+// ===========================================
+// END POWERUPS SYSTEM
+// ===========================================
+
 // App Ordering Enums
 enum ProjectType {
   SAAS_DASHBOARD
@@ -1326,4 +1682,125 @@ enum VoteChoice {
   YES
   NO
   ABSTAIN
+}
+
+// Enums for Powerups System
+enum PowerupCategory {
+  COMBAT
+  DEFENSE
+  UTILITY
+  SPECIAL
+  LEGENDARY
+  TEMPORAL
+  ELEMENTAL
+  MYSTICAL
+  TECHNOLOGICAL
+  ECONOMIC
+}
+
+enum PowerupRarity {
+  COMMON
+  UNCOMMON
+  RARE
+  EPIC
+  LEGENDARY
+  MYTHIC
+  ARTIFACT
+}
+
+enum PowerupSource {
+  PURCHASE
+  CRAFT
+  TRADE
+  REWARD
+  ACHIEVEMENT
+  EVENT
+  QUEST
+  AIRDROP
+  GENESIS
+}
+
+enum PowerupEffectType {
+  STAT_BOOST
+  DAMAGE_AMPLIFY
+  DEFENSE_BOOST
+  SPEED_INCREASE
+  CRITICAL_CHANCE
+  REGENERATION
+  SHIELD
+  STEALTH
+  TELEPORT
+  TIME_MANIPULATION
+  ELEMENT_INFUSION
+  MIND_CONTROL
+  REALITY_WARP
+  DUPLICATION
+  PHASE_SHIFT
+  OMNISCIENCE
+}
+
+enum ModifierType {
+  ADD
+  SUBTRACT
+  MULTIPLY
+  DIVIDE
+  SET
+  PERCENT_INCREASE
+  PERCENT_DECREASE
+}
+
+enum PowerupAction {
+  ACQUIRED
+  APPLIED
+  REMOVED
+  UPGRADED
+  CRAFTED
+  TRADED
+  SOLD
+  PURCHASED
+  ACTIVATED
+  EXPIRED
+}
+
+enum PowerupContext {
+  BATTLE
+  TRADE
+  MARKETPLACE
+  CRAFTING
+  QUEST
+  EVENT
+  TRAINING
+  TOURNAMENT
+}
+
+enum PowerupListingType {
+  FIXED_PRICE
+  AUCTION
+  TRADE_ONLY
+  BUNDLE
+}
+
+enum PowerupListingStatus {
+  ACTIVE
+  SOLD
+  EXPIRED
+  CANCELED
+  RESERVED
+}
+
+enum PurchaseStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum TradeStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  COMPLETED
+  CANCELED
+  EXPIRED
 }

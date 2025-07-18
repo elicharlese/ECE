@@ -272,7 +272,7 @@ export const TieredCardSystem: React.FC<TieredCardSystemProps> = ({ className = 
       default:
         return {
           borderColor: `${tier.color}60`,
-          borderWidth: '1px',
+          borderWidth: '0',
           borderStyle: 'solid'
         }
     }
@@ -437,7 +437,7 @@ export const TieredCardSystem: React.FC<TieredCardSystemProps> = ({ className = 
                     {/* Tier Badge */}
                     <div 
                       className="absolute top-2 right-2 px-2 py-1 rounded-full text-xs font-bold flex items-center space-x-1"
-                      style={{ backgroundColor: `${tier.color}20`, color: tier.color, border: `1px solid ${tier.color}40` }}
+                      style={{ backgroundColor: `${tier.color}20`, color: tier.color, border: `none` }}
                     >
                       <tier.icon className="w-3 h-3" />
                       <span>{tier.name}</span>

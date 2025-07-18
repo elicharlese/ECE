@@ -68,6 +68,8 @@ import { TradingControlsDashboard } from '@/components/profile/TradingControlsDa
 import { BattleArenaSystem } from '@/components/profile/BattleArenaSystem'
 import { BettingSystem } from '@/components/profile/BettingSystem'
 import { BiddingSystem } from '@/components/profile/BiddingSystem'
+import { PowerupInventory } from '@/components/powerups/PowerupInventory'
+import { PowerupCard } from '@/components/powerups/PowerupCard'
 
 // Business Stats Data
 const businessStats = [
@@ -193,6 +195,9 @@ export default function Profile() {
   const [activeTab, setActiveTab] = useState('overview')
   const { subscription, isPro, isEnterprise } = useSubscription()
   const [userAvatar, setUserAvatar] = useState<string>('')
+  
+  // Mock session for demo - replace with actual session hook
+  const session = { user: { id: 'demo-user-123', email: 'demo@ece.com' } }
 
   const handleAvatarUpdate = (newAvatarUrl: string) => {
     setUserAvatar(newAvatarUrl)
@@ -376,6 +381,111 @@ export default function Profile() {
           {/* AUCTIONS TAB */}
           {activeTab === 'auctions' && (
             <BiddingSystem />
+          )}
+
+          {/* POWERUPS TAB */}
+          {activeTab === 'powerups' && (
+            <div className="space-y-6">
+              <GlassCard variant="dark" className="p-6">
+                <h3 className="text-xl font-bold text-[#F8EFD6] mb-6">Card Powerups System</h3>
+                <p className="text-[#75715E] mb-6">
+                  Enhance your trading cards with powerful abilities and temporary boosts. 
+                  Apply powerups to increase card stats, unlock special effects, and gain competitive advantages.
+                </p>
+                
+                <PowerupInventory
+                  userId={session?.user?.id || 'demo-user'}
+                  powerups={[
+                    // Demo powerup data - replace with actual API call
+                    {
+                      id: 'speed-boost-1',
+                      userId: 'demo-user',
+                      powerupType: {
+                        id: 'speed-boost',
+                        name: 'speed_boost',
+                        displayName: 'Speed Boost',
+                        description: 'Increases card trading speed by 25% for 5 minutes',
+                        category: 'UTILITY',
+                        rarity: 'UNCOMMON',
+                        iconUrl: null,
+                        animationUrl: null,
+                        effectColor: '#A6E22E',
+                        glowEffect: true,
+                        particleEffect: false,
+                        baseCost: 1500,
+                        duration: 300,
+                        maxStacks: 1,
+                        cooldownDuration: 900,
+                        isLimited: false,
+                        effects: [
+                          {
+                            id: 'effect-1',
+                            type: 'STAT_BOOST',
+                            targetStat: 'trading_speed',
+                            modifier: 25,
+                            modifierType: 'PERCENT_INCREASE',
+                            triggerCondition: 'on_application',
+                            duration: 300
+                          }
+                        ],
+                        acquisitionSources: ['PURCHASE', 'REWARDS'],
+                        requirements: null,
+                        createdAt: new Date(),
+                        updatedAt: new Date()
+                      },
+                      quantity: 3,
+                      acquiredAt: new Date(),
+                      lastUsed: null,
+                      totalUsageCount: 0
+                    },
+                    {
+                      id: 'defense-shield-1',
+                      userId: 'demo-user',
+                      powerupType: {
+                        id: 'defense-shield',
+                        name: 'defense_shield',
+                        displayName: 'Defense Shield',
+                        description: 'Protects cards from negative effects for 10 minutes',
+                        category: 'DEFENSE',
+                        rarity: 'RARE',
+                        iconUrl: null,
+                        animationUrl: null,
+                        effectColor: '#66D9EF',
+                        glowEffect: true,
+                        particleEffect: true,
+                        baseCost: 3500,
+                        duration: 600,
+                        maxStacks: 1,
+                        cooldownDuration: 1800,
+                        isLimited: false,
+                        effects: [
+                          {
+                            id: 'effect-2',
+                            type: 'PROTECTION',
+                            targetStat: 'status_immunity',
+                            modifier: 100,
+                            modifierType: 'PERCENT_INCREASE',
+                            triggerCondition: 'on_negative_effect',
+                            duration: 600
+                          }
+                        ],
+                        acquisitionSources: ['PURCHASE', 'CRAFTING'],
+                        requirements: null,
+                        createdAt: new Date(),
+                        updatedAt: new Date()
+                      },
+                      quantity: 1,
+                      acquiredAt: new Date(),
+                      lastUsed: null,
+                      totalUsageCount: 2
+                    }
+                  ]}
+                  onPowerupSelect={(powerupId: string) => console.log('Selected powerup:', powerupId)}
+                  onPowerupApply={(powerupId: string, cardId?: string) => console.log('Applied powerup:', powerupId, 'to card:', cardId)}
+                  className="mt-6"
+                />
+              </GlassCard>
+            </div>
           )}
 
           {/* SETTINGS TAB */}
