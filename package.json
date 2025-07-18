@@ -4,7 +4,7 @@
   "private": true,
   "description": "ECE Trading Cards - Multi-Platform Trading Card Ecosystem with Social Features",
   "scripts": {
-    "build": "nx build ece-web",
+    "build": "npx nx build ece-web",
     "test": "nx test",
     "lint": "nx lint",
     "serve": "nx serve",
