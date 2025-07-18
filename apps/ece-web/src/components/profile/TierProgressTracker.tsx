@@ -19,10 +19,11 @@ import {
   Unlock,
   CheckCircle,
   Clock,
-  Sparkles
+  Sparkles,
+  Info
 } from 'lucide-react'
 import { GlassCard } from '@/components/ui/glass-card'
-import { Button } from '@/components/ui/button'
+import { Button } from '@ece-platform/shared-ui'
 
 interface TierProgress {
   tierId: string

@@ -3,7 +3,7 @@
 import React, { forwardRef } from 'react'
 import { cn } from '@/lib/utils'
 
-interface BadgeProps {
+interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: 'default' | 'secondary' | 'destructive' | 'outline'
   children: React.ReactNode
   className?: string

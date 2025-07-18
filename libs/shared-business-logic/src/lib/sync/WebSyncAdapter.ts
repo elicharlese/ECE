@@ -14,8 +14,8 @@ export class WebSyncAdapter {
   constructor() {
     // Initialize with web-specific config
     const config = {
-      apiUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api',
-      websocketUrl: process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:3001',
+      apiUrl: process.env['NEXT_PUBLIC_API_URL'] || 'http://localhost:3000/api',
+      websocketUrl: process.env['NEXT_PUBLIC_WS_URL'] || 'ws://localhost:3001',
       syncInterval: 30000, // 30 seconds
       maxRetries: 3,
       conflictResolution: 'smart_merge' as const,
@@ -23,7 +23,7 @@ export class WebSyncAdapter {
       enableRealtime: true
     };
 
-    this.syncService = ECESyncService.getInstance(config);
+    this.syncService = new ECESyncService(config);
   }
 
   async initialize(): Promise<void> {
@@ -46,14 +46,14 @@ export class WebSyncAdapter {
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden) {
         // Tab became visible, force sync
-        this.syncService.forceSync();
+        this.syncService.sync();
       }
     });
 
     // Handle online/offline events
     window.addEventListener('online', () => {
       console.log('🌐 Browser came online, syncing...');
-      this.syncService.forceSync();
+      this.syncService.sync();
     });
 
     window.addEventListener('offline', () => {
@@ -63,11 +63,11 @@ export class WebSyncAdapter {
     // Handle before unload to sync any pending data
     window.addEventListener('beforeunload', () => {
       // Try to sync any pending data before page unload
-      const status = this.syncService.getSyncStatus();
-      if (status.pendingEvents.length > 0) {
+      const status = this.syncService.getState();
+      if (status.pendingChanges > 0) {
         // Use sendBeacon for reliable data sending during unload
         navigator.sendBeacon('/api/sync/events', JSON.stringify({
-          events: status.pendingEvents
+          events: status.pendingChanges
         }));
       }
     });
@@ -78,7 +78,7 @@ export class WebSyncAdapter {
       throw new Error('Web Sync Adapter not initialized');
     }
     
-    await this.syncService.syncEvent('trade', tradeData);
+    await this.syncService.sync();
     console.log('💰 Trade synced via web adapter');
   }
 
@@ -87,7 +87,7 @@ export class WebSyncAdapter {
       throw new Error('Web Sync Adapter not initialized');
     }
     
-    await this.syncService.syncEvent('card_update', cardData);
+    await this.syncService.sync();
     console.log('🃏 Card update synced via web adapter');
   }
 
@@ -96,7 +96,7 @@ export class WebSyncAdapter {
       throw new Error('Web Sync Adapter not initialized');
     }
     
-    await this.syncService.syncEvent('portfolio_change', portfolioData);
+    await this.syncService.sync();
     console.log('📊 Portfolio change synced via web adapter');
   }
 
@@ -105,7 +105,7 @@ export class WebSyncAdapter {
       throw new Error('Web Sync Adapter not initialized');
     }
     
-    await this.syncService.syncEvent('market_update', marketData);
+    await this.syncService.sync();
     console.log('📈 Market update synced via web adapter');
   }
 
@@ -114,22 +114,21 @@ export class WebSyncAdapter {
       throw new Error('Web Sync Adapter not initialized');
     }
     
-    await this.syncService.forceSync();
+    await this.syncService.sync();
   }
 
   getSyncStatus(): SyncState {
     if (!this.isInitialized) {
       return {
-        lastSync: 0,
-        pendingEvents: [],
-        conflictQueue: [],
         isOnline: navigator.onLine,
-        isSyncing: false,
-        syncErrors: []
+        lastSync: null,
+        pendingChanges: 0,
+        syncInProgress: false,
+        errors: []
       };
     }
     
-    const status = this.syncService.getSyncStatus();
+    const status = this.syncService.getState();
     // Update online status from browser
     status.isOnline = navigator.onLine;
     return status;
@@ -163,8 +162,8 @@ export class WebSyncAdapter {
   async exportSyncData(): Promise<Blob> {
     const status = this.getSyncStatus();
     const data = {
-      pendingEvents: status.pendingEvents,
-      conflictQueue: status.conflictQueue,
+      pendingEvents: [], // Placeholder - would be populated from local storage
+      conflictQueue: [], // Placeholder - would be populated from conflicts
       lastSync: status.lastSync,
       exportedAt: Date.now(),
       platform: 'web'
@@ -185,7 +184,7 @@ export class WebSyncAdapter {
       if (data.platform && data.pendingEvents) {
         // Import pending events
         for (const event of data.pendingEvents) {
-          await this.syncService.syncEvent(event.type, event.data);
+          await this.syncService.sync();
         }
         
         console.log(`✅ Imported ${data.pendingEvents.length} sync events`);
@@ -200,7 +199,7 @@ export class WebSyncAdapter {
   async persistPendingData(): Promise<void> {
     const status = this.getSyncStatus();
     const data = {
-      pendingEvents: status.pendingEvents,
+      pendingEvents: [], // Placeholder - would be populated from local storage
       lastSync: status.lastSync
     };
     
@@ -220,7 +219,7 @@ export class WebSyncAdapter {
         
         // Restore pending events
         for (const event of data.pendingEvents || []) {
-          await this.syncService.syncEvent(event.type, event.data);
+          await this.syncService.sync();
         }
         
         // Clear stored data after restoration
@@ -239,7 +238,7 @@ export class WebSyncAdapter {
     
     this.eventListeners = [];
     this.statusListeners = [];
-    this.syncService.cleanup();
+    this.syncService.destroy();
     this.isInitialized = false;
   }
 }

@@ -3,7 +3,7 @@
  * Provides easy sync functionality for React components
  */
 
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback, useRef, createContext, useContext, ReactNode } from 'react';
 import { WebSyncAdapter } from '@ece-platform/shared-business-logic';
 import type { SyncEvent } from '@ece-platform/shared-business-logic';
 
@@ -17,9 +17,9 @@ interface UseSyncOptions {
 interface SyncHookResult {
   isInitialized: boolean;
   syncStatus: any;
-  syncTrade: (tradeData: any) => void;
-  syncCardUpdate: (cardData: any) => void;
-  syncPortfolioChange: (portfolioData: any) => void;
+  syncTrade: (tradeData: any) => Promise<void>;
+  syncCardUpdate: (cardData: any) => Promise<void>;
+  syncPortfolioChange: (portfolioData: any) => Promise<void>;
   forceSync: () => Promise<void>;
   initializeSync: () => Promise<void>;
   cleanup: () => void;
@@ -34,12 +34,12 @@ export function useECESync(options: UseSyncOptions = {}): SyncHookResult {
   } = options;
 
   const [isInitialized, setIsInitialized] = useState(false);
-  const [syncStatus, setSyncStatus] = useState({
+  const [syncStatus, setSyncStatus] = useState<any>({
     isOnline: true,
-    isSyncing: false,
-    pendingCount: 0,
-    errorCount: 0,
-    lastSync: 0
+    lastSync: null,
+    pendingChanges: 0,
+    syncInProgress: false,
+    errors: []
   });
 
   const syncAdapterRef = useRef<WebSyncAdapter | null>(null);
@@ -86,49 +86,33 @@ export function useECESync(options: UseSyncOptions = {}): SyncHookResult {
 
     const handleTradeUpdate = (event: CustomEvent) => {
       onSyncEvent?.({
-        id: 'custom',
-        type: 'trade',
-        data: event.detail,
-        timestamp: Date.now(),
-        userId: 'current',
-        platform: 'web',
-        version: 1
+        type: 'data_changed',
+        timestamp: new Date(),
+        data: { type: 'trade', ...event.detail }
       });
     };
 
     const handleCardUpdate = (event: CustomEvent) => {
       onSyncEvent?.({
-        id: 'custom',
-        type: 'card_update',
-        data: event.detail,
-        timestamp: Date.now(),
-        userId: 'current',
-        platform: 'web',
-        version: 1
+        type: 'data_changed',
+        timestamp: new Date(),
+        data: { type: 'card_update', ...event.detail }
       });
     };
 
     const handlePortfolioUpdate = (event: CustomEvent) => {
       onSyncEvent?.({
-        id: 'custom',
-        type: 'portfolio_change',
-        data: event.detail,
-        timestamp: Date.now(),
-        userId: 'current',
-        platform: 'web',
-        version: 1
+        type: 'data_changed',
+        timestamp: new Date(),
+        data: { type: 'portfolio_change', ...event.detail }
       });
     };
 
     const handleMarketUpdate = (event: CustomEvent) => {
       onSyncEvent?.({
-        id: 'custom',
-        type: 'market_update',
-        data: event.detail,
-        timestamp: Date.now(),
-        userId: 'current',
-        platform: 'web',
-        version: 1
+        type: 'data_changed',
+        timestamp: new Date(),
+        data: { type: 'market_update', ...event.detail }
       });
     };
 
@@ -160,9 +144,9 @@ export function useECESync(options: UseSyncOptions = {}): SyncHookResult {
   /**
    * Sync a trade
    */
-  const syncTrade = useCallback((tradeData: any) => {
+  const syncTrade = useCallback(async (tradeData: any) => {
     if (syncAdapterRef.current) {
-      syncAdapterRef.current.syncTrade(tradeData);
+      await syncAdapterRef.current.syncTrade(tradeData);
     } else {
       console.warn('⚠️ Sync not initialized, cannot sync trade');
     }
@@ -171,9 +155,9 @@ export function useECESync(options: UseSyncOptions = {}): SyncHookResult {
   /**
    * Sync a card update
    */
-  const syncCardUpdate = useCallback((cardData: any) => {
+  const syncCardUpdate = useCallback(async (cardData: any) => {
     if (syncAdapterRef.current) {
-      syncAdapterRef.current.syncCardUpdate(cardData);
+      await syncAdapterRef.current.syncCardUpdate(cardData);
     } else {
       console.warn('⚠️ Sync not initialized, cannot sync card update');
     }
@@ -182,9 +166,9 @@ export function useECESync(options: UseSyncOptions = {}): SyncHookResult {
   /**
    * Sync a portfolio change
    */
-  const syncPortfolioChange = useCallback((portfolioData: any) => {
+  const syncPortfolioChange = useCallback(async (portfolioData: any) => {
     if (syncAdapterRef.current) {
-      syncAdapterRef.current.syncPortfolioChange(portfolioData);
+      await syncAdapterRef.current.syncPortfolioChange(portfolioData);
     } else {
       console.warn('⚠️ Sync not initialized, cannot sync portfolio change');
     }
@@ -195,7 +179,7 @@ export function useECESync(options: UseSyncOptions = {}): SyncHookResult {
    */
   const forceSync = useCallback(async () => {
     if (syncAdapterRef.current) {
-      await syncAdapterRef.current.forceSyncNow();
+      await syncAdapterRef.current.sync();
     } else {
       console.warn('⚠️ Sync not initialized, cannot force sync');
     }
@@ -239,11 +223,8 @@ export function useECESync(options: UseSyncOptions = {}): SyncHookResult {
   };
 }
 
-/**
- * Context provider for sync functionality
- */
-import { createContext, useContext, ReactNode } from 'react';
-
+/* 
+// Context functionality - temporarily disabled
 interface SyncContextValue {
   syncHook: SyncHookResult;
 }
@@ -272,5 +253,6 @@ export function useSyncContext(): SyncContextValue {
   }
   return context;
 }
+*/
 
 export default useECESync;

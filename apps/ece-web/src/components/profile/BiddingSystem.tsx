@@ -43,11 +43,7 @@ import {
   Crown,
   Flame
 } from 'lucide-react'
-import { GlassCard } from '@/components/ui/glass-card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Progress } from '@/components/ui/progress'
-import { Input } from '@/components/ui/input'
+import { GlassCard, Button, Badge, Progress, Input } from '@ece-platform/shared-ui'
 import { Slider } from '@/components/ui/slider'
 import { Switch } from '@/components/ui/switch'
 
@@ -550,11 +546,12 @@ export function BiddingSystem({ className = '' }: BiddingSystemProps) {
                                 {auction.cardTier.charAt(0).toUpperCase() + auction.cardTier.slice(1)}
                               </Badge>
                               <Badge 
+                                className={`border-2`}
                                 style={{
                                   backgroundColor: `${getStatusColor(auction.status)}20`,
                                   color: getStatusColor(auction.status),
                                   borderColor: `${getStatusColor(auction.status)}30`
-                                }}
+                                } as React.CSSProperties}
                               >
                                 {auction.status.replace('_', ' ').charAt(0).toUpperCase() + auction.status.slice(1)}
                               </Badge>
