@@ -1,10 +1,10 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { SwipeableCardStack } from '@/components/discover/SwipeableCardStack'
-import { GlassCard } from '@/components/ui/glass-card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+import { SwipeableCardStack } from '../../../components/discover/SwipeableCardStack'
+import { GlassCard } from '../../../components/ui/glass-card'
+import { Button } from '../../../components/ui/button'
+import { Badge } from '../../../components/ui/badge'
 import { 
   TrendingUp, 
   Filter, 

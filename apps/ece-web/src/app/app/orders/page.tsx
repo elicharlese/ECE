@@ -1,8 +1,8 @@
 'use client'
 
 import React from 'react'
-import { OrdersDashboard } from '@/components/orders-dashboard'
-import { useSubscription } from '@/contexts/subscription-context'
+import { OrdersDashboard } from '../../../components/orders-dashboard'
+import { useSubscription } from '../../../contexts/subscription-context'
 
 export default function OrdersPage() {
   const { subscription } = useSubscription()

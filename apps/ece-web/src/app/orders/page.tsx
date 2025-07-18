@@ -3,13 +3,13 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Plus, Package, Clock, CheckCircle } from 'lucide-react'
-import { OrderForm } from '@/components/order-form'
-import { OrdersDashboard } from '@/components/orders-dashboard'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Badge } from '@/components/ui/badge'
-import SolanaWallet from '@/components/solana-wallet'
+import { OrderForm } from '../../components/order-form'
+import { OrdersDashboard } from '../../components/orders-dashboard'
+import { Button } from '../../components/ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs'
+import { Badge } from '../../components/ui/badge'
+import SolanaWallet from '../../components/solana-wallet'
 
 // Mock user data - replace with actual auth
 const mockUser = {

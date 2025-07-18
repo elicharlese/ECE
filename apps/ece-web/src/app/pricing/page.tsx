@@ -2,10 +2,10 @@
 
 import { motion } from 'framer-motion'
 import { Check, Star, Zap, Crown } from 'lucide-react'
-import { Navigation } from '@/components/navigation'
-import { Footer } from '@/components/footer'
-import { Button } from '@/components/ui/button'
-import { GlassCard } from '@/components/ui/glass-card'
+import { Navigation } from '../../components/navigation'
+import { Footer } from '../../components/footer'
+import { Button } from '../../components/ui/button'
+import { GlassCard } from '../../components/ui/glass-card'
 
 const plans = [
   {

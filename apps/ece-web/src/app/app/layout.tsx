@@ -1,5 +1,5 @@
 import { SubscriptionProvider } from '@/contexts/subscription-context'
-import { AppLayout } from '@/components/app-layout'
+import { AppLayout } from '../../components/app-layout'
 
 export default function AppLayoutWrapper({
   children,

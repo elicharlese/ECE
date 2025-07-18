@@ -3,10 +3,10 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Sparkles, TrendingUp, Users, Shield, Target, Gavel, Sword, Play, Eye } from 'lucide-react'
 import Link from 'next/link'
-import { Navigation } from '@/components/navigation'
-import { Footer } from '@/components/footer'
-import { Button } from '@/components/ui/button'
-import { GlassCard } from '@/components/ui/glass-card'
+import { Navigation } from '../components/navigation'
+import { Footer } from '../components/footer'
+import { Button } from '../components/ui/button'
+import { GlassCard } from '../components/ui/glass-card'
 import { 
   HeroScene3D, 
   Card3DInteractive, 
@@ -14,7 +14,7 @@ import {
   Performance3DMonitor,
   Card3DData,
   scene3DUtils 
-} from '@/components/3d'
+} from '../components/3d'
 import { useState, useEffect } from 'react'
 
 const features = [

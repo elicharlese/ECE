@@ -15,10 +15,10 @@ import {
   ArrowRight,
   Check
 } from 'lucide-react'
-import { AppLayout } from '@/components/app-layout'
-import { GlassCard } from '@/components/ui/glass-card'
-import { Button } from '@/components/ui/button'
-import { FeatureLock, ProEnhancedCard, SubscriptionBadge } from '@/components/subscription-ui'
+import { AppLayout } from '../../components/app-layout'
+import { GlassCard } from '../../components/ui/glass-card'
+import { Button } from '../../components/ui/button'
+import { FeatureLock, ProEnhancedCard, SubscriptionBadge } from '../../components/subscription-ui'
 
 const enterpriseApps = [
   {

@@ -10,8 +10,8 @@ import {
   TrendingUp,
   Heart
 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { GlassCard } from '@/components/ui/glass-card'
+import { Button } from '../../components/ui/button'
+import { GlassCard } from '../../components/ui/glass-card'
 
 const homeTabs = [
   { 

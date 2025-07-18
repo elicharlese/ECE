@@ -14,9 +14,9 @@ import {
   RotateCcw,
   Info
 } from 'lucide-react'
-import { GlassCard } from '@/components/ui/glass-card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+import { GlassCard } from '../ui/glass-card'
+import { Button } from '../ui/button'
+import { Badge } from '../ui/badge'
 
 // Card data interface
 export interface DiscoverCard {

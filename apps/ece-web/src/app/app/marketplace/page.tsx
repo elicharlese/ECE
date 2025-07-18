@@ -16,10 +16,10 @@ import {
   Crown,
   Star
 } from 'lucide-react'
-import { GlassCard } from '@/components/ui/glass-card'
-import { Button } from '@/components/ui/button'
-import { useSubscription } from '@/contexts/subscription-context'
-import { FeatureLock, SubscriptionBadge, ProEnhancedCard } from '@/components/subscription-ui'
+import { GlassCard } from '../../../components/ui/glass-card'
+import { Button } from '../../../components/ui/button'
+import { useSubscription } from '../../../contexts/subscription-context'
+import { FeatureLock, SubscriptionBadge, ProEnhancedCard } from '../../../components/subscription-ui'
 
 const marketplaceItems = [
   {

@@ -1,8 +1,8 @@
 'use client'
 
-import { GlassCard } from '@/components/ui/glass-card'
-import { Button } from '@/components/ui/button'
-import { ThemeToggle } from '@/components/theme-toggle'
+import { GlassCard } from '../../components/ui/glass-card'
+import { Button } from '../../components/ui/button'
+import { ThemeToggle } from '../../components/theme-toggle'
 
 export default function ColorTestPage() {
   return (

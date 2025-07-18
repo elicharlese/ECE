@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Card } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Card } from '../../components/ui/card'
+import { Badge } from '../../components/ui/badge'
+import { Button } from '../../components/ui/button'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs'
 import { 
   TrendingUp, 
   Gavel, 
@@ -22,9 +22,9 @@ import {
   Timer,
   Activity
 } from 'lucide-react'
-import { BettingMarkets } from '@/components/betting-markets'
-import { CardAuctions } from '@/components/card-auctions'
-import { MABattles } from '@/components/ma-battles'
+import { BettingMarkets } from '../../components/betting-markets'
+import { CardAuctions } from '../../components/card-auctions'
+import { MABattles } from '../../components/ma-battles'
 
 interface MarketplaceStats {
   totalVolume: number

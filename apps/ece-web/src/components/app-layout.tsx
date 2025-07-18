@@ -19,7 +19,7 @@ import {
 } from 'lucide-react'
 import { GlassCard } from './ui/glass-card'
 import { Button } from './ui/button'
-import { SubscriptionProvider, useSubscription } from '@/contexts/subscription-context'
+import { SubscriptionProvider, useSubscription } from '../contexts/subscription-context'
 import { SubscriptionBadge, ProEnhancedCard } from './subscription-ui'
 import { NotificationsPopout } from './notifications-popout'
 import { WalletPopout } from './wallet-popout'

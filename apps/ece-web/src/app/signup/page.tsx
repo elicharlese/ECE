@@ -4,9 +4,9 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Mail, Lock, Eye, EyeOff, User, ArrowRight, Check } from 'lucide-react'
-import { Navigation } from '@/components/navigation'
-import { Button } from '@/components/ui/button'
-import { GlassCard } from '@/components/ui/glass-card'
+import { Navigation } from '../../components/navigation'
+import { Button } from '../../components/ui/button'
+import { GlassCard } from '../../components/ui/glass-card'
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false)
