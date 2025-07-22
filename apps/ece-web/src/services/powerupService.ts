@@ -12,7 +12,8 @@ import {
   PowerupEffectType,
   ModifierType,
   PowerupSource,
-  PowerupAction
+  PowerupAction,
+  PowerupHistory
 } from '@/types/powerups';
 
 export class PowerupService {
@@ -109,7 +110,7 @@ export class PowerupService {
     userId: string,
     powerupId: string,
     quantity: number = 1,
-    source: PowerupSource = 'PURCHASE',
+    source: PowerupSource = PowerupSource.PURCHASE,
     sourceId?: string
   ): Promise<UserPowerup> {
     // Check if user already has this powerup
@@ -145,7 +146,7 @@ export class PowerupService {
       });
       
       // Log the acquisition
-      await this.logPowerupAction(userId, powerupId, 'ACQUIRED', {
+      await this.logPowerupAction(userId, powerupId, PowerupAction.ACQUIRED, {
         quantity,
         source,
         sourceId
@@ -276,7 +277,7 @@ export class PowerupService {
     }
     
     // Log the application
-    await this.logPowerupAction(userId, powerupId, 'APPLIED', {
+    await this.logPowerupAction(userId, powerupId, PowerupAction.APPLIED, {
       cardId,
       config
     });
@@ -318,7 +319,7 @@ export class PowerupService {
     });
     
     // Log the removal
-    await this.logPowerupAction(userId, cardPowerup.powerupId, 'REMOVED', {
+    await this.logPowerupAction(userId, cardPowerup.powerupId, PowerupAction.REMOVED, {
       cardId,
       cardPowerupId
     });
@@ -469,13 +470,13 @@ export class PowerupService {
     const analytics = {
       totalActions: history.length,
       recentActions: history.slice(0, 10),
-      actionsByType: {},
-      mostUsedPowerups: {},
+      actionsByType: {} as Record<PowerupAction, number>,
+      mostUsedPowerups: {} as Record<string, number>,
       effectivenessScore: 0
     };
     
     // Process analytics
-    history.forEach(entry => {
+    history.forEach((entry: PowerupHistory & { user: any }) => {
       // Count actions by type
       analytics.actionsByType[entry.action] = 
         (analytics.actionsByType[entry.action] || 0) + 1;
@@ -548,10 +549,10 @@ export class PowerupService {
     // 2. Exclude powerups user already has
     // 3. Prioritize by rarity and effectiveness
     
-    const ownedPowerupIds = user.powerupInventory.map(p => p.powerupId);
+    const ownedPowerupIds = user.powerupInventory.map((p: UserPowerup) => p.powerupId);
     const appliedPowerupIds = user.ownedCards
-      .flatMap(card => card.appliedPowerups)
-      .map(p => p.powerupId);
+      .flatMap((card: any) => card.appliedPowerups)
+      .map((p: CardPowerup) => p.powerupId);
     
     const excludedIds = [...new Set([...ownedPowerupIds, ...appliedPowerupIds])];
     

@@ -3,19 +3,19 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { PowerupService } from '@/services/powerupService';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { getCurrentUser } from '@/lib/auth';
 
 /**
  * GET /api/users/[userId]/powerups - Get user's powerup inventory
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { userId: string } }
+  context: { params: Promise<{ userId: string }> }
 ) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
+    const params = await context.params;
+    const user = await getCurrentUser(request);
+    if (!user) {
       return NextResponse.json(
         { success: false, error: 'Authentication required' },
         { status: 401 }
@@ -23,7 +23,7 @@ export async function GET(
     }
 
     // Users can only access their own inventory
-    if (session.user.id !== params.userId) {
+    if (user.id !== params.userId) {
       return NextResponse.json(
         { success: false, error: 'Access denied' },
         { status: 403 }
@@ -51,18 +51,19 @@ export async function GET(
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { userId: string } }
+  context: { params: Promise<{ userId: string }> }
 ) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
+    const params = await context.params;
+    const user = await getCurrentUser(request);
+    if (!user) {
       return NextResponse.json(
         { success: false, error: 'Authentication required' },
         { status: 401 }
       );
     }
 
-    if (session.user.id !== params.userId) {
+    if (user.id !== params.userId) {
       return NextResponse.json(
         { success: false, error: 'Access denied' },
         { status: 403 }

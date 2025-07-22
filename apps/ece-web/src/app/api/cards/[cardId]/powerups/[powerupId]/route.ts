@@ -3,19 +3,19 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { PowerupService } from '@/services/powerupService';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { getCurrentUser } from '@/lib/auth';
 
 /**
  * DELETE /api/cards/[cardId]/powerups/[powerupId] - Remove powerup from card
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { cardId: string; powerupId: string } }
+  context: { params: Promise<{ cardId: string; powerupId: string }> }
 ) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
+    const params = await context.params;
+    const user = await getCurrentUser(request);
+    if (!user) {
       return NextResponse.json(
         { success: false, error: 'Authentication required' },
         { status: 401 }
@@ -23,7 +23,7 @@ export async function DELETE(
     }
 
     const success = await PowerupService.removePowerupFromCard(
-      session.user.id,
+      user.id,
       params.cardId,
       params.powerupId
     );

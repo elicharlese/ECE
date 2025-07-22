@@ -4,7 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { AdminSecurityProvider } from './AdminSecurityProvider';
 import { AdminDashboard } from './AdminDashboard';
-import { AlertManager } from './AlertManager';
+import AlertManager from './AlertManager';
 import { BusinessIntelligence } from './BusinessIntelligence';
 import { UserManagement } from './UserManagement';
 import { 

@@ -212,8 +212,8 @@ export class ProfileAnalytics {
   private async sendToAnalytics(event: AnalyticsEvent): Promise<void> {
     try {
       // Send to Google Analytics
-      if (typeof gtag !== 'undefined') {
-        gtag('event', event.action, {
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', event.action, {
           event_category: event.category,
           event_label: event.label,
           value: event.value,

@@ -96,7 +96,7 @@ export const scene3DUtils = {
   // Get optimal quality for device
   getOptimalQuality: (): 'low' | 'medium' | 'high' | 'ultra' => {
     const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl') as WebGLRenderingContext | null;
     
     if (!gl) return 'low';
     

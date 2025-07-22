@@ -2,7 +2,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -1084,7 +1083,7 @@ model PowerupType {
   craftingIngredients PowerupRecipe[] @relation("PowerupIngredients")
   marketListings   PowerupMarketListing[]
   purchaseHistory  PowerupPurchase[]
-  tradeHistory     PowerupTrade[]
+  tradeHistory     PowerupTrade[] @relation("PowerupTradeHistory")
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -1253,6 +1252,7 @@ model PowerupRecipe {
   
   // Relations
   result      PowerupType @relation("PowerupRecipes", fields: [resultId], references: [id], onDelete: Cascade)
+  ingredientPowerups PowerupType[] @relation("PowerupIngredients")
   crafts      PowerupCraft[]
   
   createdAt DateTime @default(now())
@@ -1372,6 +1372,7 @@ model PowerupTrade {
   // Relations
   initiator User @relation("PowerupTrades", fields: [initiatorId], references: [id], onDelete: Cascade)
   listing   PowerupMarketListing? @relation(fields: [listingId], references: [id], onDelete: SetNull)
+  powerups  PowerupType[] @relation("PowerupTradeHistory")
   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

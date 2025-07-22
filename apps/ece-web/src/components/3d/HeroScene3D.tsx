@@ -61,7 +61,9 @@ export default function HeroScene3D({
       }
     );
 
-    return () => tl.kill();
+    return () => {
+      tl.kill();
+    };
   }, []);
 
   // Scene configurations for different 3D experiences

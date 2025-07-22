@@ -11,6 +11,10 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  output: 'standalone',
+  generateBuildId: async () => {
+    return 'build-' + Date.now()
+  }
 }
 
 module.exports = nextConfig

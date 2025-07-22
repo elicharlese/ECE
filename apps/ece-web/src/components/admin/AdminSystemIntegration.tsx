@@ -22,7 +22,7 @@ import {
 } from 'lucide-react';
 import { GlassCard } from '@/components/ui/glass-card';
 import { AdminDashboard } from '@/components/admin/AdminDashboard';
-import { AlertManager } from '@/components/admin/AlertManager';
+import AlertManager from '@/components/admin/AlertManager';
 import { BusinessIntelligence } from '@/components/admin/BusinessIntelligence';
 import { UserManagement } from '@/components/admin/UserManagement';
 

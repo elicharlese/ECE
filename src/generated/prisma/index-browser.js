@@ -590,6 +590,192 @@ exports.Prisma.BattleOutcomeScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PowerupTypeScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  displayName: 'displayName',
+  description: 'description',
+  category: 'category',
+  rarity: 'rarity',
+  iconUrl: 'iconUrl',
+  animationUrl: 'animationUrl',
+  effectColor: 'effectColor',
+  glowEffect: 'glowEffect',
+  particleEffect: 'particleEffect',
+  effects: 'effects',
+  duration: 'duration',
+  cooldown: 'cooldown',
+  stackable: 'stackable',
+  maxStacks: 'maxStacks',
+  baseCost: 'baseCost',
+  craftable: 'craftable',
+  tradeable: 'tradeable',
+  version: 'version',
+  isActive: 'isActive',
+  releaseDate: 'releaseDate',
+  deprecatedAt: 'deprecatedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.UserPowerupScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  powerupId: 'powerupId',
+  quantity: 'quantity',
+  acquiredAt: 'acquiredAt',
+  acquiredFrom: 'acquiredFrom',
+  sourceId: 'sourceId',
+  level: 'level',
+  experience: 'experience',
+  masteryLevel: 'masteryLevel',
+  isLocked: 'isLocked',
+  notes: 'notes',
+  tags: 'tags',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CardPowerupScalarFieldEnum = {
+  id: 'id',
+  cardId: 'cardId',
+  powerupId: 'powerupId',
+  appliedBy: 'appliedBy',
+  appliedAt: 'appliedAt',
+  expiresAt: 'expiresAt',
+  isActive: 'isActive',
+  level: 'level',
+  stackCount: 'stackCount',
+  effectiveness: 'effectiveness',
+  lastActivated: 'lastActivated',
+  cooldownEnds: 'cooldownEnds',
+  usageCount: 'usageCount',
+  maxUsages: 'maxUsages',
+  customConfig: 'customConfig',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PowerupEffectScalarFieldEnum = {
+  id: 'id',
+  cardId: 'cardId',
+  cardPowerupId: 'cardPowerupId',
+  effectType: 'effectType',
+  targetStat: 'targetStat',
+  modifier: 'modifier',
+  modifierType: 'modifierType',
+  startedAt: 'startedAt',
+  endsAt: 'endsAt',
+  isActive: 'isActive',
+  isPermanent: 'isPermanent',
+  triggerCondition: 'triggerCondition',
+  triggerValue: 'triggerValue',
+  remainingTriggers: 'remainingTriggers',
+  visualIndicator: 'visualIndicator',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PowerupHistoryScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  cardId: 'cardId',
+  powerupId: 'powerupId',
+  action: 'action',
+  actionData: 'actionData',
+  timestamp: 'timestamp',
+  contextType: 'contextType',
+  contextId: 'contextId',
+  effectiveness: 'effectiveness',
+  outcomeData: 'outcomeData'
+};
+
+exports.Prisma.PowerupRecipeScalarFieldEnum = {
+  id: 'id',
+  resultId: 'resultId',
+  name: 'name',
+  description: 'description',
+  ingredients: 'ingredients',
+  eceRequired: 'eceRequired',
+  craftTime: 'craftTime',
+  successRate: 'successRate',
+  maxPerDay: 'maxPerDay',
+  requiredLevel: 'requiredLevel',
+  requiredBadge: 'requiredBadge',
+  isActive: 'isActive',
+  craftCount: 'craftCount',
+  successCount: 'successCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PowerupCraftScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  recipeId: 'recipeId',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  successful: 'successful',
+  ingredientsUsed: 'ingredientsUsed',
+  eceSpent: 'eceSpent',
+  resultPowerupId: 'resultPowerupId',
+  bonusRewards: 'bonusRewards'
+};
+
+exports.Prisma.PowerupMarketListingScalarFieldEnum = {
+  id: 'id',
+  sellerId: 'sellerId',
+  powerupId: 'powerupId',
+  quantity: 'quantity',
+  pricePerUnit: 'pricePerUnit',
+  totalPrice: 'totalPrice',
+  listingType: 'listingType',
+  auctionEnd: 'auctionEnd',
+  currentBid: 'currentBid',
+  bidIncrement: 'bidIncrement',
+  reservePrice: 'reservePrice',
+  status: 'status',
+  viewCount: 'viewCount',
+  watcherCount: 'watcherCount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PowerupPurchaseScalarFieldEnum = {
+  id: 'id',
+  buyerId: 'buyerId',
+  listingId: 'listingId',
+  powerupId: 'powerupId',
+  quantity: 'quantity',
+  pricePerUnit: 'pricePerUnit',
+  totalPrice: 'totalPrice',
+  paymentMethod: 'paymentMethod',
+  status: 'status',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PowerupTradeScalarFieldEnum = {
+  id: 'id',
+  initiatorId: 'initiatorId',
+  receiverId: 'receiverId',
+  listingId: 'listingId',
+  initiatorOffer: 'initiatorOffer',
+  receiverOffer: 'receiverOffer',
+  eceOffered: 'eceOffered',
+  eceRequested: 'eceRequested',
+  status: 'status',
+  acceptedAt: 'acceptedAt',
+  completedAt: 'completedAt',
+  canceledAt: 'canceledAt',
+  messages: 'messages',
+  counterOffers: 'counterOffers',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.StakingPoolScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -973,6 +1159,126 @@ exports.BattleWinner = exports.$Enums.BattleWinner = {
   NO_WINNER: 'NO_WINNER'
 };
 
+exports.PowerupCategory = exports.$Enums.PowerupCategory = {
+  COMBAT: 'COMBAT',
+  DEFENSE: 'DEFENSE',
+  UTILITY: 'UTILITY',
+  SPECIAL: 'SPECIAL',
+  LEGENDARY: 'LEGENDARY',
+  TEMPORAL: 'TEMPORAL',
+  ELEMENTAL: 'ELEMENTAL',
+  MYSTICAL: 'MYSTICAL',
+  TECHNOLOGICAL: 'TECHNOLOGICAL',
+  ECONOMIC: 'ECONOMIC'
+};
+
+exports.PowerupRarity = exports.$Enums.PowerupRarity = {
+  COMMON: 'COMMON',
+  UNCOMMON: 'UNCOMMON',
+  RARE: 'RARE',
+  EPIC: 'EPIC',
+  LEGENDARY: 'LEGENDARY',
+  MYTHIC: 'MYTHIC',
+  ARTIFACT: 'ARTIFACT'
+};
+
+exports.PowerupSource = exports.$Enums.PowerupSource = {
+  PURCHASE: 'PURCHASE',
+  CRAFT: 'CRAFT',
+  TRADE: 'TRADE',
+  REWARD: 'REWARD',
+  ACHIEVEMENT: 'ACHIEVEMENT',
+  EVENT: 'EVENT',
+  QUEST: 'QUEST',
+  AIRDROP: 'AIRDROP',
+  GENESIS: 'GENESIS'
+};
+
+exports.PowerupEffectType = exports.$Enums.PowerupEffectType = {
+  STAT_BOOST: 'STAT_BOOST',
+  DAMAGE_AMPLIFY: 'DAMAGE_AMPLIFY',
+  DEFENSE_BOOST: 'DEFENSE_BOOST',
+  SPEED_INCREASE: 'SPEED_INCREASE',
+  CRITICAL_CHANCE: 'CRITICAL_CHANCE',
+  REGENERATION: 'REGENERATION',
+  SHIELD: 'SHIELD',
+  STEALTH: 'STEALTH',
+  TELEPORT: 'TELEPORT',
+  TIME_MANIPULATION: 'TIME_MANIPULATION',
+  ELEMENT_INFUSION: 'ELEMENT_INFUSION',
+  MIND_CONTROL: 'MIND_CONTROL',
+  REALITY_WARP: 'REALITY_WARP',
+  DUPLICATION: 'DUPLICATION',
+  PHASE_SHIFT: 'PHASE_SHIFT',
+  OMNISCIENCE: 'OMNISCIENCE'
+};
+
+exports.ModifierType = exports.$Enums.ModifierType = {
+  ADD: 'ADD',
+  SUBTRACT: 'SUBTRACT',
+  MULTIPLY: 'MULTIPLY',
+  DIVIDE: 'DIVIDE',
+  SET: 'SET',
+  PERCENT_INCREASE: 'PERCENT_INCREASE',
+  PERCENT_DECREASE: 'PERCENT_DECREASE'
+};
+
+exports.PowerupAction = exports.$Enums.PowerupAction = {
+  ACQUIRED: 'ACQUIRED',
+  APPLIED: 'APPLIED',
+  REMOVED: 'REMOVED',
+  UPGRADED: 'UPGRADED',
+  CRAFTED: 'CRAFTED',
+  TRADED: 'TRADED',
+  SOLD: 'SOLD',
+  PURCHASED: 'PURCHASED',
+  ACTIVATED: 'ACTIVATED',
+  EXPIRED: 'EXPIRED'
+};
+
+exports.PowerupContext = exports.$Enums.PowerupContext = {
+  BATTLE: 'BATTLE',
+  TRADE: 'TRADE',
+  MARKETPLACE: 'MARKETPLACE',
+  CRAFTING: 'CRAFTING',
+  QUEST: 'QUEST',
+  EVENT: 'EVENT',
+  TRAINING: 'TRAINING',
+  TOURNAMENT: 'TOURNAMENT'
+};
+
+exports.PowerupListingType = exports.$Enums.PowerupListingType = {
+  FIXED_PRICE: 'FIXED_PRICE',
+  AUCTION: 'AUCTION',
+  TRADE_ONLY: 'TRADE_ONLY',
+  BUNDLE: 'BUNDLE'
+};
+
+exports.PowerupListingStatus = exports.$Enums.PowerupListingStatus = {
+  ACTIVE: 'ACTIVE',
+  SOLD: 'SOLD',
+  EXPIRED: 'EXPIRED',
+  CANCELED: 'CANCELED',
+  RESERVED: 'RESERVED'
+};
+
+exports.PurchaseStatus = exports.$Enums.PurchaseStatus = {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED'
+};
+
+exports.TradeStatus = exports.$Enums.TradeStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  DECLINED: 'DECLINED',
+  COMPLETED: 'COMPLETED',
+  CANCELED: 'CANCELED',
+  EXPIRED: 'EXPIRED'
+};
+
 exports.StakingPoolType = exports.$Enums.StakingPoolType = {
   MARKETPLACE_REWARDS: 'MARKETPLACE_REWARDS',
   GOVERNANCE_PARTICIPATION: 'GOVERNANCE_PARTICIPATION',
@@ -1033,6 +1339,16 @@ exports.Prisma.ModelName = {
   BattleProposal: 'BattleProposal',
   BattleVoting: 'BattleVoting',
   BattleOutcome: 'BattleOutcome',
+  PowerupType: 'PowerupType',
+  UserPowerup: 'UserPowerup',
+  CardPowerup: 'CardPowerup',
+  PowerupEffect: 'PowerupEffect',
+  PowerupHistory: 'PowerupHistory',
+  PowerupRecipe: 'PowerupRecipe',
+  PowerupCraft: 'PowerupCraft',
+  PowerupMarketListing: 'PowerupMarketListing',
+  PowerupPurchase: 'PowerupPurchase',
+  PowerupTrade: 'PowerupTrade',
   StakingPool: 'StakingPool',
   StakingPosition: 'StakingPosition',
   StakingReward: 'StakingReward',

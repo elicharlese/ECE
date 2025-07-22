@@ -432,7 +432,6 @@ export const TieredCardSystem: React.FC<TieredCardSystemProps> = ({ className = 
                   <GlassCard
                     variant="dark"
                     className="p-4 h-full relative overflow-hidden transition-all duration-300"
-                    style={getTierEffectStyle(tier)}
                   >
                     {/* Tier Badge */}
                     <div 
@@ -525,8 +524,7 @@ export const TieredCardSystem: React.FC<TieredCardSystemProps> = ({ className = 
                 >
                   <GlassCard
                     variant="dark"
-                    className="p-4 hover:bg-white/10 transition-all duration-300 cursor-pointer"
-                    style={{ borderLeft: `4px solid ${tier.color}` }}
+                    className="p-4 hover:bg-white/10 transition-all duration-300 cursor-pointer border-l-4"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">

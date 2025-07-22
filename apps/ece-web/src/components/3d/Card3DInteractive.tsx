@@ -115,7 +115,9 @@ export default function Card3DInteractive({
       }
     );
 
-    return () => tl.kill();
+    return () => {
+      tl.kill();
+    };
   }, [currentCardIndex]);
 
   // Handle card swipe gestures

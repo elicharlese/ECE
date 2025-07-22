@@ -65,7 +65,8 @@ export default function SplineScene({
     onLoad?.();
   };
 
-  const handleSceneError = (error: Error) => {
+  const handleSceneError = (event: any) => {
+    const error = event instanceof Error ? event : new Error('Spline scene failed to load');
     setHasError(true);
     setIsLoading(false);
     onError?.(error);

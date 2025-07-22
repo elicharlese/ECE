@@ -16,11 +16,14 @@ import {
   Zap,
   Shield,
   TrendingDown,
-  TrendingUp
+  TrendingUp,
+  Activity,
+  User,
+  DollarSign
 } from 'lucide-react';
 
 export type AlertSeverity = 'critical' | 'warning' | 'info' | 'success';
-export type AlertCategory = 'system' | 'security' | 'business' | 'performance';
+export type AlertCategory = 'system' | 'security' | 'business' | 'performance' | 'user';
 
 interface Alert {
   id: string;
@@ -33,6 +36,50 @@ interface Alert {
   source: string;
   details?: Record<string, any>;
 }
+
+const getSeverityConfig = (severity: AlertSeverity) => {
+  switch (severity) {
+    case 'critical':
+      return {
+        icon: AlertTriangle,
+        color: 'text-ece-error',
+        bgColor: 'bg-ece-error/20',
+        borderColor: 'border-ece-error/40'
+      };
+    case 'warning':
+      return {
+        icon: AlertTriangle,
+        color: 'text-ece-warning',
+        bgColor: 'bg-ece-warning/20',
+        borderColor: 'border-ece-warning/40'
+      };
+    case 'info':
+      return {
+        icon: Info,
+        color: 'text-ece-info',
+        bgColor: 'bg-ece-info/20',
+        borderColor: 'border-ece-info/40'
+      };
+    default:
+      return {
+        icon: CheckCircle,
+        color: 'text-ece-success',
+        bgColor: 'bg-ece-success/20',
+        borderColor: 'border-ece-success/40'
+      };
+  }
+};
+
+const getCategoryIcon = (category: AlertCategory) => {
+  switch (category) {
+    case 'system': return Activity;
+    case 'security': return Shield;
+    case 'performance': return TrendingUp;
+    case 'user': return User;
+    case 'business': return DollarSign;
+    default: return AlertTriangle;
+  }
+};
 
 interface AlertManagerProps {
   className?: string;

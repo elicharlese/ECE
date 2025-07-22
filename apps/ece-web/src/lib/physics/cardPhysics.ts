@@ -50,13 +50,11 @@ export class CardPhysicsEngine {
       swipeThreshold: 80,
       velocityThreshold: 300,
       springConfig: {
-        type: 'spring',
         stiffness: 300,
         damping: 30,
         mass: 1
       },
       dampingConfig: {
-        type: 'spring',
         stiffness: 100,
         damping: 20,
         mass: 0.8
@@ -167,7 +165,7 @@ export class CardPhysicsEngine {
    */
   getSwipeOutConfig(): SpringOptions {
     return {
-      type: 'spring',
+      
       stiffness: 500,
       damping: 40,
       mass: 1
@@ -286,21 +284,21 @@ export const physicsPresets = {
   smooth: new CardPhysicsEngine({
     swipeThreshold: 100,
     velocityThreshold: 400,
-    springConfig: { type: 'spring', stiffness: 250, damping: 35 },
+    springConfig: { stiffness: 250, damping: 35 },
     rotationFactor: 0.08
   }),
   
   snappy: new CardPhysicsEngine({
     swipeThreshold: 60,
     velocityThreshold: 200,
-    springConfig: { type: 'spring', stiffness: 400, damping: 25 },
+    springConfig: { stiffness: 400, damping: 25 },
     rotationFactor: 0.15
   }),
   
   elastic: new CardPhysicsEngine({
     swipeThreshold: 120,
     velocityThreshold: 500,
-    springConfig: { type: 'spring', stiffness: 200, damping: 40 },
+    springConfig: { stiffness: 200, damping: 40 },
     elasticity: 0.5,
     rotationFactor: 0.12
   }),
@@ -308,7 +306,7 @@ export const physicsPresets = {
   gentle: new CardPhysicsEngine({
     swipeThreshold: 150,
     velocityThreshold: 600,
-    springConfig: { type: 'spring', stiffness: 180, damping: 45 },
+    springConfig: { stiffness: 180, damping: 45 },
     rotationFactor: 0.06,
     scaleFactor: 0.98
   })

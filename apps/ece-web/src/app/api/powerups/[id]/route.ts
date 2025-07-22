@@ -9,9 +9,10 @@ import { PowerupService } from '@/services/powerupService';
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const params = await context.params;
     const powerup = await PowerupService.getPowerupTypeById(params.id);
 
     if (!powerup) {

@@ -43,7 +43,11 @@ import {
   Crown,
   Flame
 } from 'lucide-react'
-import { GlassCard, Button, Badge, Progress, Input } from '@ece-platform/shared-ui'
+import { GlassCard } from '../ui/glass-card'
+import { Button } from '../ui/button'
+import { Badge } from '../ui/badge'
+import { Progress } from '../ui/progress'
+import { Input } from '../ui/input'
 import { Slider } from '@/components/ui/slider'
 import { Switch } from '@/components/ui/switch'
 

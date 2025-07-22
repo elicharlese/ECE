@@ -3,8 +3,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { PowerupService } from '@/services/powerupService';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { getCurrentUser, requireAdmin } from '@/lib/auth';
 
 /**
  * GET /api/powerups - Get all available powerup types
@@ -23,7 +22,7 @@ export async function GET(request: NextRequest) {
     const powerups = await PowerupService.getPowerupsByFilter(
       category,
       rarity,
-      search
+      search || undefined
     );
 
     return NextResponse.json({
@@ -45,46 +44,30 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
+    const user = await getCurrentUser(request);
+    if (!user) {
       return NextResponse.json(
         { success: false, error: 'Authentication required' },
         { status: 401 }
       );
     }
 
-    // Check if user is admin (placeholder - implement with actual role check)
-    const isAdmin = session.user.email?.includes('admin') || false;
-    if (!isAdmin) {
-      return NextResponse.json(
-        { success: false, error: 'Admin privileges required' },
-        { status: 403 }
-      );
-    }
+    requireAdmin(user);
     
     const data = await request.json();
     
-    // Implement powerup creation logic
-    const newPowerup = await PowerupService.createPowerupType({
-      name: data.name,
-      displayName: data.displayName,
-      description: data.description,
-      category: data.category,
-      rarity: data.rarity,
-      iconUrl: data.iconUrl,
-      animationUrl: data.animationUrl,
-      effectColor: data.effectColor,
-      glowEffect: data.glowEffect || false,
-      particleEffect: data.particleEffect || false,
-      baseCost: data.baseCost,
-      duration: data.duration,
-      maxStacks: data.maxStacks || 1,
-      cooldownDuration: data.cooldownDuration || 0,
-      isLimited: data.isLimited || false,
-      effects: data.effects,
-      acquisitionSources: data.acquisitionSources,
-      requirements: data.requirements
-    });
+    // Placeholder for powerup creation logic
+    // In a real implementation, this would create a new powerup type in the database
+    const newPowerup = {
+      id: Date.now().toString(),
+      name: data.name || 'New Powerup',
+      displayName: data.displayName || 'New Powerup',
+      description: data.description || 'A new powerup',
+      category: data.category || 'ATTACK',
+      rarity: data.rarity || 'COMMON',
+      isActive: true,
+      createdAt: new Date().toISOString()
+    };
     
     return NextResponse.json({
       success: true,

@@ -23,7 +23,7 @@ import {
   Info
 } from 'lucide-react'
 import { GlassCard } from '@/components/ui/glass-card'
-import { Button } from '@ece-platform/shared-ui'
+import { Button } from '../ui/button'
 
 interface TierProgress {
   tierId: string
@@ -353,11 +353,11 @@ export const TierProgressTracker: React.FC<TierProgressTrackerProps> = ({ classN
               variant={selectedTier === tier.tierId ? 'accent' : 'ghost'}
               size="sm"
               onClick={() => setSelectedTier(tier.tierId)}
-              className="flex items-center space-x-2"
-              style={{
-                borderColor: selectedTier === tier.tierId ? tier.tierColor : undefined,
-                color: selectedTier === tier.tierId ? '#272822' : tier.tierColor
-              }}
+              className={`flex items-center space-x-2 ${
+                selectedTier === tier.tierId 
+                  ? 'text-[#272822]' 
+                  : ''
+              }`}
             >
               <tier.tierIcon className="w-4 h-4" />
               <span>{tier.tierName}</span>

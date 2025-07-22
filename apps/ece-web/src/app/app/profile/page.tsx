@@ -70,6 +70,7 @@ import { BettingSystem } from '../../../components/profile/BettingSystem'
 import { BiddingSystem } from '../../../components/profile/BiddingSystem'
 import { PowerupInventory } from '../../../components/powerups/PowerupInventory'
 import { PowerupCard } from '../../../components/powerups/PowerupCard'
+import { PowerupCategory, PowerupRarity, PowerupEffectType, ModifierType, PowerupSource } from '../../../types/powerups'
 
 // Business Stats Data
 const businessStats = [
@@ -400,87 +401,102 @@ export default function Profile() {
                     {
                       id: 'speed-boost-1',
                       userId: 'demo-user',
+                      powerupId: 'speed-boost',
+                      quantity: 3,
+                      acquiredAt: new Date(),
+                      acquiredFrom: PowerupSource.PURCHASE,
+                      level: 1,
+                      experience: 0,
+                      masteryLevel: 1,
+                      isLocked: false,
+                      tags: ['utility', 'speed'],
+                      createdAt: new Date(),
+                      updatedAt: new Date(),
                       powerupType: {
                         id: 'speed-boost',
                         name: 'speed_boost',
                         displayName: 'Speed Boost',
                         description: 'Increases card trading speed by 25% for 5 minutes',
-                        category: 'UTILITY',
-                        rarity: 'UNCOMMON',
-                        iconUrl: null,
-                        animationUrl: null,
+                        category: PowerupCategory.UTILITY,
+                        rarity: PowerupRarity.UNCOMMON,
+                        iconUrl: undefined,
+                        animationUrl: undefined,
                         effectColor: '#A6E22E',
                         glowEffect: true,
-                        particleEffect: false,
+                        particleEffect: 'sparkle',
                         baseCost: 1500,
                         duration: 300,
+                        stackable: false,
                         maxStacks: 1,
-                        cooldownDuration: 900,
-                        isLimited: false,
+                        cooldown: 900,
+                        craftable: false,
+                        tradeable: true,
+                        version: '1.0',
+                        isActive: true,
+                        releaseDate: new Date(),
                         effects: [
                           {
-                            id: 'effect-1',
-                            type: 'STAT_BOOST',
+                            type: PowerupEffectType.STAT_BOOST,
                             targetStat: 'trading_speed',
                             modifier: 25,
-                            modifierType: 'PERCENT_INCREASE',
-                            triggerCondition: 'on_application',
-                            duration: 300
+                            modifierType: ModifierType.PERCENT_INCREASE,
+                            triggerCondition: 'on_application'
                           }
                         ],
-                        acquisitionSources: ['PURCHASE', 'REWARDS'],
-                        requirements: null,
                         createdAt: new Date(),
                         updatedAt: new Date()
-                      },
-                      quantity: 3,
-                      acquiredAt: new Date(),
-                      lastUsed: null,
-                      totalUsageCount: 0
+                      }
                     },
                     {
                       id: 'defense-shield-1',
                       userId: 'demo-user',
+                      powerupId: 'defense-shield',
+                      quantity: 1,
+                      acquiredAt: new Date(),
+                      acquiredFrom: PowerupSource.CRAFT,
+                      level: 1,
+                      experience: 0,
+                      masteryLevel: 1,
+                      isLocked: false,
+                      tags: ['defense', 'shield'],
+                      createdAt: new Date(),
+                      updatedAt: new Date(),
                       powerupType: {
                         id: 'defense-shield',
                         name: 'defense_shield',
                         displayName: 'Defense Shield',
                         description: 'Protects cards from negative effects for 10 minutes',
-                        category: 'DEFENSE',
-                        rarity: 'RARE',
-                        iconUrl: null,
-                        animationUrl: null,
+                        category: PowerupCategory.DEFENSE,
+                        rarity: PowerupRarity.RARE,
+                        iconUrl: undefined,
+                        animationUrl: undefined,
                         effectColor: '#66D9EF',
                         glowEffect: true,
-                        particleEffect: true,
-                        baseCost: 3500,
+                        particleEffect: 'blue-glow',
                         duration: 600,
+                        stackable: false,
                         maxStacks: 1,
-                        cooldownDuration: 1800,
-                        isLimited: false,
+                        cooldown: 1800,
+                        craftable: false,
+                        tradeable: true,
+                        version: '1.0',
+                        isActive: true,
+                        releaseDate: new Date(),
                         effects: [
                           {
-                            id: 'effect-2',
-                            type: 'PROTECTION',
+                            type: PowerupEffectType.SHIELD,
                             targetStat: 'status_immunity',
                             modifier: 100,
-                            modifierType: 'PERCENT_INCREASE',
-                            triggerCondition: 'on_negative_effect',
-                            duration: 600
+                            modifierType: ModifierType.PERCENT_INCREASE,
+                            triggerCondition: 'on_negative_effect'
                           }
                         ],
-                        acquisitionSources: ['PURCHASE', 'CRAFTING'],
-                        requirements: null,
                         createdAt: new Date(),
                         updatedAt: new Date()
-                      },
-                      quantity: 1,
-                      acquiredAt: new Date(),
-                      lastUsed: null,
-                      totalUsageCount: 2
+                      }
                     }
                   ]}
-                  onPowerupSelect={(powerupId: string) => console.log('Selected powerup:', powerupId)}
+                  onPowerupSelect={(powerup: any) => console.log('Selected powerup:', powerup.id)}
                   onPowerupApply={(powerupId: string, cardId?: string) => console.log('Applied powerup:', powerupId, 'to card:', cardId)}
                   className="mt-6"
                 />

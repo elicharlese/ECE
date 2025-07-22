@@ -31,8 +31,7 @@ import {
   Plus,
   Minus,
   Info,
-  RefreshCw,
-  Toggle
+  RefreshCw
 } from 'lucide-react'
 import { GlassCard } from '@/components/ui/glass-card'
 import { Button } from '@/components/ui/button'
@@ -561,7 +560,7 @@ export function TradingControlsDashboard() {
                       <div className="flex-1">
                         <div className="flex items-center space-x-3 mb-2">
                           <h4 className="text-lg font-semibold text-[#F8EFD6]">{rule.name}</h4>
-                          <Badge variant={rule.isActive ? 'success' : 'secondary'}>
+                          <Badge variant={rule.isActive ? 'default' : 'secondary'}>
                             {rule.isActive ? 'Active' : 'Paused'}
                           </Badge>
                           <Badge variant="outline">

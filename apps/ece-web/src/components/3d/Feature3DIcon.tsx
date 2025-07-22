@@ -14,7 +14,7 @@ import {
   Download,
   Star
 } from 'lucide-react';
-import { Spline } from '@splinetool/react-spline';
+import Spline from '@splinetool/react-spline';
 
 interface Feature3DIconProps {
   type: 'trading' | 'discover' | 'marketplace' | 'profile' | 'wallet' | 'mobile' | 'desktop' | 'ai' | 'rewards' | 'premium';

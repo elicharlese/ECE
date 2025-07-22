@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from './utils'
+import { cn } from '@/lib/utils'
 import { forwardRef } from 'react'
 import { AlertTriangle, CheckCircle, Info, X } from 'lucide-react'
 

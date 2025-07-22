@@ -3,17 +3,17 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { PowerupService } from '@/services/powerupService';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { getCurrentUser } from '@/lib/auth';
 
 /**
  * GET /api/cards/[cardId]/powerups - Get all powerups applied to a card
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { cardId: string } }
+  context: { params: Promise<{ cardId: string }> }
 ) {
   try {
+    const params = await context.params;
     const cardPowerups = await PowerupService.getCardPowerups(params.cardId);
 
     return NextResponse.json({
@@ -35,11 +35,12 @@ export async function GET(
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { cardId: string } }
+  context: { params: Promise<{ cardId: string }> }
 ) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
+    const params = await context.params;
+    const user = await getCurrentUser(request);
+    if (!user) {
       return NextResponse.json(
         { success: false, error: 'Authentication required' },
         { status: 401 }
@@ -56,7 +57,7 @@ export async function POST(
     }
 
     const cardPowerup = await PowerupService.applyPowerupToCard(
-      session.user.id,
+      user.id,
       params.cardId,
       powerupId,
       config
@@ -77,7 +78,7 @@ export async function POST(
   } catch (error) {
     console.error('Error applying powerup:', error);
     return NextResponse.json(
-      { success: false, error: error.message || 'Failed to apply powerup' },
+      { success: false, error: error instanceof Error ? error.message : 'Failed to apply powerup' },
       { status: 500 }
     );
   }
