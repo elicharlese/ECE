@@ -21,10 +21,11 @@ The ECE project uses a structured patch system to manage feature development, tr
 
 ### 3. Archive Process (Every 5 Patches)
 - **Trigger:** Completion of patches X-Y (where Y-X = 4)
-- **Action:** Move documentation to `/docs/patches/PATCHES_X-Y_ARCHIVE.md`
-- **Preserve:** All commit history remains intact
-- **Clean:** Remove active patch files from `/patches/`
-- **Commit:** Archive commit with clear message
+- **Action:** Consolidate to `/docs/patches/PATCHES_X-Y_ARCHIVE.md`
+- **Preserve:** All commit history remains intact via git references
+- **Clean:** Remove root `./patches/` directory and legacy patch folders
+- **Structure:** Maintain only active documentation in `/docs/patches/`
+- **Commit:** Archive commit with comprehensive change description
 
 ### 4. New Cycle Initialization
 - Create new patch documentation for next 5 patches
@@ -36,18 +37,17 @@ The ECE project uses a structured patch system to manage feature development, tr
 ## Directory Structure
 
 ```
-/docs/patches/           # Archive documentation
+/docs/patches/           # All patch documentation
 ├── PATCHES_1-5_ARCHIVE.md
-├── PATCHES_6-10_ARCHIVE.md
-└── ...
+├── PATCHES_6-10_MASTER.md
+├── PATCH_6_3D_TRADING.md
+├── PATCH_7_ENTERPRISE.md
+├── PATCH_8_CLI_TOOLS.md
+├── PATCH_9_SOCIAL.md
+└── PATCH_10_AI_ANALYTICS.md
 
-/patches/                # Active development patches
-├── patch-6/
-├── patch-7/
-├── patch-8/
-├── patch-9/
-├── patch-10/
-└── README.md
+# No more root ./patches/ directory
+# All development documented in /docs/patches/
 ```
 
 ---
@@ -91,15 +91,15 @@ The ECE project uses a structured patch system to manage feature development, tr
 
 ### Commit Message Format
 ```
-archive: Complete patches X-Y and prepare for next cycle
+🗂️ Archive patches X-Y and clean repository structure
 
-- Archive patches X through Y documentation
-- Preserve commit history for completed features
-- Clean patches directory for new development cycle
-- Initialize patches (Y+1) through (Y+5) structure
+- Remove root ./patches directory (development workspace cleanup)
+- Clean up /docs/patches to contain only active documentation  
+- Maintain PATCHES_X-Y_ARCHIVE.md with complete history
+- Establish clean structure for patches (Y+1)-(Y+5) development phase
+- Ready for next patch cycle with organized documentation
 
-Archived features:
-- [List major features from archived patches]
+Archived features: [List major features]
 ```
 
 ---
@@ -115,12 +115,14 @@ Archived features:
 - [ ] User acceptance validated
 
 ### Archive Checklist
-- [ ] Create archive documentation
-- [ ] Verify commit history preservation
-- [ ] Clean active patches directory
-- [ ] Initialize next patch cycle
-- [ ] Update project status
-- [ ] Commit archive changes
+- [ ] Create comprehensive archive documentation  
+- [ ] Verify commit history preservation with git references
+- [ ] Remove root ./patches directory if present
+- [ ] Clean /docs/patches of legacy patch folders
+- [ ] Maintain only active patch documentation 
+- [ ] Initialize next patch cycle documentation
+- [ ] Update project status and roadmap
+- [ ] Commit archive changes with descriptive message
 
 ---
 
@@ -166,3 +168,8 @@ Archived features:
 
 ## Version History
 - **v1.0** (July 24, 2025) - Initial guidelines established
+- **v1.1** (December 19, 2024) - Updated with patches 1-5 archival experience
+  - Enhanced archive process with root directory cleanup
+  - Streamlined documentation structure in /docs/patches/
+  - Added comprehensive commit message standards
+  - Incorporated lessons learned from first archive cycle
