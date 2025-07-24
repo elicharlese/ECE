@@ -19,16 +19,23 @@ The `/docs` folder contains all project documentation organized by purpose and d
 ├── deployment/                   # Deployment guides and processes
 ├── development/                  # Development notes and guides
 ├── patches/                      # Patch-based development documentation
-│   ├── patch-0/                 # Backend infrastructure development
-│   │   ├── PATCH0_CHECKLIST.md
-│   │   └── PATCH0_SUMMARY.md
-│   ├── patch-2/                 # App routing & admin security
-│   │   ├── PATCH2_CHECKLIST.md
-│   │   └── PATCH2_SUMMARY.md
-│   ├── patch-3/                 # 3D integration & standards
-│   │   ├── PATCH3_CHECKLIST.md
-│   │   └── PATCH3_SUMMARY.md
-│   └── patch-n/                 # Future patches...
+│   ├── PATCHES_1-5_ARCHIVE.md   # Archived patches 1-5 with complete history
+│   ├── PATCHES_6-10_MASTER.md   # Current development cycle master plan
+│   ├── PATCH_6_3D_TRADING.md    # Individual patch documentation
+│   ├── PATCH_7_ENTERPRISE.md    # Enterprise Integration Suite
+│   ├── PATCH_8_CLI_TOOLS.md     # CLI Development Tools & Automation
+│   ├── PATCH_9_SOCIAL.md        # Social Features & Community Platform
+│   ├── PATCH_10_AI_ANALYTICS.md # Advanced Trading Analytics & AI
+│   ├── patch-6/                 # Patch 6 working directory
+│   │   ├── PATCH6_CHECKLIST.md  # Detailed implementation checklist
+│   │   ├── PATCH6_PROGRESS.md   # Progress tracking and status
+│   │   ├── working/             # Active development files
+│   │   ├── prototypes/          # Experimental code and POCs
+│   │   └── assets/              # Patch-specific resources
+│   ├── patch-7/                 # Enterprise Integration working directory
+│   ├── patch-8/                 # CLI Tools working directory  
+│   ├── patch-9/                 # Social Features working directory
+│   └── patch-10/                # AI Analytics working directory
 ├── batches/                      # Batch-based feature development
 │   ├── batch-0/                 # Initial feature batch
 │   │   ├── BATCH0_CHECKLIST.md
@@ -42,34 +49,44 @@ The `/docs` folder contains all project documentation organized by purpose and d
 
 ## Patch Documentation Standards
 
+### Archive System
+The ECE project uses a structured 5-patch archive cycle:
+- **Active Patches**: Individual patch documentation and working directories
+- **Archive Process**: Every 5 patches are consolidated into a master archive
+- **Historical Preservation**: Complete git history maintained via archive documentation
+- **Clean Structure**: Repository organized with current active patches only
+
 ### Patch Naming Convention
-- Patches are numbered sequentially starting from `patch-0`
-- Each patch represents a major development phase or milestone
-- Patch folders follow the pattern: `/docs/patches/patch-n/`
+- **Archive Files**: `PATCHES_X-Y_ARCHIVE.md` (e.g., `PATCHES_1-5_ARCHIVE.md`)
+- **Master Plans**: `PATCHES_X-Y_MASTER.md` (e.g., `PATCHES_6-10_MASTER.md`)
+- **Individual Docs**: `PATCH_X_FEATURE_NAME.md` (e.g., `PATCH_6_3D_TRADING.md`)
+- **Working Folders**: `patch-X/` (lowercase with hyphen, e.g., `patch-6/`)
 
-### Required Files per Patch
-Each patch folder must contain:
+### Required Files per Patch Folder
+Each patch working directory must contain:
 
-1. **`PATCHn_CHECKLIST.md`**
-   - Comprehensive checklist of all tasks for the patch
-   - Organized by categories (e.g., Implementation, Testing, Documentation)
+1. **`PATCHX_CHECKLIST.md`**
+   - Comprehensive implementation checklist with progress tracking
+   - Organized by development phases (Setup, Implementation, Testing, etc.)
    - Uses checkbox format `- [ ]` for trackable progress
-   - Includes completion dates and responsible parties
+   - Includes estimated completion times and team assignments
 
-2. **`PATCHn_SUMMARY.md`**
-   - High-level overview of the patch objectives
-   - Key deliverables and success criteria
-   - Dependencies and prerequisites
-   - Risk assessment and mitigation strategies
-   - Post-completion retrospective and lessons learned
+2. **`PATCHX_PROGRESS.md`**
+   - Real-time progress tracking and status updates
+   - Sprint planning and timeline management
+   - Blocker identification and risk assessment
+   - Development notes and lessons learned
 
-### Patch Themes
-- **Patch-0**: Backend Infrastructure (Database, API, Authentication)
-- **Patch-1**: Frontend UI/UX Development
-- **Patch-2**: App Routing & Admin Security Optimization
-- **Patch-3**: 3D Integration & Documentation Standardization
-- **Patch-4**: Performance & Advanced Features
-- **Patch-5**: Security & Compliance Enhancement
+3. **`working/`** - Active development files and code
+4. **`prototypes/`** - Experimental implementations and proof-of-concepts  
+5. **`assets/`** - Patch-specific resources, designs, and documentation
+
+### Current Patch Cycle (6-10)
+- **Patch 6**: 3D Trading Environment Enhancement (10 days)
+- **Patch 7**: Enterprise Integration Suite (15 days)
+- **Patch 8**: CLI Development Tools & Automation (15 days)
+- **Patch 9**: Social Features & Community Platform (20 days)
+- **Patch 10**: Advanced Trading Analytics & AI (25 days)
 
 ## Batch Documentation Standards
 
@@ -96,9 +113,28 @@ Each batch folder must contain:
 ## Documentation Standards
 
 ### File Naming Conventions
-- Use UPPERCASE for major documentation files (CHECKLIST, SUMMARY, README)
-- Use kebab-case for descriptive filenames (api-reference.md, deployment-guide.md)
-- Include version numbers where applicable (v1.0-migration-guide.md)
+- Use UPPERCASE for major documentation files (CHECKLIST, PROGRESS, ARCHIVE)
+- Use descriptive feature names in patch documentation (3D_TRADING, ENTERPRISE, AI_ANALYTICS)
+- Working folders use lowercase with hyphens (patch-6/, working/, prototypes/)
+- Follow naming strategy defined in `/docs/naming-strategy.md`
+
+### Archive Documentation Standards
+Every 5 patches are consolidated into comprehensive archive files:
+
+1. **`PATCHES_X-Y_ARCHIVE.md`**
+   - Complete summary of all 5 patches in the cycle
+   - Individual patch summaries with key achievements
+   - Implementation statistics and metrics
+   - Lessons learned and best practices
+   - Git commit references for historical tracking
+   - Post-cycle retrospective and recommendations
+
+2. **Archive Process**
+   - Triggered upon completion of 5 consecutive patches
+   - Individual patch folders and files are consolidated
+   - Complete git history preserved via commit references
+   - Repository structure cleaned for next development cycle
+   - Archive tagged in git for permanent reference
 
 ### Content Structure
 All documentation should include:
@@ -119,9 +155,11 @@ All documentation should include:
 - Include completion checkboxes for actionable items
 
 ### Version Control
-- All documentation changes should be committed with descriptive messages
+- All documentation changes should be committed with descriptive messages following `/docs/naming-strategy.md`
+- Patch completion marked with standardized commit messages: `✅ PATCH X: Feature Name - COMPLETE`
+- Archive commits use format: `🗂️ Archive patches X-Y and clean repository structure`
 - Major documentation updates should be tagged with version numbers
-- Archive outdated documentation rather than deleting it
+- Archive outdated documentation rather than deleting it (preserve in archive files)
 
 ## Content Organization
 
@@ -170,10 +208,11 @@ All documentation should include:
 4. Documentation should be updated with each feature release
 
 ### Maintenance Schedule
-- **Weekly**: Update development notes and progress tracking
-- **Sprint End**: Complete patch/batch summaries and retrospectives
-- **Release**: Update user guides and API documentation
-- **Quarterly**: Review and archive outdated documentation
+- **Daily**: Update patch progress tracking during active development
+- **Weekly**: Review patch checklists and update progress status
+- **Sprint End**: Complete patch summaries and retrospectives
+- **Patch Completion**: Archive completed patches and update master documentation
+- **Cycle End (Every 5 Patches)**: Create comprehensive archive and clean repository structure
 
 ## Quality Standards
 
@@ -205,14 +244,22 @@ All documentation should include:
 
 ### Templates
 Standard templates are available for:
-- Patch checklists and summaries
+- Patch checklists and progress tracking (`PATCHX_CHECKLIST.md`, `PATCHX_PROGRESS.md`)
+- Archive documentation (`PATCHES_X-Y_ARCHIVE.md`)
+- Individual patch documentation (`PATCH_X_FEATURE_NAME.md`)
 - API endpoint documentation
 - Feature specifications
 - Deployment guides
 
+### Patch Management Integration
+- Follow `/docs/PATCH_MANAGEMENT_GUIDELINES.md` for complete patch lifecycle
+- Use `/docs/naming-strategy.md` for consistent naming across all files
+- Reference archive system for historical patch documentation
+- Maintain clean repository structure through regular archival process
+
 ---
 
-**Last Updated**: July 12, 2025  
+**Last Updated**: July 24, 2025  
 **Maintained By**: ECE Development Team  
-**Review Schedule**: Quarterly  
-**Version**: 1.0
+**Review Schedule**: With each patch cycle completion  
+**Version**: 2.0 - Updated with archive system and patches 6-10 structure
