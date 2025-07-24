@@ -203,9 +203,9 @@ export default function OrderStatus() {
           <AlertCircle className="w-16 h-16 text-[#F92672] mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-[#F8EFD6] mb-2">Order Not Found</h1>
           <p className="text-[#75715E] mb-6">The order you're looking for doesn't exist or has been removed.</p>
-          <Button asChild variant="secondary">
-            <Link href="/orders">Back to Orders</Link>
-          </Button>
+          <Link href="/orders" className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
+            Back to Orders
+          </Link>
         </div>
       </div>
     )
@@ -524,17 +524,10 @@ export default function OrderStatus() {
                       Share Progress
                     </Button>
                     
-                    <Button
-                      asChild
-                      variant="secondary"
-                      size="sm"
-                      className="w-full justify-start bg-[#E6DB74]/20 text-[#E6DB74] hover:bg-[#E6DB74]/30"
-                    >
-                      <Link href="/orders">
+                    <Link href="/orders" className="inline-flex items-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input h-9 px-3 w-full justify-start bg-[#E6DB74]/20 text-[#E6DB74] hover:bg-[#E6DB74]/30">
                         <Package className="w-4 h-4 mr-2" />
                         All Orders
-                      </Link>
-                    </Button>
+                    </Link>
                   </div>
                 </GlassCard>
               </motion.div>

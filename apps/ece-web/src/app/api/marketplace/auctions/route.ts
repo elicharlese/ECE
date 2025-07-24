@@ -53,16 +53,14 @@ export async function GET(request: NextRequest) {
             name: true,
             category: true,
             rarity: true,
-            level: true,
-            power: true,
             imageUrl: true,
-            description: true
+            description: true,
+            stats: true
           }
         },
-        seller: {
+        owner: {
           select: {
-            username: true,
-            reputation: true
+            username: true
           }
         },
         _count: {
@@ -80,11 +78,8 @@ export async function GET(request: NextRequest) {
       cardName: auction.card.name,
       cardCategory: auction.card.category,
       cardRarity: auction.card.rarity,
-      cardLevel: auction.card.level,
-      cardPower: auction.card.power,
       cardDescription: auction.card.description,
-      sellerName: auction.seller.username,
-      sellerReputation: auction.seller.reputation,
+      sellerName: auction.owner.username,
       totalBids: auction._count.bids,
       watchers: auction._count.watchers
     }))
@@ -127,7 +122,7 @@ export async function POST(request: NextRequest) {
       where: { id: auctionId },
       include: { 
         card: true,
-        seller: true
+        owner: true
       }
     })
 
@@ -138,7 +133,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (auction.sellerId === user.id) {
+    if (auction.ownerId === user.id) {
       return NextResponse.json(
         { success: false, error: 'Cannot bid on your own auction' },
         { status: 400 }
@@ -181,7 +176,7 @@ export async function POST(request: NextRequest) {
         })
 
         await tx.user.update({
-          where: { id: auction.sellerId },
+          where: { id: auction.ownerId },
           data: { eceBalance: { increment: amount } }
         })
 

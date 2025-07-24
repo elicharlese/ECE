@@ -280,27 +280,15 @@ export default function ThankYou() {
               <span>Share Order</span>
             </Button>
             
-            <Button
-              asChild
-              variant="outline"
-              className="flex items-center justify-center space-x-2 border-[#F92672]/30 text-[#F92672] hover:bg-[#F92672]/20"
-            >
-              <Link href="/orders">
+            <Link href="/orders" className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border h-10 px-4 py-2 space-x-2 border-[#F92672]/30 text-[#F92672] hover:bg-[#F92672]/20 bg-background">
                 <Package className="w-4 h-4" />
                 <span>View Orders</span>
-              </Link>
-            </Button>
+            </Link>
             
-            <Button
-              asChild
-              variant="outline"
-              className="flex items-center justify-center space-x-2 border-[#E6DB74]/30 text-[#E6DB74] hover:bg-[#E6DB74]/20"
-            >
-              <Link href="/">
+            <Link href="/" className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border h-10 px-4 py-2 space-x-2 border-[#E6DB74]/30 text-[#E6DB74] hover:bg-[#E6DB74]/20 bg-background">
                 <Home className="w-4 h-4" />
                 <span>Back Home</span>
-              </Link>
-            </Button>
+            </Link>
           </motion.div>
 
           {/* Additional Actions */}
@@ -318,16 +306,10 @@ export default function ThankYou() {
               <p className="text-[#75715E] text-sm mb-4">
                 Discover more cards and features while you wait for your order.
               </p>
-              <Button
-                asChild
-                variant="secondary"
-                className="w-full bg-[#66D9EF]/20 text-[#66D9EF] hover:bg-[#66D9EF]/30"
-              >
-                <Link href="/app/discover">
+              <Link href="/app/discover" className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-[#66D9EF]/20 text-[#66D9EF] hover:bg-[#66D9EF]/30">
                   Discover Cards
                   <ArrowRight className="w-4 h-4 ml-2" />
-                </Link>
-              </Button>
+              </Link>
             </GlassCard>
 
             {/* Support */}
@@ -338,16 +320,10 @@ export default function ThankYou() {
               <p className="text-[#75715E] text-sm mb-4">
                 Our support team is here to help with any questions about your order.
               </p>
-              <Button
-                asChild
-                variant="secondary"
-                className="w-full bg-[#A6E22E]/20 text-[#A6E22E] hover:bg-[#A6E22E]/30"
-              >
-                <Link href="/support">
+              <Link href="/support" className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 w-full bg-[#A6E22E]/20 text-[#A6E22E] hover:bg-[#A6E22E]/30">
                   Contact Support
                   <ExternalLink className="w-4 h-4 ml-2" />
-                </Link>
-              </Button>
+              </Link>
             </GlassCard>
           </motion.div>
 

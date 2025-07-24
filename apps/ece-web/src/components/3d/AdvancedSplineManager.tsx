@@ -141,10 +141,11 @@ export default function AdvancedSplineManager({
     
     // GPU capability detection
     let gpuLevel: 'high' | 'medium' | 'low' = 'medium'
-    if (gl) {
-      const debugInfo = gl.getExtension('WEBGL_debug_renderer_info')
+    if (gl && gl instanceof WebGLRenderingContext) {
+      const webglContext = gl as WebGLRenderingContext
+      const debugInfo = webglContext.getExtension('WEBGL_debug_renderer_info')
       if (debugInfo) {
-        const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
+        const renderer = webglContext.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
         if (renderer.includes('NVIDIA') || renderer.includes('AMD Radeon')) {
           gpuLevel = 'high'
         } else if (renderer.includes('Intel')) {
@@ -269,7 +270,7 @@ export default function AdvancedSplineManager({
         low: { pixelRatio: 1, antialias: false }
       }
 
-      const app = new Application(canvas, config[quality])
+      const app = new Application(canvas)
       await app.load(scene.url)
 
       // Set up interaction handlers

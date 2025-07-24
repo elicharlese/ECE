@@ -421,39 +421,6 @@ Track these key metrics:
 *This document ensures consistent, high-quality code generation with GitHub Copilot assistance while maintaining ECE standards and branding guidelines.*`
   }
 }
-    },
-    {
-      name: 'docs/DEPLOYMENT.md',
-      template: 'ece-deployment',
-      description: 'Standardized deployment guide'
-    },
-    {
-      name: 'docs/DEVELOPMENT.md',
-      template: 'ece-development',
-      description: 'Development setup and guidelines'
-    },
-    {
-      name: '.github/COPILOT_INSTRUCTIONS.md',
-      template: 'ece-copilot',
-      description: 'GitHub Copilot optimization instructions'
-    }
-  ],
-  branding: {
-    colors: {
-      primary: '#F92672',
-      secondary: '#A6E22E',
-      accent: '#66D9EF',
-      background: '#272822',
-      text: '#F8EFD6'
-    },
-    fonts: {
-      heading: 'Inter',
-      body: 'Inter'
-    },
-    logo: 'ECE Trading Cards',
-    tagline: 'Elite Card Exchange'
-  }
-}
 
 interface AppTemplate {
   id: string
@@ -541,8 +508,10 @@ const APP_TEMPLATES = {
     copilotOptimized: true,
     eceCompliant: true
   }
-}export default function AIAppGenerator() {
-  const [selectedTemplate, setSelectedTemplate] = useState<AppTemplate | null>(null)
+}
+
+export default function AIAppGenerator() {
+  const [selectedTemplate, setSelectedTemplate] = useState<keyof typeof APP_TEMPLATES | null>(null)
   const [projectName, setProjectName] = useState('')
   const [projectDescription, setProjectDescription] = useState('')
   const [customFeatures, setCustomFeatures] = useState('')
@@ -618,12 +587,12 @@ This application follows ECE Trading Cards' standardized development practices a
 
 ### 🎯 Features
 
-${selectedTemplate?.features.map(feature => `- ${feature}`).join('\n')}
+${selectedTemplate ? APP_TEMPLATES[selectedTemplate].features.map(feature => `- ${feature}`).join('\n') : ''}
 ${customFeatures ? `\n### 🔧 Custom Features\n\n${customFeatures.split('\n').map(f => `- ${f}`).join('\n')}` : ''}
 
 ### 🛠️ Tech Stack
 
-${selectedTemplate?.techStack.map(tech => `- ${tech}`).join('\n')}
+${selectedTemplate ? APP_TEMPLATES[selectedTemplate].techStack.map(tech => `- ${tech}`).join('\n') : ''}
 
 ### 📦 ECE Branding
 
@@ -692,7 +661,7 @@ This project follows ECE Trading Cards development standards. Please read our co
         'digital-cards',
         'trading',
         'marketplace',
-        selectedTemplate?.id || 'app'
+        selectedTemplate || 'app'
       ],
       author: 'ECE Trading Cards',
       license: 'PROPRIETARY',
@@ -702,10 +671,9 @@ This project follows ECE Trading Cards development standards. Please read our co
       },
       homepage: 'https://ece-cards.com',
       ece: {
-        template: selectedTemplate?.id,
+        template: selectedTemplate,
         generatedAt: new Date().toISOString(),
-        version: '1.0.0',
-        branding: ECE_APP_STRUCTURE.branding
+        version: '1.0.0'
       }
     }, null, 2)
   }
@@ -752,11 +720,11 @@ export default function App() {
           
           {/* ECE Styled Components */}
           <div className="grid md:grid-cols-3 gap-6">
-            ${selectedTemplate?.features.map((feature, index) => `
+            ${selectedTemplate ? APP_TEMPLATES[selectedTemplate].features.map((feature: string, index: number) => `
             <div className="bg-white/10 backdrop-blur-md rounded-lg p-6 border border-white/20">
               <h3 className="text-[#66D9EF] font-semibold mb-2">${feature}</h3>
               <p className="text-[#75715E] text-sm">Feature description here</p>
-            </div>`).join('')}
+            </div>`).join('') : ''}
           </div>
         </motion.div>
       </main>
@@ -980,19 +948,19 @@ Required environment variables:
                 </div>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {APP_TEMPLATES.map((template) => (
+                  {Object.entries(APP_TEMPLATES).map(([key, template]) => (
                     <motion.div
-                      key={template.id}
+                      key={key}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       className={`
                         cursor-pointer transition-all duration-300
-                        ${selectedTemplate?.id === template.id 
+                        ${selectedTemplate === key 
                           ? 'ring-2 ring-[#F92672]' 
                           : ''
                         }
                       `}
-                      onClick={() => setSelectedTemplate(template)}
+                      onClick={() => setSelectedTemplate(key as keyof typeof APP_TEMPLATES)}
                     >
                       <GlassCard variant="dark" className="p-6 h-full">
                         <div className="flex items-start space-x-4 mb-4">
@@ -1001,7 +969,7 @@ Required environment variables:
                           </div>
                           <div className="flex-1">
                             <h3 className="text-lg font-bold text-[#F8EFD6] mb-1">{template.name}</h3>
-                            <Badge className={`${complexityColors[template.complexity]} border-0 mb-2`}>
+                            <Badge className={`${complexityColors[template.complexity as keyof typeof complexityColors]} border-0 mb-2`}>
                               {template.complexity}
                             </Badge>
                           </div>
@@ -1034,7 +1002,7 @@ Required environment variables:
                         
                         <div className="flex justify-between items-center text-xs text-[#75715E]">
                           <span>Estimated: {template.estimatedTime}</span>
-                          {selectedTemplate?.id === template.id && (
+                          {selectedTemplate === key && (
                             <CheckCircle className="w-4 h-4 text-[#A6E22E]" />
                           )}
                         </div>
@@ -1110,11 +1078,11 @@ Required environment variables:
                           <h4 className="text-[#F8EFD6] font-semibold mb-2">Selected Template</h4>
                           <div className="flex items-center space-x-3">
                             <div className="p-2 bg-gradient-to-r from-[#66D9EF]/20 to-[#66D9EF]/10 rounded">
-                              {selectedTemplate.icon}
+                              {APP_TEMPLATES[selectedTemplate].icon}
                             </div>
                             <div>
-                              <p className="text-[#F8EFD6] font-medium">{selectedTemplate.name}</p>
-                              <p className="text-[#75715E] text-sm">{selectedTemplate.estimatedTime}</p>
+                              <p className="text-[#F8EFD6] font-medium">{APP_TEMPLATES[selectedTemplate].name}</p>
+                              <p className="text-[#75715E] text-sm">{APP_TEMPLATES[selectedTemplate].estimatedTime}</p>
                             </div>
                           </div>
                         </div>

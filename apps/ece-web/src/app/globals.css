@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import ECE Enhanced Shadows */
+@import '../styles/ece-shadows.css';
+
 /* Teal Ocean Color Palette - Light & Dark Mode */
 :root {
   /* Teal Ocean Colors - HSL format for better Tailwind integration */
