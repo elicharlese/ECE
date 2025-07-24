@@ -26,16 +26,13 @@ The `/docs` folder contains all project documentation organized by purpose and d
 │   ├── PATCH_8_CLI_TOOLS.md     # CLI Development Tools & Automation
 │   ├── PATCH_9_SOCIAL.md        # Social Features & Community Platform
 │   ├── PATCH_10_AI_ANALYTICS.md # Advanced Trading Analytics & AI
-│   ├── patch-6/                 # Patch 6 working directory
-│   │   ├── PATCH6_CHECKLIST.md  # Detailed implementation checklist
-│   │   ├── PATCH6_PROGRESS.md   # Progress tracking and status
-│   │   ├── working/             # Active development files
-│   │   ├── prototypes/          # Experimental code and POCs
-│   │   └── assets/              # Patch-specific resources
-│   ├── patch-7/                 # Enterprise Integration working directory
-│   ├── patch-8/                 # CLI Tools working directory  
-│   ├── patch-9/                 # Social Features working directory
-│   └── patch-10/                # AI Analytics working directory
+│   ├── patch-6/                 # Simple patch 6 folder
+│   │   ├── PATCH6_CHECKLIST.md  # Implementation checklist
+│   │   └── PATCH6_SUMMARY.md    # High-level summary
+│   ├── patch-7/                 # Enterprise Integration folder
+│   ├── patch-8/                 # CLI Tools folder  
+│   ├── patch-9/                 # Social Features folder
+│   └── patch-10/                # AI Analytics folder
 ├── batches/                      # Batch-based feature development
 │   ├── batch-0/                 # Initial feature batch
 │   │   ├── BATCH0_CHECKLIST.md
@@ -67,19 +64,15 @@ Each patch working directory must contain:
 
 1. **`PATCHX_CHECKLIST.md`**
    - Comprehensive implementation checklist with progress tracking
-   - Organized by development phases (Setup, Implementation, Testing, etc.)
+   - Organized by development phases (Implementation, Testing, Documentation, etc.)
    - Uses checkbox format `- [ ]` for trackable progress
-   - Includes estimated completion times and team assignments
+   - Includes estimated completion times and task counts
 
-2. **`PATCHX_PROGRESS.md`**
-   - Real-time progress tracking and status updates
-   - Sprint planning and timeline management
-   - Blocker identification and risk assessment
-   - Development notes and lessons learned
-
-3. **`working/`** - Active development files and code
-4. **`prototypes/`** - Experimental implementations and proof-of-concepts  
-5. **`assets/`** - Patch-specific resources, designs, and documentation
+2. **`PATCHX_SUMMARY.md`**
+   - High-level overview of the patch objectives and key deliverables
+   - Success criteria and dependencies
+   - Risk assessment and implementation timeline
+   - Post-completion retrospective and lessons learned
 
 ### Current Patch Cycle (6-10)
 - **Patch 6**: 3D Trading Environment Enhancement (10 days)
@@ -244,7 +237,7 @@ All documentation should include:
 
 ### Templates
 Standard templates are available for:
-- Patch checklists and progress tracking (`PATCHX_CHECKLIST.md`, `PATCHX_PROGRESS.md`)
+- Patch checklists and summaries (`PATCHX_CHECKLIST.md`, `PATCHX_SUMMARY.md`)
 - Archive documentation (`PATCHES_X-Y_ARCHIVE.md`)
 - Individual patch documentation (`PATCH_X_FEATURE_NAME.md`)
 - API endpoint documentation

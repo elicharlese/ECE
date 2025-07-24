@@ -17,13 +17,12 @@ This document establishes comprehensive naming conventions for the ECE project t
 ├── PATCHES_1-5_ARCHIVE.md          # Archive documentation
 ├── PATCHES_6-10_MASTER.md          # Current cycle master plan
 ├── PATCH_6_FEATURE_NAME.md         # Individual patch docs
-├── patch-6/                        # Optional working folders
-│   ├── PATCH6_CHECKLIST.md
-│   ├── PATCH6_PROGRESS.md
-│   ├── working/                    # Development files
-│   ├── prototypes/                 # Experimental code
-│   └── assets/                     # Patch-specific resources
+├── patch-6/                        # Simple patch folders
+│   ├── PATCH6_CHECKLIST.md         # Implementation checklist
+│   └── PATCH6_SUMMARY.md           # High-level summary
 └── patch-7/                        # Next patch folder
+    ├── PATCH7_CHECKLIST.md
+    └── PATCH7_SUMMARY.md
 ```
 
 ### Patch Naming Conventions
@@ -33,11 +32,10 @@ This document establishes comprehensive naming conventions for the ECE project t
 - **Cycle Master**: `PATCHES_X-Y_MASTER.md` (e.g., `PATCHES_6-10_MASTER.md`)
 - **Individual Patches**: `PATCH_X_FEATURE_NAME.md` (e.g., `PATCH_6_3D_TRADING.md`)
 - **Checklist Files**: `PATCHX_CHECKLIST.md` (e.g., `PATCH6_CHECKLIST.md`)
-- **Progress Files**: `PATCHX_PROGRESS.md` (e.g., `PATCH6_PROGRESS.md`)
+- **Summary Files**: `PATCHX_SUMMARY.md` (e.g., `PATCH6_SUMMARY.md`)
 
 #### Folder Naming
 - **Patch Folders**: `patch-X/` (lowercase with hyphen, e.g., `patch-6/`)
-- **Working Directories**: `working/`, `prototypes/`, `assets/`, `docs/`
 
 #### Feature Naming Guidelines
 - Use UPPERCASE for major concepts: `3D_TRADING`, `ENTERPRISE`, `AI_ANALYTICS`
