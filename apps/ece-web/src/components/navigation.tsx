@@ -10,6 +10,8 @@ import { ThemeToggle } from './theme-toggle'
 
 const navigationItems = [
   { name: 'Features', href: '/features' },
+  { name: 'Token', href: '/token' },
+  { name: 'Trading Cards', href: '/trading-cards' },
   { name: 'Overview', href: '/marketplace-overview' },
   { name: 'Marketplace', href: '/marketplace' },
   { name: 'Staking', href: '/staking' },

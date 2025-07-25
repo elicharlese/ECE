@@ -92,10 +92,42 @@ const config: Config = {
       },
       backdropBlur: {
         '4xl': '72px',
+      },
+      boxShadow: {
+        'soft': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.05)',
+        'soft-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(255, 255, 255, 0.1)',
+        'soft-xl': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+        'soft-color': '0 4px 6px -1px rgba(249, 38, 114, 0.1), 0 2px 4px -1px rgba(249, 38, 114, 0.06)',
+        'soft-success': '0 4px 6px -1px rgba(166, 226, 46, 0.1), 0 2px 4px -1px rgba(166, 226, 46, 0.06)',
+        'glow-primary': '0 0 20px rgba(249, 38, 114, 0.4)',
+        'glow-secondary': '0 0 20px rgba(102, 217, 239, 0.4)',
+        'glow-success': '0 0 20px rgba(166, 226, 46, 0.4)',
+        'card-ece': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+        'card-ece-hover': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+      },
+      dropShadow: {
+        'icon': ['0 1px 2px rgba(0, 0, 0, 0.1)', '0 1px 1px rgba(0, 0, 0, 0.06)'],
+        'icon-strong': ['0 4px 6px rgba(0, 0, 0, 0.1)', '0 2px 4px rgba(0, 0, 0, 0.06)'],
+      },
+      textShadow: {
+        'soft': '0 1px 2px rgba(0, 0, 0, 0.1)',
+        'strong': '0 2px 4px rgba(0, 0, 0, 0.3)',
       }
     },
   },
-  plugins: [],
+  plugins: [
+    function({ addUtilities }: any) {
+      const newUtilities = {
+        '.text-shadow-soft': {
+          textShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
+        },
+        '.text-shadow-strong': {
+          textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)',
+        },
+      }
+      addUtilities(newUtilities)
+    }
+  ],
 }
 
 export default config

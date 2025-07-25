@@ -1,360 +1,292 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import { SwipeableCardStack } from '../../../components/discover/SwipeableCardStack'
-import { GlassCard } from '../../../components/ui/glass-card'
-import { Button } from '../../../components/ui/button'
-import { Badge } from '../../../components/ui/badge'
-import { 
-  TrendingUp, 
-  Filter, 
-  Settings, 
-  BarChart3,
-  Heart,
-  Eye,
-  Star,
-  Zap
-} from 'lucide-react'
+import React, { useState } from 'react'
+import { motion } from 'framer-motion'
+import { Search, Filter, TrendingUp, Users, Star, Sparkles, Trophy, Target, Zap } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { RepositoryCollection } from '@/components/repository-collection'
+import { RepositoryCard } from '@/components/repository-card'
+import { ELICHARLESE_REPO_CARDS, getRepositoriesByCategory } from '@/data/github-repo-cards'
+import toast from 'react-hot-toast'
 
-// Mock card data for development
-const mockCards = [
-  {
-    id: '1',
-    name: 'Tesla Model S',
-    description: 'Revolutionary electric luxury sedan with cutting-edge autopilot technology and industry-leading range.',
-    imageUrl: '/cards/tesla-model-s.jpg',
-    emoji: '🚗',
-    rarity: 'legendary' as const,
-    price: 89990,
-    marketTrend: '+15.2%',
-    volume: '4.2K',
-    category: 'automotive',
-    tier: 6
-  },
-  {
-    id: '2',
-    name: 'Apple iPhone 15 Pro',
-    description: 'Next-generation smartphone with titanium design, A17 Pro chip, and advanced camera system.',
-    imageUrl: '/cards/iphone-15-pro.jpg',
-    emoji: '📱',
-    rarity: 'epic' as const,
-    price: 1199,
-    marketTrend: '+8.7%',
-    volume: '12.5K',
-    category: 'technology',
-    tier: 5
-  },
-  {
-    id: '3',
-    name: 'Bitcoin',
-    description: 'The world\'s first and most valuable cryptocurrency, digital gold for the modern era.',
-    imageUrl: '/cards/bitcoin.jpg',
-    emoji: '₿',
-    rarity: 'legendary' as const,
-    price: 67500,
-    marketTrend: '-3.1%',
-    volume: '28.9K',
-    category: 'cryptocurrency',
-    tier: 6
-  },
-  {
-    id: '4',
-    name: 'NVIDIA RTX 4090',
-    description: 'Ultimate gaming and AI graphics card with unprecedented performance and ray tracing capabilities.',
-    imageUrl: '/cards/rtx-4090.jpg',
-    emoji: '🎮',
-    rarity: 'epic' as const,
-    price: 1599,
-    marketTrend: '+22.3%',
-    volume: '3.8K',
-    category: 'technology',
-    tier: 5
-  },
-  {
-    id: '5',
-    name: 'Rolex Submariner',
-    description: 'Iconic luxury dive watch with Swiss precision, timeless design, and exceptional craftsmanship.',
-    imageUrl: '/cards/rolex-submariner.jpg',
-    emoji: '⌚',
-    rarity: 'rare' as const,
-    price: 14500,
-    marketTrend: '+5.9%',
-    volume: '892',
-    category: 'luxury',
-    tier: 4
+export default function DiscoverPage() {
+  const [activeTab, setActiveTab] = useState('all')
+
+  // Get featured repositories for each category
+  const featuredMajors = getRepositoriesByCategory('majors').slice(0, 3)
+  const featuredMinors = getRepositoriesByCategory('minors').slice(0, 3)
+  const featuredMVPs = getRepositoriesByCategory('mvps').slice(0, 3)
+  const trendingRepos = ELICHARLESE_REPO_CARDS
+    .sort((a, b) => b.estimatedValue - a.estimatedValue)
+    .slice(0, 6)
+
+  const handleBattle = (repoId: string) => {
+    const repo = ELICHARLESE_REPO_CARDS.find(r => r.id === repoId)
+    toast.success(`⚔️ ${repo?.displayName} enters the battle arena!`, {
+      duration: 3000,
+      style: {
+        background: 'rgba(39, 40, 34, 0.9)',
+        color: '#F8EFD6',
+        border: '1px solid #F92672'
+      }
+    })
   }
-]
 
-export default function Discover() {
-  const [likedCards, setLikedCards] = useState<string[]>([])
-  const [watchlistCards, setWatchlistCards] = useState<string[]>([])
-  const [superLikedCards, setSuperLikedCards] = useState<string[]>([])
-  const [passedCards, setPassedCards] = useState<string[]>([])
-  const [showFilters, setShowFilters] = useState(false)
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
-  const [selectedRarities, setSelectedRarities] = useState<string[]>([])
+  const handleBid = (repoId: string) => {
+    const repo = ELICHARLESE_REPO_CARDS.find(r => r.id === repoId)
+    toast.success(`💰 Bidding war started for ${repo?.displayName}!`, {
+      duration: 3000,
+      style: {
+        background: 'rgba(39, 40, 34, 0.9)',
+        color: '#F8EFD6',
+        border: '1px solid #66D9EF'
+      }
+    })
+  }
 
-  // Filter cards based on user preferences
-  const filteredCards = mockCards.filter(card => {
-    if (selectedCategories.length > 0 && !selectedCategories.includes(card.category)) {
-      return false
+  const handleBet = (repoId: string) => {
+    const repo = ELICHARLESE_REPO_CARDS.find(r => r.id === repoId)
+    toast.success(`🎲 Placing your bet on ${repo?.displayName}!`, {
+      duration: 3000,
+      style: {
+        background: 'rgba(39, 40, 34, 0.9)',
+        color: '#F8EFD6',
+        border: '1px solid #A6E22E'
+      }
+    })
+  }
+
+  const handleView = (repoId: string) => {
+    const repo = ELICHARLESE_REPO_CARDS.find(r => r.id === repoId)
+    if (repo) {
+      window.open(repo.githubUrl, '_blank')
     }
-    if (selectedRarities.length > 0 && !selectedRarities.includes(card.rarity)) {
-      return false
-    }
-    // Don't show cards that have already been interacted with
-    return !passedCards.includes(card.id) && 
-           !likedCards.includes(card.id) && 
-           !watchlistCards.includes(card.id) &&
-           !superLikedCards.includes(card.id)
-  })
-
-  // Swipe handlers
-  const handleSwipeLeft = (card: any) => {
-    setPassedCards(prev => [...prev, card.id])
-    console.log('Passed on:', card.name)
   }
-
-  const handleSwipeRight = (card: any) => {
-    setLikedCards(prev => [...prev, card.id])
-    console.log('Liked:', card.name)
-  }
-
-  const handleSwipeUp = (card: any) => {
-    setSuperLikedCards(prev => [...prev, card.id])
-    console.log('Super liked:', card.name)
-  }
-
-  const handleSwipeDown = (card: any) => {
-    setWatchlistCards(prev => [...prev, card.id])
-    console.log('Added to watchlist:', card.name)
-  }
-
-  const handleCardTap = (card: any) => {
-    console.log('Tapped card:', card.name)
-    // Could open detailed view modal
-  }
-
-  const toggleCategory = (category: string) => {
-    setSelectedCategories(prev => 
-      prev.includes(category) 
-        ? prev.filter(c => c !== category)
-        : [...prev, category]
-    )
-  }
-
-  const toggleRarity = (rarity: string) => {
-    setSelectedRarities(prev => 
-      prev.includes(rarity) 
-        ? prev.filter(r => r !== rarity)
-        : [...prev, rarity]
-    )
-  }
-
-  const resetFilters = () => {
-    setSelectedCategories([])
-    setSelectedRarities([])
-  }
-
-  const categories = ['automotive', 'technology', 'cryptocurrency', 'luxury']
-  const rarities = ['common', 'rare', 'epic', 'legendary']
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-beach-monokai-bg via-beach-monokai-bg/95 to-beach-monokai-primary/10">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-background/90 relative overflow-hidden">
+      {/* Background Effects */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute top-20 left-20 w-96 h-96 bg-monokai-accent/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-monokai-info/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-monokai-success/5 rounded-full blur-3xl animate-pulse" />
+      </div>
+
+      <div className="relative z-10 container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-beach-monokai-text mb-2">
-              Discover Cards
-            </h1>
-            <p className="text-beach-monokai-muted">
-              Swipe to explore the latest trading cards and opportunities
-            </p>
+        <motion.div 
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-monokai-accent via-monokai-info to-monokai-success bg-clip-text text-transparent text-shadow-strong">
+            Discover Arena
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            Battle, bid, and bet on the most innovative GitHub repositories. 
+            Discover legendary codebases and rare development gems in our trading card universe.
+          </p>
+        </motion.div>
+
+        {/* Quick Stats */}
+        <motion.div 
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          <div className="glass-card p-4 text-center shadow-card-ece hover:shadow-card-ece-hover transition-all duration-300">
+            <div className="text-3xl mb-2">🎴</div>
+            <div className="text-2xl font-bold text-monokai-warning">{ELICHARLESE_REPO_CARDS.length}</div>
+            <div className="text-sm text-muted-foreground">Total Cards</div>
           </div>
-          
-          <div className="flex items-center space-x-4">
-            <Button
-              onClick={() => setShowFilters(!showFilters)}
-              variant="outline"
-              className="relative"
+          <div className="glass-card p-4 text-center shadow-card-ece hover:shadow-card-ece-hover transition-all duration-300">
+            <div className="text-3xl mb-2">⚔️</div>
+            <div className="text-2xl font-bold text-monokai-accent">Live</div>
+            <div className="text-sm text-muted-foreground">Battle Mode</div>
+          </div>
+          <div className="glass-card p-4 text-center shadow-card-ece hover:shadow-card-ece-hover transition-all duration-300">
+            <div className="text-3xl mb-2">💰</div>
+            <div className="text-2xl font-bold text-monokai-info">Active</div>
+            <div className="text-sm text-muted-foreground">Bidding</div>
+          </div>
+          <div className="glass-card p-4 text-center shadow-card-ece hover:shadow-card-ece-hover transition-all duration-300">
+            <div className="text-3xl mb-2">🎲</div>
+            <div className="text-2xl font-bold text-monokai-success">Open</div>
+            <div className="text-sm text-muted-foreground">Betting</div>
+          </div>
+        </motion.div>
+
+        {/* Main Content Tabs */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="max-w-7xl mx-auto">
+          <TabsList className="grid w-full grid-cols-5 mb-8 shadow-soft">
+            <TabsTrigger value="all">🌟 All Cards</TabsTrigger>
+            <TabsTrigger value="trending">🔥 Trending</TabsTrigger>
+            <TabsTrigger value="majors">👑 Majors</TabsTrigger>
+            <TabsTrigger value="minors">⭐ Minors</TabsTrigger>
+            <TabsTrigger value="mvps">🚀 MVPs</TabsTrigger>
+          </TabsList>
+
+          {/* All Cards */}
+          <TabsContent value="all">
+            <RepositoryCollection
+              title="Complete Repository Collection"
+              subtitle="Explore all 48 GitHub repository trading cards with advanced filtering and search"
+              showSearch={true}
+              showFilters={true}
+              showStats={true}
+              defaultCategory="all"
+              variant="grid"
+              cardSize="default"
+              onBattle={handleBattle}
+              onBid={handleBid}
+              onBet={handleBet}
+              onView={handleView}
+            />
+          </TabsContent>
+
+          {/* Trending Cards */}
+          <TabsContent value="trending">
+            <motion.div 
+              className="space-y-8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6 }}
             >
-              <Filter className="w-4 h-4 mr-2" />
-              Filters
-              {(selectedCategories.length > 0 || selectedRarities.length > 0) && (
-                <Badge 
-                  variant="destructive" 
-                  className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 text-xs"
-                >
-                  {selectedCategories.length + selectedRarities.length}
-                </Badge>
-              )}
+              <div className="text-center mb-8">
+                <h2 className="text-3xl font-bold text-foreground mb-2 text-shadow-soft">🔥 Trending Repositories</h2>
+                <p className="text-muted-foreground">The most valuable and sought-after repository cards right now</p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {trendingRepos.map((repo, index) => (
+                  <motion.div
+                    key={repo.id}
+                    initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                    whileHover={{ y: -5 }}
+                  >
+                    <RepositoryCard
+                      repository={repo}
+                      variant="default"
+                      onBattle={handleBattle}
+                      onBid={handleBid}
+                      onBet={handleBet}
+                      onView={handleView}
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </TabsContent>
+
+          {/* Majors Category */}
+          <TabsContent value="majors">
+            <RepositoryCollection
+              title="👑 Major League Repositories"
+              subtitle="Enterprise-grade, complex systems that power the modern web"
+              showSearch={true}
+              showFilters={true}
+              showStats={true}
+              defaultCategory="majors"
+              variant="grid"
+              cardSize="detailed"
+              onBattle={handleBattle}
+              onBid={handleBid}
+              onBet={handleBet}
+              onView={handleView}
+            />
+          </TabsContent>
+
+          {/* Minors Category */}
+          <TabsContent value="minors">
+            <RepositoryCollection
+              title="⭐ Minor League Gems"
+              subtitle="Specialized tools and libraries that enhance development workflows"
+              showSearch={true}
+              showFilters={true}
+              showStats={true}
+              defaultCategory="minors"
+              variant="grid"
+              cardSize="default"
+              onBattle={handleBattle}
+              onBid={handleBid}
+              onBet={handleBet}
+              onView={handleView}
+            />
+          </TabsContent>
+
+          {/* MVPs Category */}
+          <TabsContent value="mvps">
+            <RepositoryCollection
+              title="🚀 MVP Prototypes"
+              subtitle="Rapid prototypes and proof-of-concept implementations"
+              showSearch={true}
+              showFilters={true}
+              showStats={true}
+              defaultCategory="mvps"
+              variant="grid"
+              cardSize="compact"
+              onBattle={handleBattle}
+              onBid={handleBid}
+              onBet={handleBet}
+              onView={handleView}
+            />
+          </TabsContent>
+        </Tabs>
+
+        {/* Call to Action */}
+        <motion.div 
+          className="text-center mt-16 glass-card p-8 shadow-card-ece"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+        >
+          <h3 className="text-2xl font-bold mb-4 text-shadow-soft">Ready to Start Trading?</h3>
+          <p className="text-muted-foreground mb-6">
+            Build your collection, battle other traders, and discover the next big thing in tech
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Button 
+              variant="primary" 
+              size="lg" 
+              className="shadow-soft hover:shadow-soft-lg"
+              onClick={() => toast.success('Welcome to the marketplace! 🎉', {
+                duration: 3000,
+                style: {
+                  background: 'rgba(39, 40, 34, 0.9)',
+                  color: '#F8EFD6',
+                  border: '1px solid #66D9EF'
+                }
+              })}
+            >
+              <Trophy className="h-5 w-5 mr-2" />
+              Go to Marketplace
             </Button>
-            
-            <Button variant="ghost" size="sm">
-              <Settings className="w-4 h-4" />
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="shadow-soft hover:shadow-soft-lg"
+              onClick={() => toast.success('Battle arena loading! ⚔️', {
+                duration: 3000,
+                style: {
+                  background: 'rgba(39, 40, 34, 0.9)',
+                  color: '#F8EFD6',
+                  border: '1px solid #F92672'
+                }
+              })}
+            >
+              <Target className="h-5 w-5 mr-2" />
+              Enter Battle Arena
             </Button>
           </div>
-        </div>
-
-        {/* Filters Panel */}
-        {showFilters && (
-          <GlassCard className="mb-8 p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-beach-monokai-text">
-                Filter Cards
-              </h3>
-              <Button
-                onClick={resetFilters}
-                variant="ghost"
-                size="sm"
-                className="text-beach-monokai-muted hover:text-beach-monokai-text"
-              >
-                Reset All
-              </Button>
-            </div>
-            
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* Categories */}
-              <div>
-                <h4 className="text-sm font-medium text-beach-monokai-text mb-3">
-                  Categories
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {categories.map(category => (
-                    <div
-                      key={category}
-                      className="cursor-pointer"
-                      onClick={() => toggleCategory(category)}
-                    >
-                      <Badge
-                        variant={selectedCategories.includes(category) ? "default" : "outline"}
-                        className="capitalize"
-                      >
-                        {category}
-                      </Badge>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Rarities */}
-              <div>
-                <h4 className="text-sm font-medium text-beach-monokai-text mb-3">
-                  Rarity
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {rarities.map(rarity => (
-                    <div
-                      key={rarity}
-                      className="cursor-pointer"
-                      onClick={() => toggleRarity(rarity)}
-                    >
-                      <Badge
-                        variant={selectedRarities.includes(rarity) ? "default" : "outline"}
-                        className="capitalize"
-                      >
-                        {rarity}
-                      </Badge>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </GlassCard>
-        )}
-
-        {/* Stats Row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <GlassCard className="p-4 text-center">
-            <Heart className="w-6 h-6 text-red-500 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-beach-monokai-text">
-              {likedCards.length}
-            </div>
-            <div className="text-sm text-beach-monokai-muted">Liked</div>
-          </GlassCard>
-          
-          <GlassCard className="p-4 text-center">
-            <Star className="w-6 h-6 text-blue-500 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-beach-monokai-text">
-              {superLikedCards.length}
-            </div>
-            <div className="text-sm text-beach-monokai-muted">Super Liked</div>
-          </GlassCard>
-          
-          <GlassCard className="p-4 text-center">
-            <Eye className="w-6 h-6 text-purple-500 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-beach-monokai-text">
-              {watchlistCards.length}
-            </div>
-            <div className="text-sm text-beach-monokai-muted">Watching</div>
-          </GlassCard>
-          
-          <GlassCard className="p-4 text-center">
-            <TrendingUp className="w-6 h-6 text-green-500 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-beach-monokai-text">
-              {filteredCards.length}
-            </div>
-            <div className="text-sm text-beach-monokai-muted">Remaining</div>
-          </GlassCard>
-        </div>
-
-        {/* Swipeable Card Stack */}
-        <div className="flex justify-center">
-          <SwipeableCardStack
-            cards={filteredCards as any}
-            onSwipeLeft={handleSwipeLeft}
-            onSwipeRight={handleSwipeRight}
-            swipeThreshold={100}
-            maxVisibleCards={3}
-          />
-        </div>
-
-        {/* Action Legend */}
-        <div className="mt-8">
-          <GlassCard className="p-6">
-            <h3 className="text-lg font-semibold text-beach-monokai-text mb-4 text-center">
-              Swipe Actions
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-              <div className="flex flex-col items-center space-y-2">
-                <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center">
-                  ←
-                </div>
-                <span className="text-sm text-beach-monokai-muted">
-                  Swipe Left to Pass
-                </span>
-              </div>
-              
-              <div className="flex flex-col items-center space-y-2">
-                <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center">
-                  →
-                </div>
-                <span className="text-sm text-beach-monokai-muted">
-                  Swipe Right to Like
-                </span>
-              </div>
-              
-              <div className="flex flex-col items-center space-y-2">
-                <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
-                  ↑
-                </div>
-                <span className="text-sm text-beach-monokai-muted">
-                  Swipe Up for Super Like
-                </span>
-              </div>
-              
-              <div className="flex flex-col items-center space-y-2">
-                <div className="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center">
-                  ↓
-                </div>
-                <span className="text-sm text-beach-monokai-muted">
-                  Swipe Down to Watch
-                </span>
-              </div>
-            </div>
-          </GlassCard>
-        </div>
+        </motion.div>
       </div>
     </div>
   )

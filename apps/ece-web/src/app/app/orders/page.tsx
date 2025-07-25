@@ -1,23 +1,13 @@
 'use client'
 
 import React from 'react'
-import { OrdersDashboard } from '../../../components/orders-dashboard'
-import { useSubscription } from '../../../contexts/subscription-context'
+import { LinearOrderFlow } from '../../../components/orders/linear-order-flow/LinearOrderFlow'
 
 export default function OrdersPage() {
-  const { subscription } = useSubscription()
-  
-  // Mock user data - in production this would come from auth context
-  const userId = 'user_pro_001'
-  const userBalance = 2500.75 // ECE balance
-
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8">
-        <OrdersDashboard 
-          userId={userId} 
-          userBalance={userBalance}
-        />
+    <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-accent/5">
+      <div className="container mx-auto py-8">
+        <LinearOrderFlow />
       </div>
     </div>
   )

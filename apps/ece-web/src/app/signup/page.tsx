@@ -7,6 +7,7 @@ import { Mail, Lock, Eye, EyeOff, User, ArrowRight, Check } from 'lucide-react'
 import { Navigation } from '../../components/navigation'
 import { Button } from '../../components/ui/button'
 import { GlassCard } from '../../components/ui/glass-card'
+import { AuthScene3D } from '../../components/3d/auth-scene'
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false)
@@ -45,8 +46,11 @@ export default function SignUp() {
       <Navigation />
       
       <div className="min-h-screen flex items-center justify-center px-4 pt-20 pb-10">
-        {/* Background Animation */}
-        <div className="absolute inset-0 overflow-hidden">
+        {/* 3D Background Scene */}
+        <AuthScene3D className="z-0" />
+        
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 overflow-hidden z-0">
           <motion.div
             animate={{ 
               scale: [1, 1.2, 1],
@@ -54,7 +58,7 @@ export default function SignUp() {
               x: [0, 100, 0]
             }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            className="absolute top-20 left-20 w-96 h-96 bg-ocean-info/20 rounded-full blur-3xl"
+            className="absolute top-20 left-20 w-96 h-96 bg-ocean-info/10 rounded-full blur-3xl"
           />
           <motion.div
             animate={{ 
@@ -63,7 +67,7 @@ export default function SignUp() {
               x: [0, -100, 0]
             }}
             transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-            className="absolute bottom-20 right-20 w-96 h-96 bg-ocean-accent/20 rounded-full blur-3xl"
+            className="absolute bottom-20 right-20 w-96 h-96 bg-ocean-accent/10 rounded-full blur-3xl"
           />
         </div>
 

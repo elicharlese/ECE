@@ -16,7 +16,7 @@ export function GlassCard({
   variant = 'default',
   animation = 'none'
 }: GlassCardProps) {
-  const baseClasses = "rounded-xl backdrop-blur-md border"
+  const baseClasses = "rounded-xl backdrop-blur-md border shadow-card-ece hover:shadow-card-ece-hover transition-all duration-300"
   
   const variantClasses = {
     default: "bg-white/10 border-white/20",

@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { LinearOrderFlow } from '@/components/orders/linear-flow/linear-order-flow'
 import { toast } from 'react-hot-toast'
 
@@ -32,9 +32,13 @@ interface OrderFormData {
   }
 }
 
-export default function OrdersPage() {
+export default function OrderPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [isProcessing, setIsProcessing] = useState(false)
+
+  // Get pre-selected repository URL from query params
+  const preselectedRepo = searchParams.get('repo') || undefined
 
   const handleOrderComplete = async (orderData: OrderFormData) => {
     setIsProcessing(true)
@@ -100,6 +104,7 @@ export default function OrdersPage() {
       onOrderComplete={handleOrderComplete}
       onCancel={handleCancel}
       initialStep={0}
+      preselectedRepo={preselectedRepo}
     />
   )
 }

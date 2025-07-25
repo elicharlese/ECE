@@ -34,7 +34,7 @@ export function ThemeToggle() {
       variant="ghost"
       size="sm"
       onClick={handleToggle}
-      className="relative overflow-hidden"
+      className="relative overflow-hidden shadow-soft hover:shadow-soft-lg transition-all duration-300"
     >
       <motion.div
         key={theme}
@@ -42,6 +42,7 @@ export function ThemeToggle() {
         animate={{ rotate: 0, opacity: 1 }}
         exit={{ rotate: 180, opacity: 0 }}
         transition={{ duration: 0.3 }}
+        className="drop-shadow-icon"
       >
         {getIcon()}
       </motion.div>

@@ -260,7 +260,7 @@ export function CardAuctions({ onPlaceBid, onInstantBuy, onWatchAuction }: CardA
         exit={{ opacity: 0, y: -20 }}
         className="group"
       >
-        <Card className={`overflow-hidden bg-gradient-to-br ${gradientClass} backdrop-blur-xl border border-[#75715E]/30 hover:border-[${rarityColor}]/50 transition-all duration-300 hover:shadow-2xl hover:shadow-[${rarityColor}]/20`}>
+        <Card className={`overflow-hidden bg-gradient-to-br ${gradientClass} backdrop-blur-xl border border-[#75715E]/30 hover:border-[${rarityColor}]/50 transition-all duration-300 shadow-card-ece hover:shadow-card-ece-hover group-hover:shadow-glow-primary`}>
           {/* Header */}
           <div className="p-4 border-b border-[#75715E]/20">
             <div className="flex items-start justify-between mb-3">
@@ -407,10 +407,10 @@ export function CardAuctions({ onPlaceBid, onInstantBuy, onWatchAuction }: CardA
                 
                 <Button
                   onClick={() => onPlaceBid?.(auction.id, currentBidAmount)}
-                  className="bg-gradient-to-r from-[#819AFF] to-[#66D9EF] hover:from-[#819AFF]/80 hover:to-[#66D9EF]/80 text-[#272822] font-semibold px-6"
+                  className="bg-gradient-to-r from-[#819AFF] to-[#66D9EF] hover:from-[#819AFF]/80 hover:to-[#66D9EF]/80 text-[#272822] font-semibold px-6 shadow-soft hover:shadow-soft-lg"
                   disabled={currentBidAmount < auction.currentBid + auction.minBidIncrement}
                 >
-                  <Gavel className="h-4 w-4 mr-1" />
+                  <Gavel className="h-4 w-4 mr-1 drop-shadow-icon" />
                   Place Bid
                 </Button>
               </div>
@@ -419,9 +419,9 @@ export function CardAuctions({ onPlaceBid, onInstantBuy, onWatchAuction }: CardA
                 {auction.instantBuyPrice && (
                   <Button
                     onClick={() => onInstantBuy?.(auction.id)}
-                    className="flex-1 bg-gradient-to-r from-[#A6E22E] to-[#3EBA7C] hover:from-[#A6E22E]/80 hover:to-[#3EBA7C]/80 text-[#272822] font-semibold"
+                    className="flex-1 bg-gradient-to-r from-[#A6E22E] to-[#3EBA7C] hover:from-[#A6E22E]/80 hover:to-[#3EBA7C]/80 text-[#272822] font-semibold shadow-soft hover:shadow-soft-lg"
                   >
-                    <Zap className="h-4 w-4 mr-1" />
+                    <Zap className="h-4 w-4 mr-1 drop-shadow-icon" />
                     Buy Now - {auction.instantBuyPrice.toLocaleString()} ECE
                   </Button>
                 )}
@@ -429,9 +429,9 @@ export function CardAuctions({ onPlaceBid, onInstantBuy, onWatchAuction }: CardA
                 <Button
                   variant="outline"
                   onClick={() => onWatchAuction?.(auction.id)}
-                  className="border-[#75715E]/30 text-[#75715E] hover:bg-[#75715E]/10"
+                  className="border-[#75715E]/30 text-[#75715E] hover:bg-[#75715E]/10 shadow-soft hover:shadow-soft-lg"
                 >
-                  <Eye className="h-4 w-4 mr-1" />
+                  <Eye className="h-4 w-4 mr-1 drop-shadow-icon" />
                   Watch
                 </Button>
               </div>
@@ -521,7 +521,7 @@ export function CardAuctions({ onPlaceBid, onInstantBuy, onWatchAuction }: CardA
         transition={{ delay: 0.5 }}
         className="mt-12 grid grid-cols-1 md:grid-cols-4 gap-6"
       >
-        <Card className="p-4 bg-gradient-to-br from-[#F92672]/20 to-[#F92672]/10 border border-[#F92672]/30">
+        <Card className="p-4 bg-gradient-to-br from-[#F92672]/20 to-[#F92672]/10 border border-[#F92672]/30 shadow-card-ece hover:shadow-card-ece-hover">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-2xl font-bold text-[#F92672]">
@@ -529,11 +529,11 @@ export function CardAuctions({ onPlaceBid, onInstantBuy, onWatchAuction }: CardA
               </div>
               <div className="text-sm text-[#75715E]">Total Auction Value</div>
             </div>
-            <DollarSign className="h-8 w-8 text-[#F92672]" />
+            <DollarSign className="h-8 w-8 text-[#F92672] drop-shadow-icon-strong" />
           </div>
         </Card>
 
-        <Card className="p-4 bg-gradient-to-br from-[#A6E22E]/20 to-[#A6E22E]/10 border border-[#A6E22E]/30">
+        <Card className="p-4 bg-gradient-to-br from-[#A6E22E]/20 to-[#A6E22E]/10 border border-[#A6E22E]/30 shadow-card-ece hover:shadow-card-ece-hover">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-2xl font-bold text-[#A6E22E]">
@@ -541,11 +541,11 @@ export function CardAuctions({ onPlaceBid, onInstantBuy, onWatchAuction }: CardA
               </div>
               <div className="text-sm text-[#75715E]">Total Bids</div>
             </div>
-            <Gavel className="h-8 w-8 text-[#A6E22E]" />
+            <Gavel className="h-8 w-8 text-[#A6E22E] drop-shadow-icon-strong" />
           </div>
         </Card>
 
-        <Card className="p-4 bg-gradient-to-br from-[#66D9EF]/20 to-[#66D9EF]/10 border border-[#66D9EF]/30">
+        <Card className="p-4 bg-gradient-to-br from-[#66D9EF]/20 to-[#66D9EF]/10 border border-[#66D9EF]/30 shadow-card-ece hover:shadow-card-ece-hover">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-2xl font-bold text-[#66D9EF]">
@@ -553,11 +553,11 @@ export function CardAuctions({ onPlaceBid, onInstantBuy, onWatchAuction }: CardA
               </div>
               <div className="text-sm text-[#75715E]">Active Bidders</div>
             </div>
-            <Users className="h-8 w-8 text-[#66D9EF]" />
+            <Users className="h-8 w-8 text-[#66D9EF] drop-shadow-icon-strong" />
           </div>
         </Card>
 
-        <Card className="p-4 bg-gradient-to-br from-[#E6DB74]/20 to-[#E6DB74]/10 border border-[#E6DB74]/30">
+        <Card className="p-4 bg-gradient-to-br from-[#E6DB74]/20 to-[#E6DB74]/10 border border-[#E6DB74]/30 shadow-card-ece hover:shadow-card-ece-hover">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-2xl font-bold text-[#E6DB74]">
@@ -565,7 +565,7 @@ export function CardAuctions({ onPlaceBid, onInstantBuy, onWatchAuction }: CardA
               </div>
               <div className="text-sm text-[#75715E]">Trending Items</div>
             </div>
-            <TrendingUp className="h-8 w-8 text-[#E6DB74]" />
+            <TrendingUp className="h-8 w-8 text-[#E6DB74] drop-shadow-icon-strong" />
           </div>
         </Card>
       </motion.div>
