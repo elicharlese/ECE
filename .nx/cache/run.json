@@ -1,8 +1,8 @@
 {
   "run": {
     "command": "nx serve ece-web",
-    "startTime": "2025-07-25T01:12:13.828Z",
-    "endTime": "2025-07-25T01:40:15.286Z",
+    "startTime": "2025-07-25T18:50:04.018Z",
+    "endTime": "2025-07-25T18:51:11.311Z",
     "inner": false
   },
   "tasks": []

@@ -59,6 +59,59 @@ export interface GeneratedApp {
   views: number
   shares: number
   tags: string[]
+  // Add media assets from AI generation
+  mediaAssets?: {
+    images: {
+      hero: string[]
+      screenshots: string[]
+      icons: string[]
+      backgrounds: string[]
+      thumbnails: string[]
+    }
+    videos: {
+      hero: string
+      demo: string
+      tutorial: string
+      loading: string[]
+      transitions: string[]
+    }
+    assets3D: {
+      scenes: string[]
+      models: string[]
+      environments: string[]
+      animations: string[]
+    }
+    metadata: {
+      totalSize: number
+      optimizationRatio: number
+      processingTime: number
+      qualityScore: number
+    }
+  }
+}
+
+export interface GenerationResult {
+  id: string
+  projectName: string
+  githubRepo: string
+  vercelUrl: string
+  downloadUrl: string
+  mediaAssets?: any
+  appCardData: AppCardData
+  timestamp: Date
+}
+
+export interface AppCardData {
+  id: string
+  name: string
+  description: string
+  template: string
+  techStack: string[]
+  features: string[]
+  battleStats: BattleStats
+  rarity: 'common' | 'rare' | 'epic' | 'legendary'
+  thumbnail: string
+  creator: string
 }
 
 export interface AppGenerationRequest {

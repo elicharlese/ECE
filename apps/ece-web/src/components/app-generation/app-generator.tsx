@@ -22,9 +22,16 @@ import { Badge } from '../ui/badge'
 import { Progress } from '../ui/progress'
 import { useToast } from '../ui/use-toast'
 import { nebiusAI } from '../../../src/services/nebius-ai.service'
+import { MediaGallery } from '../ui/media-gallery'
+import { mediaPipelineManager } from '../../../../../src/services/media-pipeline-manager.service'
+import { mojoAIService } from '../../../../../src/services/mojo-ai.service'
+import { kiloCodeService } from '../../../../../src/services/kilo-code.service'
+import { v0PlatformService } from '../../../../../src/services/v0-platform.service'
 import { 
   AppTemplate, 
   GeneratedApp, 
+  GenerationResult,
+  AppCardData,
   GenerationProgress, 
   AppGenerationRequest,
   getRarityColor,
@@ -37,19 +44,11 @@ interface AppGeneratorProps {
   projectName: string
   projectDescription: string
   customFeatures?: string[]
-  onGenerationComplete?: (result: GeneratedApp) => void
+  onGenerationComplete?: (result: GenerationResult) => void
   onGenerationError?: (error: Error) => void
 }
 
-interface GenerationStep {
-  id: number
-  name: string
-  description: string
-  icon: React.ReactNode
-  status: 'pending' | 'running' | 'completed' | 'error'
-  progress: number
-  details?: string
-}
+
 
 interface AppCardData {
   id: string
@@ -78,6 +77,7 @@ interface GenerationStep {
   duration?: number
 }
 
+// Add a new step to GENERATION_STEPS for v0 design consistency
 const GENERATION_STEPS: GenerationStep[] = [
   {
     id: 'setup',
@@ -90,6 +90,20 @@ const GENERATION_STEPS: GenerationStep[] = [
     id: 'ai_generation',
     name: 'AI Code Generation',
     description: 'Generating code using Nebius AI models',
+    status: 'pending',
+    progress: 0
+  },
+  {
+    id: 'v0_design',
+    name: 'Front-End Design Consistency',
+    description: 'Generate UI components with v0.dev for aesthetic consistency using middle-out approach',
+    status: 'pending',
+    progress: 0
+  },
+  {
+    id: 'media_generation',
+    name: 'AI Media Generation',
+    description: 'Creating professional images, videos, and 3D assets',
     status: 'pending',
     progress: 0
   },
@@ -141,10 +155,15 @@ export function AppGenerator({
   const [isGenerating, setIsGenerating] = useState(false)
   const [currentStep, setCurrentStep] = useState(0)
   const [steps, setSteps] = useState<GenerationStep[]>(GENERATION_STEPS)
-  const [generationResult, setGenerationResult] = useState<GeneratedApp | null>(null)
+  const [generationResult, setGenerationResult] = useState<GenerationResult | null>(null)
   const [generationLog, setGenerationLog] = useState<string[]>([])
   const [totalProgress, setTotalProgress] = useState(0)
   const [nebiusStatus, setNebiusStatus] = useState<'connecting' | 'connected' | 'error'>('connecting')
+  
+  // Store generated media assets and enhanced generation results
+  let generatedMediaAssets: any = null
+  let enhancedGenerationResults: any = null
+  
   const { toast } = useToast()
 
   const addLog = useCallback((message: string) => {
@@ -207,21 +226,120 @@ export function AppGenerator({
         addLog('🔧 TypeScript and ESLint setup complete')
       })
 
-      // Step 2: AI Code Generation
+      // Step 2: Enhanced AI Code Generation with Kilo Code + Mojo
       await runStep(1, async () => {
-        addLog('🤖 Connecting to Nebius AI Studio...')
+        addLog('🤖 Initializing Kilo Code orchestrator...')
         await simulateWork(1000)
-        addLog('🧠 Using Deepseek-V3 model for code generation')
-        await simulateWork(4000)
-        addLog('💻 Generating React components...')
-        await simulateWork(3000)
-        addLog('🎨 Creating UI components with Beach Monokai theme')
+        
+        addLog('🔥 Activating Mojo AI performance optimization...')
+        await simulateWork(1000)
+        
+        // Orchestrate development with Kilo Code
+        const appSpec = {
+          name: projectName,
+          description: projectDescription,
+          features: [...template.features, ...customFeatures],
+          complexity: template.complexity,
+          targetPlatforms: ['web', 'mobile'],
+          template: template.name,
+          eceIntegration: true
+        }
+        
+        addLog('🎯 Kilo Code analyzing requirements and creating orchestration plan...')
+        const kiloResult = await kiloCodeService.orchestrateECEAppDevelopment(appSpec)
+        addLog(`✅ Plan created with ${kiloResult.plan.tasks.length} optimized tasks`)
+        
+        // Optimize with Mojo AI for performance
+        addLog('⚡ Mojo AI optimizing codebase for maximum performance...')
+        const codebase = {
+          frontend: { 'App.tsx': '// Generated React app' },
+          backend: { 'server.js': '// Generated server' },
+          shared: { 'types.ts': '// Shared types' }
+        }
+        
+        const optimizationTargets = {
+          performance: true,
+          security: true,
+          scalability: true,
+          maintainability: true,
+          energyEfficiency: true
+        }
+        
+        const mojoOptimization = await mojoAIService.optimizeECEAppCode(codebase, optimizationTargets)
+        addLog(`🚀 Performance improved by ${mojoOptimization.performanceGains.speedupVsPython}x`)
+        addLog(`🔒 Security score: ${mojoOptimization.securityEnhancements.length} enhancements applied`)
+        
+        // Store enhanced generation results
+        enhancedGenerationResults = {
+          kiloOrchestration: kiloResult,
+          mojoOptimization: mojoOptimization
+        }
+        
+        addLog('🧠 Using Deepseek-V3 model for final code synthesis')
         await simulateWork(2000)
-        addLog('✅ AI code generation complete')
+        addLog('💻 Generating React components with enhanced performance...')
+        await simulateWork(2000)
+        addLog('🎨 Creating UI components with Beach Monokai theme')
+        await simulateWork(1500)
+        addLog('✅ Enhanced AI code generation complete')
       })
 
-      // Step 3: Project Scaffolding
+      // Step 3: Front-End Design Consistency with v0.dev
       await runStep(2, async () => {
+        addLog('🎨 Generating front-end UI components with v0.dev for aesthetic consistency...')
+        const projectId = await v0PlatformService.createECEProject(
+          projectName,
+          template.category,
+          projectDescription
+        )
+        const designRequest = {
+          component: 'App Shell',
+          theme: 'beach-monokai' as 'beach-monokai',
+          requirements: [...template.features, ...(customFeatures || [])],
+          platforms: ['web', 'mobile'],
+          designSystem: v0PlatformService.getDefaultDesignSystem()
+        }
+        const v0DesignSystem = await v0PlatformService.generateMiddleOutComponents(projectId, designRequest)
+        addLog(`✅ Generated ${v0DesignSystem.coreComponents.length + v0DesignSystem.featureComponents.length + v0DesignSystem.integrationComponents.length} UI components with v0.dev`)
+        addLog(`🎯 Aesthetic Consistency Score: ${v0DesignSystem.aestheticConsistency.score}/100`)
+      })
+
+      // Step 4: AI Media Generation
+      await runStep(3, async () => {
+        addLog('🎨 Starting comprehensive AI media pipeline...')
+        
+        // Generate complete media package using pipeline manager
+        const mediaRequest = {
+          appName: projectName,
+          category: template.category,
+          description: projectDescription,
+          targetPlatforms: ['web', 'mobile'] as ('web' | 'mobile' | 'desktop' | 'vr')[],
+          theme: {
+            primaryColor: '#F92672',
+            secondaryColor: '#66D9EF',
+            style: 'beach-monokai' as const
+          }
+        }
+        
+        const comprehensiveMediaPackage = await mediaPipelineManager.generateCompleteMediaPackage(
+          mediaRequest,
+          (step, progress) => {
+            addLog(`📊 ${step} (${progress.toFixed(1)}%)`)
+          }
+        )
+        
+        addLog(`✅ Generated ${comprehensiveMediaPackage.analytics.totalAssetCount} professional media assets`)
+        addLog(`🚀 Achieved ${(comprehensiveMediaPackage.analytics.compressionRatio * 100).toFixed(1)}% size optimization`)
+        addLog(`⭐ Quality score: ${comprehensiveMediaPackage.analytics.qualityScore}/100`)
+        
+        // Store media assets for use in generation result
+        generatedMediaAssets = comprehensiveMediaPackage
+        
+        addLog('✅ AI media generation complete')
+      })
+
+      // Step 5: Project Scaffolding
+      await runStep(4, async () => {
         addLog('🏗️ Creating project file structure...')
         await simulateWork(1500)
         addLog('📦 Installing dependencies...')
@@ -231,8 +349,8 @@ export function AppGenerator({
         addLog('✅ Project scaffolding complete')
       })
 
-      // Step 4: ECE Branding
-      await runStep(3, async () => {
+      // Step 6: ECE Branding
+      await runStep(5, async () => {
         addLog('🏖️ Applying Beach Monokai color palette...')
         await simulateWork(1500)
         addLog('🎯 Integrating ECE brand guidelines...')
@@ -244,8 +362,8 @@ export function AppGenerator({
         addLog('✅ ECE branding integration complete')
       })
 
-      // Step 5: Quality Validation
-      await runStep(4, async () => {
+      // Step 7: Quality Validation
+      await runStep(6, async () => {
         addLog('🔍 Running ESLint quality checks...')
         await simulateWork(1500)
         addLog('🎯 TypeScript strict mode validation...')
@@ -257,8 +375,8 @@ export function AppGenerator({
         addLog('✅ Quality validation passed')
       })
 
-      // Step 6: Deployment
-      await runStep(5, async () => {
+      // Step 8: Deployment
+      await runStep(7, async () => {
         addLog('📚 Creating GitHub repository...')
         await simulateWork(2000)
         addLog('🚀 Deploying to Vercel...')
@@ -268,8 +386,8 @@ export function AppGenerator({
         addLog('✅ Deployment successful')
       })
 
-      // Step 7: App Card Generation
-      await runStep(6, async () => {
+      // Step 9: App Card Generation
+      await runStep(8, async () => {
         addLog('🎴 Generating trading card metadata...')
         await simulateWork(1000)
         addLog('⚔️ Calculating battle stats...')
@@ -291,6 +409,7 @@ export function AppGenerator({
         githubRepo: `https://github.com/ece-platform/${projectName.toLowerCase().replace(/\s+/g, '-')}`,
         vercelUrl: `https://${projectName.toLowerCase().replace(/\s+/g, '-')}.vercel.app`,
         downloadUrl: `/api/generated-apps/${Date.now()}/download`,
+        mediaAssets: generatedMediaAssets?.optimized || null,
         appCardData: {
           id: `card_${Date.now()}`,
           name: projectName,
@@ -300,7 +419,7 @@ export function AppGenerator({
           features: [...template.features, ...customFeatures],
           battleStats,
           rarity,
-          thumbnail: `/api/generated-apps/${Date.now()}/thumbnail`,
+          thumbnail: generatedMediaAssets?.optimized?.images?.hero?.[0] || `/api/generated-apps/${Date.now()}/thumbnail`,
           creator: 'ECE AI Generator'
         },
         timestamp: new Date()
@@ -613,7 +732,7 @@ export function AppGenerator({
                 <div>
                   <span className="text-[#75715E] text-sm">Tech Stack:</span>
                   <div className="flex flex-wrap gap-1 mt-1">
-                    {generationResult.appCardData.techStack.map((tech) => (
+                    {generationResult.appCardData.techStack.map((tech: string) => (
                       <Badge key={tech} variant="secondary" className="text-xs">
                         {tech}
                       </Badge>
@@ -625,6 +744,17 @@ export function AppGenerator({
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Media Assets Gallery */}
+      {generationResult?.mediaAssets && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+        >
+          <MediaGallery mediaAssets={generationResult.mediaAssets} />
+        </motion.div>
+      )}
 
       {/* Generation Log */}
       {(isGenerating || generationResult) && (
