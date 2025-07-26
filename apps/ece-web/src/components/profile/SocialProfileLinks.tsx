@@ -146,7 +146,7 @@ export function SocialProfileLinks({ className = '' }: SocialProfileLinksProps) 
         </div>
         <Button
           variant={isEditing ? 'accent' : 'ghost'}
-          size="sm"
+         
           onClick={() => setIsEditing(!isEditing)}
         >
           {isEditing ? (
@@ -227,7 +227,7 @@ export function SocialProfileLinks({ className = '' }: SocialProfileLinksProps) 
                     {link.isVisible && link.platform !== 'Discord' && (
                       <Button
                         variant="ghost"
-                        size="sm"
+                       
                         onClick={() => window.open(link.url, '_blank')}
                         className="text-[#66D9EF] hover:text-[#66D9EF]/80"
                       >
@@ -240,7 +240,7 @@ export function SocialProfileLinks({ className = '' }: SocialProfileLinksProps) 
                     <div className="flex items-center space-x-2">
                       <Button
                         variant="ghost"
-                        size="sm"
+                       
                         onClick={() => setEditingId(editingId === link.id ? null : link.id)}
                         className="text-[#E6DB74] hover:text-[#E6DB74]/80"
                       >
@@ -248,7 +248,7 @@ export function SocialProfileLinks({ className = '' }: SocialProfileLinksProps) 
                       </Button>
                       <Button
                         variant="ghost"
-                        size="sm"
+                       
                         onClick={() => toggleVisibility(link.id)}
                         className={link.isVisible ? 'text-[#A6E22E]' : 'text-[#75715E]'}
                       >
@@ -256,7 +256,7 @@ export function SocialProfileLinks({ className = '' }: SocialProfileLinksProps) 
                       </Button>
                       <Button
                         variant="ghost"
-                        size="sm"
+                       
                         onClick={() => removeSocialLink(link.id)}
                         className="text-[#F92672] hover:text-[#F92672]/80"
                       >

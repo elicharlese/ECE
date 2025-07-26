@@ -182,7 +182,7 @@ export function TradingActionButtons({
               Trading Actions
             </h3>
             <Button
-              size="sm"
+             
               variant="ghost"
               onClick={() => setShowDetails(!showDetails)}
               className="text-[#75715E] hover:text-[#F8EFD6]"
@@ -282,7 +282,7 @@ export function TradingActionButtons({
               Setup Required
             </h3>
             <Button
-              size="sm"
+             
               onClick={onManageSetup}
               className="bg-[#E6DB74] text-[#272822] hover:bg-[#E6DB74]/80"
             >

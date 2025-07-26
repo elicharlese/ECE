@@ -383,7 +383,7 @@ export function ProfileSecurity({ className = '' }: ProfileSecurityProps) {
                       <div className="flex-1">
                         <div className="text-[#E6DB74] font-medium mb-1">Enable Biometric Authentication</div>
                         <div className="text-sm text-[#75715E] mb-3">Add an extra layer of security with fingerprint or face recognition</div>
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline">
                           Enable Biometrics
                         </Button>
                       </div>
@@ -396,7 +396,7 @@ export function ProfileSecurity({ className = '' }: ProfileSecurityProps) {
                       <div className="flex-1">
                         <div className="text-[#66D9EF] font-medium mb-1">Enable Location-Based Security</div>
                         <div className="text-sm text-[#75715E] mb-3">Get alerted when your account is accessed from unusual locations</div>
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline">
                           Enable Location Security
                         </Button>
                       </div>
@@ -409,7 +409,7 @@ export function ProfileSecurity({ className = '' }: ProfileSecurityProps) {
                       <div className="flex-1">
                         <div className="text-[#F92672] font-medium mb-1">Untrusted Sessions Detected</div>
                         <div className="text-sm text-[#75715E] mb-3">You have active sessions from devices that aren't marked as trusted</div>
-                        <Button variant="outline" size="sm" onClick={() => setActiveTab('sessions')}>
+                        <Button variant="outline" onClick={() => setActiveTab('sessions')}>
                           Review Sessions
                         </Button>
                       </div>
@@ -452,7 +452,7 @@ export function ProfileSecurity({ className = '' }: ProfileSecurityProps) {
               <GlassCard variant="dark" className="p-6">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-xl font-bold text-[#F8EFD6]">Active Sessions</h3>
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline">
                     <RefreshCw className="w-4 h-4 mr-2" />
                     Refresh
                   </Button>
@@ -504,7 +504,7 @@ export function ProfileSecurity({ className = '' }: ProfileSecurityProps) {
                         {!session.isCurrentSession && (
                           <Button
                             variant="outline"
-                            size="sm"
+                           
                             onClick={() => revokeSession(session.id)}
                             disabled={isLoading}
                             className="text-[#F92672] border-[#F92672]/30 hover:bg-[#F92672]/10"
@@ -527,7 +527,7 @@ export function ProfileSecurity({ className = '' }: ProfileSecurityProps) {
               <GlassCard variant="dark" className="p-6">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-xl font-bold text-[#F8EFD6]">Security Alerts</h3>
-                  <Button variant="outline" size="sm">
+                  <Button variant="outline">
                     Mark All Read
                   </Button>
                 </div>
@@ -580,7 +580,7 @@ export function ProfileSecurity({ className = '' }: ProfileSecurityProps) {
                           </div>
                         </div>
                         
-                        <Button variant="ghost" size="sm">
+                        <Button variant="ghost">
                           <Info className="w-4 h-4" />
                         </Button>
                       </div>
@@ -721,7 +721,7 @@ export function ProfileSecurity({ className = '' }: ProfileSecurityProps) {
               <GlassCard variant="dark" className="p-6">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-xl font-bold text-[#F8EFD6]">API Keys</h3>
-                  <Button onClick={() => setShowApiKeys(!showApiKeys)} variant="outline" size="sm">
+                  <Button onClick={() => setShowApiKeys(!showApiKeys)} variant="outline">
                     {showApiKeys ? <EyeOff className="w-4 h-4 mr-2" /> : <Eye className="w-4 h-4 mr-2" />}
                     {showApiKeys ? 'Hide' : 'Show'} Keys
                   </Button>
@@ -766,7 +766,7 @@ export function ProfileSecurity({ className = '' }: ProfileSecurityProps) {
                                 {showApiKeys ? apiKey.key : '●'.repeat(32) + '...'}
                               </span>
                               {showApiKeys && (
-                                <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                                <Button variant="ghost" className="h-6 w-6 p-0">
                                   <Copy className="w-3 h-3" />
                                 </Button>
                               )}
@@ -783,10 +783,10 @@ export function ProfileSecurity({ className = '' }: ProfileSecurityProps) {
                         </div>
                         
                         <div className="flex items-center space-x-2">
-                          <Button variant="ghost" size="sm">
+                          <Button variant="ghost">
                             <RotateCcw className="w-4 h-4" />
                           </Button>
-                          <Button variant="ghost" size="sm" className="text-[#F92672] hover:bg-[#F92672]/10">
+                          <Button variant="ghost" className="text-[#F92672] hover:bg-[#F92672]/10">
                             <Trash2 className="w-4 h-4" />
                           </Button>
                         </div>

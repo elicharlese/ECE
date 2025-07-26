@@ -281,7 +281,7 @@ export function WishlistSystem({ className = '' }: WishlistSystemProps) {
         <div className="flex items-center space-x-2">
           <Button
             variant="ghost"
-            size="sm"
+           
             onClick={shareWishlist}
             className="text-[#66D9EF]"
           >
@@ -290,7 +290,7 @@ export function WishlistSystem({ className = '' }: WishlistSystemProps) {
           </Button>
           <Button
             variant={showPriceAlerts ? "accent" : "ghost"}
-            size="sm"
+           
             onClick={() => setShowPriceAlerts(!showPriceAlerts)}
           >
             <Bell className="w-4 h-4 mr-2" />
@@ -548,12 +548,12 @@ export function WishlistSystem({ className = '' }: WishlistSystemProps) {
                       
                       <div className="flex items-center space-x-2">
                         {card.availability === 'available' && (
-                          <Button variant="accent" size="sm">
+                          <Button variant="accent">
                             <ShoppingCart className="w-3 h-3 mr-1" />
                             Buy Now
                           </Button>
                         )}
-                        <Button variant="ghost" size="sm">
+                        <Button variant="ghost">
                           <Eye className="w-3 h-3" />
                         </Button>
                       </div>

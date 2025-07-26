@@ -205,7 +205,7 @@ export function ActionButtons({
             <Button
               onClick={() => handleAction(onUndo, 'undo', 2000, 'light')}
               disabled={!canUndo || !!cooldowns.undo}
-              size="sm"
+             
               className="w-10 h-10 rounded-full bg-[#75715E]/20 hover:bg-[#75715E]/30 text-[#75715E] hover:text-[#F8EFD6] border border-[#75715E]/30"
             >
               <RotateCcw className="h-4 w-4" />
@@ -376,7 +376,7 @@ export function ActionButtons({
                   Unlock Super Likes & Boosts with Pro
                 </p>
                 <Button
-                  size="sm"
+                 
                   className="bg-gradient-to-r from-[#E6DB74] to-[#F8EFD6] text-[#272822] hover:from-[#E6DB74]/80 hover:to-[#F8EFD6]/80"
                 >
                   <Crown className="h-3 w-3 mr-1" />

@@ -321,7 +321,7 @@ export const Marketplace: React.FC<MarketplaceProps> = ({
                         </div>
                         <Button
                           variant="ghost"
-                          size="sm"
+                         
                           onClick={() => handleWatchlist(card.id)}
                           className="p-1"
                         >
@@ -405,7 +405,7 @@ export const Marketplace: React.FC<MarketplaceProps> = ({
                   >
                     <RepositoryCard
                       repository={card}
-                      variant="default"
+                      variant="primary"
                       onView={(id) => window.open(card.githubUrl, '_blank')}
                     />
                   </motion.div>

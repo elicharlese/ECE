@@ -267,7 +267,7 @@ export function BettingMarkets({ onPlaceBet }: BettingMarketsProps) {
             <div className="flex gap-2">
               <Button
                 variant={selectedDirection === 'UP' ? 'primary' : 'outline'}
-                size="sm"
+               
                 onClick={() => setSelectedDirection('UP')}
                 className={`flex-1 ${
                   selectedDirection === 'UP' 
@@ -281,7 +281,7 @@ export function BettingMarkets({ onPlaceBet }: BettingMarketsProps) {
               
               <Button
                 variant={selectedDirection === 'DOWN' ? 'primary' : 'outline'}
-                size="sm"
+               
                 onClick={() => setSelectedDirection('DOWN')}
                 className={`flex-1 ${
                   selectedDirection === 'DOWN' 

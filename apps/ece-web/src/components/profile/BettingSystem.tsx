@@ -443,11 +443,11 @@ export function BettingSystem({ className = '' }: BettingSystemProps) {
                   />
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Button variant="ghost" size="sm">
+                  <Button variant="ghost">
                     <Filter className="w-4 h-4 mr-2" />
                     Filters
                   </Button>
-                  <Button variant="ghost" size="sm">
+                  <Button variant="ghost">
                     <RefreshCw className="w-4 h-4" />
                   </Button>
                 </div>
@@ -536,7 +536,7 @@ export function BettingSystem({ className = '' }: BettingSystemProps) {
                                 <div className="text-right">
                                   <div className="text-lg font-bold text-[#A6E22E]">{outcome.odds.toFixed(2)}x</div>
                                   <Button 
-                                    size="sm" 
+                                    
                                     className="mt-1"
                                     onClick={() => handlePlaceBet(market.id, outcome.id, betAmount)}
                                   >
@@ -642,7 +642,7 @@ export function BettingSystem({ className = '' }: BettingSystemProps) {
                           </div>
                         </div>
                         <div className="ml-4">
-                          <Button variant="ghost" size="sm">
+                          <Button variant="ghost">
                             <Eye className="w-4 h-4" />
                           </Button>
                         </div>

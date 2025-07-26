@@ -486,14 +486,14 @@ export function BiddingSystem({ className = '' }: BiddingSystemProps) {
                   />
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Button variant="ghost" size="sm">
+                  <Button variant="ghost">
                     <Filter className="w-4 h-4 mr-2" />
                     Filters
                   </Button>
-                  <Button variant="ghost" size="sm">
+                  <Button variant="ghost">
                     Sort: {sortBy.replace('_', ' ')}
                   </Button>
-                  <Button variant="ghost" size="sm">
+                  <Button variant="ghost">
                     <RefreshCw className="w-4 h-4" />
                   </Button>
                 </div>
@@ -567,7 +567,7 @@ export function BiddingSystem({ className = '' }: BiddingSystemProps) {
                           </div>
                           <Button
                             variant="ghost"
-                            size="sm"
+                           
                             onClick={() => handleWatchAuction(auction.id)}
                             className={auction.isWatched ? 'text-[#F92672]' : 'text-[#75715E]'}
                           >
@@ -671,14 +671,14 @@ export function BiddingSystem({ className = '' }: BiddingSystemProps) {
                           <div className="grid grid-cols-2 gap-2">
                             <Button 
                               variant="ghost" 
-                              size="sm"
+                             
                               onClick={() => setBidAmount(auction.currentBid + auction.minBidIncrement)}
                             >
                               Min Bid
                             </Button>
                             <Button 
                               variant="ghost" 
-                              size="sm"
+                             
                               onClick={() => setBidAmount(auction.currentBid + auction.minBidIncrement * 2)}
                             >
                               +{auction.minBidIncrement} ECE
@@ -688,7 +688,7 @@ export function BiddingSystem({ className = '' }: BiddingSystemProps) {
 
                         {/* Bid History (collapsed) */}
                         <div className="border-t border-[#75715E]/30 pt-3">
-                          <Button variant="ghost" size="sm" className="w-full">
+                          <Button variant="ghost" className="w-full">
                             <BarChart3 className="w-4 h-4 mr-2" />
                             View Bid History
                           </Button>
@@ -772,15 +772,15 @@ export function BiddingSystem({ className = '' }: BiddingSystemProps) {
                           </div>
                         </div>
                         <div className="ml-4 flex items-center space-x-2">
-                          <Button variant="ghost" size="sm">
+                          <Button variant="ghost">
                             <Eye className="w-4 h-4" />
                           </Button>
                           {bid.notifications ? (
-                            <Button variant="ghost" size="sm">
+                            <Button variant="ghost">
                               <Bell className="w-4 h-4 text-[#A6E22E]" />
                             </Button>
                           ) : (
-                            <Button variant="ghost" size="sm">
+                            <Button variant="ghost">
                               <BellOff className="w-4 h-4 text-[#75715E]" />
                             </Button>
                           )}

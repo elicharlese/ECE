@@ -506,7 +506,7 @@ export function TradingControlPanel({ className = '' }: TradingControlPanelProps
             <GlassCard variant="dark" className="p-6">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-bold text-[#F8EFD6]">Trading Templates</h3>
-                <Button variant="accent" size="sm">
+                <Button variant="accent">
                   <Plus className="w-4 h-4 mr-2" />
                   Create Template
                 </Button>
@@ -553,18 +553,18 @@ export function TradingControlPanel({ className = '' }: TradingControlPanelProps
                       <div className="flex items-center space-x-2 ml-4">
                         <Button 
                           variant="ghost" 
-                          size="sm"
+                         
                           onClick={() => handleTemplateActivate(template.id)}
                           disabled={template.isActive}
                         >
                           {template.isActive ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                         </Button>
-                        <Button variant="ghost" size="sm">
+                        <Button variant="ghost">
                           <Edit className="w-4 h-4" />
                         </Button>
                         <Button 
                           variant="ghost" 
-                          size="sm"
+                         
                           onClick={() => handleTemplateDelete(template.id)}
                           className="text-[#F92672] hover:text-[#F92672]"
                         >

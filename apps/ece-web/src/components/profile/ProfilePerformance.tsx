@@ -332,7 +332,7 @@ export function ProfilePerformance({ className = '' }: ProfilePerformanceProps) 
                   <Button
                     key={range.id}
                     variant={timeRange === range.id ? 'accent' : 'ghost'}
-                    size="sm"
+                   
                     onClick={() => setTimeRange(range.id)}
                   >
                     {range.label}
@@ -342,7 +342,7 @@ export function ProfilePerformance({ className = '' }: ProfilePerformanceProps) 
               
               <Button
                 variant="ghost"
-                size="sm"
+               
                 onClick={refreshMetrics}
                 disabled={isLoading}
               >

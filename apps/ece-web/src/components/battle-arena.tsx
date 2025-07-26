@@ -232,7 +232,7 @@ export const BattleArena: React.FC = () => {
                   >
                     <RepositoryCard
                       repository={card}
-                      variant="default"
+                      variant="primary"
                       showActions={false}
                     />
                   </motion.div>
@@ -275,7 +275,7 @@ export const BattleArena: React.FC = () => {
                     <Badge className="absolute -top-2 -left-2 z-10 bg-green-500">YOU</Badge>
                     <RepositoryCard
                       repository={battleState.player1}
-                      variant="default"
+                      variant="primary"
                       showActions={false}
                     />
                   </div>
@@ -305,7 +305,7 @@ export const BattleArena: React.FC = () => {
                     <Badge className="absolute -top-2 -right-2 z-10 bg-red-500">AI</Badge>
                     <RepositoryCard
                       repository={battleState.player2}
-                      variant="default"
+                      variant="primary"
                       showActions={false}
                     />
                   </div>

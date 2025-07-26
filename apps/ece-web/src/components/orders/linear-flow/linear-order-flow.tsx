@@ -20,8 +20,11 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { Slider } from '@/components/ui/slider'
 import { Badge } from '@/components/ui/badge'
-import { RepositorySelector } from '../github-mcp/repository-selector'
+import { RepositorySelector } from '../../github-mcp/repository-selector'
 import { GitHubRepository, RepositoryAnalysis } from '../github-mcp/github-mcp-client'
 
 interface OrderFormData {

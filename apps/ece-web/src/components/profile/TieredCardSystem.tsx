@@ -391,14 +391,14 @@ export const TieredCardSystem: React.FC<TieredCardSystemProps> = ({ className = 
           <div className="flex items-center space-x-2">
             <Button
               variant={viewMode === 'grid' ? 'accent' : 'ghost'}
-              size="sm"
+             
               onClick={() => setViewMode('grid')}
             >
               <Grid3X3 className="w-4 h-4" />
             </Button>
             <Button
               variant={viewMode === 'list' ? 'accent' : 'ghost'}
-              size="sm"
+             
               onClick={() => setViewMode('list')}
             >
               <List className="w-4 h-4" />

@@ -245,7 +245,7 @@ export const TradingCard: React.FC<TradingCardProps> = ({
             {onPass && (
               <Button
                 variant="outline"
-                size="sm"
+               
                 onClick={onPass}
                 className="shadow-soft hover:shadow-soft-lg text-xs"
               >
@@ -257,7 +257,7 @@ export const TradingCard: React.FC<TradingCardProps> = ({
             {onTrade && (
               <Button
                 variant="primary"
-                size="sm"
+               
                 onClick={onTrade}
                 className="bg-gradient-to-r from-monokai-accent to-monokai-accent/80 shadow-soft hover:shadow-soft-lg text-xs"
               >
@@ -269,7 +269,7 @@ export const TradingCard: React.FC<TradingCardProps> = ({
             {onCollect && (
               <Button
                 variant="secondary"
-                size="sm"
+               
                 onClick={onCollect}
                 className="shadow-soft hover:shadow-soft-lg text-xs"
               >
@@ -281,7 +281,7 @@ export const TradingCard: React.FC<TradingCardProps> = ({
             {onMint && (
               <Button
                 variant="primary"
-                size="sm"
+               
                 onClick={onMint}
                 className="bg-gradient-to-r from-monokai-purple to-monokai-purple/80 shadow-soft hover:shadow-soft-lg text-xs"
               >
@@ -293,7 +293,7 @@ export const TradingCard: React.FC<TradingCardProps> = ({
             {onView && (
               <Button
                 variant="ghost"
-                size="sm"
+               
                 onClick={onView}
                 className="shadow-soft hover:shadow-soft-lg text-xs col-span-full"
               >

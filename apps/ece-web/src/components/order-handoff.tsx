@@ -290,7 +290,7 @@ const OrderHandoff: React.FC<OrderHandoffProps> = ({
                     </div>
                     <Button
                       variant="ghost"
-                      size="sm"
+                     
                       onClick={() => window.open(deliverables.githubUrl, '_blank')}
                     >
                       <ExternalLink className="w-4 h-4" />
@@ -311,7 +311,7 @@ const OrderHandoff: React.FC<OrderHandoffProps> = ({
                     </div>
                     <Button
                       variant="ghost"
-                      size="sm"
+                     
                       onClick={() => window.open(deliverables.vercelUrl, '_blank')}
                     >
                       <ExternalLink className="w-4 h-4" />
@@ -332,7 +332,7 @@ const OrderHandoff: React.FC<OrderHandoffProps> = ({
                     </div>
                     <Button
                       variant="ghost"
-                      size="sm"
+                     
                       onClick={() => window.open(deliverables.downloadUrl, '_blank')}
                     >
                       <Download className="w-4 h-4" />
@@ -353,7 +353,7 @@ const OrderHandoff: React.FC<OrderHandoffProps> = ({
                     </div>
                     <Button
                       variant="ghost"
-                      size="sm"
+                     
                       onClick={() => window.location.href = '/app'}
                     >
                       <ExternalLink className="w-4 h-4" />

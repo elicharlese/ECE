@@ -242,7 +242,7 @@ export function TierUpgradeSystem({ className = '' }: TierUpgradeSystemProps) {
                     </div>
                     <Button
                       variant={canPerformUpgrade ? "accent" : "ghost"}
-                      size="sm"
+                     
                       disabled={!canPerformUpgrade || isUpgrading}
                       onClick={() => handleUpgradeStart(upgrade)}
                     >

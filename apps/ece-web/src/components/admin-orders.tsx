@@ -366,14 +366,14 @@ export function AdminOrders({ isAdmin = false }: AdminOrdersProps) {
                           <td className="py-4 px-4">
                             <div className="flex gap-2">
                               <Button
-                                size="sm"
+                               
                                 variant="outline"
                                 onClick={() => setSelectedOrder(order)}
                               >
                                 <Eye className="w-4 h-4" />
                               </Button>
                               <Button
-                                size="sm"
+                               
                                 variant="outline"
                                 onClick={() => updateOrderStatus(order.id, 'IN_PROGRESS', {
                                   progressPercentage: Math.min(order.progressPercentage + 25, 100)
@@ -382,7 +382,7 @@ export function AdminOrders({ isAdmin = false }: AdminOrdersProps) {
                                 <Edit className="w-4 h-4" />
                               </Button>
                               <Button
-                                size="sm"
+                               
                                 variant="outline"
                                 onClick={() => setShowCommunication(order)}
                               >
@@ -482,15 +482,15 @@ export function AdminOrders({ isAdmin = false }: AdminOrdersProps) {
                     <div>
                       <label className="text-sm font-medium text-ocean-dark dark:text-ocean-light">Deliverables</label>
                       <div className="flex gap-2 mt-2">
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline">
                           <ExternalLink className="w-4 h-4 mr-2" />
                           GitHub
                         </Button>
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline">
                           <ExternalLink className="w-4 h-4 mr-2" />
                           Vercel
                         </Button>
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline">
                           <Download className="w-4 h-4 mr-2" />
                           Download
                         </Button>

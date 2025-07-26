@@ -283,7 +283,7 @@ export default function OrderStatus() {
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Button
                     variant="outline"
-                    size="sm"
+                   
                     className="border-[#66D9EF]/30 text-[#66D9EF] hover:bg-[#66D9EF]/20"
                   >
                     <Download className="w-4 h-4 mr-2" />
@@ -292,7 +292,7 @@ export default function OrderStatus() {
                   
                   <Button
                     variant="outline"
-                    size="sm"
+                   
                     className="border-[#A6E22E]/30 text-[#A6E22E] hover:bg-[#A6E22E]/20"
                   >
                     <MessageSquare className="w-4 h-4 mr-2" />
@@ -394,7 +394,7 @@ export default function OrderStatus() {
                     </h3>
                     <Button
                       variant="ghost"
-                      size="sm"
+                     
                       onClick={() => setShowUpdates(!showUpdates)}
                       className="text-[#66D9EF] hover:bg-[#66D9EF]/20"
                     >
@@ -508,7 +508,7 @@ export default function OrderStatus() {
                   <div className="space-y-3">
                     <Button
                       variant="secondary"
-                      size="sm"
+                     
                       className="w-full justify-start bg-[#66D9EF]/20 text-[#66D9EF] hover:bg-[#66D9EF]/30"
                     >
                       <RefreshCw className="w-4 h-4 mr-2" />
@@ -517,7 +517,7 @@ export default function OrderStatus() {
                     
                     <Button
                       variant="secondary"
-                      size="sm"
+                     
                       className="w-full justify-start bg-[#A6E22E]/20 text-[#A6E22E] hover:bg-[#A6E22E]/30"
                     >
                       <Share className="w-4 h-4 mr-2" />

@@ -167,7 +167,7 @@ function AppLayoutInner({ children }: AppLayoutProps) {
             <div className="flex items-center space-x-2 md:space-x-4 relative">
               {/* Mobile Search Button */}
               <div className="md:hidden">
-                <Button variant="ghost" size="sm" className="p-2">
+                <Button variant="ghost" className="p-2">
                   <Search className="w-5 h-5" />
                 </Button>
               </div>
@@ -176,7 +176,7 @@ function AppLayoutInner({ children }: AppLayoutProps) {
               <div className="relative" ref={notificationRef}>
                 <Button 
                   variant="ghost" 
-                  size="sm" 
+                  
                   className="p-2 relative"
                   onClick={() => {
                     setShowNotifications(!showNotifications)
@@ -212,7 +212,7 @@ function AppLayoutInner({ children }: AppLayoutProps) {
               </div>
 
               {/* Messages */}
-              <Button variant="ghost" size="sm" className="p-2 hidden sm:flex">
+              <Button variant="ghost" className="p-2 hidden sm:flex">
                 <MessageCircle className="w-4 h-4 md:w-5 md:h-5" />
               </Button>
 
@@ -220,7 +220,7 @@ function AppLayoutInner({ children }: AppLayoutProps) {
               <div className="relative" ref={walletRef}>
                 <Button 
                   variant="ghost" 
-                  size="sm" 
+                  
                   className="p-2"
                   onClick={() => {
                     setShowWallet(!showWallet)

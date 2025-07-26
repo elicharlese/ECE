@@ -351,7 +351,7 @@ export const TierProgressTracker: React.FC<TierProgressTrackerProps> = ({ classN
             <Button
               key={tier.tierId}
               variant={selectedTier === tier.tierId ? 'accent' : 'ghost'}
-              size="sm"
+             
               onClick={() => setSelectedTier(tier.tierId)}
               className={`flex items-center space-x-2 ${
                 selectedTier === tier.tierId 

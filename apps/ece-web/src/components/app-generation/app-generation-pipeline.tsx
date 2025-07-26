@@ -402,10 +402,16 @@ export function AppGenerationPipeline({
                 id: selectedTemplate,
                 name: APP_TEMPLATES[selectedTemplate].name,
                 description: APP_TEMPLATES[selectedTemplate].description,
-                techStack: APP_TEMPLATES[selectedTemplate].techStack,
-                features: APP_TEMPLATES[selectedTemplate].features,
+                category: 'web', // Default category
                 complexity: APP_TEMPLATES[selectedTemplate].complexity,
-                estimatedTime: APP_TEMPLATES[selectedTemplate].estimatedTime
+                estimatedTime: 0, // TODO: Convert string to number of minutes
+                features: APP_TEMPLATES[selectedTemplate].features,
+                frameworks: APP_TEMPLATES[selectedTemplate].techStack,
+                icon: '⚡', // Default icon
+                baseFiles: {},
+                requiredSkills: [],
+                learningObjectives: [],
+                battleStatsTemplate: { power: 70, speed: 70, innovation: 70, scalability: 70 }
               }}
               projectName={projectName}
               projectDescription={projectDescription}
@@ -501,6 +507,7 @@ export function AppGenerationPipeline({
 
           <TabsContent value="generator" className="space-y-0">
             {/* Generator content is handled above */}
+            <></>
           </TabsContent>
 
           <TabsContent value="admin" className="space-y-6">

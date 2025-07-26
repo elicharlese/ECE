@@ -375,7 +375,7 @@ export function ProfileTabError({
         
         <Button
           variant="accent"
-          size="sm"
+         
           onClick={onRetry}
         >
           Try Again

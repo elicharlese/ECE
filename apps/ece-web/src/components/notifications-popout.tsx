@@ -198,14 +198,14 @@ export function NotificationsPopout({ isOpen, onClose, userId = 'user_pro_001', 
                     {unreadCount > 0 && (
                       <Button
                         variant="ghost"
-                        size="sm"
+                       
                         onClick={markAllAsRead}
                         className="text-xs"
                       >
                         Mark all read
                       </Button>
                     )}
-                    <Button variant="ghost" size="sm" onClick={onClose}>
+                    <Button variant="ghost" onClick={onClose}>
                       <X className="w-4 h-4" />
                     </Button>
                   </div>
@@ -270,7 +270,7 @@ export function NotificationsPopout({ isOpen, onClose, userId = 'user_pro_001', 
                                 {!notification.read && (
                                   <Button
                                     variant="ghost"
-                                    size="sm"
+                                   
                                     onClick={() => markAsRead(notification.id)}
                                     className="p-1"
                                   >
@@ -279,7 +279,7 @@ export function NotificationsPopout({ isOpen, onClose, userId = 'user_pro_001', 
                                 )}
                                 <Button
                                   variant="ghost"
-                                  size="sm"
+                                 
                                   onClick={() => dismissNotification(notification.id)}
                                   className="p-1"
                                 >
@@ -298,7 +298,7 @@ export function NotificationsPopout({ isOpen, onClose, userId = 'user_pro_001', 
               {/* Footer */}
               {notifications.length > 0 && (
                 <div className="p-3 border-t border-border/50 text-center">
-                  <Button variant="ghost" size="sm" className="text-xs">
+                  <Button variant="ghost" className="text-xs">
                     View All Notifications
                   </Button>
                 </div>

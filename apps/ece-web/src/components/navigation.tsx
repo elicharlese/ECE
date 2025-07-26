@@ -79,13 +79,13 @@ export function Navigation() {
             <div className="hidden md:flex items-center space-x-4">
               <ThemeToggle />
               <Link href="/signin">
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost">
                   <LogIn className="w-4 h-4 mr-2 text-ocean-primary dark:text-ocean-light" />
                   Sign In
                 </Button>
               </Link>
               <Link href="/signup">
-                <Button variant="accent" size="sm">
+                <Button variant="accent">
                   <User className="w-4 h-4 mr-2 text-white" />
                   Sign Up
                 </Button>
@@ -126,13 +126,13 @@ export function Navigation() {
                   <div className="pt-4 border-t border-white/10 space-y-2">
                     <ThemeToggle />
                     <Link href="/signin" className="block">
-                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                      <Button variant="ghost" className="w-full justify-start">
                         <LogIn className="w-4 h-4 mr-2 text-ocean-primary dark:text-ocean-light" />
                         Sign In
                       </Button>
                     </Link>
                     <Link href="/signup" className="block">
-                      <Button variant="accent" size="sm" className="w-full justify-start">
+                      <Button variant="accent" className="w-full justify-start">
                         <User className="w-4 h-4 mr-2 text-white" />
                         Sign Up
                       </Button>

@@ -257,7 +257,7 @@ const SolanaWallet: React.FC<SolanaWalletProps> = ({
             </div>
           </div>
           
-          <Button variant="outline" size="sm" onClick={disconnectWallet}>
+          <Button variant="outline" onClick={disconnectWallet}>
             Disconnect
           </Button>
         </div>
@@ -289,7 +289,7 @@ const SolanaWallet: React.FC<SolanaWalletProps> = ({
               <Button
                 onClick={claimRewards}
                 disabled={loading}
-                size="sm"
+               
                 className="bg-monokai-success text-white hover:bg-monokai-success/80"
               >
                 <Gift className="w-4 h-4 mr-1" />
@@ -361,7 +361,7 @@ const SolanaWallet: React.FC<SolanaWalletProps> = ({
           </h4>
           <Button
             variant="ghost"
-            size="sm"
+           
             onClick={() => setShowTransactions(!showTransactions)}
           >
             {showTransactions ? 'Hide' : 'Show All'}

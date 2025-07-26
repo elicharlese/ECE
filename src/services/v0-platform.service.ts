@@ -4,7 +4,8 @@
  * Maintains our middle-out development approach while leveraging v0's aesthetic expertise
  */
 
-import { fetch } from 'node-fetch'
+// Use global fetch in modern Node.js environments
+// import { fetch } from 'node-fetch' // Commented out for compatibility
 
 export interface V0ChatRequest {
   message: string

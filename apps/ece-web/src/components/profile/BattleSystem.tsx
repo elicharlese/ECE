@@ -415,7 +415,7 @@ export function BattleSystem({ className = '' }: BattleSystemProps) {
                       className="pl-10 w-64"
                     />
                   </div>
-                  <Button variant="ghost" size="sm">
+                  <Button variant="ghost">
                     <Filter className="w-4 h-4" />
                   </Button>
                 </div>
@@ -458,7 +458,7 @@ export function BattleSystem({ className = '' }: BattleSystemProps) {
                             <div className="text-sm font-medium text-[#F8EFD6]">{battle.prizePool} ECE</div>
                             <div className="text-xs text-[#75715E]">Prize Pool</div>
                           </div>
-                          <Button size="sm">
+                          <Button>
                             Join Battle
                           </Button>
                         </div>
@@ -562,7 +562,7 @@ export function BattleSystem({ className = '' }: BattleSystemProps) {
                       </div>
                       <div className="ml-4">
                         <Button 
-                          size="sm"
+                         
                           disabled={tournament.status !== 'registration'}
                           onClick={() => handleJoinTournament(tournament.id)}
                         >

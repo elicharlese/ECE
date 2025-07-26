@@ -266,7 +266,7 @@ export function ECEBalancePerformance({ className = '' }: ECEBalancePerformanceP
         <div className="flex items-center space-x-2">
           <Button
             variant="ghost"
-            size="sm"
+           
             onClick={() => setAutoRefresh(!autoRefresh)}
             className={autoRefresh ? 'text-[#A6E22E]' : 'text-[#75715E]'}
           >
@@ -274,7 +274,7 @@ export function ECEBalancePerformance({ className = '' }: ECEBalancePerformanceP
           </Button>
           <Button
             variant="ghost"
-            size="sm"
+           
             onClick={refreshBalance}
             disabled={isLoading}
             className="text-[#66D9EF]"
@@ -283,7 +283,7 @@ export function ECEBalancePerformance({ className = '' }: ECEBalancePerformanceP
           </Button>
           <Button
             variant="ghost"
-            size="sm"
+           
             onClick={exportReport}
             className="text-[#E6DB74]"
           >
@@ -417,7 +417,7 @@ export function ECEBalancePerformance({ className = '' }: ECEBalancePerformanceP
               <History className="w-5 h-5 mr-2" />
               Recent Transactions
             </h3>
-            <Button variant="ghost" size="sm" className="text-[#66D9EF]">
+            <Button variant="ghost" className="text-[#66D9EF]">
               <Calendar className="w-4 h-4 mr-2" />
               View All
             </Button>

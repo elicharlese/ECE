@@ -221,7 +221,7 @@ export const RepositoryCard: React.FC<RepositoryCardProps> = ({
               {onBattle && (
                 <Button
                   variant="outline"
-                  size="sm"
+                 
                   onClick={() => onBattle(repository.id)}
                   className="shadow-soft hover:shadow-soft-lg text-xs"
                 >
@@ -233,7 +233,7 @@ export const RepositoryCard: React.FC<RepositoryCardProps> = ({
               {onBid && (
                 <Button
                   variant="primary"
-                  size="sm"
+                 
                   onClick={() => onBid(repository.id)}
                   className="bg-gradient-to-r from-monokai-info to-monokai-info/80 shadow-soft hover:shadow-soft-lg text-xs"
                 >
@@ -245,7 +245,7 @@ export const RepositoryCard: React.FC<RepositoryCardProps> = ({
               {onBet && (
                 <Button
                   variant="secondary"
-                  size="sm"
+                 
                   onClick={() => onBet(repository.id)}
                   className="shadow-soft hover:shadow-soft-lg text-xs"
                 >
@@ -257,7 +257,7 @@ export const RepositoryCard: React.FC<RepositoryCardProps> = ({
               {onView && (
                 <Button
                   variant="ghost"
-                  size="sm"
+                 
                   onClick={() => onView(repository.id)}
                   className="shadow-soft hover:shadow-soft-lg text-xs col-span-full"
                 >

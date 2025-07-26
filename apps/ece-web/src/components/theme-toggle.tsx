@@ -32,7 +32,7 @@ export function ThemeToggle() {
   return (
     <Button
       variant="ghost"
-      size="sm"
+     
       onClick={handleToggle}
       className="relative overflow-hidden shadow-soft hover:shadow-soft-lg transition-all duration-300"
     >

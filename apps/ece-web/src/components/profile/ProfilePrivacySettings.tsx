@@ -203,7 +203,7 @@ export function ProfilePrivacySettings({ className = '' }: ProfilePrivacySetting
       >
         <Button
           variant="ghost"
-          size="sm"
+         
           onClick={resetToDefaults}
           className="text-[#66D9EF]"
         >
@@ -213,7 +213,7 @@ export function ProfilePrivacySettings({ className = '' }: ProfilePrivacySetting
         {hasChanges && (
           <Button
             variant="accent"
-            size="sm"
+           
             onClick={handleSaveChanges}
           >
             <Check className="w-4 h-4 mr-2" />

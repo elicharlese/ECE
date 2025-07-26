@@ -438,7 +438,7 @@ export function UserGeneratedAppsProfile({ userId, className }: UserGeneratedApp
                         <h4 className="text-[#F8EFD6] font-semibold">{app.name}</h4>
                         <p className="text-[#75715E] text-sm">{app.template}</p>
                       </div>
-                      <Badge className={getRarityColor(app.rarity)} size="sm">
+                      <Badge className={getRarityColor(app.rarity)}>
                         {getRarityIcon(app.rarity)}
                       </Badge>
                     </div>
@@ -463,7 +463,7 @@ export function UserGeneratedAppsProfile({ userId, className }: UserGeneratedApp
               <div className="flex items-center space-x-2">
                 <Button
                   variant={viewMode === 'grid' ? 'default' : 'ghost'}
-                  size="sm"
+                 
                   onClick={() => setViewMode('grid')}
                   className={viewMode === 'grid' ? 'bg-[#F92672] text-white' : 'text-[#75715E]'}
                 >
@@ -471,7 +471,7 @@ export function UserGeneratedAppsProfile({ userId, className }: UserGeneratedApp
                 </Button>
                 <Button
                   variant={viewMode === 'list' ? 'default' : 'ghost'}
-                  size="sm"
+                 
                   onClick={() => setViewMode('list')}
                   className={viewMode === 'list' ? 'bg-[#F92672] text-white' : 'text-[#75715E]'}
                 >
@@ -544,11 +544,11 @@ export function UserGeneratedAppsProfile({ userId, className }: UserGeneratedApp
                         <div className="flex-1">
                           <h4 className="text-[#F8EFD6] font-semibold truncate">{app.name}</h4>
                           <p className="text-[#75715E] text-sm">{app.template}</p>
-                          <Badge variant="secondary" size="sm" className="mt-1">
+                          <Badge variant="secondary" className="mt-1">
                             {app.category}
                           </Badge>
                         </div>
-                        <Badge className={getRarityColor(app.rarity)} size="sm">
+                        <Badge className={getRarityColor(app.rarity)}>
                           {getRarityIcon(app.rarity)}
                         </Badge>
                       </div>
@@ -597,11 +597,11 @@ export function UserGeneratedAppsProfile({ userId, className }: UserGeneratedApp
                           <h4 className="text-[#F8EFD6] font-semibold">{app.name}</h4>
                           <p className="text-[#75715E] text-sm">{app.description}</p>
                         </div>
-                        <Badge className={getRarityColor(app.rarity)} size="sm">
+                        <Badge className={getRarityColor(app.rarity)}>
                           {getRarityIcon(app.rarity)}
                           <span className="ml-1">{app.rarity}</span>
                         </Badge>
-                        <Badge variant="secondary" size="sm">{app.category}</Badge>
+                        <Badge variant="secondary">{app.category}</Badge>
                       </div>
                     </div>
                     
@@ -725,7 +725,7 @@ export function UserGeneratedAppsProfile({ userId, className }: UserGeneratedApp
                       <h4 className="text-[#F8EFD6] font-semibold">{achievement.name}</h4>
                       <p className="text-[#75715E] text-sm mb-2">{achievement.description}</p>
                       <div className="flex items-center justify-between">
-                        <Badge className={getAchievementColor(achievement.rarity)} size="sm">
+                        <Badge className={getAchievementColor(achievement.rarity)}>
                           {achievement.rarity}
                         </Badge>
                         <span className="text-[#75715E] text-xs">
@@ -766,7 +766,7 @@ export function UserGeneratedAppsProfile({ userId, className }: UserGeneratedApp
                   </div>
                   <Button
                     variant="ghost"
-                    size="sm"
+                   
                     onClick={() => setSelectedApp(null)}
                     className="text-[#75715E]"
                   >
@@ -786,11 +786,11 @@ export function UserGeneratedAppsProfile({ userId, className }: UserGeneratedApp
                         </div>
                         <div className="flex justify-between">
                           <span className="text-[#75715E]">Category:</span>
-                          <Badge variant="secondary" size="sm">{selectedApp.category}</Badge>
+                          <Badge variant="secondary">{selectedApp.category}</Badge>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-[#75715E]">Rarity:</span>
-                          <Badge className={getRarityColor(selectedApp.rarity)} size="sm">
+                          <Badge className={getRarityColor(selectedApp.rarity)}>
                             {getRarityIcon(selectedApp.rarity)}
                             <span className="ml-1">{selectedApp.rarity}</span>
                           </Badge>
@@ -806,7 +806,7 @@ export function UserGeneratedAppsProfile({ userId, className }: UserGeneratedApp
                       <h4 className="text-[#F8EFD6] font-semibold mb-2">Tech Stack</h4>
                       <div className="flex flex-wrap gap-1">
                         {selectedApp.techStack.map((tech) => (
-                          <Badge key={tech} variant="outline" size="sm">
+                          <Badge key={tech} variant="outline">
                             {tech}
                           </Badge>
                         ))}

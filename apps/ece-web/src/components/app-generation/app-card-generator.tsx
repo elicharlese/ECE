@@ -16,7 +16,8 @@ import {
   Download,
   Heart,
   Sword,
-  Gauge
+  Gauge,
+  AlertCircle
 } from 'lucide-react'
 import { GlassCard } from '../ui/glass-card'
 import { Button } from '../ui/button'
@@ -210,11 +211,12 @@ export function AppCardGenerator({ generatedApp, onCardGenerated, onError }: App
     category: AppCard['category']
   ) => {
     // Base stats from template complexity
-    const complexityMultiplier = {
+    const complexityMultipliers: { [key: string]: number } = {
       simple: 0.7,
       medium: 0.85,
       complex: 1.0
-    }[template.complexity] || 0.8
+    }
+    const complexityMultiplier = complexityMultipliers[template.complexity] || 0.8
 
     // Category-specific stat bonuses
     const categoryBonuses = {
@@ -540,16 +542,16 @@ export function AppCardGenerator({ generatedApp, onCardGenerated, onError }: App
             <div className="flex justify-center">
               <div className="flex bg-[#272822]/50 rounded-lg p-1">
                 <Button
-                  size="sm"
-                  variant={previewMode === 'card' ? 'default' : 'ghost'}
+                 
+                  variant={previewMode === 'card' ? 'primary' : 'ghost'}
                   onClick={() => setPreviewMode('card')}
                   className={previewMode === 'card' ? 'bg-[#F92672] text-white' : 'text-[#75715E]'}
                 >
                   Card View
                 </Button>
                 <Button
-                  size="sm"
-                  variant={previewMode === 'stats' ? 'default' : 'ghost'}
+                 
+                  variant={previewMode === 'stats' ? 'primary' : 'ghost'}
                   onClick={() => setPreviewMode('stats')}
                   className={previewMode === 'stats' ? 'bg-[#F92672] text-white' : 'text-[#75715E]'}
                 >
@@ -762,7 +764,7 @@ export function AppCardGenerator({ generatedApp, onCardGenerated, onError }: App
                               >
                                 {stage}
                               </Badge>
-                              {index < generatedCard.evolutionPath.length - 1 && (
+                              {generatedCard.evolutionPath && index < generatedCard.evolutionPath.length - 1 && (
                                 <span className="text-[#75715E]">→</span>
                               )}
                             </React.Fragment>

@@ -152,7 +152,7 @@ export function MediaGallery({ mediaAssets }: MediaGalleryProps) {
         <div className="flex items-center gap-2">
           <Button
             variant={viewMode === 'grid' ? 'default' : 'outline'}
-            size="sm"
+           
             onClick={() => setViewMode('grid')}
             className="bg-[#2A3F5F]/80 border-[#66D9EF]/30"
           >
@@ -160,7 +160,7 @@ export function MediaGallery({ mediaAssets }: MediaGalleryProps) {
           </Button>
           <Button
             variant={viewMode === 'list' ? 'default' : 'outline'}
-            size="sm"
+           
             onClick={() => setViewMode('list')}
             className="bg-[#2A3F5F]/80 border-[#66D9EF]/30"
           >
@@ -287,10 +287,10 @@ export function MediaGallery({ mediaAssets }: MediaGalleryProps) {
                       </div>
                       
                       <div className="flex items-center gap-2">
-                        <Button size="sm" variant="outline" className="bg-[#2A3F5F]/80 border-[#66D9EF]/30">
+                        <Button variant="outline" className="bg-[#2A3F5F]/80 border-[#66D9EF]/30">
                           <Download className="w-4 h-4" />
                         </Button>
-                        <Button size="sm" variant="outline" className="bg-[#2A3F5F]/80 border-[#66D9EF]/30">
+                        <Button variant="outline" className="bg-[#2A3F5F]/80 border-[#66D9EF]/30">
                           <ZoomIn className="w-4 h-4" />
                         </Button>
                       </div>
@@ -325,7 +325,7 @@ export function MediaGallery({ mediaAssets }: MediaGalleryProps) {
                   <h4 className="text-xl font-bold text-[#F8EFD6]">Asset Preview</h4>
                   <Button
                     variant="outline"
-                    size="sm"
+                   
                     onClick={() => setSelectedAsset(null)}
                     className="bg-[#2A3F5F]/80 border-[#66D9EF]/30"
                   >

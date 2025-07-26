@@ -239,7 +239,7 @@ export function AnalyticsDashboard({ data = mockAnalyticsData }: AnalyticsDashbo
             <Button
               key={period}
               variant={timeframe === period ? 'primary' : 'outline'}
-              size="sm"
+             
               onClick={() => setTimeframe(period)}
               className={
                 timeframe === period 

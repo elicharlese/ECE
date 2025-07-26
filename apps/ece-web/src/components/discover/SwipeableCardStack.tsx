@@ -179,7 +179,7 @@ function SwipeableCard({
             {card.trending && (
               <div className="absolute top-4 left-4">
                 <Badge 
-                  variant="default" 
+                  variant="primary" 
                   className="bg-[#F92672]/20 text-[#F92672] border-[#F92672]/30"
                 >
                   <TrendingUp className="w-3 h-3 mr-1" />
@@ -191,7 +191,7 @@ function SwipeableCard({
             {/* Rarity Badge */}
             <div className="absolute top-4 right-4">
               <Badge 
-                variant="default" 
+                variant="primary" 
                 className={`bg-gradient-to-r ${rarityGradients[card.rarity]} text-white border-0`}
               >
                 <Award className="w-3 h-3 mr-1" />

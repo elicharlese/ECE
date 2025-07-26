@@ -383,7 +383,7 @@ export default function StakingPage() {
                         <div className="flex gap-2">
                           <Button
                             variant="outline"
-                            size="sm"
+                           
                             className="border-[#A6E22E]/30 text-[#A6E22E] hover:bg-[#A6E22E]/10"
                           >
                             <Gift className="h-4 w-4 mr-2" />
@@ -392,7 +392,7 @@ export default function StakingPage() {
                           
                           <Button
                             variant="outline"
-                            size="sm"
+                           
                             onClick={() => handleUnstake(pool.id, pool.userStaked!)}
                             disabled={loading}
                             className="border-[#F92672]/30 text-[#F92672] hover:bg-[#F92672]/10"
@@ -468,7 +468,7 @@ export default function StakingPage() {
                           
                           {reward.status === 'Available' && (
                             <Button
-                              size="sm"
+                             
                               className="bg-gradient-to-r from-[#A6E22E] to-[#3EBA7C] hover:from-[#A6E22E]/80 hover:to-[#3EBA7C]/80 text-[#272822] font-semibold"
                             >
                               Claim

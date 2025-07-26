@@ -380,7 +380,7 @@ export default function GovernancePage() {
                           ) : (
                             <Button
                               onClick={() => setSelectedProposal(proposal)}
-                              size="sm"
+                             
                               className="bg-gradient-to-r from-[#66D9EF] to-[#819AFF] hover:from-[#66D9EF]/80 hover:to-[#819AFF]/80 text-[#272822] font-semibold"
                             >
                               <Vote className="h-4 w-4 mr-2" />
@@ -497,7 +497,7 @@ export default function GovernancePage() {
                         
                         <Button
                           variant="outline"
-                          size="sm"
+                         
                           className="border-[#75715E]/30 text-[#75715E] hover:bg-[#75715E]/10"
                         >
                           <Eye className="h-4 w-4 mr-2" />

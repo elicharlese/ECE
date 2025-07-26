@@ -329,13 +329,13 @@ export function OrdersDashboard({ userId, userBalance }: OrdersDashboardProps) {
                       </div>
 
                       <div className="flex space-x-2 ml-4">
-                        <Button variant="outline" size="sm">
+                        <Button variant="outline">
                           <MessageSquare className="w-4 h-4 mr-1" />
                           Messages
                         </Button>
                         <Button 
                           variant="outline" 
-                          size="sm"
+                         
                           onClick={() => setSelectedOrder(order)}
                         >
                           <Eye className="w-4 h-4 mr-1" />
@@ -408,7 +408,7 @@ export function OrdersDashboard({ userId, userBalance }: OrdersDashboardProps) {
                           {order.githubRepo && (
                             <Button 
                               variant="outline" 
-                              size="sm" 
+                              
                               onClick={() => window.open(order.githubRepo, '_blank', 'noopener noreferrer')}
                             >
                               <Github className="w-4 h-4 mr-1" />
@@ -418,7 +418,7 @@ export function OrdersDashboard({ userId, userBalance }: OrdersDashboardProps) {
                           {order.vercelLink && (
                             <Button 
                               variant="outline" 
-                              size="sm" 
+                              
                               onClick={() => window.open(order.vercelLink, '_blank', 'noopener noreferrer')}
                             >
                               <ExternalLink className="w-4 h-4 mr-1" />
@@ -428,7 +428,7 @@ export function OrdersDashboard({ userId, userBalance }: OrdersDashboardProps) {
                           {order.downloadLink && (
                             <Button 
                               variant="outline" 
-                              size="sm" 
+                              
                               onClick={() => window.open(order.downloadLink, '_blank', 'noopener noreferrer')}
                             >
                               <Download className="w-4 h-4 mr-1" />

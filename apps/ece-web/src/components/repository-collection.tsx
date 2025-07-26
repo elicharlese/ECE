@@ -271,7 +271,7 @@ export const RepositoryCollection: React.FC<RepositoryCollectionProps> = ({
                 {/* Rarity Filter */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="sm" className="shadow-soft">
+                    <Button variant="outline" className="shadow-soft">
                       <Filter className="h-4 w-4 mr-1" />
                       Rarity: {selectedRarity === 'all' ? 'All' : selectedRarity}
                     </Button>
@@ -289,7 +289,7 @@ export const RepositoryCollection: React.FC<RepositoryCollectionProps> = ({
                 {/* Sort */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="sm" className="shadow-soft">
+                    <Button variant="outline" className="shadow-soft">
                       Sort: {sortBy === 'value' ? 'Value' : sortBy === 'name' ? 'Name' : sortBy === 'innovation' ? 'Innovation' : 'Rarity'}
                     </Button>
                   </DropdownMenuTrigger>
@@ -306,7 +306,7 @@ export const RepositoryCollection: React.FC<RepositoryCollectionProps> = ({
               <div className="flex gap-2">
                 <Button
                   variant={viewMode === 'grid' ? 'default' : 'outline'}
-                  size="sm"
+                 
                   onClick={() => setViewMode('grid')}
                   className="shadow-soft"
                 >
@@ -314,7 +314,7 @@ export const RepositoryCollection: React.FC<RepositoryCollectionProps> = ({
                 </Button>
                 <Button
                   variant={viewMode === 'list' ? 'default' : 'outline'}
-                  size="sm"
+                 
                   onClick={() => setViewMode('list')}
                   className="shadow-soft"
                 >

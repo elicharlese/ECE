@@ -397,7 +397,7 @@ export default function Home() {
                       <div className="mt-6">
                         <Button 
                           variant="outline" 
-                          size="sm"
+                         
                           className={`border-[#75715E]/30 text-[#75715E] hover:bg-gradient-to-r hover:${feature.color} hover:text-white hover:border-transparent group-hover:translate-y-[-2px] transition-all duration-300`}
                         >
                           Try Now

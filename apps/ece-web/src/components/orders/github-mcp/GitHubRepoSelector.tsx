@@ -376,7 +376,7 @@ export const GitHubRepoSelector: React.FC<GitHubRepoSelectorProps> = ({
                       <div className="ml-4 text-right">
                         <Button
                           variant="ghost"
-                          size="sm"
+                         
                           onClick={(e) => {
                             e.stopPropagation()
                             window.open(repo.html_url, '_blank')

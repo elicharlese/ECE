@@ -727,7 +727,7 @@ export function OrderForm({ onSubmit, onClose, isOpen, userBalance }: OrderFormP
                               className="pl-10"
                             />
                           </div>
-                          <Button variant="outline" size="sm">
+                          <Button variant="outline">
                             <Filter className="w-4 h-4 mr-2" />
                             Filter
                           </Button>
@@ -749,7 +749,7 @@ export function OrderForm({ onSubmit, onClose, isOpen, userBalance }: OrderFormP
                                     </div>
                                     <Button
                                       variant="ghost"
-                                      size="sm"
+                                     
                                       onClick={() => removeCardFromSelection(card.id)}
                                     >
                                       <X className="w-4 h-4" />

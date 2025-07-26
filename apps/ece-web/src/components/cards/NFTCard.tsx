@@ -258,7 +258,7 @@ export function NFTCard({
           {/* Actions */}
           <div className="flex space-x-2 pt-4">
             <Button 
-              size="sm" 
+              
               className="flex-1 bg-[#F92672]/20 text-[#F92672] hover:bg-[#F92672]/30 border-[#F92672]/30"
               onClick={() => setShowDetails(true)}
             >
@@ -267,7 +267,7 @@ export function NFTCard({
             </Button>
             
             <Button 
-              size="sm" 
+              
               variant="outline" 
               className="border-[#A6E22E]/30 text-[#A6E22E] hover:bg-[#A6E22E]/10"
             >
@@ -275,7 +275,7 @@ export function NFTCard({
             </Button>
             
             <Button 
-              size="sm" 
+              
               variant="outline" 
               className="border-[#66D9EF]/30 text-[#66D9EF] hover:bg-[#66D9EF]/10"
             >
@@ -311,7 +311,7 @@ export function NFTCard({
                     </div>
                     <Button
                       variant="outline"
-                      size="sm"
+                     
                       onClick={() => setShowDetails(false)}
                       className="border-[#75715E]/30"
                     >

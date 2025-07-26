@@ -99,7 +99,7 @@ export function ToastProvider({ children }: ToastProviderProps) {
                   
                   <Button
                     variant="ghost"
-                    size="sm"
+                   
                     className="p-1 h-6 w-6 text-muted-foreground hover:text-foreground"
                     onClick={() => removeToast(toast.id)}
                   >

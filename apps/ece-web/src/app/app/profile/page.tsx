@@ -71,6 +71,8 @@ import { BiddingSystem } from '../../../components/profile/BiddingSystem'
 import { PowerupInventory } from '../../../components/powerups/PowerupInventory'
 import { PowerupCard } from '../../../components/powerups/PowerupCard'
 import { PowerupCategory, PowerupRarity, PowerupEffectType, ModifierType, PowerupSource } from '../../../types/powerups'
+import { ConnectRepoModal } from '../../../components/repo/ConnectRepoModal'
+import { GitHubRepoCard } from '../../../data/github-repo-cards'
 
 // Business Stats Data
 const businessStats = [
@@ -196,14 +198,23 @@ export default function Profile() {
   const [activeTab, setActiveTab] = useState('overview')
   const { subscription, isPro, isEnterprise } = useSubscription()
   const [userAvatar, setUserAvatar] = useState<string>('')
+  const [isConnectRepoModalOpen, setIsConnectRepoModalOpen] = useState(false)
+  const [userCards, setUserCards] = useState<GitHubRepoCard[]>([])
   
   // Mock session for demo - replace with actual session hook
-  const session = { user: { id: 'demo-user-123', email: 'demo@ece.com' } }
+  const session = { user: { id: 'demo-user-123', email: 'elicharles.e@gmail.com' } }
 
   const handleAvatarUpdate = (newAvatarUrl: string) => {
     setUserAvatar(newAvatarUrl)
     // In a real app, this would save to the backend
     console.log('Avatar updated:', newAvatarUrl)
+  }
+
+  const handleCardsGenerated = (newCards: GitHubRepoCard[]) => {
+    setUserCards(prev => [...prev, ...newCards])
+    setIsConnectRepoModalOpen(false)
+    // Switch to collection tab to show new cards
+    setActiveTab('collection')
   }
 
   return (
@@ -277,15 +288,22 @@ export default function Profile() {
 
             {/* Profile Actions */}
             <div className="flex flex-col space-y-3">
-              <Button variant="accent" size="sm">
+              <Button variant="accent">
                 <Edit3 className="w-4 h-4 mr-2" />
                 Edit Profile
               </Button>
-              <Button variant="ghost" size="sm">
+              <Button 
+                variant="ghost"
+                onClick={() => setIsConnectRepoModalOpen(true)}
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Connect Repos
+              </Button>
+              <Button variant="ghost">
                 <Share2 className="w-4 h-4 mr-2" />
                 Share Profile
               </Button>
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost">
                 <Heart className="w-4 h-4 mr-2" />
                 Follow
               </Button>
@@ -519,15 +537,15 @@ export default function Profile() {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <span className="text-[#F8EFD6]">Public Profile</span>
-                    <Button variant="ghost" size="sm">Configure</Button>
+                    <Button variant="ghost">Configure</Button>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-[#F8EFD6]">Trading Notifications</span>
-                    <Button variant="ghost" size="sm">Manage</Button>
+                    <Button variant="ghost">Manage</Button>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-[#F8EFD6]">Account Security</span>
-                    <Button variant="ghost" size="sm">Review</Button>
+                    <Button variant="ghost">Review</Button>
                   </div>
                 </div>
               </GlassCard>
@@ -548,6 +566,14 @@ export default function Profile() {
             </div>
           )}
         </div>
+
+      {/* Connect Repository Modal */}
+      <ConnectRepoModal
+        isOpen={isConnectRepoModalOpen}
+        onClose={() => setIsConnectRepoModalOpen(false)}
+        userEmail={session?.user?.email || 'elicharles.e@gmail.com'}
+        onCardsGenerated={handleCardsGenerated}
+      />
     </div>
   )
 }

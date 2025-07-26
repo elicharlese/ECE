@@ -156,7 +156,7 @@ export default function MarketplacePage() {
               <div className="relative">
                 <Button
                   variant="outline"
-                  size="sm"
+                 
                   className="border-[#75715E]/30 text-[#75715E] hover:bg-[#75715E]/10"
                 >
                   <Activity className="h-4 w-4" />

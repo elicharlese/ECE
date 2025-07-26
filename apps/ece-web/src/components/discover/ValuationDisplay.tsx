@@ -257,7 +257,7 @@ export function ValuationDisplay({
           {timeframes.map((timeframe) => (
             <Button
               key={timeframe}
-              size="sm"
+             
               variant={selectedTimeframe === timeframe ? "primary" : "ghost"}
               onClick={() => setSelectedTimeframe(timeframe)}
               className={selectedTimeframe === timeframe 
@@ -431,7 +431,7 @@ export function ValuationDisplay({
                     </div>
                     
                     <Button
-                      size="sm"
+                     
                       variant="ghost"
                       onClick={() => onToggleAlert(alert.id)}
                       className={alert.isActive ? "text-[#A6E22E]" : "text-[#75715E]"}

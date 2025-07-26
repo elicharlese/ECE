@@ -283,7 +283,7 @@ export function ProfileAnalytics({ className = '' }: ProfileAnalyticsProps) {
                   <Button
                     key={range.id}
                     variant={timeRange === range.id ? 'accent' : 'ghost'}
-                    size="sm"
+                   
                     onClick={() => setTimeRange(range.id)}
                   >
                     {range.label}
@@ -293,7 +293,7 @@ export function ProfileAnalytics({ className = '' }: ProfileAnalyticsProps) {
               
               <Button
                 variant="ghost"
-                size="sm"
+               
                 onClick={refreshAnalytics}
                 disabled={isLoading}
               >
@@ -301,7 +301,7 @@ export function ProfileAnalytics({ className = '' }: ProfileAnalyticsProps) {
                 Refresh
               </Button>
               
-              <Button variant="ghost" size="sm" onClick={exportAnalytics}>
+              <Button variant="ghost" onClick={exportAnalytics}>
                 <Download className="w-4 h-4 mr-2" />
                 Export
               </Button>

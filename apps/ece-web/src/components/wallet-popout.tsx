@@ -291,12 +291,12 @@ export function WalletPopout({ isOpen, onClose, userId = 'user_pro_001', onBalan
                   <div className="flex items-center space-x-2">
                     <Button
                       variant="ghost"
-                      size="sm"
+                     
                       onClick={() => setShowBalances(!showBalances)}
                     >
                       {showBalances ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </Button>
-                    <Button variant="ghost" size="sm" onClick={onClose}>
+                    <Button variant="ghost" onClick={onClose}>
                       <X className="w-4 h-4" />
                     </Button>
                   </div>
@@ -564,7 +564,7 @@ export function WalletPopout({ isOpen, onClose, userId = 'user_pro_001', onBalan
                                     <p className="text-lg font-mono tracking-wider">{walletData.physicalCard.cardNumber}</p>
                                     <Button
                                       variant="ghost"
-                                      size="sm"
+                                     
                                       onClick={copyCardNumber}
                                       className="p-1 text-white/60 hover:text-white"
                                     >
@@ -597,11 +597,11 @@ export function WalletPopout({ isOpen, onClose, userId = 'user_pro_001', onBalan
                               </Button>
                               
                               <div className="grid grid-cols-2 gap-2">
-                                <Button variant="secondary" size="sm">
+                                <Button variant="secondary">
                                   <Shield className="w-4 h-4 mr-2" />
                                   Lock Card
                                 </Button>
-                                <Button variant="secondary" size="sm">
+                                <Button variant="secondary">
                                   <ExternalLink className="w-4 h-4 mr-2" />
                                   Settings
                                 </Button>

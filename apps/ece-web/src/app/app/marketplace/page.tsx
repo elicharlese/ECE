@@ -14,12 +14,16 @@ import {
   Gavel,
   Sparkles,
   Crown,
-  Star
+  Star,
+  Plus,
+  Github
 } from 'lucide-react'
 import { GlassCard } from '../../../components/ui/glass-card'
 import { Button } from '../../../components/ui/button'
 import { useSubscription } from '../../../contexts/subscription-context'
 import { FeatureLock, SubscriptionBadge, ProEnhancedCard } from '../../../components/subscription-ui'
+import { ConnectRepoModal } from '../../../components/repo/ConnectRepoModal'
+import { GitHubRepoCard } from '../../../data/github-repo-cards'
 
 const marketplaceItems = [
   {
@@ -161,6 +165,7 @@ export default function Marketplace() {
   const [selectedSort, setSelectedSort] = useState('Recently Listed')
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [watchedItems, setWatchedItems] = useState<number[]>([])
+  const [isConnectRepoModalOpen, setIsConnectRepoModalOpen] = useState(false)
   
   const { 
     subscription, 
@@ -176,6 +181,12 @@ export default function Marketplace() {
         ? prev.filter(id => id !== itemId)
         : [...prev, itemId]
     )
+  }
+
+  const handleCardsGenerated = (newCards: GitHubRepoCard[]) => {
+    setIsConnectRepoModalOpen(false)
+    // In a real app, you might want to refresh the marketplace or show a success message
+    console.log('Generated cards:', newCards)
   }
 
   // Filter items based on subscription level
@@ -204,9 +215,20 @@ export default function Marketplace() {
               </p>
             </div>
             
-            {subscription && (
-              <SubscriptionBadge plan={subscription.plan} />
-            )}
+            <div className="flex items-center space-x-3">
+              <Button 
+                variant="accent"
+                onClick={() => setIsConnectRepoModalOpen(true)}
+                className="flex items-center"
+              >
+                <Github className="w-4 h-4 mr-2" />
+                Upload Your Apps
+              </Button>
+              
+              {subscription && (
+                <SubscriptionBadge plan={subscription.plan} />
+              )}
+            </div>
           </div>
           
           {/* Pro/Enterprise Features Banner */}
@@ -275,7 +297,7 @@ export default function Marketplace() {
                   <Button
                     key={category}
                     variant={selectedCategory === category ? "accent" : "ghost"}
-                    size="sm"
+                   
                     onClick={() => setSelectedCategory(category)}
                   >
                     {category}
@@ -428,16 +450,16 @@ export default function Marketplace() {
 
                       <div className={`flex gap-2 ${viewMode === 'list' ? 'justify-end' : ''}`}>
                         {item.type === 'auction' ? (
-                          <Button variant="accent" size="sm">
+                          <Button variant="accent">
                             Place Bid
                           </Button>
                         ) : (
-                          <Button variant="accent" size="sm">
+                          <Button variant="accent">
                             <ShoppingCart className="w-4 h-4 mr-1" />
                             Buy Now
                           </Button>
                         )}
-                        <Button variant="ghost" size="sm">
+                        <Button variant="ghost">
                           <Heart className="w-4 h-4" />
                         </Button>
                       </div>
@@ -458,7 +480,16 @@ export default function Marketplace() {
         >
           <Button variant="ghost" size="lg">
             Load More Items
-          </Button>      </motion.div>
+          </Button>
+        </motion.div>
+
+      {/* Connect Repository Modal */}
+      <ConnectRepoModal
+        isOpen={isConnectRepoModalOpen}
+        onClose={() => setIsConnectRepoModalOpen(false)}
+        userEmail="elicharles.e@gmail.com" // In real app, get from session
+        onCardsGenerated={handleCardsGenerated}
+      />
     </div>
   )
 }

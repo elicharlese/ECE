@@ -212,7 +212,7 @@ export function Card3DViewer({
           <div className="flex items-center space-x-2">
             <Button
               variant="ghost"
-              size="sm"
+             
               onClick={resetView}
               className="text-[#66D9EF]"
             >
@@ -220,7 +220,7 @@ export function Card3DViewer({
             </Button>
             <Button
               variant="ghost"
-              size="sm"
+             
               onClick={exportView}
               className="text-[#A6E22E]"
             >
@@ -228,7 +228,7 @@ export function Card3DViewer({
             </Button>
             <Button
               variant="ghost"
-              size="sm"
+             
               onClick={shareView}
               className="text-[#E6DB74]"
             >
@@ -236,7 +236,7 @@ export function Card3DViewer({
             </Button>
             <Button
               variant="ghost"
-              size="sm"
+             
               onClick={() => setIsFullscreen(!isFullscreen)}
               className="text-[#F92672]"
             >
@@ -316,7 +316,7 @@ export function Card3DViewer({
             </div>
             <Button
               variant={controls.autoRotate ? "accent" : "ghost"}
-              size="sm"
+             
               onClick={() => setControls(prev => ({ ...prev, autoRotate: !prev.autoRotate }))}
             >
               {controls.autoRotate ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
@@ -379,7 +379,7 @@ export function Card3DViewer({
             </div>
             <Button
               variant={controls.showEffects ? "accent" : "ghost"}
-              size="sm"
+             
               onClick={() => setControls(prev => ({ ...prev, showEffects: !prev.showEffects }))}
             >
               {controls.showEffects ? 'On' : 'Off'}
@@ -454,7 +454,7 @@ export function Card3DGallery({ cards, className = '' }: Card3DGalleryProps) {
         <div className="flex items-center space-x-2">
           <Button
             variant="ghost"
-            size="sm"
+           
             onClick={prevCard}
             disabled={cards.length <= 1}
           >
@@ -462,7 +462,7 @@ export function Card3DGallery({ cards, className = '' }: Card3DGalleryProps) {
           </Button>
           <Button
             variant="ghost"
-            size="sm"
+           
             onClick={nextCard}
             disabled={cards.length <= 1}
           >

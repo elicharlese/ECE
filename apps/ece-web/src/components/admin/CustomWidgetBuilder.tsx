@@ -301,7 +301,7 @@ export function CustomWidgetBuilder() {
                               <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <Button
                                   variant="ghost"
-                                  size="sm"
+                                 
                                   onClick={() => duplicateWidget(widget)}
                                   className="h-8 w-8 p-0"
                                 >
@@ -309,7 +309,7 @@ export function CustomWidgetBuilder() {
                                 </Button>
                                 <Button
                                   variant="ghost"
-                                  size="sm"
+                                 
                                   onClick={() => setEditingWidget(widget)}
                                   className="h-8 w-8 p-0"
                                 >
@@ -317,7 +317,7 @@ export function CustomWidgetBuilder() {
                                 </Button>
                                 <Button
                                   variant="ghost"
-                                  size="sm"
+                                 
                                   onClick={() => deleteWidget(widget.id)}
                                   className="h-8 w-8 p-0 text-red-500 hover:text-red-700"
                                 >
@@ -385,7 +385,7 @@ export function CustomWidgetBuilder() {
                 <BarChart3 className="w-12 h-12 text-blue-500 mx-auto mb-4" />
                 <h3 className="font-medium mb-2">Analytics Widget</h3>
                 <p className="text-sm text-[#75715E] mb-4">Track key metrics with charts</p>
-                <Button size="sm" onClick={createNewWidget}>Use Template</Button>
+                <Button onClick={createNewWidget}>Use Template</Button>
               </CardContent>
             </Card>
             {/* Add more templates... */}
@@ -415,7 +415,7 @@ export function CustomWidgetBuilder() {
                   <pre className="bg-[#75715E] dark:bg-[#75715E] p-4 rounded-lg text-sm overflow-x-auto">
                     <code>{generateWidgetCode(widget)}</code>
                   </pre>
-                  <Button size="sm" className="mt-2">Copy Code</Button>
+                  <Button className="mt-2">Copy Code</Button>
                 </CardContent>
               </Card>
             ))}

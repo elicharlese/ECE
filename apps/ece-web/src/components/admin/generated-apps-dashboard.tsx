@@ -305,14 +305,14 @@ export function GeneratedAppsDashboard({ className }: GeneratedAppsDashboardProp
         <div className="flex items-center space-x-3">
           <Button
             variant="outline"
-            size="sm"
+           
             onClick={() => setViewMode(viewMode === 'table' ? 'cards' : 'table')}
             className="border-[#75715E]/30 text-[#75715E]"
           >
             {viewMode === 'table' ? 'Card View' : 'Table View'}
           </Button>
           <Button
-            size="sm"
+           
             className="bg-gradient-to-r from-[#F92672] to-[#66D9EF] text-white"
           >
             <RefreshCw className="w-4 h-4 mr-2" />
@@ -478,7 +478,7 @@ export function GeneratedAppsDashboard({ className }: GeneratedAppsDashboardProp
 
           <Button
             variant="outline"
-            size="sm"
+           
             onClick={() => {
               setSearchTerm('')
               setStatusFilter('all')
@@ -516,7 +516,7 @@ export function GeneratedAppsDashboard({ className }: GeneratedAppsDashboardProp
             
             <Button
               variant="outline"
-              size="sm"
+             
               onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
               className="border-[#75715E]/30 text-[#75715E]"
             >
@@ -605,7 +605,7 @@ export function GeneratedAppsDashboard({ className }: GeneratedAppsDashboardProp
                     <TableCell>
                       <div className="flex items-center space-x-2">
                         <Button
-                          size="sm"
+                         
                           variant="ghost"
                           onClick={() => setSelectedApp(app)}
                           className="text-[#66D9EF] hover:bg-[#66D9EF]/20 p-1"
@@ -615,7 +615,7 @@ export function GeneratedAppsDashboard({ className }: GeneratedAppsDashboardProp
                         
                         {app.githubRepo && (
                           <Button
-                            size="sm"
+                           
                             variant="ghost"
                             onClick={() => window.open(app.githubRepo, '_blank')}
                             className="text-[#75715E] hover:bg-[#75715E]/20 p-1"
@@ -626,7 +626,7 @@ export function GeneratedAppsDashboard({ className }: GeneratedAppsDashboardProp
                         
                         {app.vercelUrl && (
                           <Button
-                            size="sm"
+                           
                             variant="ghost"
                             onClick={() => window.open(app.vercelUrl, '_blank')}
                             className="text-[#A6E22E] hover:bg-[#A6E22E]/20 p-1"
@@ -657,7 +657,7 @@ export function GeneratedAppsDashboard({ className }: GeneratedAppsDashboardProp
                       <h4 className="text-[#F8EFD6] font-semibold truncate">{app.name}</h4>
                       <p className="text-[#75715E] text-sm">{app.template}</p>
                     </div>
-                    <Badge className={getRarityColor(app.rarity)} size="sm">
+                    <Badge className={getRarityColor(app.rarity)}>
                       {getRarityIcon(app.rarity)}
                     </Badge>
                   </div>
@@ -673,7 +673,7 @@ export function GeneratedAppsDashboard({ className }: GeneratedAppsDashboardProp
                   </div>
                   
                   <div className="flex items-center justify-between text-xs">
-                    <Badge className={getStatusColor(app.status)} size="sm">
+                    <Badge className={getStatusColor(app.status)}>
                       {app.status}
                     </Badge>
                     <div className="text-[#75715E]">
@@ -712,7 +712,7 @@ export function GeneratedAppsDashboard({ className }: GeneratedAppsDashboardProp
                   </div>
                   <Button
                     variant="ghost"
-                    size="sm"
+                   
                     onClick={() => setSelectedApp(null)}
                     className="text-[#75715E]"
                   >
@@ -732,18 +732,18 @@ export function GeneratedAppsDashboard({ className }: GeneratedAppsDashboardProp
                         </div>
                         <div className="flex justify-between">
                           <span className="text-[#75715E]">Category:</span>
-                          <Badge variant="secondary" size="sm">{selectedApp.category}</Badge>
+                          <Badge variant="secondary">{selectedApp.category}</Badge>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-[#75715E]">Rarity:</span>
-                          <Badge className={getRarityColor(selectedApp.rarity)} size="sm">
+                          <Badge className={getRarityColor(selectedApp.rarity)}>
                             {getRarityIcon(selectedApp.rarity)}
                             <span className="ml-1">{selectedApp.rarity}</span>
                           </Badge>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-[#75715E]">Status:</span>
-                          <Badge className={getStatusColor(selectedApp.status)} size="sm">
+                          <Badge className={getStatusColor(selectedApp.status)}>
                             {selectedApp.status}
                           </Badge>
                         </div>
@@ -754,7 +754,7 @@ export function GeneratedAppsDashboard({ className }: GeneratedAppsDashboardProp
                       <h4 className="text-[#F8EFD6] font-semibold mb-2">Tech Stack</h4>
                       <div className="flex flex-wrap gap-1">
                         {selectedApp.techStack.map((tech) => (
-                          <Badge key={tech} variant="outline" size="sm">
+                          <Badge key={tech} variant="outline">
                             {tech}
                           </Badge>
                         ))}

@@ -78,7 +78,7 @@ export default function TokenPage() {
                 <div className="absolute top-4 right-4">
                   <Button
                     variant="ghost"
-                    size="sm"
+                   
                     onClick={() => setAutoRotate(!autoRotate)}
                     className="bg-white/10 hover:bg-white/20"
                   >

@@ -191,7 +191,7 @@ export default function Discover() {
               )}
             </Button>
             
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost">
               <Settings className="w-4 h-4" />
             </Button>
           </div>
@@ -207,7 +207,7 @@ export default function Discover() {
               <Button
                 onClick={resetFilters}
                 variant="ghost"
-                size="sm"
+               
                 className="text-beach-monokai-muted hover:text-beach-monokai-text"
               >
                 Reset All

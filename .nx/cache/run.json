@@ -1,9 +1,21 @@
 {
   "run": {
-    "command": "nx serve ece-web",
-    "startTime": "2025-07-25T18:50:04.018Z",
-    "endTime": "2025-07-25T18:51:11.311Z",
+    "command": "nx build ece-web",
+    "startTime": "2025-07-26T21:38:43.134Z",
+    "endTime": "2025-07-26T21:41:06.574Z",
     "inner": false
   },
-  "tasks": []
+  "tasks": [
+    {
+      "taskId": "ece-web:build:production",
+      "target": "build",
+      "projectName": "ece-web",
+      "hash": "17952920346334716885",
+      "startTime": "2025-07-26T21:38:43.165Z",
+      "endTime": "2025-07-26T21:41:06.557Z",
+      "params": "",
+      "cacheStatus": "cache-miss",
+      "status": 1
+    }
+  ]
 }

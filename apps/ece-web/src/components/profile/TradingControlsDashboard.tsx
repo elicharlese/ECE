@@ -230,7 +230,7 @@ export function TradingControlsDashboard() {
                 </div>
               </div>
               
-              <Button variant="accent" size="sm">
+              <Button variant="accent">
                 <Settings className="w-4 h-4 mr-2" />
                 Quick Setup
               </Button>
@@ -547,7 +547,7 @@ export function TradingControlsDashboard() {
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <h3 className="text-xl font-bold text-[#F8EFD6]">Auto-Trading Rules</h3>
-                <Button variant="accent" size="sm">
+                <Button variant="accent">
                   <Plus className="w-4 h-4 mr-2" />
                   Add Rule
                 </Button>
@@ -583,12 +583,12 @@ export function TradingControlsDashboard() {
                       <div className="flex items-center space-x-2">
                         <Button
                           variant="ghost"
-                          size="sm"
+                         
                           onClick={() => toggleAutoRule(rule.id)}
                         >
                           {rule.isActive ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                         </Button>
-                        <Button variant="ghost" size="sm">
+                        <Button variant="ghost">
                           <Settings className="w-4 h-4" />
                         </Button>
                       </div>
@@ -623,7 +623,7 @@ export function TradingControlsDashboard() {
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <h3 className="text-xl font-bold text-[#F8EFD6]">Trading Templates</h3>
-                <Button variant="accent" size="sm">
+                <Button variant="accent">
                   <Plus className="w-4 h-4 mr-2" />
                   Create Template
                 </Button>
@@ -639,7 +639,7 @@ export function TradingControlsDashboard() {
                         <Badge variant="outline">{template.type.replace('_', ' ')}</Badge>
                       </div>
                       
-                      <Button variant="ghost" size="sm">
+                      <Button variant="ghost">
                         <Play className="w-4 h-4" />
                       </Button>
                     </div>
@@ -657,10 +657,10 @@ export function TradingControlsDashboard() {
                       </div>
                       
                       <div className="flex space-x-2 pt-2">
-                        <Button variant="ghost" size="sm" className="flex-1">
+                        <Button variant="ghost" className="flex-1">
                           Use Template
                         </Button>
-                        <Button variant="ghost" size="sm">
+                        <Button variant="ghost">
                           <Settings className="w-4 h-4" />
                         </Button>
                       </div>
@@ -688,11 +688,11 @@ export function TradingControlsDashboard() {
                   </div>
                   
                   <div className="flex space-x-3">
-                    <Button variant="ghost" size="sm">
+                    <Button variant="ghost">
                       <RefreshCw className="w-4 h-4 mr-2" />
                       Reset Codes
                     </Button>
-                    <Button variant="ghost" size="sm">
+                    <Button variant="ghost">
                       <Settings className="w-4 h-4 mr-2" />
                       Configure
                     </Button>

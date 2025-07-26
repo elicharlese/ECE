@@ -63,7 +63,7 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
 
   if (!mounted) {
     return (
-      <Button variant="ghost" size="sm" className={className}>
+      <Button variant="ghost" className={className}>
         <Monitor className="h-4 w-4" />
       </Button>
     )
@@ -72,7 +72,7 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className={className}>
+        <Button variant="ghost" className={className}>
           <motion.div
             key={theme}
             initial={{ scale: 0.8, opacity: 0 }}
