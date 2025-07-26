@@ -2,6 +2,7 @@
 // Automatically generates trading cards from connected repositories
 
 import { GitHubRepoCard } from '../data/github-repo-cards'
+import { AppQualityService, QualityScore } from './app-quality-standards.service'
 
 export interface RepoAnalysis {
   name: string
@@ -26,37 +27,81 @@ export interface ProviderRepo {
   name: string
   fullName: string
   url: string
-  provider: 'github' | 'gitlab' | 'azure' | 'aws' | 'bitbucket'
+  provider: 'github' | 'gitlab' | 'azure' | 'aws' | 'bitbucket' | 'sourcehut' | 'codeberg' | 'gitea'
   analysis: RepoAnalysis
+  qualityScore?: QualityScore
+  eligibleForMarketplace?: boolean
 }
 
 export class RepoCardGeneratorService {
   
   // Connect to different repository providers
   static async connectProvider(provider: string, accessToken: string): Promise<ProviderRepo[]> {
+    let repos: ProviderRepo[] = []
+    
     switch (provider) {
       case 'github':
-        return this.fetchGitHubRepos(accessToken)
+        repos = await this.fetchGitHubRepos(accessToken)
+        break
       case 'gitlab':
-        return this.fetchGitLabRepos(accessToken)
-      case 'azure':
-        return this.fetchAzureRepos(accessToken)
-      case 'aws':
-        return this.fetchAWSRepos(accessToken)
+        repos = await this.fetchGitLabRepos(accessToken)
+        break
       case 'bitbucket':
-        return this.fetchBitbucketRepos(accessToken)
+        repos = await this.fetchBitbucketRepos(accessToken)
+        break
+      case 'azure':
+        repos = await this.fetchAzureRepos(accessToken)
+        break
+      case 'aws':
+        repos = await this.fetchAWSRepos(accessToken)
+        break
+      case 'sourcehut':
+        repos = await this.fetchSourceHutRepos(accessToken)
+        break
+      case 'codeberg':
+        repos = await this.fetchCodebergRepos(accessToken)
+        break
+      case 'gitea':
+        repos = await this.fetchGiteaRepos(accessToken)
+        break
       default:
         throw new Error(`Unsupported provider: ${provider}`)
     }
+
+    // Validate each repository against quality standards
+    return repos.map(repo => {
+      const qualityScore = AppQualityService.validateApp(repo)
+      const eligibleForMarketplace = qualityScore.eligibleForMarketplace
+      
+      return {
+        ...repo,
+        qualityScore,
+        eligibleForMarketplace
+      }
+    })
   }
 
   // Generate trading card from repository analysis
-  static generateCardFromRepo(repo: ProviderRepo, userId: string): GitHubRepoCard {
+  static generateCardFromRepo(repo: ProviderRepo, userId: string): GitHubRepoCard | null {
+    // Check if repository meets quality standards
+    if (!repo.eligibleForMarketplace) {
+      console.warn(`Repository ${repo.name} does not meet marketplace standards`)
+      return null
+    }
+
+    const qualityScore = repo.qualityScore!
+    const suggestedCategory = AppQualityService.determineCategory(repo, qualityScore)
+    
+    if (suggestedCategory === 'rejected') {
+      console.warn(`Repository ${repo.name} was rejected based on quality standards`)
+      return null
+    }
+
     const complexity = this.calculateComplexity(repo.analysis)
-    const rarity = this.calculateRarity(repo.analysis)
-    const category = this.determineCategory(repo.analysis)
-    const battleStats = this.calculateBattleStats(repo.analysis)
-    const estimatedValue = this.calculateValue(repo.analysis)
+    const rarity = this.calculateRarity(repo.analysis, qualityScore)
+    const category = suggestedCategory
+    const battleStats = this.calculateBattleStats(repo.analysis, qualityScore)
+    const estimatedValue = this.calculateValue(repo.analysis, qualityScore)
 
     return {
       id: `${repo.provider}-${repo.id}-${Date.now()}`,
@@ -70,15 +115,15 @@ export class RepoCardGeneratorService {
       estimatedValue,
       rarity,
       stats: {
-        innovation: this.calculateInnovation(repo.analysis),
-        scalability: this.calculateScalability(repo.analysis),
-        marketPotential: this.calculateMarketPotential(repo.analysis),
-        technicalDepth: this.calculateTechnicalDepth(repo.analysis)
+        innovation: this.calculateInnovation(repo.analysis, qualityScore),
+        scalability: this.calculateScalability(repo.analysis, qualityScore),
+        marketPotential: this.calculateMarketPotential(repo.analysis, qualityScore),
+        technicalDepth: this.calculateTechnicalDepth(repo.analysis, qualityScore)
       },
       features: this.extractFeatures(repo.analysis),
       deploymentOptions: this.suggestDeploymentOptions(repo.analysis.techStack),
       battleStats,
-      isPublicForTrading: repo.analysis.isPublic,
+      isPublicForTrading: repo.analysis.isPublic && repo.eligibleForMarketplace,
       owner: userId,
       createdAt: new Date().toISOString().split('T')[0],
       lastUpdated: repo.analysis.lastUpdated
@@ -161,9 +206,72 @@ export class RepoCardGeneratorService {
   }
 
   private static async fetchBitbucketRepos(token: string): Promise<ProviderRepo[]> {
-    // Bitbucket implementation
-    // Would implement Bitbucket API calls
-    console.log('Bitbucket repos fetch - implementation needed')
+    try {
+      const response = await fetch('https://api.bitbucket.org/2.0/repositories?role=member&per_page=100', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch Bitbucket repositories')
+      }
+      
+      const data = await response.json()
+      const repos = data.values || []
+      
+      return repos.map((repo: any) => ({
+        id: repo.uuid,
+        name: repo.name,
+        fullName: repo.full_name,
+        url: repo.links.html.href,
+        provider: 'bitbucket' as const,
+        analysis: this.analyzeBitbucketRepo(repo)
+      }))
+    } catch (error) {
+      console.error('Error fetching Bitbucket repos:', error)
+      return []
+    }
+  }
+
+  private static async fetchSourceHutRepos(token: string): Promise<ProviderRepo[]> {
+    // SourceHut implementation - would use GraphQL API
+    console.log('SourceHut repos fetch - implementation needed')
+    return []
+  }
+
+  private static async fetchCodebergRepos(token: string): Promise<ProviderRepo[]> {
+    // Codeberg uses Gitea API
+    try {
+      const response = await fetch('https://codeberg.org/api/v1/user/repos', {
+        headers: {
+          'Authorization': `token ${token}`
+        }
+      })
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch Codeberg repositories')
+      }
+      
+      const repos = await response.json()
+      
+      return repos.map((repo: any) => ({
+        id: repo.id.toString(),
+        name: repo.name,
+        fullName: repo.full_name,
+        url: repo.html_url,
+        provider: 'codeberg' as const,
+        analysis: this.analyzeGiteaRepo(repo)
+      }))
+    } catch (error) {
+      console.error('Error fetching Codeberg repos:', error)
+      return []
+    }
+  }
+
+  private static async fetchGiteaRepos(token: string): Promise<ProviderRepo[]> {
+    // Generic Gitea implementation - would need instance URL
+    console.log('Gitea repos fetch - implementation needed (requires instance URL)')
     return []
   }
 
@@ -221,7 +329,47 @@ export class RepoCardGeneratorService {
     }
   }
 
-  // Calculation methods
+  private static analyzeBitbucketRepo(repo: any): RepoAnalysis {
+    return {
+      name: repo.name,
+      description: repo.description || '',
+      language: repo.language || 'Unknown',
+      languages: {},
+      stars: 0, // Bitbucket doesn't have stars
+      forks: 0,
+      size: repo.size || 0,
+      complexity: this.calculateComplexityFromSize(repo.size || 0, 1),
+      techStack: repo.language ? [repo.language] : [],
+      lastUpdated: repo.updated_on,
+      isPublic: !repo.is_private,
+      hasReadme: true,
+      hasTests: false,
+      hasCI: false,
+      contributors: 1
+    }
+  }
+
+  private static analyzeGiteaRepo(repo: any): RepoAnalysis {
+    return {
+      name: repo.name,
+      description: repo.description || '',
+      language: repo.language || 'Unknown',
+      languages: {},
+      stars: repo.stars_count || 0,
+      forks: repo.forks_count || 0,
+      size: repo.size || 0,
+      complexity: this.calculateComplexityFromSize(repo.size || 0, 1),
+      techStack: repo.language ? [repo.language] : [],
+      lastUpdated: repo.updated_at,
+      isPublic: !repo.private,
+      hasReadme: true,
+      hasTests: false,
+      hasCI: false,
+      contributors: 1
+    }
+  }
+
+  // Calculation methods with quality score integration
   private static calculateComplexity(analysis: RepoAnalysis): 'simple' | 'moderate' | 'complex' | 'enterprise' {
     const score = 
       (analysis.size > 10000 ? 2 : analysis.size > 1000 ? 1 : 0) +
@@ -236,35 +384,37 @@ export class RepoCardGeneratorService {
     return 'simple'
   }
 
-  private static calculateRarity(analysis: RepoAnalysis): 'common' | 'rare' | 'epic' | 'legendary' | 'mythic' {
-    const score = 
+  private static calculateRarity(analysis: RepoAnalysis, qualityScore?: QualityScore): 'common' | 'rare' | 'epic' | 'legendary' | 'mythic' {
+    let score = 
       (analysis.stars > 1000 ? 3 : analysis.stars > 100 ? 2 : analysis.stars > 10 ? 1 : 0) +
       (analysis.forks > 500 ? 2 : analysis.forks > 50 ? 1 : 0) +
       (analysis.contributors > 20 ? 2 : analysis.contributors > 5 ? 1 : 0)
 
-    if (score >= 6) return 'mythic'
-    if (score >= 5) return 'legendary'
-    if (score >= 3) return 'epic'
+    // Boost score based on quality
+    if (qualityScore) {
+      if (qualityScore.overall >= 90) score += 2
+      else if (qualityScore.overall >= 75) score += 1
+    }
+
+    if (score >= 7) return 'mythic'
+    if (score >= 6) return 'legendary'
+    if (score >= 4) return 'epic'
     if (score >= 2) return 'rare'
     return 'common'
   }
 
-  private static determineCategory(analysis: RepoAnalysis): 'majors' | 'minors' | 'mvps' {
-    if (analysis.complexity === 'enterprise' || analysis.stars > 500) return 'majors'
-    if (analysis.complexity === 'complex' || analysis.stars > 50) return 'minors'
-    return 'mvps'
-  }
-
-  private static calculateBattleStats(analysis: RepoAnalysis) {
+  private static calculateBattleStats(analysis: RepoAnalysis, qualityScore?: QualityScore) {
+    const qualityBonus = qualityScore ? Math.floor(qualityScore.overall / 10) : 0
+    
     return {
-      attack: Math.min(100, 50 + (analysis.stars / 10) + (analysis.contributors * 2)),
-      defense: Math.min(100, 40 + (analysis.hasTests ? 20 : 0) + (analysis.hasCI ? 15 : 0)),
-      speed: Math.min(100, 60 + (Object.keys(analysis.languages).length * 5)),
-      utility: Math.min(100, 30 + (analysis.forks / 5) + (analysis.description ? 10 : 0))
+      attack: Math.min(100, 50 + (analysis.stars / 10) + (analysis.contributors * 2) + qualityBonus),
+      defense: Math.min(100, 40 + (analysis.hasTests ? 20 : 0) + (analysis.hasCI ? 15 : 0) + qualityBonus),
+      speed: Math.min(100, 60 + (Object.keys(analysis.languages).length * 5) + qualityBonus),
+      utility: Math.min(100, 30 + (analysis.forks / 5) + (analysis.description ? 10 : 0) + qualityBonus)
     }
   }
 
-  private static calculateValue(analysis: RepoAnalysis): number {
+  private static calculateValue(analysis: RepoAnalysis, qualityScore?: QualityScore): number {
     const baseValue = 100
     const starMultiplier = analysis.stars * 5
     const forkMultiplier = analysis.forks * 3
@@ -275,23 +425,55 @@ export class RepoCardGeneratorService {
       'enterprise': 3
     }[analysis.complexity]
 
-    return Math.round(baseValue + starMultiplier + forkMultiplier * complexityMultiplier)
+    let value = baseValue + starMultiplier + forkMultiplier * complexityMultiplier
+
+    // Apply quality bonus
+    if (qualityScore) {
+      const qualityMultiplier = 1 + (qualityScore.overall / 100)
+      value *= qualityMultiplier
+    }
+
+    return Math.round(value)
   }
 
-  private static calculateInnovation(analysis: RepoAnalysis): number {
-    return Math.min(100, 50 + (analysis.stars / 20) + (Object.keys(analysis.languages).length * 3))
+  private static calculateInnovation(analysis: RepoAnalysis, qualityScore?: QualityScore): number {
+    let score = 50 + (analysis.stars / 20) + (Object.keys(analysis.languages).length * 3)
+    
+    if (qualityScore?.breakdown?.innovation) {
+      score = Math.max(score, qualityScore.breakdown.innovation)
+    }
+    
+    return Math.min(100, score)
   }
 
-  private static calculateScalability(analysis: RepoAnalysis): number {
-    return Math.min(100, 40 + (analysis.hasTests ? 30 : 0) + (analysis.hasCI ? 20 : 0) + (analysis.contributors * 2))
+  private static calculateScalability(analysis: RepoAnalysis, qualityScore?: QualityScore): number {
+    let score = 40 + (analysis.hasTests ? 30 : 0) + (analysis.hasCI ? 20 : 0) + (analysis.contributors * 2)
+    
+    if (qualityScore?.breakdown?.codeQuality) {
+      score = Math.max(score, qualityScore.breakdown.codeQuality)
+    }
+    
+    return Math.min(100, score)
   }
 
-  private static calculateMarketPotential(analysis: RepoAnalysis): number {
-    return Math.min(100, 30 + (analysis.stars / 10) + (analysis.forks / 5) + (analysis.isPublic ? 20 : 0))
+  private static calculateMarketPotential(analysis: RepoAnalysis, qualityScore?: QualityScore): number {
+    let score = 30 + (analysis.stars / 10) + (analysis.forks / 5) + (analysis.isPublic ? 20 : 0)
+    
+    if (qualityScore?.breakdown?.marketPotential) {
+      score = Math.max(score, qualityScore.breakdown.marketPotential)
+    }
+    
+    return Math.min(100, score)
   }
 
-  private static calculateTechnicalDepth(analysis: RepoAnalysis): number {
-    return Math.min(100, 40 + (Object.keys(analysis.languages).length * 8) + (analysis.size / 1000))
+  private static calculateTechnicalDepth(analysis: RepoAnalysis, qualityScore?: QualityScore): number {
+    let score = 40 + (Object.keys(analysis.languages).length * 8) + (analysis.size / 1000)
+    
+    if (qualityScore?.breakdown?.technicalDepth) {
+      score = Math.max(score, qualityScore.breakdown.technicalDepth)
+    }
+    
+    return Math.min(100, score)
   }
 
   // Helper methods

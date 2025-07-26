@@ -16,7 +16,11 @@ import {
   GitFork,
   Code,
   Shield,
-  Zap
+  Zap,
+  AlertTriangle,
+  Info,
+  CheckCircle2,
+  XCircle
 } from 'lucide-react'
 import { GlassCard } from '../ui/glass-card'
 import { Button } from '../ui/button'
@@ -24,6 +28,7 @@ import { Badge } from '../ui/badge'
 import { RepoCardGeneratorService, ProviderRepo } from '../../services/repo-card-generator.service'
 import { GitHubRepoCard } from '../../data/github-repo-cards'
 import { addCardToUser, connectProviderToUser } from '../../data/user-profiles'
+import { AppQualityService } from '../../services/app-quality-standards.service'
 
 interface ConnectRepoModalProps {
   isOpen: boolean
@@ -111,6 +116,8 @@ export function ConnectRepoModal({ isOpen, onClose, userEmail, onCardsGenerated 
   const [selectedProvider, setSelectedProvider] = useState<string | null>(null)
   const [isConnecting, setIsConnecting] = useState(false)
   const [connectedRepos, setConnectedRepos] = useState<ProviderRepo[]>([])
+  const [eligibleRepos, setEligibleRepos] = useState<ProviderRepo[]>([])
+  const [rejectedRepos, setRejectedRepos] = useState<ProviderRepo[]>([])
   const [generatedCards, setGeneratedCards] = useState<GitHubRepoCard[]>([])
   const [step, setStep] = useState<'select' | 'connect' | 'repos' | 'generate' | 'complete'>('select')
   const [error, setError] = useState<string | null>(null)
@@ -141,6 +148,13 @@ export function ConnectRepoModal({ isOpen, onClose, userEmail, onCardsGenerated 
       }
 
       setConnectedRepos(repos)
+      
+      // Separate eligible and rejected repositories
+      const eligible = repos.filter(repo => repo.eligibleForMarketplace)
+      const rejected = repos.filter(repo => !repo.eligibleForMarketplace)
+      
+      setEligibleRepos(eligible)
+      setRejectedRepos(rejected)
       setStep('repos')
       
       // Connect provider to user profile
@@ -158,9 +172,9 @@ export function ConnectRepoModal({ isOpen, onClose, userEmail, onCardsGenerated 
     setStep('generate')
     
     try {
-      const cards = connectedRepos.map(repo => 
-        RepoCardGeneratorService.generateCardFromRepo(repo, userEmail)
-      )
+      const cards = eligibleRepos
+        .map(repo => RepoCardGeneratorService.generateCardFromRepo(repo, userEmail))
+        .filter((card): card is GitHubRepoCard => card !== null)
       
       // Add cards to user profile
       cards.forEach(card => addCardToUser(userEmail, card))
@@ -179,6 +193,8 @@ export function ConnectRepoModal({ isOpen, onClose, userEmail, onCardsGenerated 
     setStep('select')
     setSelectedProvider(null)
     setConnectedRepos([])
+    setEligibleRepos([])
+    setRejectedRepos([])
     setGeneratedCards([])
     setError(null)
     onClose()
@@ -225,11 +241,12 @@ export function ConnectRepoModal({ isOpen, onClose, userEmail, onCardsGenerated 
                       key={provider.id}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
+                      className="cursor-pointer"
+                      onClick={() => handleProviderConnect(provider.id)}
                     >
                       <GlassCard 
                         variant="light" 
-                        className="p-6 cursor-pointer hover:border-[#66D9EF]/50 transition-colors"
-                        onClick={() => handleProviderConnect(provider.id)}
+                        className="p-6 hover:border-[#66D9EF]/50 transition-colors"
                       >
                         <div className="flex items-center space-x-4">
                           <div className="p-3 rounded-lg bg-gradient-to-br from-[#272822]/80 to-[#272822]/40">
@@ -260,11 +277,12 @@ export function ConnectRepoModal({ isOpen, onClose, userEmail, onCardsGenerated 
                       key={provider.id}
                       whileHover={{ scale: 1.01 }}
                       whileTap={{ scale: 0.99 }}
+                      className="cursor-pointer"
+                      onClick={() => handleProviderConnect(provider.id)}
                     >
                       <GlassCard 
                         variant="light" 
-                        className="p-4 cursor-pointer hover:border-[#66D9EF]/30 transition-colors"
-                        onClick={() => handleProviderConnect(provider.id)}
+                        className="p-4 hover:border-[#66D9EF]/30 transition-colors"
                       >
                         <div className="flex items-center space-x-3">
                           <div className="p-2 rounded-lg bg-gradient-to-br from-[#272822]/60 to-[#272822]/20">
@@ -348,16 +366,16 @@ export function ConnectRepoModal({ isOpen, onClose, userEmail, onCardsGenerated 
                     </div>
                     
                     <div className="flex flex-wrap gap-1">
-                      <Badge variant="outline" size="sm">
+                      <Badge variant="outline">
                         {repo.analysis.complexity}
                       </Badge>
                       {repo.analysis.isPublic && (
-                        <Badge variant="outline" size="sm">
+                        <Badge variant="outline">
                           Public
                         </Badge>
                       )}
                       {repo.analysis.hasTests && (
-                        <Badge variant="outline" size="sm">
+                        <Badge variant="outline">
                           Tests
                         </Badge>
                       )}
@@ -405,7 +423,6 @@ export function ConnectRepoModal({ isOpen, onClose, userEmail, onCardsGenerated 
                       </h4>
                       <Badge 
                         variant="outline" 
-                        size="sm"
                         className={`mb-2 ${
                           card.rarity === 'mythic' ? 'border-[#F92672] text-[#F92672]' :
                           card.rarity === 'legendary' ? 'border-[#E6DB74] text-[#E6DB74]' :
