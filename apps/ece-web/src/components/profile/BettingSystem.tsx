@@ -325,7 +325,7 @@ export function BettingSystem({ className = '' }: BettingSystemProps) {
                 <div className="text-lg font-bold text-[#A6E22E]">{userBalance} ECE</div>
                 <div className="text-sm text-[#75715E]">Available Balance</div>
               </div>
-              <Button variant="accent">
+              <Button variant="gradient">
                 <Plus className="w-4 h-4 mr-2" />
                 Create Market
               </Button>

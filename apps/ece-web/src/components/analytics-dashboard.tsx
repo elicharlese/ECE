@@ -238,7 +238,7 @@ export function AnalyticsDashboard({ data = mockAnalyticsData }: AnalyticsDashbo
           {(['24h', '7d', '30d', '90d'] as const).map((period) => (
             <Button
               key={period}
-              variant={timeframe === period ? 'primary' : 'outline'}
+              variant={timeframe === period ? 'default' : 'outline'}
              
               onClick={() => setTimeframe(period)}
               className={

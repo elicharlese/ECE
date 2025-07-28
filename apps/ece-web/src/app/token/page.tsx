@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { motion } from 'framer-motion'
-import { TokenModel } from '@/components/3d/token-model'
+import { Scene } from '@/components/3d/core/Scene'
+import { ECEToken } from '@/components/3d/models/ECEToken'
 import { GlassCard } from '@/components/ui/glass-card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Coins, TrendingUp, Users, Shield, Zap, Globe } from 'lucide-react'
+import { Coins, TrendingUp, Users, Shield, Zap, Globe, Play, Pause } from 'lucide-react'
 
 const tokenStats = [
   { label: 'Total Supply', value: '1,000,000,000', icon: Coins, color: 'text-ocean-primary' },
@@ -40,6 +41,8 @@ const features = [
 
 export default function TokenPage() {
   const [autoRotate, setAutoRotate] = useState(true)
+  const [selectedRarity, setSelectedRarity] = useState<'common' | 'rare' | 'epic' | 'legendary'>('legendary')
+  const [animationSpeed, setAnimationSpeed] = useState(1)
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-ocean-dark via-ocean-primary to-ocean-success pt-20">
@@ -69,21 +72,49 @@ export default function TokenPage() {
           >
             <GlassCard className="p-8 h-96">
               <div className="h-full relative">
-                <TokenModel 
-                  autoRotate={autoRotate} 
-                  size={1.2} 
-                  showControls={true}
-                  className="h-full"
-                />
-                <div className="absolute top-4 right-4">
+                <Suspense fallback={
+                  <div className="h-full flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#F92672]"></div>
+                  </div>
+                }>
+                  <Scene
+                    enableControls={true}
+                    enablePerformanceMonitor={false}
+                    environment="studio"
+                    shadows={true}
+                    className="h-full"
+                  >
+                    <ECEToken
+                      scale={1.5}
+                      rarity={selectedRarity}
+                      enableAnimation={autoRotate}
+                      animationSpeed={animationSpeed}
+                      interactive={true}
+                      onClick={() => console.log('Token clicked!')}
+                    />
+                  </Scene>
+                </Suspense>
+                <div className="absolute top-4 right-4 flex gap-2">
                   <Button
                     variant="ghost"
-                   
+                    size="sm"
                     onClick={() => setAutoRotate(!autoRotate)}
-                    className="bg-white/10 hover:bg-white/20"
+                    className="bg-white/10 hover:bg-white/20 text-white"
                   >
-                    {autoRotate ? 'Pause' : 'Rotate'}
+                    {autoRotate ? <Pause size={16} /> : <Play size={16} />}
                   </Button>
+                </div>
+                <div className="absolute bottom-4 left-4">
+                  <select
+                    value={selectedRarity}
+                    onChange={(e) => setSelectedRarity(e.target.value as any)}
+                    className="bg-black/50 text-white rounded px-3 py-1 text-sm"
+                  >
+                    <option value="common">Common</option>
+                    <option value="rare">Rare</option>
+                    <option value="epic">Epic</option>
+                    <option value="legendary">Legendary</option>
+                  </select>
                 </div>
               </div>
             </GlassCard>

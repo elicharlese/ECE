@@ -448,7 +448,7 @@ export function WishlistSystem({ className = '' }: WishlistSystemProps) {
             <p className="text-[#75715E] mb-4">
               Start building your wishlist by browsing the marketplace
             </p>
-            <Button variant="accent">
+            <Button variant="gradient">
               <Plus className="w-4 h-4 mr-2" />
               Browse Cards
             </Button>
@@ -548,7 +548,7 @@ export function WishlistSystem({ className = '' }: WishlistSystemProps) {
                       
                       <div className="flex items-center space-x-2">
                         {card.availability === 'available' && (
-                          <Button variant="accent">
+                          <Button variant="gradient">
                             <ShoppingCart className="w-3 h-3 mr-1" />
                             Buy Now
                           </Button>

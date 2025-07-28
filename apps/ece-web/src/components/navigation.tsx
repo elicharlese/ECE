@@ -85,7 +85,7 @@ export function Navigation() {
                 </Button>
               </Link>
               <Link href="/signup">
-                <Button variant="accent">
+                <Button variant="gradient">
                   <User className="w-4 h-4 mr-2 text-white" />
                   Sign Up
                 </Button>
@@ -132,7 +132,7 @@ export function Navigation() {
                       </Button>
                     </Link>
                     <Link href="/signup" className="block">
-                      <Button variant="accent" className="w-full justify-start">
+                      <Button variant="gradient" className="w-full justify-start">
                         <User className="w-4 h-4 mr-2 text-white" />
                         Sign Up
                       </Button>

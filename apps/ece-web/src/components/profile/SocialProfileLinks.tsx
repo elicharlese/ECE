@@ -324,7 +324,7 @@ export function SocialProfileLinks({ className = '' }: SocialProfileLinksProps) 
               
               <div className="flex items-end">
                 <Button
-                  variant="accent"
+                  variant="gradient"
                   onClick={addSocialLink}
                   disabled={!newLink.platform || !newLink.url}
                   className="w-full"

@@ -374,7 +374,7 @@ export function ProfileTabError({
         </div>
         
         <Button
-          variant="accent"
+          variant="gradient"
          
           onClick={onRetry}
         >

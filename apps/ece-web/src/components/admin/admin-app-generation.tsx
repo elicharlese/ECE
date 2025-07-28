@@ -139,14 +139,14 @@ export function AdminAppGeneration({ onAppGenerated }: AdminAppGenerationProps) 
         
         <div className="flex items-center space-x-3">
           <Button
-            variant={activeView === 'templates' ? 'primary' : 'ghost'}
+            variant={activeView === 'templates' ? 'default' : 'ghost'}
             onClick={() => setActiveView('templates')}
           >
             <Plus className="w-4 h-4 mr-2" />
             New App
           </Button>
           <Button
-            variant={activeView === 'dashboard' ? 'primary' : 'ghost'}
+            variant={activeView === 'dashboard' ? 'default' : 'ghost'}
             onClick={() => setActiveView('dashboard')}
           >
             <Eye className="w-4 h-4 mr-2" />

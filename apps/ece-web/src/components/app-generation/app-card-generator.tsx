@@ -543,7 +543,7 @@ export function AppCardGenerator({ generatedApp, onCardGenerated, onError }: App
               <div className="flex bg-[#272822]/50 rounded-lg p-1">
                 <Button
                  
-                  variant={previewMode === 'card' ? 'primary' : 'ghost'}
+                  variant={previewMode === 'card' ? 'default' : 'ghost'}
                   onClick={() => setPreviewMode('card')}
                   className={previewMode === 'card' ? 'bg-[#F92672] text-white' : 'text-[#75715E]'}
                 >
@@ -551,7 +551,7 @@ export function AppCardGenerator({ generatedApp, onCardGenerated, onError }: App
                 </Button>
                 <Button
                  
-                  variant={previewMode === 'stats' ? 'primary' : 'ghost'}
+                  variant={previewMode === 'stats' ? 'default' : 'ghost'}
                   onClick={() => setPreviewMode('stats')}
                   className={previewMode === 'stats' ? 'bg-[#F92672] text-white' : 'text-[#75715E]'}
                 >

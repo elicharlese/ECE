@@ -405,7 +405,7 @@ export const Marketplace: React.FC<MarketplaceProps> = ({
                   >
                     <RepositoryCard
                       repository={card}
-                      variant="primary"
+                      variant="default"
                       onView={(id) => window.open(card.githubUrl, '_blank')}
                     />
                   </motion.div>

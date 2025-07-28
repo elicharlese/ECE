@@ -230,7 +230,7 @@ export function TradingControlsDashboard() {
                 </div>
               </div>
               
-              <Button variant="accent">
+              <Button variant="gradient">
                 <Settings className="w-4 h-4 mr-2" />
                 Quick Setup
               </Button>
@@ -547,7 +547,7 @@ export function TradingControlsDashboard() {
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <h3 className="text-xl font-bold text-[#F8EFD6]">Auto-Trading Rules</h3>
-                <Button variant="accent">
+                <Button variant="gradient">
                   <Plus className="w-4 h-4 mr-2" />
                   Add Rule
                 </Button>
@@ -623,7 +623,7 @@ export function TradingControlsDashboard() {
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <h3 className="text-xl font-bold text-[#F8EFD6]">Trading Templates</h3>
-                <Button variant="accent">
+                <Button variant="gradient">
                   <Plus className="w-4 h-4 mr-2" />
                   Create Template
                 </Button>

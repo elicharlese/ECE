@@ -301,7 +301,7 @@ export function BattleSystem({ className = '' }: BattleSystemProps) {
               </p>
             </div>
             <div className="flex items-center space-x-3">
-              <Button variant="accent" onClick={handleCreateBattle}>
+              <Button variant="gradient" onClick={handleCreateBattle}>
                 <Plus className="w-4 h-4 mr-2" />
                 Create Battle
               </Button>
@@ -474,7 +474,7 @@ export function BattleSystem({ className = '' }: BattleSystemProps) {
               <h3 className="text-xl font-bold text-[#F8EFD6] mb-4">Quick Match</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Button 
-                  variant="accent" 
+                  variant="gradient" 
                   className="h-20 flex flex-col items-center justify-center space-y-2"
                   onClick={handleCreateBattle}
                 >

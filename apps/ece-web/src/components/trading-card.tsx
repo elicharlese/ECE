@@ -256,7 +256,7 @@ export const TradingCard: React.FC<TradingCardProps> = ({
             
             {onTrade && (
               <Button
-                variant="primary"
+                variant="default"
                
                 onClick={onTrade}
                 className="bg-gradient-to-r from-monokai-accent to-monokai-accent/80 shadow-soft hover:shadow-soft-lg text-xs"
@@ -280,7 +280,7 @@ export const TradingCard: React.FC<TradingCardProps> = ({
             
             {onMint && (
               <Button
-                variant="primary"
+                variant="default"
                
                 onClick={onMint}
                 className="bg-gradient-to-r from-monokai-purple to-monokai-purple/80 shadow-soft hover:shadow-soft-lg text-xs"

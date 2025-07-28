@@ -208,7 +208,7 @@ export default function Home() {
                     transition={{ duration: 0.8, delay: 0.2 }}
                     className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
                   >
-                    <Button variant="accent" size="lg" className="group">
+                    <Button variant="gradient" size="lg" className="group">
                       Start Trading
                       <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </Button>
@@ -429,7 +429,7 @@ export default function Home() {
                 <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
                   Join thousands of collectors already trading on ECE Cards. Your next rare find is waiting.
                 </p>
-                <Button variant="accent" size="lg" className="group">
+                <Button variant="gradient" size="lg" className="group">
                   Get Started Today
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Button>

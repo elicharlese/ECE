@@ -221,7 +221,7 @@ export function TradingControlPanel({ className = '' }: TradingControlPanelProps
                 </div>
               )}
               <Button 
-                variant="accent" 
+                variant="gradient" 
                 onClick={handleSaveSettings}
                 disabled={isSaving}
               >
@@ -506,7 +506,7 @@ export function TradingControlPanel({ className = '' }: TradingControlPanelProps
             <GlassCard variant="dark" className="p-6">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-bold text-[#F8EFD6]">Trading Templates</h3>
-                <Button variant="accent">
+                <Button variant="gradient">
                   <Plus className="w-4 h-4 mr-2" />
                   Create Template
                 </Button>

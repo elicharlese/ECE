@@ -204,7 +204,7 @@ export default function EnterprisePage() {
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center mt-6">
-                  <Button variant="primary" size="lg">
+                  <Button variant="default" size="lg">
                     <Headphones className="w-5 h-5 mr-2" />
                     Contact Support
                   </Button>
@@ -347,7 +347,7 @@ function AppCard({ app, onAccess, disabled = false }: AppCardProps) {
           onClick={onAccess}
           disabled={disabled}
           className="w-full mt-4"
-          variant={app.status === 'available' ? 'primary' : 'ghost'}
+          variant={app.status === 'available' ? 'default' : 'ghost'}
         >
           {app.status === 'available' ? 'Access App' : 'Coming Soon'}
           {app.status === 'available' && <ArrowRight className="w-4 h-4 ml-2" />}

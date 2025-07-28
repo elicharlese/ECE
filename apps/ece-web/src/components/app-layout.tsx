@@ -325,7 +325,7 @@ function AppLayoutInner({ children }: AppLayoutProps) {
         animate={{ scale: 1 }}
         className="fixed bottom-20 md:bottom-24 right-4 md:right-6 z-40"
       >
-        <Button variant="accent" size="lg" className="rounded-full w-12 h-12 md:w-14 md:h-14 p-0 shadow-2xl">
+        <Button variant="gradient" size="lg" className="rounded-full w-12 h-12 md:w-14 md:h-14 p-0 shadow-2xl">
           <Plus className="w-5 h-5 md:w-6 md:h-6" />
         </Button>
       </motion.div>

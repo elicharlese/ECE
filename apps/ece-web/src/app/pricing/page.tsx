@@ -13,19 +13,9 @@ const plans = [
     icon: Zap,
     price: '$29',
     description: 'Premium features for serious traders and collectors',
-    features: [
-      'Early marketplace access to IPOs',
-      'Real-time trading alerts & notifications',
-      '10 Super Likes & Boosts per month',
-      'Enhanced UI with glassmorphism effects',
-      'Advanced data reports & analytics',
-      '$250 ECE business stipend monthly',
-      'AI-powered suggestion engine',
-      'Priority customer support',
-      'Enhanced portfolio tracking'
-    ],
-    buttonText: 'Upgrade to Pro',
-    buttonVariant: 'accent' as const,
+    features: ["Single custom app development", "Up to 3 revisions", "Basic support", "30-day delivery"],
+    buttonText: "Get Started",
+    buttonVariant: 'ocean' as const,
     popular: true
   },
   {
@@ -46,7 +36,7 @@ const plans = [
       'SLA guarantees & enterprise security'
     ],
     buttonText: 'Contact Sales',
-    buttonVariant: 'primary' as const,
+    buttonVariant: 'default' as const,
     popular: false
   }
 ]
@@ -143,7 +133,7 @@ export default function Pricing() {
                   <p className="text-sm text-muted-foreground">Discover and collect your favorite cards</p>
                 </div>
               </div>
-              <Button variant="accent" size="lg" className="px-8">
+              <Button variant="gradient" size="lg" className="px-8">
                 Create Free Account
               </Button>
             </GlassCard>
@@ -285,7 +275,7 @@ export default function Pricing() {
                   <p className="text-muted-foreground mb-6">
                     Let's discuss your specific needs and create a custom solution that works for your organization.
                   </p>
-                  <Button variant="accent" size="lg" className="px-8">
+                  <Button variant="gradient" size="lg" className="px-8">
                     Schedule Consultation
                   </Button>
                 </div>

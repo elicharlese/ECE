@@ -217,7 +217,7 @@ export default function Marketplace() {
             
             <div className="flex items-center space-x-3">
               <Button 
-                variant="accent"
+                variant="gradient"
                 onClick={() => setIsConnectRepoModalOpen(true)}
                 className="flex items-center"
               >
@@ -296,7 +296,7 @@ export default function Marketplace() {
                 {categories.map((category) => (
                   <Button
                     key={category}
-                    variant={selectedCategory === category ? "accent" : "ghost"}
+                    variant={selectedCategory === category ? "gradient" : "ghost"}
                    
                     onClick={() => setSelectedCategory(category)}
                   >
@@ -450,11 +450,11 @@ export default function Marketplace() {
 
                       <div className={`flex gap-2 ${viewMode === 'list' ? 'justify-end' : ''}`}>
                         {item.type === 'auction' ? (
-                          <Button variant="accent">
+                          <Button variant="gradient">
                             Place Bid
                           </Button>
                         ) : (
-                          <Button variant="accent">
+                          <Button variant="gradient">
                             <ShoppingCart className="w-4 h-4 mr-1" />
                             Buy Now
                           </Button>

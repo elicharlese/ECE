@@ -212,7 +212,7 @@ export function ProfilePrivacySettings({ className = '' }: ProfilePrivacySetting
         </Button>
         {hasChanges && (
           <Button
-            variant="accent"
+            variant="gradient"
            
             onClick={handleSaveChanges}
           >

@@ -104,6 +104,32 @@ const config: Config = {
         'glow-success': '0 0 20px rgba(166, 226, 46, 0.4)',
         'card-ece': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
         'card-ece-hover': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+        
+        // Enhanced ECE Shadow System (Batch 2)
+        'soft-sm': '0 1px 2px rgba(39, 40, 34, 0.1)',
+        'soft-md': '0 4px 6px rgba(39, 40, 34, 0.1), 0 2px 4px rgba(39, 40, 34, 0.06)',
+        'soft-2xl': '0 25px 50px rgba(39, 40, 34, 0.15)',
+        
+        'primary-glow': '0 0 20px rgba(249, 38, 114, 0.4)',
+        'secondary-glow': '0 0 20px rgba(166, 226, 46, 0.4)',
+        'info-glow': '0 0 20px rgba(102, 217, 239, 0.4)',
+        'ocean-glow': '0 0 20px rgba(0, 139, 139, 0.4)',
+        
+        'glass-light': '0 8px 32px rgba(255, 255, 255, 0.1)',
+        'glass-dark': '0 8px 32px rgba(0, 0, 0, 0.1)',
+        
+        'rarity-common': '0 4px 12px rgba(166, 226, 46, 0.3)',
+        'rarity-rare': '0 4px 12px rgba(102, 217, 239, 0.3)',
+        'rarity-epic': '0 4px 12px rgba(153, 50, 204, 0.3)',
+        'rarity-legendary': '0 4px 20px rgba(255, 215, 0, 0.4), 0 0 40px rgba(255, 165, 0, 0.2)',
+        
+        'gradient-sunset': '0 8px 32px rgba(249, 38, 114, 0.2), 0 4px 16px rgba(253, 92, 99, 0.1)',
+        'gradient-tide': '0 8px 32px rgba(102, 217, 239, 0.2), 0 4px 16px rgba(62, 186, 124, 0.1)',
+        'gradient-wave': '0 12px 40px rgba(0, 139, 139, 0.25), 0 6px 20px rgba(32, 178, 170, 0.15)',
+        
+        'floating': '0 10px 30px rgba(39, 40, 34, 0.2)',
+        'elevated': '0 15px 35px rgba(39, 40, 34, 0.25)',
+        'lifted': '0 20px 40px rgba(39, 40, 34, 0.3)'
       },
       dropShadow: {
         'icon': ['0 1px 2px rgba(0, 0, 0, 0.1)', '0 1px 1px rgba(0, 0, 0, 0.06)'],

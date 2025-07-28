@@ -161,7 +161,7 @@ export default function AppHomePage() {
                   </div>
 
                   <Button 
-                    variant={quickOrderType === 'buy' ? 'primary' : 'accent'} 
+                    variant={quickOrderType === 'buy' ? 'default' : 'gradient'} 
                     className="w-full"
                   >
                     Place {quickOrderType === 'buy' ? 'Buy' : 'Sell'} Order
@@ -289,13 +289,13 @@ export default function AppHomePage() {
                 </div>
                 
                 <div className="flex space-x-3">
-                  <Button variant="primary" className="flex-1">
+                  <Button variant="default" className="flex-1">
                     Deposit
                   </Button>
                   <Button variant="ghost" className="flex-1">
                     Withdraw
                   </Button>
-                  <Button variant="accent" className="flex-1">
+                  <Button variant="gradient" className="flex-1">
                     Trade
                   </Button>
                 </div>

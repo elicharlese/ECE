@@ -136,14 +136,14 @@ export function NFTCard3DGallery() {
         
         <div className="flex items-center space-x-2">
           <Button
-            variant={viewMode === 'grid' ? 'primary' : 'ghost'}
+            variant={viewMode === 'grid' ? 'default' : 'ghost'}
            
             onClick={() => setViewMode('grid')}
           >
             <Grid className="w-4 h-4" />
           </Button>
           <Button
-            variant={viewMode === 'list' ? 'primary' : 'ghost'}
+            variant={viewMode === 'list' ? 'default' : 'ghost'}
            
             onClick={() => setViewMode('list')}
           >
@@ -171,7 +171,7 @@ export function NFTCard3DGallery() {
           {/* Rarity Filter */}
           <div className="flex flex-wrap gap-2">
             <Button
-              variant={filterRarity === 'all' ? 'primary' : 'ghost'}
+              variant={filterRarity === 'all' ? 'default' : 'ghost'}
              
               onClick={() => setFilterRarity('all')}
             >
@@ -182,7 +182,7 @@ export function NFTCard3DGallery() {
               return (
                 <Button
                   key={rarity}
-                  variant={filterRarity === rarity ? 'primary' : 'ghost'}
+                  variant={filterRarity === rarity ? 'default' : 'ghost'}
                  
                   onClick={() => setFilterRarity(rarity)}
                   className={filterRarity === rarity ? rarityBgColors[rarity as keyof typeof rarityBgColors] : ''}
@@ -196,7 +196,7 @@ export function NFTCard3DGallery() {
 
           {/* Ownership Filter */}
           <Button
-            variant={showOnlyOwned ? 'primary' : 'ghost'}
+            variant={showOnlyOwned ? 'default' : 'ghost'}
            
             onClick={() => setShowOnlyOwned(!showOnlyOwned)}
           >

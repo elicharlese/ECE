@@ -254,7 +254,7 @@ export default function DiscoverPage() {
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Button 
-              variant="primary" 
+              variant="default" 
               size="lg" 
               className="shadow-soft hover:shadow-soft-lg"
               onClick={() => toast.success('Welcome to the marketplace! 🎉', {

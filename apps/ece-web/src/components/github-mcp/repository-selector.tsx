@@ -167,7 +167,7 @@ export const RepositorySelector: React.FC<RepositorySelectorProps> = ({
                 <Button
                   key={type.key}
                   type="button"
-                  variant={searchType === type.key ? 'primary' : 'outline'}
+                  variant={searchType === type.key ? 'default' : 'outline'}
                  
                   onClick={() => setSearchType(type.key as any)}
                   className="shadow-soft hover:shadow-soft-lg"

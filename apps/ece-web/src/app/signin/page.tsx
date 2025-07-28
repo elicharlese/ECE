@@ -151,14 +151,14 @@ export default function SignIn() {
                 </div>
 
                 {/* Submit Button */}
-                <Button type="submit" variant="accent" className="w-full group">
+                <Button type="submit" variant="gradient" className="w-full group">
                   Sign In
                   <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
 
                 {/* Demo Button */}
                 <Link href="/app">
-                  <Button variant="primary" className="w-full">
+                  <Button variant="default" className="w-full">
                     Try Demo Instead
                   </Button>
                 </Link>

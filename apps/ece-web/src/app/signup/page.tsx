@@ -256,7 +256,7 @@ export default function SignUp() {
                 {/* Submit Button */}
                 <Button 
                   type="submit" 
-                  variant="accent" 
+                  variant="gradient" 
                   className="w-full group"
                   disabled={!isFormValid}
                 >
@@ -266,7 +266,7 @@ export default function SignUp() {
 
                 {/* Demo Button */}
                 <Link href="/app">
-                  <Button variant="primary" className="w-full">
+                  <Button variant="default" className="w-full">
                     Try Demo Instead
                   </Button>
                 </Link>

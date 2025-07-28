@@ -232,7 +232,7 @@ export const RepositoryCard: React.FC<RepositoryCardProps> = ({
               
               {onBid && (
                 <Button
-                  variant="primary"
+                  variant="default"
                  
                   onClick={() => onBid(repository.id)}
                   className="bg-gradient-to-r from-monokai-info to-monokai-info/80 shadow-soft hover:shadow-soft-lg text-xs"

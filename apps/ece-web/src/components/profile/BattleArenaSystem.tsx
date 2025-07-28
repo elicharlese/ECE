@@ -306,7 +306,7 @@ export function BattleArenaSystem() {
                 <div className="text-sm text-[#66D9EF]">{playerStats.rank}</div>
               </div>
               
-              <Button variant="accent">
+              <Button variant="gradient">
                 <Sword className="w-4 h-4 mr-2" />
                 Quick Battle
               </Button>
@@ -510,14 +510,14 @@ export function BattleArenaSystem() {
 
                         <div className="flex flex-col space-y-2 ml-4">
                           {battle.status === 'waiting' && !battle.opponent && (
-                            <Button variant="accent">
+                            <Button variant="gradient">
                               <Sword className="w-4 h-4 mr-2" />
                               Join Battle
                             </Button>
                           )}
                           
                           {battle.status === 'in_progress' && (
-                            <Button variant="accent">
+                            <Button variant="gradient">
                               <Eye className="w-4 h-4 mr-2" />
                               Spectate
                             </Button>
@@ -620,7 +620,7 @@ export function BattleArenaSystem() {
 
                 {/* Create Button */}
                 <div className="flex justify-center pt-4">
-                  <Button variant="accent" size="lg">
+                  <Button variant="gradient" size="lg">
                     <Sword className="w-5 h-5 mr-2" />
                     Create Battle
                   </Button>
@@ -683,14 +683,14 @@ export function BattleArenaSystem() {
 
                     <div className="flex flex-col space-y-2 ml-4">
                       {tournament.status === 'registration' && (
-                        <Button variant="accent">
+                        <Button variant="gradient">
                           <Trophy className="w-4 h-4 mr-2" />
                           Register
                         </Button>
                       )}
                       
                       {tournament.status === 'in_progress' && (
-                        <Button variant="accent">
+                        <Button variant="gradient">
                           <Eye className="w-4 h-4 mr-2" />
                           View Bracket
                         </Button>

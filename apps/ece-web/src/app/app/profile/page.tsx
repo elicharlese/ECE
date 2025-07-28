@@ -288,7 +288,7 @@ export default function Profile() {
 
             {/* Profile Actions */}
             <div className="flex flex-col space-y-3">
-              <Button variant="accent">
+              <Button variant="gradient">
                 <Edit3 className="w-4 h-4 mr-2" />
                 Edit Profile
               </Button>

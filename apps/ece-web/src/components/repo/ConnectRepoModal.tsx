@@ -326,7 +326,7 @@ export function ConnectRepoModal({ isOpen, onClose, userEmail, onCardsGenerated 
                 <h3 className="text-xl font-semibold text-[#F8EFD6]">
                   Found {connectedRepos.length} Repositories
                 </h3>
-                <Button onClick={handleGenerateCards} variant="accent">
+                <Button onClick={handleGenerateCards} variant="gradient">
                   <Zap className="w-4 h-4 mr-2" />
                   Generate All Cards
                 </Button>
@@ -451,7 +451,7 @@ export function ConnectRepoModal({ isOpen, onClose, userEmail, onCardsGenerated 
               )}
 
               <div className="flex justify-center space-x-4">
-                <Button onClick={handleClose} variant="accent">
+                <Button onClick={handleClose} variant="gradient">
                   <Shield className="w-4 h-4 mr-2" />
                   View My Collection
                 </Button>

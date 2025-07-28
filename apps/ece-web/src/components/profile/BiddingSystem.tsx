@@ -368,7 +368,7 @@ export function BiddingSystem({ className = '' }: BiddingSystemProps) {
                 <div className="text-lg font-bold text-[#A6E22E]">{userBalance} ECE</div>
                 <div className="text-sm text-[#75715E]">Available Balance</div>
               </div>
-              <Button variant="accent">
+              <Button variant="gradient">
                 <Plus className="w-4 h-4 mr-2" />
                 Create Auction
               </Button>
@@ -660,7 +660,7 @@ export function BiddingSystem({ className = '' }: BiddingSystemProps) {
                         <div className="space-y-2">
                           {auction.buyNowPrice && (
                             <Button 
-                              variant="accent" 
+                              variant="gradient" 
                               className="w-full"
                               onClick={() => handleBuyNow(auction.id)}
                             >

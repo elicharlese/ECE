@@ -8,13 +8,15 @@ interface GlassCardProps {
   className?: string
   variant?: 'default' | 'dark' | 'light'
   animation?: 'wave' | 'breathe' | 'float' | 'none'
+  onClick?: () => void
 }
 
 export function GlassCard({ 
   children, 
   className, 
   variant = 'default',
-  animation = 'none'
+  animation = 'none',
+  onClick
 }: GlassCardProps) {
   const baseClasses = "rounded-xl backdrop-blur-md border shadow-card-ece hover:shadow-card-ece-hover transition-all duration-300"
   
@@ -36,10 +38,12 @@ export function GlassCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
+      onClick={onClick}
       className={cn(
         baseClasses,
         variantClasses[variant],
         animationClasses[animation],
+        onClick && 'cursor-pointer hover:scale-[1.02]',
         className
       )}
     >
