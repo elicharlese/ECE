@@ -7,23 +7,29 @@
 [![TypeScript](https://img.shields.io/badge/typescript-5.8.3-blue.svg)](https://www.typescriptlang.org/)
 [![Next.js](https://img.shields.io/badge/next.js-15.3.5-white.svg)](https://nextjs.org/)
 [![React Native](https://img.shields.io/badge/react--native-latest-blue.svg)](https://reactnative.dev/)
+[![Solana](https://img.shields.io/badge/solana-integrated-purple.svg)](https://solana.com/)
+[![Metaplex](https://img.shields.io/badge/metaplex-NFTs-blueviolet.svg)](https://www.metaplex.com/)
 
-> A revolutionary multi-platform trading card ecosystem built with cutting-edge technology and beach-inspired design.
+> A revolutionary multi-platform trading card ecosystem that reimagines Mergers and Acquisitions as an engaging digital card trading experience, built with cutting-edge technology and beach-inspired design.
 
 ## 🌊 Overview
 
-ECE (Elite Card Exchange) is a comprehensive digital trading card platform that brings the excitement of physical card collecting into the digital age. With a stunning beach monokai design system and glassmorphism effects, ECE offers an immersive experience across web, mobile, and desktop platforms.
+ECE (Elite Card Exchange) is a groundbreaking digital trading card platform that transforms the complex world of Mergers and Acquisitions into an engaging, gamified experience. By reimagining corporate takeovers, mergers, and business battles as collectible trading cards, ECE brings the strategic excitement of M&A into the digital age. With a stunning beach monokai design system and glassmorphism effects, ECE offers an immersive experience across web, mobile, and desktop platforms.
 
 ### ✨ Key Features
 
 - 🎴 **Multi-Platform Trading**: Web, Mobile (iOS/Android), and Desktop applications
-- 🏪 **Dynamic Marketplace**: Buy, sell, and trade cards with real-time pricing
+- 🏪 **Dynamic Marketplace**: Buy, sell, and trade M&A cards with real-time pricing
 - 💰 **ECE Wallet System**: Secure transactions with tokens and rewards
-- 🎯 **Smart Matching**: AI-powered trading partner recommendations
-- 🏆 **Gamification**: Badges, achievements, and leaderboards
-- 🎲 **Betting & Crowdfunding**: Community-driven prediction markets
-- 🔄 **Tinder-Style Discovery**: Swipe through cards with smooth animations
+- 🎯 **Smart Matching**: AI-powered M&A partner recommendations
+- 🏆 **Gamification**: Badges, achievements, and leaderboards for corporate strategists
+- 🎲 **Betting & Crowdfunding**: Community-driven prediction markets for company performance
+- 🔄 **Tinder-Style Discovery**: Swipe through company cards with smooth animations
 - 🎨 **Beach Monokai Theme**: Calming wave animations with glassmorphism
+- 🏢 **M&A Battles**: Strategic corporate takeover card battles
+- 📊 **Market Analytics**: Real-time business performance data visualization
+- 🔗 **NFT Integration**: App cards as unique Solana NFTs with on-chain ownership
+- 🪙 **ICO Pricing**: Synthetic value/pricing for apps similar to Initial Coin Offerings
 
 ## 🏗️ Architecture
 
@@ -146,9 +152,10 @@ npm run db:studio        # Open Prisma Studio
 ```typescript
 // Core Features
 📂 Home/           # Landing and dashboard
-📂 Discover/       # Card discovery with swiping
-📂 Marketplace/    # Trading and commerce
+📂 Discover/       # Company card discovery with swiping
+📂 Marketplace/    # M&A Trading and commerce
 📂 Profile/        # User management and social
+📂 M&A Battles/    # Corporate takeover card battles
 
 // Shared Systems
 📂 components/     # Reusable UI components

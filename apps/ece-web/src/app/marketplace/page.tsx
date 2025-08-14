@@ -20,7 +20,8 @@ import {
   Flame,
   Eye,
   Timer,
-  Activity
+  Activity,
+  PieChart
 } from 'lucide-react'
 import { BettingMarkets } from '../../components/betting-markets'
 import { CardAuctions } from '../../components/card-auctions'
@@ -134,10 +135,10 @@ export default function MarketplacePage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold bg-gradient-to-r from-[#F92672] to-[#66D9EF] bg-clip-text text-transparent">
-                ECE Marketplace
+                ECE M&A Marketplace
               </h1>
               <p className="text-sm text-[#75715E]">
-                Trade, bet, and battle with trading cards
+                Master corporate takeovers with strategic trading cards
               </p>
             </div>
 
@@ -213,7 +214,7 @@ export default function MarketplacePage() {
                 <div className="text-lg font-bold text-[#F8EFD6] font-mono">
                   {(stats.dailyTransactions / 1000).toFixed(1)}K
                 </div>
-                <div className="text-xs text-[#75715E]">Daily Trades</div>
+                <div className="text-xs text-[#75715E]">Daily M&A Trades</div>
               </div>
             </div>
 
@@ -237,20 +238,20 @@ export default function MarketplacePage() {
           {/* Main Content */}
           <div className="xl:col-span-3">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-3 bg-[#272822]/50 border border-[#75715E]/30 mb-8">
+              <TabsList className="grid w-full grid-cols-4 bg-[#272822]/50 border border-[#75715E]/30 mb-8">
                 <TabsTrigger 
                   value="betting" 
                   className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#F92672] data-[state=active]:to-[#FD5C63] data-[state=active]:text-[#F8EFD6]"
                 >
                   <Target className="h-4 w-4 mr-2" />
-                  Prediction Markets
+                  Corporate Prediction Markets
                 </TabsTrigger>
                 <TabsTrigger 
                   value="auctions"
                   className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#A6E22E] data-[state=active]:to-[#3EBA7C] data-[state=active]:text-[#272822]"
                 >
                   <Gavel className="h-4 w-4 mr-2" />
-                  Card Auctions
+                  M&A Card Auctions
                 </TabsTrigger>
                 <TabsTrigger 
                   value="battles"
@@ -258,6 +259,13 @@ export default function MarketplacePage() {
                 >
                   <Sword className="h-4 w-4 mr-2" />
                   M&A Battles
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="portfolio"
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#E6DB74] data-[state=active]:to-[#F39C12] data-[state=active]:text-[#272822]"
+                >
+                  <BarChart3 className="h-4 w-4 mr-2" />
+                  Portfolio Analytics
                 </TabsTrigger>
               </TabsList>
 
@@ -298,6 +306,111 @@ export default function MarketplacePage() {
                     transition={{ duration: 0.3 }}
                   >
                     <MABattles onVote={handleVote} />
+                  </motion.div>
+                </TabsContent>
+                
+                <TabsContent value="portfolio" className="mt-0">
+                  <motion.div
+                    key="portfolio"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.3 }}
+                    className="space-y-6"
+                  >
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      <Card className="p-6 bg-gradient-to-br from-[#272822]/80 to-[#272822]/60 backdrop-blur-xl border border-[#75715E]/30">
+                        <h3 className="text-lg font-semibold text-[#F8EFD6] mb-4 flex items-center">
+                          <TrendingUp className="h-5 w-5 mr-2 text-[#A6E22E]" />
+                          Portfolio Performance
+                        </h3>
+                        <div className="space-y-4">
+                          <div className="flex justify-between items-center">
+                            <span className="text-[#75715E]">Total Value</span>
+                            <span className="text-[#F8EFD6] font-mono">12,500 ECE</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-[#75715E]">24h Change</span>
+                            <span className="text-[#A6E22E] font-mono">+2.3%</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-[#75715E]">Best Performer</span>
+                            <span className="text-[#F8EFD6] font-mono">Tesla Inc.</span>
+                          </div>
+                        </div>
+                      </Card>
+                      
+                      <Card className="p-6 bg-gradient-to-br from-[#272822]/80 to-[#272822]/60 backdrop-blur-xl border border-[#75715E]/30">
+                        <h3 className="text-lg font-semibold text-[#F8EFD6] mb-4 flex items-center">
+                          <PieChart className="h-5 w-5 mr-2 text-[#66D9EF]" />
+                          Asset Allocation
+                        </h3>
+                        <div className="space-y-3">
+                          <div className="flex justify-between items-center">
+                            <div className="flex items-center">
+                              <div className="w-3 h-3 bg-[#F92672] rounded-full mr-2"></div>
+                              <span className="text-[#F8EFD6]">Technology</span>
+                            </div>
+                            <span className="text-[#75715E] font-mono">65%</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <div className="flex items-center">
+                              <div className="w-3 h-3 bg-[#A6E22E] rounded-full mr-2"></div>
+                              <span className="text-[#F8EFD6]">Entertainment</span>
+                            </div>
+                            <span className="text-[#75715E] font-mono">10%</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <div className="flex items-center">
+                              <div className="w-3 h-3 bg-[#66D9EF] rounded-full mr-2"></div>
+                              <span className="text-[#F8EFD6]">E-commerce</span>
+                            </div>
+                            <span className="text-[#75715E] font-mono">25%</span>
+                          </div>
+                        </div>
+                      </Card>
+                    </div>
+                    
+                    <Card className="p-6 bg-gradient-to-br from-[#272822]/80 to-[#272822]/60 backdrop-blur-xl border border-[#75715E]/30">
+                      <h3 className="text-lg font-semibold text-[#F8EFD6] mb-4 flex items-center">
+                        <BarChart3 className="h-5 w-5 mr-2 text-[#E6DB74]" />
+                        Market Trends
+                      </h3>
+                      <div className="space-y-3">
+                        <div className="flex justify-between items-center p-3 bg-[#272822]/50 rounded-lg border border-[#75715E]/20">
+                          <div>
+                            <div className="text-[#F8EFD6] font-medium">Tesla Inc.</div>
+                            <div className="text-xs text-[#75715E]">Technology • Legendary</div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-[#A6E22E] font-mono">+8.6%</div>
+                            <div className="text-xs text-[#75715E]">15,200 ECE</div>
+                          </div>
+                        </div>
+                        
+                        <div className="flex justify-between items-center p-3 bg-[#272822]/50 rounded-lg border border-[#75715E]/20">
+                          <div>
+                            <div className="text-[#F8EFD6] font-medium">Google LLC</div>
+                            <div className="text-xs text-[#75715E]">Technology • Legendary</div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-[#A6E22E] font-mono">+6.6%</div>
+                            <div className="text-xs text-[#75715E]">13,800 ECE</div>
+                          </div>
+                        </div>
+                        
+                        <div className="flex justify-between items-center p-3 bg-[#272822]/50 rounded-lg border border-[#75715E]/20">
+                          <div>
+                            <div className="text-[#F8EFD6] font-medium">Meta Platforms</div>
+                            <div className="text-xs text-[#75715E]">Technology • Epic</div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-[#F92672] font-mono">-4.5%</div>
+                            <div className="text-xs text-[#75715E]">9,600 ECE</div>
+                          </div>
+                        </div>
+                      </div>
+                    </Card>
                   </motion.div>
                 </TabsContent>
               </AnimatePresence>

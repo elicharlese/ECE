@@ -48,8 +48,8 @@ interface BettingMarketsProps {
 const mockMarkets: BettingMarket[] = [
   {
     id: '1',
-    title: 'Tesla Q4 Revenue Growth',
-    description: 'Will Tesla exceed $30B revenue in Q4 2025?',
+    title: 'Tesla Acquisition Success',
+    description: 'Will Tesla successfully complete its next major acquisition by Q4 2025?'
     metricType: 'REVENUE_GROWTH',
     currentValue: 28.5,
     predictionTarget: 30.0,
@@ -67,8 +67,8 @@ const mockMarkets: BettingMarket[] = [
   },
   {
     id: '2',
-    title: 'OpenAI User Base Milestone',
-    description: 'Will OpenAI reach 200M monthly users by year end?',
+    title: 'OpenAI Acquisition Value',
+    description: 'Will OpenAI be acquired for more than $150B by a major tech company this year?'
     metricType: 'USER_GROWTH',
     currentValue: 180,
     predictionTarget: 200,

@@ -185,6 +185,14 @@ model Card {
   powerupEffects     PowerupEffect[]   @relation("PowerupEffects")
   powerupHistory     PowerupHistory[]  @relation("CardPowerupHistory")
   
+  // NFT Integration
+  tokenId        String?   // Unique identifier on blockchain
+  contractAddress String?  // NFT collection address
+  mintAddress    String?   // Address of minted NFT
+  blockchain     String?   // Chain identifier (e.g., Solana)
+  metadataUri    String?   // Link to NFT metadata
+  isMinted       Boolean   @default(false) // Minting status
+  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   

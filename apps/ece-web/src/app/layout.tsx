@@ -3,9 +3,9 @@ import "./globals.css";
 import { ThemeProvider } from "../components/theme-provider";
 
 export const metadata: Metadata = {
-  title: "ECE Trading Cards | Digital Trading Card Platform",
-  description: "Trade, collect, and discover unique digital trading cards. Build your deck, join the community, and experience the future of trading cards.",
-  keywords: "trading cards, digital cards, NFT, collectibles, ECE, marketplace",
+  title: "ECE | M&A Trading Card Platform",
+  description: "Revolutionize corporate takeovers with strategic trading cards. Master M&A battles in the world's first M&A-focused digital platform.",
+  keywords: "M&A, mergers and acquisitions, trading cards, digital cards, corporate strategy, ECE, marketplace",
 };
 
 export default function RootLayout({

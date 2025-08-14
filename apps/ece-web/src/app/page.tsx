@@ -20,18 +20,18 @@ import { useState, useEffect } from 'react'
 const features = [
   {
     icon: Sparkles,
-    title: 'Collect Unique Cards',
-    description: 'Discover rare and exclusive digital trading cards from your favorite brands and creators.'
+    title: 'Collect Corporate Cards',
+    description: 'Discover rare and exclusive digital trading cards representing real companies and business entities in M&A battles.'
   },
   {
     icon: TrendingUp,
-    title: 'Trade & Invest',
-    description: 'Build your portfolio by trading cards with other collectors and watching their value grow.'
+    title: 'Trade & Invest in M&A',
+    description: 'Build your corporate portfolio by trading company cards with other strategists and watching their market value grow.'
   },
   {
     icon: Users,
-    title: 'Join the Community',
-    description: 'Connect with fellow collectors, participate in events, and build lasting friendships.'
+    title: 'Join the M&A Community',
+    description: 'Connect with fellow corporate strategists, participate in takeover events, and build business partnerships.'
   },
   {
     icon: Shield,
@@ -43,24 +43,24 @@ const features = [
 const marketplaceFeatures = [
   {
     icon: Target,
-    title: 'Prediction Markets',
-    description: 'Bet on company performance metrics with Prize Picks style prediction markets.',
+    title: 'Corporate Prediction Markets',
+    description: 'Bet on real company performance metrics with Prize Picks style prediction markets for M&A strategists.',
     href: '/marketplace?tab=betting',
     color: 'from-[#F92672] to-[#FD5C63]',
     bgColor: 'from-[#F92672]/20 to-[#FD5C63]/20'
   },
   {
     icon: Gavel,
-    title: 'Card Auctions',
-    description: 'Trade rare cards with Webull-style analytics and real-time bidding.',
+    title: 'M&A Card Auctions',
+    description: 'Bid on company cards with Webull-style analytics and real-time M&A-focused trading.',
     href: '/marketplace?tab=auctions',
     color: 'from-[#A6E22E] to-[#3EBA7C]',
     bgColor: 'from-[#A6E22E]/20 to-[#3EBA7C]/20'
   },
   {
     icon: Sword,
-    title: 'M&A Battles',
-    description: 'Tinder-style company matching for epic merger & acquisition battles.',
+    title: 'Strategic M&A Battles',
+    description: 'Tinder-style company matching for epic merger & acquisition battles between corporate strategists.',
     href: '/marketplace?tab=battles',
     color: 'from-[#66D9EF] to-[#819AFF]',
     bgColor: 'from-[#66D9EF]/20 to-[#819AFF]/20'
@@ -192,13 +192,13 @@ export default function Home() {
                   >
                     <h1 className="text-6xl md:text-8xl font-bold mb-6">
                       <span className="bg-gradient-tide bg-clip-text text-transparent">
-                        Trade the
+                        Master
                       </span>
                       <br />
-                      <span className="text-foreground">Future</span>
+                      <span className="text-foreground">M&A Battles</span>
                     </h1>
                     <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                      Discover, collect, and trade unique digital cards in the most advanced trading platform ever built.
+                      Revolutionize corporate takeovers with strategic trading cards in the world's first M&A-focused digital platform.
                     </p>
                   </motion.div>
 

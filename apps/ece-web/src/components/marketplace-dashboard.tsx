@@ -56,19 +56,19 @@ const mockAnalytics: MarketAnalytics = {
   totalTransactions: 8750,
   avgTransactionSize: 325,
   topPerformers: [
-    { name: 'Tesla Q4 Revenue', type: 'bet', volume: 15420, change: 23.5 },
+    { name: 'Tesla Acquisition Success', type: 'bet', volume: 15420, change: 23.5 },
     { name: 'Tesla Gold Edition', type: 'auction', volume: 12300, change: 18.7 },
     { name: 'Tesla vs Netflix', type: 'battle', volume: 8900, change: 45.2 },
-    { name: 'OpenAI User Growth', type: 'bet', volume: 7650, change: 12.3 },
+    { name: 'OpenAI Acquisition Value', type: 'bet', volume: 7650, change: 12.3 },
     { name: 'Coinbase Legendary', type: 'auction', volume: 6800, change: -5.4 }
-  ],
+  ]
   recentActivity: [
     {
       id: '1',
       type: 'bet_placed',
       user: 'CryptoTrader2024',
       amount: 500,
-      description: 'Bet UP on Tesla Q4 Revenue',
+      description: 'Bet UP on Tesla Acquisition Success',
       timestamp: new Date(Date.now() - 2 * 60 * 1000)
     },
     {

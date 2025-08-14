@@ -1,14 +1,16 @@
 # ECE Mobile App
 
-React Native mobile application for ECE Trading Cards platform.
+React Native mobile application for ECE Trading Cards platform - A revolutionary take on Mergers and Acquisitions gamification.
 
 ## Features
 
-- Touch-optimized trading interface
+- Touch-optimized M&A trading interface
 - Mobile-native features (camera, NFC, biometrics)
 - Beach Monokai glassmorphism design
 - Haptic feedback and smooth animations
 - Integration with ECE ecosystem
+- Strategic corporate takeover card battles
+- Real-time business performance analytics
 
 ## Getting Started
 
