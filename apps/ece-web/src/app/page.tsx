@@ -15,6 +15,7 @@ import {
   Card3DData,
   scene3DUtils 
 } from '../components/3d'
+import Safe3DWrapper from '../components/3d/Safe3DWrapper'
 import { useState, useEffect } from 'react'
 
 const features = [
@@ -145,10 +146,12 @@ export default function Home() {
         {/* 3D Hero Section */}
         <section className="relative min-h-screen overflow-hidden">
           {is3DSupported ? (
-            <HeroScene3D 
-              className="absolute inset-0"
-              onInteraction={handle3DInteraction}
-            />
+            <Safe3DWrapper className="absolute inset-0">
+              <HeroScene3D 
+                className="absolute inset-0"
+                onInteraction={handle3DInteraction}
+              />
+            </Safe3DWrapper>
           ) : (
             // Fallback 2D Hero for unsupported devices
             <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
