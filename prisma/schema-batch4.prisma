@@ -1,0 +1,191 @@
+// Prisma Schema for ECE Trading Cards - Batch 4 (Auctions and Trade Offers)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// User model (simplified for migration)
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  username  String   @unique
+  firstName String?
+  lastName  String?
+  avatar    String?
+
+  // Relations for auctions
+  auctions          Auction[]       @relation("AuctionOwner")
+  bids              Bid[]           @relation("Bidder")
+  
+  // Relations for trade offers (new in Batch 4)
+  tradeOffersSent    TradeOffer[]      @relation("TradeOffersSent")
+  tradeOffersReceived TradeOffer[]     @relation("TradeOffersReceived")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Card model (simplified for migration)
+model Card {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  imageUrl    String?
+  category    CardCategory
+  rarity      CardRarity
+  baseValue   Float
+  
+  // Relations for auctions
+  auctionItems   AuctionItem[]
+  bids           Bid[]
+  
+  // Trade offers (new in Batch 4)
+  tradeOfferItems TradeOfferItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Auction model (new in Batch 4)
+model Auction {
+  id          String      @id @default(cuid())
+  ownerId     String
+  owner       User        @relation("AuctionOwner", fields: [ownerId], references: [id])
+  title       String
+  description String?
+  startingBid Float
+  currentBid  Float?
+  minIncrement Float     @default(1.0)
+  buyNowPrice Float?
+  status      AuctionStatus @default(ACTIVE)
+  startTime   DateTime
+  endTime     DateTime
+  
+  // Relations
+  items       AuctionItem[]
+  bids        Bid[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([status])
+  @@index([endTime])
+}
+
+model AuctionItem {
+  id        String   @id @default(cuid())
+  auctionId String
+  auction   Auction  @relation(fields: [auctionId], references: [id])
+  cardId    String
+  card      Card     @relation(fields: [cardId], references: [id])
+  quantity  Int      @default(1)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([auctionId, cardId])
+}
+
+model Bid {
+  id        String   @id @default(cuid())
+  auctionId String
+  auction   Auction  @relation(fields: [auctionId], references: [id])
+  bidderId  String
+  bidder    User     @relation("Bidder", fields: [bidderId], references: [id])
+  cardId    String
+  card      Card     @relation(fields: [cardId], references: [id])
+  amount    Float
+  status    BidStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([auctionId, amount])
+}
+
+// Trade Offer models (new in Batch 4)
+model TradeOffer {
+  id          String @id @default(cuid())
+  senderId    String
+  sender      User   @relation("TradeOffersSent", fields: [senderId], references: [id])
+  receiverId  String
+  receiver    User   @relation("TradeOffersReceived", fields: [receiverId], references: [id])
+  status      TradeOfferStatus @default(PENDING)
+  message     String?
+  eceFromSender   Float?
+  eceFromReceiver Float?
+  expiresAt   DateTime?
+  acceptedAt  DateTime?
+  declinedAt  DateTime?
+  canceledAt  DateTime?
+  items       TradeOfferItem[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model TradeOfferItem {
+  id        String @id @default(cuid())
+  offerId   String
+  offer     TradeOffer @relation(fields: [offerId], references: [id])
+  cardId    String
+  card      Card   @relation(fields: [cardId], references: [id])
+  quantity  Int    @default(1)
+  role      TradeOfferItemRole
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([offerId, cardId])
+}
+
+// Enums needed for auctions and trade offers
+enum AuctionStatus {
+  ACTIVE
+  CLOSED
+  CANCELED
+}
+
+enum BidStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  EXPIRED
+}
+
+enum CardCategory {
+  AUTOMOTIVE
+  TECHNOLOGY
+  REAL_ESTATE
+  LUXURY
+  COLLECTIBLES
+  GAMING
+  SPORTS
+  ENTERTAINMENT
+}
+
+enum CardRarity {
+  COMMON
+  RARE
+  EPIC
+  LEGENDARY
+  MYTHIC
+}
+
+enum TradeOfferStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  CANCELED
+  EXPIRED
+}
+
+enum TradeOfferItemRole {
+  FROM_SENDER
+  FROM_RECEIVER
+}

@@ -60,6 +60,8 @@ model User {
   targetedMABattles  MABattle[]        @relation("TargetedMABattles")
   battleProposals    BattleProposal[]  @relation("BattleProposals")
   battleVotes        BattleVoting[]    @relation("BattleVotes")
+  tradeOffersSent    TradeOffer[]      @relation("TradeOffersSent")
+  tradeOffersReceived TradeOffer[]     @relation("TradeOffersReceived")
   
   // Staking & Governance
   stakingPositions   StakingPosition[] @relation("StakingPositions")
@@ -171,6 +173,7 @@ model Card {
   listing      MarketplaceListing?
   bids         Bid[]
   transactions Transaction[]
+  tradeOfferItems TradeOfferItem[]
   
   // Advanced Marketplace Features
   bettingMarkets     BettingMarket[]   @relation("BettingMarkets")
@@ -769,6 +772,55 @@ model AuctionHistory {
   createdAt  DateTime @default(now())
   
   @@map("auction_history")
+}
+
+// Trade Offer System
+model TradeOffer {
+  id          String @id @default(cuid())
+ 
+  // Participants
+  senderId    String
+  sender      User   @relation("TradeOffersSent", fields: [senderId], references: [id])
+  receiverId  String
+  receiver    User   @relation("TradeOffersReceived", fields: [receiverId], references: [id])
+ 
+  // Offer Details
+  status      TradeOfferStatus @default(PENDING)
+  message     String?
+  eceFromSender   Float?
+  eceFromReceiver Float?
+ 
+  // Timeline
+  expiresAt   DateTime?
+  acceptedAt  DateTime?
+  declinedAt  DateTime?
+  canceledAt  DateTime?
+ 
+  // Relations
+  items       TradeOfferItem[]
+ 
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+ 
+  @@map("trade_offers")
+}
+
+model TradeOfferItem {
+  id            String @id @default(cuid())
+ 
+  tradeOfferId  String
+  tradeOffer    TradeOffer @relation(fields: [tradeOfferId], references: [id], onDelete: Cascade)
+ 
+  cardId        String
+  card          Card @relation(fields: [cardId], references: [id])
+ 
+  role          TradeOfferItemRole
+  note          String?
+ 
+  createdAt     DateTime @default(now())
+ 
+  @@unique([tradeOfferId, cardId, role])
+  @@map("trade_offer_items")
 }
 
 // M&A Battle System (Gamified Corporate Actions)
@@ -1507,6 +1559,19 @@ enum BidStatus {
   ACCEPTED
   REJECTED
   EXPIRED
+}
+
+enum TradeOfferStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  CANCELED
+  EXPIRED
+}
+
+enum TradeOfferItemRole {
+  FROM_SENDER
+  FROM_RECEIVER
 }
 
 enum TransactionType {
