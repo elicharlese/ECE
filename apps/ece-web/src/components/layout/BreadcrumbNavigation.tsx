@@ -45,7 +45,7 @@ function generateBreadcrumbs(pathname: string): BreadcrumbItem[] {
 }
 
 export function BreadcrumbNavigation({ items, className }: BreadcrumbNavigationProps) {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? '/';
   const breadcrumbs = items || generateBreadcrumbs(pathname);
 
   // Don't show breadcrumbs on home page

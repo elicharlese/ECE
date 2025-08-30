@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import { prisma } from '@/lib/db'
 import { getCurrentUser } from '@/lib/auth'
 
 // Market maker algorithm for automatic liquidity provision
@@ -19,14 +19,14 @@ async function settleBettingMarket(marketId: string) {
   const market = await prisma.bettingMarket.findUnique({
     where: { id: marketId },
     include: {
-      bets: {
+      positions: {
         include: { user: true }
       },
       card: true
     }
   })
 
-  if (!market || market.status !== 'ACTIVE' || market.endTime > new Date()) {
+  if (!market || market.status !== 'ACTIVE' || market.expiryDate > new Date()) {
     return { success: false, error: 'Market not ready for settlement' }
   }
 
@@ -39,27 +39,29 @@ async function settleBettingMarket(marketId: string) {
   const winningDirection = targetMet ? market.targetDirection : (market.targetDirection === 'UP' ? 'DOWN' : 'UP')
 
   // Process payouts
-  const winners = market.bets.filter((bet: any) => bet.direction === winningDirection)
-  const totalWinningBets = winners.reduce((sum: number, bet: any) => sum + bet.amount, 0)
-  const totalPot = market.bets.reduce((sum: number, bet: any) => sum + bet.amount, 0)
+  const winners = market.positions.filter((pos: any) => pos.position === winningDirection)
+  const totalWinningBets = winners.reduce((sum: number, pos: any) => sum + pos.amount, 0)
+  const totalPot = market.positions.reduce((sum: number, pos: any) => sum + pos.amount, 0)
 
   const payouts = await Promise.all(
-    winners.map(async (bet: any) => {
-      const winnings = (bet.amount / totalWinningBets) * totalPot * 0.95 // 5% house edge
+    winners.map(async (pos: any) => {
+      const winnings = (pos.amount / Math.max(totalWinningBets, 1)) * totalPot * 0.95 // 5% house edge
       
       // Update user balance
       await prisma.user.update({
-        where: { id: bet.userId },
+        where: { id: pos.userId },
         data: { eceBalance: { increment: winnings } }
       })
 
       // Create payout record
-      return await prisma.betPayout.create({
+      return await prisma.bettingPayout.create({
         data: {
-          userId: bet.userId,
+          userId: pos.userId,
           marketId: market.id,
-          betId: bet.id,
-          amount: winnings,
+          positionId: pos.id,
+          originalBet: pos.amount,
+          winnings,
+          multiplier: pos.multiplier ?? 1.0,
           status: 'COMPLETED'
         }
       })
@@ -70,8 +72,9 @@ async function settleBettingMarket(marketId: string) {
   await prisma.bettingMarket.update({
     where: { id: marketId },
     data: {
-      status: 'COMPLETED',
-      actualValue,
+      status: 'SETTLED',
+      settled: true,
+      settledValue: actualValue,
       winningDirection
     }
   })
@@ -79,7 +82,7 @@ async function settleBettingMarket(marketId: string) {
   return {
     success: true,
     payouts: payouts.length,
-    totalPaid: payouts.reduce((sum, p) => sum + p.amount, 0),
+    totalPaid: payouts.reduce((sum, p) => sum + p.winnings, 0),
     winners: winners.length
   }
 }
@@ -93,13 +96,13 @@ async function fetchActualMetricValue(cardId: string, metricType: string): Promi
   // In production, integrate with financial APIs
   switch (metricType) {
     case 'REVENUE_GROWTH':
-      return card.revenue * (1 + (Math.random() * 0.4 - 0.2)) // ±20% variation
+      return (card.currentPrice ?? 0) * (1 + (Math.random() * 0.4 - 0.2))
     case 'USER_GROWTH':
-      return card.employees * 1000 * (1 + (Math.random() * 0.6 - 0.3)) // ±30% variation  
+      return (card.currentPrice ?? 0) * (1 + (Math.random() * 0.6 - 0.3))
     case 'VALUATION_CHANGE':
-      return card.stockPrice * (1 + (Math.random() * 0.8 - 0.4)) // ±40% variation
+      return (card.currentPrice ?? 0) * (1 + (Math.random() * 0.8 - 0.4))
     default:
-      return 0
+      return card.currentPrice ?? 0
   }
 }
 
@@ -108,7 +111,7 @@ async function createDailyMarkets() {
   const companies = await prisma.card.findMany({
     where: {
       category: {
-        in: ['TECHNOLOGY', 'AUTOMOTIVE', 'ENTERTAINMENT', 'FINANCE']
+        in: ['TECHNOLOGY', 'AUTOMOTIVE', 'ENTERTAINMENT', 'SPORTS']
       }
     },
     take: 10
@@ -123,17 +126,17 @@ async function createDailyMarkets() {
       
       switch (metricType) {
         case 'REVENUE_GROWTH':
-          currentValue = company.revenue / 1000000000 // Convert to billions
+          currentValue = company.currentPrice
           predictionTarget = currentValue * (1 + (Math.random() * 0.4 - 0.2))
           targetDirection = predictionTarget > currentValue ? 'UP' : 'DOWN'
           break
         case 'USER_GROWTH':
-          currentValue = company.employees * 1000 // Estimate users
+          currentValue = company.currentPrice
           predictionTarget = currentValue * (1 + (Math.random() * 0.6 - 0.3))
           targetDirection = predictionTarget > currentValue ? 'UP' : 'DOWN'
           break
         case 'VALUATION_CHANGE':
-          currentValue = company.stockPrice || company.marketCap / 1000000000
+          currentValue = company.currentPrice
           predictionTarget = currentValue * (1 + (Math.random() * 0.8 - 0.4))
           targetDirection = predictionTarget > currentValue ? 'UP' : 'DOWN'
           break
@@ -141,7 +144,7 @@ async function createDailyMarkets() {
           return null
       }
 
-      const endTime = new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours
+      const expiryDate = new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours
 
       return await prisma.bettingMarket.create({
         data: {
@@ -154,9 +157,8 @@ async function createDailyMarkets() {
           targetDirection,
           odds: 2.0 + (Math.random() * 2), // Random odds between 2-4
           minimumBet: 10,
-          endTime,
-          status: 'ACTIVE',
-          trendingScore: Math.floor(Math.random() * 100)
+          expiryDate,
+          status: 'ACTIVE'
         }
       })
     })
@@ -183,7 +185,7 @@ export async function GET(request: NextRequest) {
       const expiredMarkets = await prisma.bettingMarket.findMany({
         where: {
           status: 'ACTIVE',
-          endTime: { lte: new Date() }
+          expiryDate: { lte: new Date() }
         }
       })
 

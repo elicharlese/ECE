@@ -31,12 +31,21 @@ interface Repository {
   description: string | null
   html_url: string
   language: string | null
+  size: number
   stargazers_count: number
   forks_count: number
+  open_issues_count: number
+  created_at: string
+  updated_at: string
   topics: string[]
+  license: {
+    key: string
+    name: string
+  } | null
   owner: {
     login: string
     avatar_url: string
+    type: string
   }
 }
 

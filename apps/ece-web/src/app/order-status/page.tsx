@@ -63,7 +63,7 @@ export default function OrderStatus() {
   const [isLoading, setIsLoading] = useState(true)
   const [showUpdates, setShowUpdates] = useState(false)
 
-  const orderId = searchParams.get('orderId') || 'ECE-2025-001'
+  const orderId = searchParams?.get('orderId') ?? 'ECE-2025-001'
 
   useEffect(() => {
     const fetchOrderStatus = async () => {

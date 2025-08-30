@@ -376,7 +376,7 @@ export function RequirementsStep({
                       : 'border-[#75715E] hover:border-[#66D9EF] hover:bg-[#66D9EF]/5'
                     }
                   `}
-                  onClick={() => setPriority(priorityOption.id)}
+                  onClick={() => setPriority(priorityOption.id as 'standard' | 'urgent' | 'express')}
                 >
                   <div className="flex items-center gap-3">
                     <priorityOption.icon size={16} className={priorityOption.color} />

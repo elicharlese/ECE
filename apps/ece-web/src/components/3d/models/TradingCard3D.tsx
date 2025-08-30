@@ -39,9 +39,10 @@ export function TradingCard3D({
   onClick,
   showStats = true
 }: TradingCard3DProps) {
-  const groupRef = useRef<THREE.Group>(null);
-  const cardRef = useRef<THREE.Mesh>(null);
-  const glowRef = useRef<THREE.Mesh>(null);
+  // Relax ref typing to avoid mismatched generics between drei components and THREE types
+  const groupRef = useRef<any>(null);
+  const cardRef = useRef<any>(null);
+  const glowRef = useRef<any>(null);
   const [hovered, setHovered] = useState(false);
   const [flipped, setFlipped] = useState(false);
 

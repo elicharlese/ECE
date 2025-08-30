@@ -157,7 +157,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [showSearchResults, setShowSearchResults] = useState(false)
-  const pathname = usePathname()
+  const pathname = usePathname() ?? ''
   
   // Initialize keyboard shortcuts and theme features
   useKeyboardShortcuts()

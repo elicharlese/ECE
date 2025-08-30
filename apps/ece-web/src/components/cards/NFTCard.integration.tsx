@@ -2,10 +2,26 @@
 
 import React, { useState, useEffect } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
-import { Card } from '@/types';
+
+// Local, flexible NFT card type for this integration component
+interface NFTCardData {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  rarity: string;
+  imageUrl?: string;
+  // Optional NFT fields
+  isMinted?: boolean;
+  tokenId?: string;
+  contractAddress?: string;
+  mintAddress?: string;
+  blockchain?: string;
+  metadataUri?: string;
+}
 
 interface NFTCardIntegrationProps {
-  card: Card;
+  card: NFTCardData;
   onMint?: (cardId: string) => void;
 }
 

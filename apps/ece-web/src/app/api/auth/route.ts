@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { prisma } from '@/lib/db'
+import { Prisma } from '@prisma/client'
+import { auth } from '@/lib/auth/jwt'
 
 // Authentication API - Handles user login, registration, and session management
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { action, email, password, username } = body
+    const { action, email, password, username, refreshToken } = body
 
     if (!action) {
       return NextResponse.json(
@@ -14,7 +17,7 @@ export async function POST(request: NextRequest) {
     }
 
     switch (action) {
-      case 'login':
+      case 'login': {
         if (!email || !password) {
           return NextResponse.json(
             { success: false, error: 'Email and password are required' },
@@ -22,27 +25,43 @@ export async function POST(request: NextRequest) {
           )
         }
 
-        // Mock authentication - replace with real auth logic
-        const mockUser = {
-          id: 'user_pro_001',
-          email,
-          username: 'ProTrader',
-          subscription: 'pro',
-          eceBalance: 1250.50,
-          createdAt: new Date()
-        }
-
-        return NextResponse.json({
-          success: true,
-          message: 'Login successful',
-          data: {
-            user: mockUser,
-            token: `jwt_token_${Date.now()}`,
-            expiresIn: '24h'
-          }
+        // Find user in database
+        const user = await prisma.user.findUnique({
+          where: { email },
         })
 
-      case 'register':
+        if (!user || !(await auth.comparePassword(password, user.passwordHash || ''))) {
+          return NextResponse.json(
+            { error: 'Invalid credentials' },
+            { status: 401 }
+          )
+        }
+
+        // Generate JWT token
+        const token = auth.generateToken({
+          userId: user.id,
+          email: user.email,
+          role: 'user',
+        })
+
+        const refreshTokenStr = auth.generateRefreshToken(user.id)
+
+        return NextResponse.json({
+          user: {
+            id: user.id,
+            email: user.email,
+            username: user.username,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            role: 'user',
+          },
+          token,
+          refreshToken: refreshTokenStr,
+          message: 'Login successful'
+        })
+      }
+
+      case 'register': {
         if (!email || !password || !username) {
           return NextResponse.json(
             { success: false, error: 'Email, password, and username are required' },
@@ -50,25 +69,50 @@ export async function POST(request: NextRequest) {
           )
         }
 
-        // Mock registration - replace with real logic
-        const newUser = {
-          id: `user_${Date.now()}`,
-          email,
-          username,
-          subscription: 'free',
-          eceBalance: 100.00, // Welcome bonus
-          createdAt: new Date()
+        // Check if user exists
+        const existingUser = await prisma.user.findUnique({
+          where: { email },
+        })
+
+        if (existingUser) {
+          return NextResponse.json(
+            { error: 'User already exists' },
+            { status: 400 }
+          )
         }
 
-        return NextResponse.json({
-          success: true,
-          message: 'Registration successful',
+        // Hash password and create new user
+        const hashedPassword = await auth.hashPassword(password)
+
+        const newUser = await prisma.user.create({
           data: {
-            user: newUser,
-            token: `jwt_token_${Date.now()}`,
-            expiresIn: '24h'
-          }
+            email,
+            username,
+            passwordHash: hashedPassword,
+          },
         })
+
+        // Generate JWT token
+        const token = auth.generateToken({
+          userId: newUser.id,
+          email: newUser.email,
+          role: 'user',
+        })
+
+        const refreshTokenStr = auth.generateRefreshToken(newUser.id)
+
+        return NextResponse.json({
+          user: {
+            id: newUser.id,
+            email: newUser.email,
+            username: newUser.username,
+            role: 'user',
+          },
+          token,
+          refreshToken: refreshTokenStr,
+          message: 'Registration successful'
+        })
+      }
 
       case 'logout':
         return NextResponse.json({
@@ -76,15 +120,40 @@ export async function POST(request: NextRequest) {
           message: 'Logout successful'
         })
 
-      case 'refresh':
-        // Handle token refresh
-        return NextResponse.json({
-          success: true,
-          data: {
-            token: `jwt_token_${Date.now()}`,
-            expiresIn: '24h'
-          }
+      case 'refresh': {
+        if (!refreshToken) {
+          return NextResponse.json(
+            { error: 'Refresh token required' },
+            { status: 400 }
+          )
+        }
+
+        // Validate refresh token
+        const { userId } = auth.verifyRefreshToken(refreshToken)
+
+        const user = await prisma.user.findUnique({
+          where: { id: userId },
         })
+
+        if (!user) {
+          return NextResponse.json(
+            { error: 'Invalid refresh token' },
+            { status: 401 }
+          )
+        }
+
+        // Generate new access token
+        const newToken = auth.generateToken({
+          userId: user.id,
+          email: user.email,
+          role: 'user',
+        })
+
+        return NextResponse.json({
+          token: newToken,
+          message: 'Token refreshed successfully'
+        })
+      }
 
       default:
         return NextResponse.json(
@@ -114,19 +183,19 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Mock session validation - replace with real JWT verification
-    const mockUser = {
-      id: 'user_pro_001',
-      email: 'pro@example.com',
-      username: 'ProTrader',
-      subscription: 'pro',
-      eceBalance: 1250.50,
-      createdAt: new Date()
+    // Verify JWT and return current user
+    const payload = auth.verifyToken(token)
+    const user = await prisma.user.findUnique({ where: { id: payload.userId } })
+    if (!user) {
+      return NextResponse.json(
+        { success: false, error: 'User not found' },
+        { status: 404 }
+      )
     }
 
     return NextResponse.json({
       success: true,
-      data: { user: mockUser }
+      data: { user: { id: user.id, email: user.email, username: user.username, firstName: user.firstName, lastName: user.lastName } }
     })
   } catch (error) {
     console.error('Auth GET Error:', error)

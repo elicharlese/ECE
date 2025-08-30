@@ -24,7 +24,8 @@ export function Camera({
   autoRotateSpeed = 0.5,
   target = [0, 0, 0]
 }: CameraProps) {
-  const cameraRef = useRef<THREE.PerspectiveCamera>(null);
+  // Relax ref typing to avoid mismatched @types/three versions across workspace during type-check
+  const cameraRef = useRef<any>(null);
   const { viewport } = useThree();
   
   // Auto-rotate camera around the scene

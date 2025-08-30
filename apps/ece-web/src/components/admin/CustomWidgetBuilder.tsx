@@ -182,7 +182,7 @@ export function CustomWidgetBuilder() {
         </div>
         <div className="flex gap-2">
           <Button 
-            variant={previewMode ? "primary" : "outline"}
+            variant={previewMode ? "ocean" : "outline"}
             onClick={() => setPreviewMode(!previewMode)}
             className="flex items-center gap-2"
           >

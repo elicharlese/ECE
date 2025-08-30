@@ -258,7 +258,7 @@ export function ValuationDisplay({
             <Button
               key={timeframe}
              
-              variant={selectedTimeframe === timeframe ? "primary" : "ghost"}
+              variant={selectedTimeframe === timeframe ? "ocean" : "ghost"}
               onClick={() => setSelectedTimeframe(timeframe)}
               className={selectedTimeframe === timeframe 
                 ? "bg-[#66D9EF] text-[#272822]" 
@@ -325,7 +325,7 @@ export function ValuationDisplay({
       <div className="flex gap-2">
         <Button
           onClick={() => setShowTechnicals(!showTechnicals)}
-          variant={showTechnicals ? "primary" : "ghost"}
+          variant={showTechnicals ? "ocean" : "ghost"}
           className={showTechnicals 
             ? "bg-[#819AFF] text-[#F8EFD6]" 
             : "text-[#75715E] hover:text-[#F8EFD6]"
@@ -337,7 +337,7 @@ export function ValuationDisplay({
         
         <Button
           onClick={() => setShowAlerts(!showAlerts)}
-          variant={showAlerts ? "primary" : "ghost"}
+          variant={showAlerts ? "ocean" : "ghost"}
           className={showAlerts 
             ? "bg-[#E6DB74] text-[#272822]" 
             : "text-[#75715E] hover:text-[#F8EFD6]"

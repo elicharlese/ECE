@@ -1,4 +1,5 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "target": "ES2017",
     "lib": [
@@ -24,17 +25,35 @@
     ],
     "paths": {
       "@/*": [
-        "./src/*"
+        "apps/ece-web/src/*"
+      ],
+      "@ece-platform/shared-business-logic": [
+        "libs/shared-business-logic/src/index.ts"
+      ],
+      "@ece-platform/shared-types": [
+        "libs/shared-types/src/index.ts"
+      ],
+      "@ece-platform/shared-ui": [
+        "libs/shared-ui/src/index.ts"
       ]
     }
   },
   "include": [
     "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "src/**/*.ts",
+    "src/**/*.tsx",
     ".next/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/__tests__/**",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "specs/**",
+    "__tests__/**"
   ]
 }

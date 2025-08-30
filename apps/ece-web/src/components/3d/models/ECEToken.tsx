@@ -26,9 +26,10 @@ export function ECEToken({
   interactive = true,
   onClick
 }: ECETokenProps) {
-  const groupRef = useRef<THREE.Group>(null);
-  const tokenRef = useRef<THREE.Mesh>(null);
-  const glowRef = useRef<THREE.Mesh>(null);
+  // Relax ref typing to avoid mismatched generics between drei components and THREE types
+  const groupRef = useRef<any>(null);
+  const tokenRef = useRef<any>(null);
+  const glowRef = useRef<any>(null);
   const [hovered, setHovered] = useState(false);
   const [clicked, setClicked] = useState(false);
 

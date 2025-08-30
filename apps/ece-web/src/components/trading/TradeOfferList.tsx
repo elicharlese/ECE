@@ -15,37 +15,9 @@ import {
   ArrowRightLeft
 } from 'lucide-react'
 import { GlassCard } from '@/components/ui/glass-card'
+import type { TradeOffer } from '@ece-platform/shared-types'
 
-interface TradeOffer {
-  id: string
-  offeringUserId: string
-  offeringUserName: string
-  offeringUserAvatar?: string
-  receivingUserId: string
-  receivingUserName: string
-  receivingUserAvatar?: string
-  offeredCard: {
-    id: string
-    name: string
-    category: string
-    rarity: 'COMMON' | 'RARE' | 'EPIC' | 'LEGENDARY' | 'MYTHIC'
-    imageUrl: string
-    valuation: number
-  }
-  requestedCard?: {
-    id: string
-    name: string
-    category: string
-    rarity: 'COMMON' | 'RARE' | 'EPIC' | 'LEGENDARY' | 'MYTHIC'
-    imageUrl: string
-    valuation: number
-  }
-  offeredAmount?: number
-  requestedAmount?: number
-  status: 'PENDING' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED'
-  createdAt: string
-  expiresAt: string
-}
+// Using shared TradeOffer type from @ece-platform/shared-types
 
 interface TradeOfferListProps {
   tradeOffers: TradeOffer[]
@@ -55,16 +27,17 @@ interface TradeOfferListProps {
   onCounter?: (offerId: string) => void
 }
 
-const statusColors = {
+const statusColors: Record<TradeOffer['status'], string> = {
   PENDING: 'bg-yellow-100 text-yellow-800',
   ACCEPTED: 'bg-green-100 text-green-800',
-  REJECTED: 'bg-red-100 text-red-800',
+  DECLINED: 'bg-red-100 text-red-800',
+  CANCELED: 'bg-gray-200 text-gray-800',
   EXPIRED: 'bg-gray-100 text-gray-800'
 }
 
 export function TradeOfferList({ tradeOffers, userType, onAccept, onReject, onCounter }: TradeOfferListProps) {
   const [searchTerm, setSearchTerm] = useState('')
-  const [statusFilter, setStatusFilter] = useState('all')
+  const [statusFilter, setStatusFilter] = useState<'all' | TradeOffer['status']>('all')
   
   // Filter trade offers based on search and filters
   const filteredOffers = tradeOffers.filter(offer => {
@@ -140,17 +113,21 @@ export function TradeOfferList({ tradeOffers, userType, onAccept, onReject, onCo
             />
           </div>
           
-          <select 
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            <option value="all">All Statuses</option>
-            <option value="PENDING">Pending</option>
-            <option value="ACCEPTED">Accepted</option>
-            <option value="REJECTED">Rejected</option>
-            <option value="EXPIRED">Expired</option>
-          </select>
+          <div className="relative">
+            <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+            <select 
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value as 'all' | TradeOffer['status'])}
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 pl-10 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <option value="all">All Statuses</option>
+              <option value="PENDING">Pending</option>
+              <option value="ACCEPTED">Accepted</option>
+              <option value="DECLINED">Declined</option>
+              <option value="CANCELED">Canceled</option>
+              <option value="EXPIRED">Expired</option>
+            </select>
+          </div>
         </div>
         
         {/* Trade Offers List */}
@@ -177,6 +154,9 @@ export function TradeOfferList({ tradeOffers, userType, onAccept, onReject, onCo
                           <Badge className={statusColors[offer.status]}>
                             {offer.status}
                           </Badge>
+                          <Badge variant="secondary" className="text-xs capitalize">
+                            {tradeType === 'card-for-card' ? 'Card for Card' : tradeType === 'card-for-currency' ? 'Card for Currency' : 'Card Only'}
+                          </Badge>
                           {isExpired && (
                             <Badge variant="destructive" className="text-xs">
                               Expired
@@ -187,7 +167,10 @@ export function TradeOfferList({ tradeOffers, userType, onAccept, onReject, onCo
                         <div className="text-right text-sm text-muted-foreground">
                           <p>{formatTimeAgo(offer.createdAt)}</p>
                           {isPending && !isExpired && (
-                            <p className="text-xs">{formatExpiration(offer.expiresAt)}</p>
+                            <p className="text-xs flex items-center justify-end gap-1">
+                              <Clock className="h-3 w-3" />
+                              {formatExpiration(offer.expiresAt)}
+                            </p>
                           )}
                         </div>
                       </div>
@@ -390,7 +373,7 @@ export function TradeOfferList({ tradeOffers, userType, onAccept, onReject, onCo
                     : 'You haven\'t sent any trade offers yet'}
               </p>
             </div>
-          )
+          )}
         </div>
       </div>
     </GlassCard>

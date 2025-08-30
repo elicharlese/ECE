@@ -32,7 +32,8 @@ const routeLabels: Record<string, string> = {
 }
 
 export function AdminBreadcrumbs({ className = '' }: AdminBreadcrumbsProps) {
-  const pathname = usePathname()
+  // Next.js types can allow null during certain lifecycle stages
+  const pathname = usePathname() ?? ''
   const [breadcrumbs, setBreadcrumbs] = useState<BreadcrumbItem[]>([])
   const [navigationHistory, setNavigationHistory] = useState<string[]>([])
 

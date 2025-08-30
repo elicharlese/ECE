@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.12.0
- * Query Engine version: 8047c96bbd92db98a2abc7c9323ce77c02c89dbc
+ * Prisma Client JS version: 6.15.0
+ * Query Engine version: 85179d7826409ee107a6ba334b5e305ae3fba9fb
  */
 Prisma.prismaVersion = {
-  client: "6.12.0",
-  engine: "8047c96bbd92db98a2abc7c9323ce77c02c89dbc"
+  client: "6.15.0",
+  engine: "85179d7826409ee107a6ba334b5e305ae3fba9fb"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -120,9 +120,164 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  name: 'name',
+  passwordHash: 'passwordHash',
+  eceBalance: 'eceBalance',
+  refreshToken: 'refreshToken',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CardScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  imageUrl: 'imageUrl',
+  rarity: 'rarity',
+  category: 'category',
+  company: 'company',
+  valuation: 'valuation',
+  marketCap: 'marketCap',
+  volume24h: 'volume24h',
+  priceChange24h: 'priceChange24h',
+  attributes: 'attributes',
+  metadata: 'metadata',
+  ownerId: 'ownerId',
+  isListed: 'isListed',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TransactionScalarFieldEnum = {
+  id: 'id',
+  fromUserId: 'fromUserId',
+  toUserId: 'toUserId',
+  cardId: 'cardId',
+  amount: 'amount',
+  currency: 'currency',
+  type: 'type',
+  status: 'status',
+  reference: 'reference',
+  metadata: 'metadata',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TradeOfferScalarFieldEnum = {
+  id: 'id',
+  senderId: 'senderId',
+  receiverId: 'receiverId',
+  status: 'status',
+  message: 'message',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TradeOfferItemScalarFieldEnum = {
+  id: 'id',
+  tradeOfferId: 'tradeOfferId',
+  cardId: 'cardId',
+  role: 'role',
+  quantity: 'quantity',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AppOrderScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  projectType: 'projectType',
+  title: 'title',
+  description: 'description',
+  requirements: 'requirements',
+  timeline: 'timeline',
+  estimatedCost: 'estimatedCost',
+  currency: 'currency',
+  status: 'status',
+  priority: 'priority',
+  progressPercentage: 'progressPercentage',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OrderRevisionScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  userId: 'userId',
+  revisionNumber: 'revisionNumber',
+  title: 'title',
+  description: 'description',
+  status: 'status',
+  approvedAt: 'approvedAt',
+  rejectedAt: 'rejectedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OrderCommunicationScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  userId: 'userId',
+  messageType: 'messageType',
+  subject: 'subject',
+  message: 'message',
+  isFromAdmin: 'isFromAdmin',
+  read: 'read',
+  important: 'important',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SortOrder = {
+  asc: 'asc',
+  desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+exports.TradeOfferStatus = exports.$Enums.TradeOfferStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED',
+  CANCELLED: 'CANCELLED',
+  EXPIRED: 'EXPIRED'
+};
+
+exports.TradeOfferItemRole = exports.$Enums.TradeOfferItemRole = {
+  OFFERED: 'OFFERED',
+  REQUESTED: 'REQUESTED'
+};
 
 exports.Prisma.ModelName = {
-
+  User: 'User',
+  Card: 'Card',
+  Transaction: 'Transaction',
+  TradeOffer: 'TradeOffer',
+  TradeOfferItem: 'TradeOfferItem',
+  AppOrder: 'AppOrder',
+  OrderRevision: 'OrderRevision',
+  OrderCommunication: 'OrderCommunication'
 };
 
 /**

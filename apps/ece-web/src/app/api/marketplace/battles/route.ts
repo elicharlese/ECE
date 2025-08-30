@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import { prisma } from '@/lib/db'
 import { getCurrentUser } from '@/lib/auth'
 
 export async function GET(request: NextRequest) {
@@ -9,11 +9,11 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '20')
 
     if (type === 'companies') {
-      // Fetch companies for discovery
+      // Fetch companies for discovery (select only valid Card fields)
       const companies = await prisma.card.findMany({
         where: {
           category: {
-            in: ['TECHNOLOGY', 'AUTOMOTIVE', 'ENTERTAINMENT', 'FINANCE']
+            in: ['TECHNOLOGY', 'AUTOMOTIVE', 'ENTERTAINMENT', 'SPORTS']
           }
         },
         take: limit,
@@ -23,24 +23,10 @@ export async function GET(request: NextRequest) {
           category: true,
           description: true,
           imageUrl: true,
-          marketCap: true,
-          revenue: true,
-          employees: true,
-          founded: true,
-          advantages: true,
-          weaknesses: true,
-          battlePower: true,
-          defensiveRating: true,
-          acquisitionPrice: true,
-          ceo: true,
-          headquarters: true,
-          recentNews: true,
-          stockPrice: true,
-          priceChange: true,
-          battleHistory: true
+          currentPrice: true
         },
         orderBy: {
-          battlePower: 'desc'
+          currentPrice: 'desc'
         }
       })
 
@@ -50,7 +36,7 @@ export async function GET(request: NextRequest) {
       })
     }
 
-    // Fetch active M&A battles
+    // Fetch active M&A battles (align with Prisma schema relations/fields)
     const battles = await prisma.mABattle.findMany({
       where: {
         status: {
@@ -59,23 +45,19 @@ export async function GET(request: NextRequest) {
       },
       take: limit,
       include: {
-        challenger: {
+        initiatorCard: {
           select: {
             id: true,
             name: true,
             category: true,
-            battlePower: true,
-            defensiveRating: true,
             imageUrl: true
           }
         },
-        defender: {
+        targetCard: {
           select: {
             id: true,
             name: true,
             category: true,
-            battlePower: true,
-            defensiveRating: true,
             imageUrl: true
           }
         },
@@ -90,40 +72,15 @@ export async function GET(request: NextRequest) {
       }
     })
 
-    const enrichedBattles = await Promise.all(
-      battles.map(async (battle: any) => {
-        // Get vote counts
-        const challengerVotes = await prisma.mABattleVote.count({
-          where: {
-            battleId: battle.id,
-            choice: 'CHALLENGER'
-          }
-        })
-
-        const defenderVotes = await prisma.mABattleVote.count({
-          where: {
-            battleId: battle.id,
-            choice: 'DEFENDER'
-          }
-        })
-
-        // Get pot size
-        const potSizeResult = await prisma.mABattleVote.aggregate({
-          where: { battleId: battle.id },
-          _sum: { amount: true }
-        })
-
-        return {
-          ...battle,
-          timeLeft: battle.endTime.getTime() - Date.now(),
-          totalVotes: challengerVotes + defenderVotes,
-          challengerVotes,
-          defenderVotes,
-          potSize: potSizeResult._sum.amount || 0,
-          participants: battle._count.votes
-        }
-      })
-    )
+    const enrichedBattles = battles.map((battle: any) => {
+      const votingEndsAt = new Date(battle.votingPeriod)
+      return {
+        ...battle,
+        timeLeft: votingEndsAt.getTime() - Date.now(),
+        totalVotes: battle?._count?.votes ?? 0,
+        participants: battle?._count?.votes ?? 0
+      }
+    })
 
     return NextResponse.json({
       success: true,
@@ -174,20 +131,26 @@ export async function POST(request: NextRequest) {
         )
       }
 
-      // Create battle
-      const endTime = new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours from now
-      
+      // Create battle (align with Prisma schema)
+      const votingPeriod = new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours from now
+      const timeline = new Date(Date.now() + 48 * 60 * 60 * 1000) // 48 hours total timeline
+
       const battle = await prisma.mABattle.create({
         data: {
-          challengerId,
-          defenderId,
-          creatorId: user.id,
-          status: 'VOTING',
-          endTime
+          initiatorCardId: challengerId,
+          targetCardId: defenderId,
+          initiatorUserId: user.id,
+          battleType: 'COMPETITIVE_CHALLENGE',
+          title: `${challenger.name} vs ${defender.name}`,
+          description: `Competitive challenge between ${challenger.name} and ${defender.name}.`,
+          stakes: 0,
+          timeline,
+          votingPeriod,
+          status: 'VOTING'
         },
         include: {
-          challenger: { select: { name: true } },
-          defender: { select: { name: true } }
+          initiatorCard: { select: { name: true } },
+          targetCard: { select: { name: true } }
         }
       })
 
@@ -198,66 +161,42 @@ export async function POST(request: NextRequest) {
       })
 
     } else if (action === 'vote') {
-      const { battleId, choice, amount } = data
+      const { battleId, amount, vote } = data as { battleId: string; amount?: number; vote?: 'APPROVE' | 'REJECT' | 'ABSTAIN' }
 
-      if (!battleId || !choice || !amount || amount <= 0) {
+      if (!battleId) {
         return NextResponse.json(
           { success: false, error: 'Invalid vote parameters' },
           { status: 400 }
         )
       }
 
-      // Check if battle exists and is active
+      // Check if battle exists and is in voting window
       const battle = await prisma.mABattle.findUnique({
-        where: { id: battleId },
-        include: { challenger: true, defender: true }
+        where: { id: battleId }
       })
 
-      if (!battle || battle.status !== 'VOTING' || battle.endTime <= new Date()) {
+      if (!battle || battle.status !== 'VOTING' || new Date(battle.votingPeriod) <= new Date()) {
         return NextResponse.json(
           { success: false, error: 'Battle not available for voting' },
           { status: 400 }
         )
       }
 
-      // Check user balance
-      const userBalance = await prisma.user.findUnique({
-        where: { id: user.id },
-        select: { eceBalance: true }
+      // Create vote (align with BattleVoting model)
+      const createdVote = await prisma.battleVoting.create({
+        data: {
+          battleId,
+          voterId: user.id,
+          vote: (vote ?? 'APPROVE') as any,
+          voteWeight: amount ?? 1,
+          eceStaked: amount ?? undefined
+        }
       })
-
-      if (!userBalance || userBalance.eceBalance < amount) {
-        return NextResponse.json(
-          { success: false, error: 'Insufficient ECE balance' },
-          { status: 400 }
-        )
-      }
-
-      // Create vote and update balance
-      const result = await prisma.$transaction(async (tx: any) => {
-        const vote = await tx.mABattleVote.create({
-          data: {
-            battleId,
-            userId: user.id,
-            choice: choice as 'CHALLENGER' | 'DEFENDER',
-            amount
-          }
-        })
-
-        await tx.user.update({
-          where: { id: user.id },
-          data: { eceBalance: { decrement: amount } }
-        })
-
-        return vote
-      })
-
-      const chosenCompany = choice === 'CHALLENGER' ? battle.challenger.name : battle.defender.name
 
       return NextResponse.json({
         success: true,
-        vote: result,
-        message: `Successfully voted ${amount} ECE for ${chosenCompany}`
+        vote: createdVote,
+        message: `Vote submitted${amount ? ` with ${amount} ECE staked` : ''}`
       })
 
     } else {

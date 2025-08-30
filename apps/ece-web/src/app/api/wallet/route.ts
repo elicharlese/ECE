@@ -1,7 +1,7 @@
 // Wallet API - Handles ECE balance, transactions, and payment processing
 import { NextRequest, NextResponse } from 'next/server'
-import { mockDatabase } from '@/lib/db'
-import { Transaction } from '@/lib/db/schema'
+import { prisma } from '@/lib/db'
+import { Prisma } from '@prisma/client'
 
 export async function GET(request: NextRequest) {
   try {
@@ -19,7 +19,18 @@ export async function GET(request: NextRequest) {
     }
 
     // Get user balance and transactions
-    const user = mockDatabase.users.get(userId)
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        eceBalance: true,
+        username: true,
+        firstName: true,
+        lastName: true,
+        email: true
+      }
+    })
+    
     if (!user) {
       return NextResponse.json(
         { success: false, error: 'User not found' },
@@ -27,14 +38,56 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Get transactions (mock implementation)
-    const transactions: Transaction[] = []
+    // Build where clause for transactions
+    const where: Prisma.TransactionWhereInput = { userId }
+    
+    if (type) {
+      const typeEnum = type.toUpperCase() as any
+      where.type = typeEnum
+    }
+
+    // Get paginated transactions
+    const offset = (page - 1) * limit
+    
+    const [transactions, totalCount] = await Promise.all([
+      prisma.transaction.findMany({
+        where,
+        orderBy: { createdAt: 'desc' },
+        skip: offset,
+        take: limit,
+        include: {
+          user: {
+            select: {
+              id: true,
+              username: true,
+              firstName: true,
+              lastName: true,
+              email: true
+            }
+          },
+          card: {
+            select: {
+              id: true,
+              name: true,
+              imageUrl: true
+            }
+          }
+        }
+      }),
+      prisma.transaction.count({ where })
+    ])
 
     const walletData = {
       balance: user.eceBalance,
       currency: 'ECE',
       transactions,
-      totalTransactions: transactions.length
+      totalTransactions: totalCount,
+      pagination: {
+        page,
+        limit,
+        total: totalCount,
+        totalPages: Math.ceil(totalCount / limit)
+      }
     }
 
     return NextResponse.json({
@@ -64,7 +117,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (!['trade', 'purchase', 'bid', 'bet', 'battle', 'boost', 'deposit', 'withdrawal'].includes(type)) {
+    const allowedTypes = ['DEPOSIT','WITHDRAWAL','PURCHASE','SALE','TRADE','REWARD','REFUND']
+    const typeEnum = (typeof type === 'string' ? type.toUpperCase() : '') as string
+    if (!allowedTypes.includes(typeEnum)) {
       return NextResponse.json(
         { success: false, error: 'Invalid transaction type' },
         { status: 400 }
@@ -78,50 +133,148 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Create new transaction
-    const newTransaction: Partial<Transaction> = {
-      id: `txn_${Date.now()}`,
-      fromUserId: body.fromUserId,
-      toUserId: body.toUserId || userId,
-      cardId: body.cardId,
-      amount,
-      currency,
-      type,
-      status: 'pending',
-      reference: body.reference,
-      metadata: body.metadata || {},
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }
-
     // Process transaction based on type
-    switch (type) {
-      case 'deposit':
+    let transactionStatus: 'PENDING' | 'COMPLETED' | 'FAILED' | 'CANCELED' | 'REFUNDED' = 'PENDING'
+    
+    switch (typeEnum) {
+      case 'DEPOSIT':
         // Handle deposit logic
-        newTransaction.status = 'completed'
+        transactionStatus = 'COMPLETED'
+        // Update user balance
+        await prisma.user.update({
+          where: { id: userId },
+          data: {
+            eceBalance: {
+              increment: amount
+            }
+          }
+        })
         break
       
-      case 'withdrawal':
+      case 'WITHDRAWAL': {
         // Handle withdrawal logic
-        const user = mockDatabase.users.get(userId)
+        const user = await prisma.user.findUnique({
+          where: { id: userId },
+          select: { eceBalance: true }
+        })
+        
         if (!user || user.eceBalance < amount) {
           return NextResponse.json(
             { success: false, error: 'Insufficient balance' },
             { status: 400 }
           )
         }
-        newTransaction.status = 'completed'
+        
+        transactionStatus = 'COMPLETED'
+        // Update user balance
+        await prisma.user.update({
+          where: { id: userId },
+          data: {
+            eceBalance: {
+              decrement: amount
+            }
+          }
+        })
         break
+      }
       
-      case 'trade':
-      case 'purchase':
-        // Handle trade/purchase logic
-        newTransaction.status = 'completed'
+      case 'PURCHASE':
+      case 'TRADE': {
+        // buyer spends
+        const actor = await prisma.user.findUnique({ where: { id: userId }, select: { eceBalance: true } })
+        if (!actor || actor.eceBalance < amount) {
+          return NextResponse.json({ success: false, error: 'Insufficient balance' }, { status: 400 })
+        }
+        transactionStatus = 'COMPLETED'
+        const ops: any[] = [
+          prisma.user.update({
+            where: { id: userId },
+            data: { eceBalance: { decrement: amount } }
+          })
+        ]
+        if (body.counterpartyUserId) {
+          ops.push(
+            prisma.user.update({
+              where: { id: body.counterpartyUserId },
+              data: { eceBalance: { increment: amount } }
+            })
+          )
+        }
+        await prisma.$transaction(ops)
         break
+      }
+      case 'SALE': {
+        // seller earns
+        transactionStatus = 'COMPLETED'
+        const ops: any[] = [
+          prisma.user.update({
+            where: { id: userId },
+            data: { eceBalance: { increment: amount } }
+          })
+        ]
+        if (body.counterpartyUserId) {
+          const buyer = await prisma.user.findUnique({ where: { id: body.counterpartyUserId }, select: { eceBalance: true } })
+          if (!buyer || buyer.eceBalance < amount) {
+            return NextResponse.json({ success: false, error: 'Counterparty has insufficient balance' }, { status: 400 })
+          }
+          ops.push(
+            prisma.user.update({
+              where: { id: body.counterpartyUserId },
+              data: { eceBalance: { decrement: amount } }
+            })
+          )
+        }
+        await prisma.$transaction(ops)
+        break
+      }
+      case 'REWARD': {
+        transactionStatus = 'COMPLETED'
+        await prisma.user.update({ where: { id: userId }, data: { eceBalance: { increment: amount } } })
+        break
+      }
+      case 'REFUND': {
+        transactionStatus = 'COMPLETED'
+        await prisma.user.update({ where: { id: userId }, data: { eceBalance: { increment: amount } } })
+        break
+      }
       
       default:
-        newTransaction.status = 'pending'
+        transactionStatus = 'PENDING'
     }
+    
+    // Create new transaction
+    const newTransaction = await prisma.transaction.create({
+      data: {
+        userId,
+        cardId: body.cardId,
+        amount,
+        currency,
+        type: typeEnum as any,
+        status: transactionStatus,
+        description: body.description,
+        metadata: body.metadata || {},
+        paymentMethod: body.paymentMethod,
+        paymentId: body.paymentId
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+            firstName: true,
+            lastName: true,
+            email: true
+          }
+        },
+        card: {
+          select: {
+            id: true,
+            name: true,
+            imageUrl: true
+          }
+        }
+      }
+    })
 
     return NextResponse.json({
       success: true,
@@ -149,19 +302,53 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    if (!['completed', 'failed', 'cancelled'].includes(status)) {
+    const allowedStatuses = ['COMPLETED','FAILED','CANCELED','REFUNDED']
+    const statusEnum = (typeof status === 'string' ? status.toUpperCase() : '') as string
+    if (!allowedStatuses.includes(statusEnum)) {
       return NextResponse.json(
         { success: false, error: 'Invalid status' },
         { status: 400 }
       )
     }
 
-    // Update transaction status (mock implementation)
-    const updatedTransaction = {
-      id: transactionId,
-      status,
-      updatedAt: new Date()
+    // Verify user owns the transaction
+    const transaction = await prisma.transaction.findFirst({
+      where: { id: transactionId, userId }
+    })
+    
+    if (!transaction) {
+      return NextResponse.json(
+        { success: false, error: 'Transaction not found or unauthorized' },
+        { status: 404 }
+      )
     }
+    
+    // Update transaction status
+    const updatedTransaction = await prisma.transaction.update({
+      where: { id: transactionId },
+      data: {
+        status: statusEnum as any,
+        updatedAt: new Date()
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+            firstName: true,
+            lastName: true,
+            email: true
+          }
+        },
+        card: {
+          select: {
+            id: true,
+            name: true,
+            imageUrl: true
+          }
+        }
+      }
+    })
 
     return NextResponse.json({
       success: true,

@@ -61,7 +61,7 @@ const mockAnalytics: MarketAnalytics = {
     { name: 'Tesla vs Netflix', type: 'battle', volume: 8900, change: 45.2 },
     { name: 'OpenAI Acquisition Value', type: 'bet', volume: 7650, change: 12.3 },
     { name: 'Coinbase Legendary', type: 'auction', volume: 6800, change: -5.4 }
-  ]
+  ],
   recentActivity: [
     {
       id: '1',

@@ -315,7 +315,7 @@ export function Card3DViewer({
               <span className="text-sm font-medium text-[#F8EFD6]">Auto Rotate</span>
             </div>
             <Button
-              variant={controls.autoRotate ? "accent" : "ghost"}
+              variant={controls.autoRotate ? "secondary" : "ghost"}
              
               onClick={() => setControls(prev => ({ ...prev, autoRotate: !prev.autoRotate }))}
             >
@@ -378,7 +378,7 @@ export function Card3DViewer({
               <span className="text-sm font-medium text-[#F8EFD6]">Visual Effects</span>
             </div>
             <Button
-              variant={controls.showEffects ? "accent" : "ghost"}
+              variant={controls.showEffects ? "secondary" : "ghost"}
              
               onClick={() => setControls(prev => ({ ...prev, showEffects: !prev.showEffects }))}
             >

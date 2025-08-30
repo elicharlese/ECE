@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import { prisma } from '@/lib/db'
 import { getCurrentUser } from '@/lib/auth'
 
 export async function GET(request: NextRequest) {
@@ -34,10 +34,10 @@ export async function GET(request: NextRequest) {
         orderBy = { currentBid: 'asc' }
         break
       case 'most-bids':
-        orderBy = { totalBids: 'desc' }
+        orderBy = { bidCount: 'desc' }
         break
       case 'trending':
-        orderBy = { priceChange24h: 'desc' }
+        orderBy = { viewCount: 'desc' }
         break
       default:
         orderBy = { endTime: 'asc' }
@@ -154,90 +154,52 @@ export async function POST(request: NextRequest) {
     }
 
     if (type === 'instant_buy') {
-      if (!auction.instantBuyPrice || amount !== auction.instantBuyPrice) {
-        return NextResponse.json(
-          { success: false, error: 'Invalid instant buy amount' },
-          { status: 400 }
-        )
-      }
-
-      // Process instant buy
-      const result = await prisma.$transaction(async (tx: any) => {
-        // Transfer card ownership
-        await tx.card.update({
-          where: { id: auction.cardId },
-          data: { ownerId: user.id }
-        })
-
-        // Update user balances
-        await tx.user.update({
-          where: { id: user.id },
-          data: { eceBalance: { decrement: amount } }
-        })
-
-        await tx.user.update({
-          where: { id: auction.ownerId },
-          data: { eceBalance: { increment: amount } }
-        })
-
-        // Close auction
-        await tx.cardAuction.update({
-          where: { id: auctionId },
-          data: { 
-            status: 'COMPLETED',
-            winnerId: user.id,
-            finalPrice: amount
-          }
-        })
-
-        return { type: 'instant_buy', amount }
-      })
-
-      return NextResponse.json({
-        success: true,
-        result,
-        message: `Successfully purchased ${auction.card.name} for ${amount} ECE`
-      })
-
-    } else {
-      // Regular bid
-      if (amount <= auction.currentBid || amount < auction.currentBid + auction.minBidIncrement) {
-        return NextResponse.json(
-          { success: false, error: `Bid must be at least ${auction.currentBid + auction.minBidIncrement} ECE` },
-          { status: 400 }
-        )
-      }
-
-      // Create bid and update auction
-      const result = await prisma.$transaction(async (tx: any) => {
-        // Create the bid
-        const bid = await tx.auctionBid.create({
-          data: {
-            auctionId,
-            bidderId: user.id,
-            amount
-          }
-        })
-
-        // Update auction current bid
-        await tx.cardAuction.update({
-          where: { id: auctionId },
-          data: {
-            currentBid: amount,
-            highestBidderId: user.id,
-            totalBids: { increment: 1 }
-          }
-        })
-
-        return bid
-      })
-
-      return NextResponse.json({
-        success: true,
-        bid: result,
-        message: `Successfully placed bid of ${amount} ECE on ${auction.card.name}`
-      })
+      return NextResponse.json(
+        { success: false, error: 'Instant buy is not supported for auctions' },
+        { status: 400 }
+      )
     }
+
+    // Regular bid
+    const minAllowed = auction.currentBid != null
+      ? auction.currentBid + auction.bidIncrement
+      : auction.startPrice
+
+    if (amount < minAllowed) {
+      return NextResponse.json(
+        { success: false, error: `Bid must be at least ${minAllowed} ECE` },
+        { status: 400 }
+      )
+    }
+
+    // Create bid and update auction
+    const result = await prisma.$transaction(async (tx: any) => {
+      // Create the bid
+      const bid = await tx.auctionBid.create({
+        data: {
+          auctionId,
+          bidderId: user.id,
+          bidAmount: amount
+        }
+      })
+
+      // Update auction current bid and bidCount
+      await tx.cardAuction.update({
+        where: { id: auctionId },
+        data: {
+          currentBid: amount,
+          bidCount: { increment: 1 }
+        }
+      })
+
+      return bid
+    })
+
+    return NextResponse.json({
+      success: true,
+      bid: result,
+      message: `Successfully placed bid of ${amount} ECE on ${auction.card.name}`
+    })
 
   } catch (error) {
     console.error('Error processing auction action:', error)

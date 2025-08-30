@@ -11,7 +11,7 @@ interface PriceDataPoint {
 }
 
 interface PriceHistoryChartProps {
-  data: PriceDataDataPoint[]
+  data: PriceDataPoint[]
   cardName: string
   timeRange?: '1d' | '7d' | '30d' | '90d' | '1y'
   onTimeRangeChange?: (range: '1d' | '7d' | '30d' | '90d' | '1y') => void

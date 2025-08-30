@@ -20,31 +20,23 @@ import {
 } from 'lucide-react'
 import { GlassCard } from '@/components/ui/glass-card'
 import { CardSelector } from '@/components/auctions/CardSelector'
-
-interface Card {
-  id: string
-  name: string
-  category: string
-  rarity: 'COMMON' | 'RARE' | 'EPIC' | 'LEGENDARY' | 'MYTHIC'
-  imageUrl: string
-  valuation: number
-}
+import type { CardSummary } from '@ece-platform/shared-types'
 
 interface CreateTradeOfferFormProps {
-  userCards: Card[]
+  userCards: CardSummary[]
   targetUser?: {
     id: string
     name: string
     avatar?: string
   }
-  targetCard?: Card
+  targetCard?: CardSummary
   onSubmit: (tradeData: any) => void
   onCancel: () => void
 }
 
 export function CreateTradeOfferForm({ userCards, targetUser, targetCard, onSubmit, onCancel }: CreateTradeOfferFormProps) {
-  const [offeredCard, setOfferedCard] = useState<Card | null>(null)
-  const [requestedCard, setRequestedCard] = useState<Card | null>(targetCard || null)
+  const [offeredCard, setOfferedCard] = useState<CardSummary | null>(null)
+  const [requestedCard, setRequestedCard] = useState<CardSummary | null>(targetCard || null)
   const [offeredAmount, setOfferedAmount] = useState(0)
   const [requestedAmount, setRequestedAmount] = useState(0)
   const [includeCurrency, setIncludeCurrency] = useState(false)
@@ -155,7 +147,7 @@ export function CreateTradeOfferForm({ userCards, targetUser, targetCard, onSubm
                     </div>
                     <Switch 
                       checked={!!requestedCard} 
-                      onCheckedChange={(checked) => {
+                      onCheckedChange={(checked: boolean) => {
                         if (!checked) setRequestedCard(null)
                       }} 
                     />
@@ -187,7 +179,7 @@ export function CreateTradeOfferForm({ userCards, targetUser, targetCard, onSubm
                     </div>
                     <Switch 
                       checked={requestedAmount > 0} 
-                      onCheckedChange={(checked) => {
+                      onCheckedChange={(checked: boolean) => {
                         if (!checked) setRequestedAmount(0)
                       }} 
                     />
@@ -203,7 +195,7 @@ export function CreateTradeOfferForm({ userCards, targetUser, targetCard, onSubm
                         id="requestedAmount"
                         type="number" 
                         value={requestedAmount}
-                        onChange={(e) => setRequestedAmount(parseFloat(e.target.value) || 0)}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setRequestedAmount(parseFloat(e.target.value) || 0)}
                         min="0"
                         step="10"
                         className="mt-1"
@@ -241,7 +233,7 @@ export function CreateTradeOfferForm({ userCards, targetUser, targetCard, onSubm
                       id="offeredAmount"
                       type="number" 
                       value={offeredAmount}
-                      onChange={(e) => setOfferedAmount(parseFloat(e.target.value) || 0)}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setOfferedAmount(parseFloat(e.target.value) || 0)}
                       min="0"
                       step="10"
                       className="mt-1"
@@ -280,7 +272,7 @@ export function CreateTradeOfferForm({ userCards, targetUser, targetCard, onSubm
                 <Textarea 
                   id="message"
                   value={message}
-                  onChange={(e) => setMessage(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setMessage(e.target.value)}
                   placeholder="Add a personal message to the recipient..."
                   className="mt-1"
                   rows={3}

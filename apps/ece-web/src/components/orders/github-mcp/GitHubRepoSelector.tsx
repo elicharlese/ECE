@@ -180,9 +180,11 @@ export const GitHubRepoSelector: React.FC<GitHubRepoSelectorProps> = ({
     })
   }
 
-  const getLanguages = () => {
-    const languages = new Set(repositories.map(repo => repo.language).filter(Boolean))
-    return Array.from(languages).sort()
+  const getLanguages = (): string[] => {
+    const languages = repositories
+      .map(repo => repo.language)
+      .filter((lang): lang is string => typeof lang === 'string' && lang.length > 0)
+    return Array.from(new Set(languages)).sort()
   }
 
   return (

@@ -1,9 +1,7 @@
 // Database Connection and Configuration
 // This handles the connection to our database and provides utility functions
 
-// For now, we'll use a mock database until Prisma is properly configured
-// import { PrismaClient } from '@prisma/client'
-
+import { PrismaClient } from '@prisma/client'
 import { 
   User, 
   UserSubscription, 
@@ -20,19 +18,21 @@ import {
   OrderDeliverable
 } from './schema'
 
-// declare global {
-//   var prisma: PrismaClient | undefined
-// }
+declare global {
+  var prisma: PrismaClient | undefined
+}
 
-// // Singleton pattern for Prisma client
-// export const db = globalThis.prisma || new PrismaClient()
+// Singleton pattern for Prisma client
+export const db = globalThis.prisma || new PrismaClient({
+  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+})
 
-// if (process.env.NODE_ENV !== 'production') {
-//   globalThis.prisma = db
-// }
+if (process.env.NODE_ENV !== 'production') {
+  globalThis.prisma = db
+}
 
-// Temporary mock database for development
-export const db = null
+// Export the actual Prisma client for database operations
+export const prisma = db
 
 // Mock data storage
 export const mockDatabase = {

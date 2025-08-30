@@ -1,10 +1,13 @@
 # ECE Naming Strategy & Conventions
+
 ## Version: 2.0
+
 ## Date: July 24, 2025
 
 ---
 
 ## Overview
+
 This document establishes comprehensive naming conventions for the ECE project to ensure consistency, clarity, and maintainability across all components, documentation, and development phases.
 
 ---
@@ -12,22 +15,25 @@ This document establishes comprehensive naming conventions for the ECE project t
 ## Patch Naming Strategy
 
 ### Patch Documentation Structure
-```
-/docs/patches/
-├── PATCHES_1-5_ARCHIVE.md          # Archive documentation
-├── PATCHES_6-10_MASTER.md          # Current cycle master plan
-├── PATCH_6_FEATURE_NAME.md         # Individual patch docs
-├── patch-6/                        # Simple patch folders
-│   ├── PATCH6_CHECKLIST.md         # Implementation checklist
-│   └── PATCH6_SUMMARY.md           # High-level summary
-└── patch-7/                        # Next patch folder
-    ├── PATCH7_CHECKLIST.md
-    └── PATCH7_SUMMARY.md
+
+```text
+patches/
+├── FEATURE_MAPPING.md                      # Map patches to features
+├── 3d-visualization/
+│   └── sources/
+│       ├── PATCH6_SUMMARY.md               # High-level summary
+│       └── PATCH6_CHECKLIST.md             # Implementation checklist
+├── enterprise-compliance/
+│   └── sources/
+│       ├── PATCH7_SUMMARY.md
+│       └── PATCH7_CHECKLIST.md
+└── ...                                     # Additional feature folders
 ```
 
 ### Patch Naming Conventions
 
 #### File Naming
+
 - **Master Archive**: `PATCHES_X-Y_ARCHIVE.md` (e.g., `PATCHES_1-5_ARCHIVE.md`)
 - **Cycle Master**: `PATCHES_X-Y_MASTER.md` (e.g., `PATCHES_6-10_MASTER.md`)
 - **Individual Patches**: `PATCH_X_FEATURE_NAME.md` (e.g., `PATCH_6_3D_TRADING.md`)
@@ -35,9 +41,11 @@ This document establishes comprehensive naming conventions for the ECE project t
 - **Summary Files**: `PATCHX_SUMMARY.md` (e.g., `PATCH6_SUMMARY.md`)
 
 #### Folder Naming
+
 - **Patch Folders**: `patch-X/` (lowercase with hyphen, e.g., `patch-6/`)
 
 #### Feature Naming Guidelines
+
 - Use UPPERCASE for major concepts: `3D_TRADING`, `ENTERPRISE`, `AI_ANALYTICS`
 - Use descriptive, concise names that reflect core functionality
 - Avoid abbreviations unless universally understood
@@ -48,13 +56,15 @@ This document establishes comprehensive naming conventions for the ECE project t
 ## Git & Version Control
 
 ### Branch Naming
+
 - **Feature Branches**: `patch-X/feature-name` (e.g., `patch-6/3d-trading`)
 - **Hotfix Branches**: `hotfix/issue-description`
 - **Release Branches**: `release/vX.Y.Z`
 - **Archive Branches**: `archive/patches-X-Y`
 
 ### Commit Message Standards
-```
+
+```text
 🚀 PATCH X: Feature implementation milestone
 
 - Implement core feature functionality
@@ -66,6 +76,7 @@ Closes: #issue-number
 ```
 
 #### Commit Types
+
 - `🚀 PATCH X:` - Major patch milestone
 - `⚡ PATCH X:` - Feature implementation progress  
 - `🐛 PATCH X:` - Bug fix within patch
@@ -75,6 +86,7 @@ Closes: #issue-number
 - `📦` - Build/deployment changes
 
 ### Tag Naming
+
 - **Patch Completion**: `patch-X-complete` (e.g., `patch-6-complete`)
 - **Archive Tags**: `patches-X-Y-archive` (e.g., `patches-6-10-archive`)
 - **Release Tags**: `v-X.Y.Z` (e.g., `v-2.1.0`)
@@ -84,11 +96,12 @@ Closes: #issue-number
 ## Component & Code Naming
 
 ### React Components
+
 ```typescript
 // Component files: PascalCase
 TradingCard.tsx
 MarketplaceDashboard.tsx
-User Profile.tsx
+UserProfile.tsx
 
 // Component props: camelCase with descriptive interfaces
 interface TradingCardProps {
@@ -99,14 +112,16 @@ interface TradingCardProps {
 ```
 
 ### API Endpoints
-```
+
+```http
 GET  /api/v1/patches/{patchId}/status
 POST /api/v1/patches/{patchId}/complete  
 GET  /api/v1/archive/patches/{cycleId}
 ```
 
 ### Database Collections/Tables
-```
+
+```text
 // MongoDB Collections
 patches_metadata
 patch_progress_tracking
@@ -123,7 +138,8 @@ archive_cycles
 ## File System Organization
 
 ### Directory Structure Standards
-```
+
+```text
 /apps/
 ├── ece-web/                    # Main web application
 ├── ece-mobile/                 # Mobile application
@@ -135,10 +151,13 @@ archive_cycles
 └── shared-business-logic/      # Core business logic
 
 /docs/
-├── patches/                    # Patch documentation
 ├── core/                       # Core project docs
 ├── development/                # Development guides
 └── deployment/                 # Deployment docs
+
+/patches/
+├── FEATURE_MAPPING.md          # Feature mapping for migrated patches
+└── <feature>/sources/          # Feature-aligned patch docs
 
 /e2e/
 ├── ece-web-e2e/               # Web app E2E tests
@@ -146,7 +165,8 @@ archive_cycles
 ```
 
 ### Asset Naming
-```
+
+```text
 // Images
 hero-background.jpg
 trading-card-template.svg
@@ -167,14 +187,15 @@ ECE-Primary-Bold.woff2
 ## Archive System Integration
 
 ### Archive Naming Strategy
-```
-/docs/patches/
-├── PATCHES_1-5_ARCHIVE.md      # Complete 5-patch archive
-├── PATCHES_6-10_ARCHIVE.md     # Next 5-patch archive (future)
-└── PATCHES_11-15_ARCHIVE.md    # Future archive
+
+```text
+PATCHES_1-5_ARCHIVE.md          # Complete 5-patch archive
+PATCHES_6-10_ARCHIVE.md         # Next 5-patch archive (future)
+PATCHES_11-15_ARCHIVE.md        # Future archive
 ```
 
 ### Archive Content Organization
+
 ```markdown
 # PATCHES X-Y ARCHIVE
 ## Cycle Summary: [Descriptive Title]
@@ -195,6 +216,7 @@ ECE-Primary-Bold.woff2
 ```
 
 ### Archive File Lifecycle
+
 1. **Active Development**: Individual `PATCH_X_FEATURE.md` files
 2. **Completion**: Consolidate into `PATCHES_X-Y_ARCHIVE.md`
 3. **Cleanup**: Remove individual files, maintain archive
@@ -205,18 +227,21 @@ ECE-Primary-Bold.woff2
 ## Consistency Guidelines
 
 ### Language & Terminology
+
 - **Patches**: Always capitalized when referring to development phases
 - **Features**: Use descriptive, user-facing language
 - **Technical Terms**: Maintain consistent terminology across docs
 - **Acronyms**: Define on first use, then use consistently
 
 ### Documentation Standards
+
 - **Headers**: Use sentence case for readability
 - **File Names**: Follow established patterns exactly
 - **Status Indicators**: Use emoji for visual consistency
 - **Dates**: ISO format (YYYY-MM-DD) for sorting
 
 ### Code Standards
+
 - **Variables**: camelCase for JavaScript/TypeScript
 - **Constants**: UPPER_CASE for configuration values
 - **Classes**: PascalCase for all class definitions
@@ -227,6 +252,7 @@ ECE-Primary-Bold.woff2
 ## Migration & Compliance
 
 ### Existing File Updates
+
 When updating existing files to match naming strategy:
 1. **Plan Migration**: Document current → target naming
 2. **Update References**: Ensure all links and imports updated  
@@ -234,7 +260,9 @@ When updating existing files to match naming strategy:
 4. **Commit Atomically**: Group related changes in single commits
 
 ### Compliance Checking
+
 Regular reviews should verify:
+
 - [ ] All new files follow naming conventions
 - [ ] Git commits use standard message format
 - [ ] Documentation structure matches guidelines
@@ -245,15 +273,17 @@ Regular reviews should verify:
 ## Tools & Automation
 
 ### Naming Validation
-```bash
-# Check patch naming compliance
-find docs/patches -name "PATCH_*.md" | grep -v "PATCHES_.*_ARCHIVE"
 
-# Validate folder structure
-find docs/patches -type d -name "patch-*" | wc -l
+```bash
+# Check patch naming compliance (feature-based structure)
+find patches -type f -path '*/sources/PATCH_*.md' | grep -v "PATCHES_.*_ARCHIVE"
+
+# Validate feature/sources folder structure
+find patches -type d -path 'patches/*/sources' | wc -l
 ```
 
 ### Auto-completion Support
+
 ```json
 // VSCode snippets for consistent naming
 {

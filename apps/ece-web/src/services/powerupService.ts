@@ -1,7 +1,7 @@
 // Powerup Service - Core powerup operations and business logic
 // /apps/ece-web/src/services/powerupService.ts
 
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@/lib/db';
 import { 
   PowerupType, 
   UserPowerup, 

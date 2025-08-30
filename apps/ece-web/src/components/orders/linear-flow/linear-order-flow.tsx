@@ -25,7 +25,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Slider } from '@/components/ui/slider'
 import { Badge } from '@/components/ui/badge'
 import { RepositorySelector } from '../../github-mcp/repository-selector'
-import { GitHubRepository, RepositoryAnalysis } from '../github-mcp/github-mcp-client'
+import { GitHubRepository, RepositoryAnalysis } from '../../github-mcp/github-mcp-client'
 
 interface OrderFormData {
   // Repository Data

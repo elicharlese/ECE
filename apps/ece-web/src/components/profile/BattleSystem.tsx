@@ -74,7 +74,7 @@ interface BattleAbility {
 
 interface Battle {
   id: string
-  type: 'takeover' | 'merger' | 'hostile' | 'friendly' | 'ai'
+  type: 'ranked' | 'casual' | 'tournament' | 'guild' | 'ai'
   status: 'waiting' | 'active' | 'completed' | 'cancelled'
   participants: BattleParticipant[]
   currentTurn: number

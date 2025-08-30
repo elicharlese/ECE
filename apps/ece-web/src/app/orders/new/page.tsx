@@ -38,7 +38,7 @@ export default function OrderPage() {
   const [isProcessing, setIsProcessing] = useState(false)
 
   // Get pre-selected repository URL from query params
-  const preselectedRepo = searchParams.get('repo') || undefined
+  const preselectedRepo = searchParams?.get('repo') ?? undefined
 
   const handleOrderComplete = async (orderData: OrderFormData) => {
     setIsProcessing(true)

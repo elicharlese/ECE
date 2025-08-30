@@ -18,33 +18,7 @@ import {
   AlertCircle
 } from 'lucide-react'
 import { GlassCard } from '@/components/ui/glass-card'
-
-interface Card {
-  id: string
-  name: string
-  category: string
-  rarity: 'COMMON' | 'RARE' | 'EPIC' | 'LEGENDARY' | 'MYTHIC'
-  imageUrl: string
-  valuation: number
-}
-
-interface TradeOffer {
-  id: string
-  offeringUserId: string
-  offeringUserName: string
-  offeringUserAvatar?: string
-  receivingUserId: string
-  receivingUserName: string
-  receivingUserAvatar?: string
-  offeredCard: Card
-  requestedCard?: Card
-  offeredAmount?: number
-  requestedAmount?: number
-  status: 'PENDING' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED'
-  message?: string
-  createdAt: string
-  expiresAt: string
-}
+import type { TradeOffer, CardSummary } from '@ece-platform/shared-types'
 
 interface TradeOfferDetailProps {
   tradeOffer: TradeOffer
@@ -55,10 +29,11 @@ interface TradeOfferDetailProps {
   onCancel?: (offerId: string) => void
 }
 
-const statusColors = {
+const statusColors: Record<TradeOffer['status'], string> = {
   PENDING: 'bg-yellow-100 text-yellow-800',
   ACCEPTED: 'bg-green-100 text-green-800',
-  REJECTED: 'bg-red-100 text-red-800',
+  DECLINED: 'bg-red-100 text-red-800',
+  CANCELED: 'bg-gray-200 text-gray-800',
   EXPIRED: 'bg-gray-100 text-gray-800'
 }
 
@@ -331,7 +306,7 @@ export function TradeOfferDetail({ tradeOffer, currentUserId, onAccept, onReject
               
               <Textarea 
                 value={counterMessage}
-                onChange={(e) => setCounterMessage(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setCounterMessage(e.target.value)}
                 placeholder="Add a message to your counter offer..."
                 className="mb-3"
                 rows={3}

@@ -28,8 +28,8 @@ export default function ThankYou() {
   const [orderData, setOrderData] = useState<any>(null)
   const [isLoading, setIsLoading] = useState(true)
 
-  const orderId = searchParams.get('orderId')
-  const orderType = searchParams.get('type')
+  const orderId = searchParams?.get('orderId') ?? null
+  const orderType = searchParams?.get('type') ?? null
 
   useEffect(() => {
     // Simulate fetching order data

@@ -407,7 +407,7 @@ export function BattleArenaSystem() {
                     {['all', 'ranked', 'casual', 'tournament', 'guild'].map((type) => (
                       <Button
                         key={type}
-                        variant={filterType === type ? 'accent' : 'ghost'}
+                        variant={filterType === type ? 'secondary' : 'ghost'}
                        
                         onClick={() => setFilterType(type)}
                       >

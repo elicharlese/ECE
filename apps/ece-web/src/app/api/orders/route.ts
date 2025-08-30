@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { AppOrder, OrderRevision, OrderCommunication, ApiResponse } from '@/lib/db/schema'
-import { mockDatabase } from '@/lib/db'
+import { prisma } from '@/lib/db'
+import { Prisma, OrderStatus } from '@prisma/client'
 
 // Mock pricing calculator
 const calculateOrderCost = (timeline: 'RUSH_2_WEEKS' | 'STANDARD_1_MONTH', projectType: string): number => {
@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
     const userId = searchParams.get('userId')
-    const status = searchParams.get('status')
+    const statusParam = searchParams.get('status')
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '10')
 
@@ -42,25 +42,57 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Get user's orders from mock database
-    let userOrders = Array.from(mockDatabase.appOrders?.values() || [])
-      .filter(order => order.userId === userId)
-
-    // Filter by status if provided
-    if (status && status !== 'all') {
-      userOrders = userOrders.filter(order => order.status === status)
+    // Build where clause
+    const where: Prisma.AppOrderWhereInput = {
+      userId
+    }
+    
+    // Filter by status if provided and valid
+    if (statusParam && statusParam !== 'all' && (Object.values(OrderStatus) as string[]).includes(statusParam)) {
+      where.status = statusParam as OrderStatus
     }
 
-    // Sort by creation date (newest first)
-    userOrders.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-
-    // Apply pagination
+    // Get paginated orders from database
     const offset = (page - 1) * limit
-    const paginatedOrders = userOrders.slice(offset, offset + limit)
+    
+    const [orders, totalCount] = await Promise.all([
+      prisma.appOrder.findMany({
+        where,
+        orderBy: { createdAt: 'desc' },
+        skip: offset,
+        take: limit,
+        include: {
+          user: {
+            select: {
+              id: true,
+              username: true,
+              firstName: true,
+              lastName: true,
+              email: true
+            }
+          },
+          revisions: {
+            orderBy: { createdAt: 'desc' },
+            take: 5
+          },
+          communications: {
+            orderBy: { createdAt: 'desc' },
+            take: 5
+          }
+        }
+      }),
+      prisma.appOrder.count({ where })
+    ])
 
-    const response: ApiResponse<AppOrder[]> = {
+    const response = {
       success: true,
-      data: paginatedOrders
+      data: orders,
+      pagination: {
+        page,
+        limit,
+        total: totalCount,
+        totalPages: Math.ceil(totalCount / limit)
+      }
     }
 
     return NextResponse.json(response)
@@ -119,8 +151,12 @@ export async function POST(request: NextRequest) {
     // Calculate cost
     const estimatedCost = calculateOrderCost(timeline, projectType)
 
-    // Check user's ECE balance (mock validation)
-    const user = mockDatabase.users.get(userId)
+    // Check user's ECE balance
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { eceBalance: true }
+    })
+    
     if (!user) {
       return NextResponse.json(
         { success: false, error: 'User not found' },
@@ -138,59 +174,66 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Create new order
-    const newOrder: AppOrder = {
-      id: `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      userId,
-      projectType,
-      title,
-      description,
-      requirements: requirements || {},
-      timeline,
-      estimatedCost,
-      currency: 'ECE',
-      status: 'PENDING',
-      priority: 'STANDARD',
-      progressPercentage: 0,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }
+    // Use a transaction to create order, deduct balance, and create communication
+    const result = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+      // Create new order
+      const newOrder = await tx.appOrder.create({
+        data: {
+          userId,
+          projectType,
+          title,
+          description,
+          requirements: requirements || {},
+          timeline,
+          estimatedCost,
+          currency: 'ECE',
+          status: 'PENDING',
+          priority: 'STANDARD',
+          progressPercentage: 0
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              username: true,
+              firstName: true,
+              lastName: true,
+              email: true
+            }
+          }
+        }
+      })
 
-    // Initialize mock database if needed
-    if (!mockDatabase.appOrders) {
-      mockDatabase.appOrders = new Map()
-    }
+      // Deduct ECE from user's balance (escrow)
+      await tx.user.update({
+        where: { id: userId },
+        data: {
+          eceBalance: {
+            decrement: estimatedCost
+          }
+        }
+      })
 
-    // Save order to mock database
-    mockDatabase.appOrders.set(newOrder.id, newOrder)
+      // Create initial communication record
+      const initialCommunication = await tx.orderCommunication.create({
+        data: {
+          orderId: newOrder.id,
+          userId,
+          messageType: 'SYSTEM_ALERT',
+          subject: 'Order Created Successfully',
+          message: `Your order "${title}" has been created and is pending review. We'll begin work shortly and keep you updated on progress.`,
+          isFromAdmin: true,
+          read: false,
+          important: true
+        }
+      })
 
-    // Deduct ECE from user's balance (escrow)
-    user.eceBalance -= estimatedCost
-    mockDatabase.users.set(userId, user)
+      return { newOrder, initialCommunication }
+    })
 
-    // Create initial communication record
-    const initialCommunication: OrderCommunication = {
-      id: `comm_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      orderId: newOrder.id,
-      userId,
-      messageType: 'SYSTEM_ALERT',
-      subject: 'Order Created Successfully',
-      message: `Your order "${title}" has been created and is pending review. We'll begin work shortly and keep you updated on progress.`,
-      isFromAdmin: true,
-      read: false,
-      important: true,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }
-
-    if (!mockDatabase.orderCommunications) {
-      mockDatabase.orderCommunications = new Map()
-    }
-    mockDatabase.orderCommunications.set(initialCommunication.id, initialCommunication)
-
-    const response: ApiResponse<AppOrder> = {
+    const response = {
       success: true,
-      data: newOrder,
+      data: result.newOrder,
       message: 'Order created successfully'
     }
 
@@ -220,41 +263,61 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    // Get order from mock database
-    const order = mockDatabase.appOrders?.get(orderId)
+    // Get order from database
+    const order = await prisma.appOrder.findFirst({
+      where: {
+        id: orderId,
+        userId
+      }
+    })
+    
     if (!order) {
       return NextResponse.json(
-        { success: false, error: 'Order not found' },
+        { success: false, error: 'Order not found or unauthorized' },
         { status: 404 }
       )
     }
 
-    // Verify user owns this order
-    if (order.userId !== userId) {
-      return NextResponse.json(
-        { success: false, error: 'Unauthorized' },
-        { status: 403 }
-      )
-    }
-
     switch (action) {
-      case 'cancel':
+      case 'cancel': {
         if (['PENDING', 'APPROVED'].includes(order.status)) {
-          order.status = 'CANCELLED'
-          order.updatedAt = new Date()
-          
-          // Refund ECE to user
-          const user = mockDatabase.users.get(userId)
-          if (user) {
-            user.eceBalance += order.estimatedCost
-            mockDatabase.users.set(userId, user)
-          }
-          
-          mockDatabase.appOrders!.set(orderId, order)
+          // Use transaction to update order and refund balance
+          const updatedOrder = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+            // Update order status
+            const updated = await tx.appOrder.update({
+              where: { id: orderId },
+              data: {
+                status: 'CANCELLED'
+              },
+              include: {
+                user: {
+                  select: {
+                    id: true,
+                    username: true,
+                    firstName: true,
+                    lastName: true,
+                    email: true
+                  }
+                }
+              }
+            })
+            
+            // Refund ECE to user
+            await tx.user.update({
+              where: { id: userId },
+              data: {
+                eceBalance: {
+                  increment: order.estimatedCost
+                }
+              }
+            })
+            
+            return updated
+          })
           
           return NextResponse.json({
             success: true,
-            data: order,
+            data: updatedOrder,
             message: 'Order cancelled successfully'
           })
         } else {
@@ -263,8 +326,9 @@ export async function PUT(request: NextRequest) {
             { status: 400 }
           )
         }
+      }
 
-      case 'request_revision':
+      case 'request_revision': {
         if (!data?.title || !data?.description) {
           return NextResponse.json(
             { success: false, error: 'Revision title and description are required' },
@@ -272,33 +336,57 @@ export async function PUT(request: NextRequest) {
           )
         }
 
-        // Create revision request
-        const revision: OrderRevision = {
-          id: `rev_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-          orderId,
-          userId,
-          revisionNumber: (mockDatabase.orderRevisions?.size || 0) + 1,
-          title: data.title,
-          description: data.description,
-          status: 'PENDING',
-          createdAt: new Date(),
-          updatedAt: new Date()
-        }
+        // Use transaction to create revision and update order
+        const result = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+          // Get revision count for this order
+          const revisionCount = await tx.orderRevision.count({
+            where: { orderId }
+          })
+          
+          // Create revision request
+          const revision = await tx.orderRevision.create({
+            data: {
+              orderId,
+              userId,
+              revisionNumber: revisionCount + 1,
+              title: data.title,
+              description: data.description,
+              status: 'PENDING'
+            }
+          })
 
-        if (!mockDatabase.orderRevisions) {
-          mockDatabase.orderRevisions = new Map()
-        }
-        mockDatabase.orderRevisions.set(revision.id, revision)
-
-        order.status = 'REVISION_REQUESTED'
-        order.updatedAt = new Date()
-        mockDatabase.appOrders!.set(orderId, order)
+          // Update order status
+          const updatedOrder = await tx.appOrder.update({
+            where: { id: orderId },
+            data: {
+              status: 'REVISION_REQUESTED'
+            },
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  username: true,
+                  firstName: true,
+                  lastName: true,
+                  email: true
+                }
+              },
+              revisions: {
+                orderBy: { createdAt: 'desc' },
+                take: 5
+              }
+            }
+          })
+          
+          return { order: updatedOrder, revision }
+        })
 
         return NextResponse.json({
           success: true,
-          data: { order, revision },
+          data: result,
           message: 'Revision request submitted successfully'
         })
+      }
 
       default:
         return NextResponse.json(

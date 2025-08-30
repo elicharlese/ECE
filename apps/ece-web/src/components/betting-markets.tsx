@@ -49,7 +49,7 @@ const mockMarkets: BettingMarket[] = [
   {
     id: '1',
     title: 'Tesla Acquisition Success',
-    description: 'Will Tesla successfully complete its next major acquisition by Q4 2025?'
+    description: 'Will Tesla successfully complete its next major acquisition by Q4 2025?',
     metricType: 'REVENUE_GROWTH',
     currentValue: 28.5,
     predictionTarget: 30.0,
@@ -68,7 +68,7 @@ const mockMarkets: BettingMarket[] = [
   {
     id: '2',
     title: 'OpenAI Acquisition Value',
-    description: 'Will OpenAI be acquired for more than $150B by a major tech company this year?'
+    description: 'Will OpenAI be acquired for more than $150B by a major tech company this year?',
     metricType: 'USER_GROWTH',
     currentValue: 180,
     predictionTarget: 200,

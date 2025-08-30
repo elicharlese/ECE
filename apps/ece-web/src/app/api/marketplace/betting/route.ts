@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import { prisma } from '@/lib/db'
 import { getCurrentUser } from '@/lib/auth'
 
 export async function GET(request: NextRequest) {
@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
 
     let whereClause: any = {
       status: 'ACTIVE',
-      endTime: {
+      expiryDate: {
         gt: new Date()
       }
     }
@@ -25,19 +25,19 @@ export async function GET(request: NextRequest) {
     let orderBy: any = {}
     switch (sortBy) {
       case 'trending':
-        orderBy = { trendingScore: 'desc' }
+        orderBy = { createdAt: 'desc' }
         break
       case 'volume':
-        orderBy = { volume24h: 'desc' }
+        orderBy = { totalPot: 'desc' }
         break
       case 'pot':
         orderBy = { totalPot: 'desc' }
         break
       case 'time':
-        orderBy = { endTime: 'asc' }
+        orderBy = { expiryDate: 'asc' }
         break
       default:
-        orderBy = { trendingScore: 'desc' }
+        orderBy = { createdAt: 'desc' }
     }
 
     const markets = await prisma.bettingMarket.findMany({
@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
         },
         _count: {
           select: {
-            bets: true
+            positions: true
           }
         }
       }
@@ -62,8 +62,8 @@ export async function GET(request: NextRequest) {
 
     const enrichedMarkets = markets.map((market: any) => ({
       ...market,
-      participantCount: market._count.bets,
-      timeLeft: market.endTime.getTime() - Date.now(),
+      participantCount: market._count.positions,
+      timeLeft: new Date(market.expiryDate).getTime() - Date.now(),
       cardName: market.card.name,
       cardCategory: market.card.category
     }))
@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
       include: { card: true }
     })
 
-    if (!market || market.status !== 'ACTIVE' || market.endTime <= new Date()) {
+    if (!market || market.status !== 'ACTIVE' || market.expiryDate <= new Date()) {
       return NextResponse.json(
         { success: false, error: 'Market not available for betting' },
         { status: 400 }
@@ -136,15 +136,15 @@ export async function POST(request: NextRequest) {
 
     // Create bet and update balances in transaction
     const result = await prisma.$transaction(async (tx: any) => {
-      // Create the bet
-      const bet = await tx.bet.create({
+      // Create the betting position
+      const bet = await tx.bettingPosition.create({
         data: {
           userId: user.id,
           marketId,
-          direction: direction as 'UP' | 'DOWN',
+          position: direction as 'UP' | 'DOWN',
           amount,
           odds: market.odds,
-          potentialWin: amount * market.odds
+          potentialWinning: amount * market.odds
         }
       })
 
@@ -163,9 +163,6 @@ export async function POST(request: NextRequest) {
         where: { id: marketId },
         data: {
           totalPot: {
-            increment: amount
-          },
-          volume24h: {
             increment: amount
           }
         }

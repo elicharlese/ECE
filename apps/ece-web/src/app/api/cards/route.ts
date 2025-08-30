@@ -1,7 +1,7 @@
 // Cards API - Handles card discovery, filtering, and CRUD operations
 import { NextRequest, NextResponse } from 'next/server'
-import { mockDatabase } from '@/lib/db'
-import { Card, CardFilters, PaginatedResponse } from '@/lib/db/schema'
+import { prisma } from '@/lib/db'
+import { Prisma } from '@prisma/client'
 
 export async function GET(request: NextRequest) {
   try {
@@ -19,98 +19,89 @@ export async function GET(request: NextRequest) {
     const sortOrder = (searchParams.get('sortOrder') || 'desc') as 'asc' | 'desc'
     const search = searchParams.get('search')
 
-    // Build filters
-    const filters: CardFilters = {
-      category: category || undefined,
-      company: company || undefined,
-      rarity,
-      priceMin,
-      priceMax,
-      sortBy: sortBy as any,
-      sortOrder
-    }
-
-    // Get cards from mock database
-    const offset = (page - 1) * limit
-    let allCards = Array.from(mockDatabase.cards.values())
+    // Build where clause for Prisma
+    const where: Prisma.CardWhereInput = {}
     
-    // Apply filters
-    if (filters.category) {
-      allCards = allCards.filter(card => 
-        card.category.toLowerCase().includes(filters.category!.toLowerCase())
-      )
+    if (category) {
+      // category is an enum; only filter if it matches a valid value
+      where.category = category as any
     }
     
-    if (filters.company) {
-      allCards = allCards.filter(card => 
-        card.company.toLowerCase().includes(filters.company!.toLowerCase())
-      )
+    if (company) {
+      where.company = {
+        contains: company,
+        mode: 'insensitive'
+      }
     }
     
-    if (filters.rarity && filters.rarity.length > 0) {
-      allCards = allCards.filter(card => 
-        filters.rarity!.includes(card.rarity)
-      )
+    if (rarity && rarity.length > 0) {
+      where.rarity = { in: rarity as any }
     }
     
-    if (filters.priceMin !== undefined) {
-      allCards = allCards.filter(card => card.valuation >= filters.priceMin!)
-    }
-    
-    if (filters.priceMax !== undefined) {
-      allCards = allCards.filter(card => card.valuation <= filters.priceMax!)
+    if (priceMin !== undefined || priceMax !== undefined) {
+      where.currentPrice = {}
+      if (priceMin !== undefined) {
+        where.currentPrice.gte = priceMin
+      }
+      if (priceMax !== undefined) {
+        where.currentPrice.lte = priceMax
+      }
     }
     
     if (search) {
-      allCards = allCards.filter(card => 
-        card.name.toLowerCase().includes(search.toLowerCase()) ||
-        card.description.toLowerCase().includes(search.toLowerCase()) ||
-        card.company.toLowerCase().includes(search.toLowerCase())
-      )
+      where.OR = [
+        { name: { contains: search, mode: 'insensitive' } },
+        { description: { contains: search, mode: 'insensitive' } },
+        { company: { contains: search, mode: 'insensitive' } }
+      ]
     }
     
-    // Apply sorting
-    allCards.sort((a, b) => {
-      let aValue, bValue
-      
-      switch (filters.sortBy) {
-        case 'price':
-          aValue = a.valuation
-          bValue = b.valuation
-          break
-        case 'rarity':
-          const rarityOrder = { 'common': 1, 'uncommon': 2, 'rare': 3, 'epic': 4, 'legendary': 5 }
-          aValue = rarityOrder[a.rarity as keyof typeof rarityOrder] || 0
-          bValue = rarityOrder[b.rarity as keyof typeof rarityOrder] || 0
-          break
-        case 'popularity':
-          aValue = a.volume24h || 0
-          bValue = b.volume24h || 0
-          break
-        case 'recent':
-        default:
-          aValue = a.createdAt
-          bValue = b.createdAt
-      }
-      
-      if (filters.sortOrder === 'asc') {
-        return aValue < bValue ? -1 : aValue > bValue ? 1 : 0
-      } else {
-        return aValue > bValue ? -1 : aValue < bValue ? 1 : 0
-      }
-    })
+    // Build orderBy clause
+    let orderBy: Prisma.CardOrderByWithRelationInput = {}
+    switch (sortBy) {
+      case 'price':
+        orderBy = { currentPrice: sortOrder }
+        break
+      case 'rarity':
+        orderBy = { rarity: sortOrder }
+        break
+      case 'recent':
+      default:
+        orderBy = { createdAt: sortOrder }
+    }
     
-    // Apply pagination
-    const paginatedCards = allCards.slice(offset, offset + limit)
+    // Get paginated cards from database
+    const offset = (page - 1) * limit
+    
+    const [cards, totalCount] = await Promise.all([
+      prisma.card.findMany({
+        where,
+        orderBy,
+        skip: offset,
+        take: limit,
+        include: {
+          owner: {
+            select: {
+              id: true,
+              username: true,
+              firstName: true,
+              lastName: true,
+              email: true
+            }
+          }
+        }
+      }),
+      prisma.card.count({ where })
+    ])
 
-    const response: PaginatedResponse<Card> = {
+    const response = {
       success: true,
-      data: paginatedCards,
+      data: cards,
       pagination: {
         page,
         limit,
-        total: allCards.length,
-        totalPages: Math.ceil(allCards.length / limit)
+        total: totalCount,
+        totalPages: Math.ceil(totalCount / limit)
       }
     }
 
@@ -129,7 +120,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     
     // Validate required fields
-    const requiredFields = ['name', 'description', 'imageUrl', 'rarity', 'category', 'company', 'valuation']
+    const requiredFields = ['name', 'rarity', 'category', 'currentPrice', 'ownerId']
     for (const field of requiredFields) {
       if (!body[field]) {
         return NextResponse.json(
@@ -139,26 +130,32 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Create new card (mock implementation)
-    const newCard: Partial<Card> = {
-      id: `card_${Date.now()}`,
-      name: body.name,
-      description: body.description,
-      imageUrl: body.imageUrl,
-      rarity: body.rarity,
-      category: body.category,
-      company: body.company,
-      valuation: body.valuation,
-      marketCap: body.marketCap,
-      volume24h: body.volume24h || 0,
-      priceChange24h: body.priceChange24h || 0,
-      attributes: body.attributes || [],
-      metadata: body.metadata || {},
-      ownerId: body.ownerId,
-      isListed: body.isListed || false,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }
+    // Create new card in database
+    const newCard = await prisma.card.create({
+      data: {
+        name: body.name,
+        description: body.description || null,
+        imageUrl: body.imageUrl || null,
+        rarity: body.rarity,
+        category: body.category,
+        company: body.company || null,
+        currentPrice: body.currentPrice,
+        metadata: body.metadata || {},
+        stats: body.stats || {},
+        ownerId: body.ownerId
+      },
+      include: {
+        owner: {
+          select: {
+            id: true,
+            username: true,
+            firstName: true,
+            lastName: true,
+            email: true
+          }
+        }
+      }
+    })
 
     return NextResponse.json({
       success: true,

@@ -101,7 +101,7 @@ export function BidHistory({ bids, currentPrice, reservePrice, isAuctionEnded }:
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <Avatar className="h-10 w-10">
-                      <AvatarImage src={bid.bidderAvatar} alt={bid.bidderName} />
+                      <AvatarImage src={bid.bidderAvatar ?? ''} alt={bid.bidderName} />
                       <AvatarFallback>
                         <User className="h-4 w-4" />
                       </AvatarFallback>

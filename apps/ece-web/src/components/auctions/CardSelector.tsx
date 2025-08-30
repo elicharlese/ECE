@@ -8,25 +8,18 @@ import { Badge } from '@/components/ui/badge'
 import { 
   Search, 
   Star, 
-  Filter
+  Filter,
+  Check
 } from 'lucide-react'
-
-interface Card {
-  id: string
-  name: string
-  category: string
-  rarity: 'COMMON' | 'RARE' | 'EPIC' | 'LEGENDARY' | 'MYTHIC'
-  imageUrl: string
-  valuation: number
-}
+import type { CardSummary } from '@ece-platform/shared-types'
 
 interface CardSelectorProps {
-  cards: Card[]
-  selectedCard: Card | null
-  onCardSelect: (card: Card) => void
+  cards: CardSummary[]
+  selectedCard: CardSummary | null
+  onCardSelect: (card: CardSummary) => void
 }
 
-const rarityColors = {
+const rarityColors: Record<CardSummary['rarity'], string> = {
   COMMON: 'bg-gray-200 text-gray-800',
   RARE: 'bg-blue-200 text-blue-800',
   EPIC: 'bg-purple-200 text-purple-800',
@@ -65,7 +58,7 @@ export function CardSelector({ cards, selectedCard, onCardSelect }: CardSelector
           <Input
             placeholder="Search your cards..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
             className="pl-10"
           />
         </div>
@@ -73,7 +66,7 @@ export function CardSelector({ cards, selectedCard, onCardSelect }: CardSelector
         <div className="flex gap-2">
           <select 
             value={categoryFilter}
-            onChange={(e) => setCategoryFilter(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setCategoryFilter(e.target.value)}
             className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <option value="all">All Categories</option>
@@ -84,7 +77,7 @@ export function CardSelector({ cards, selectedCard, onCardSelect }: CardSelector
           
           <select 
             value={rarityFilter}
-            onChange={(e) => setRarityFilter(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setRarityFilter(e.target.value)}
             className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <option value="all">All Rarity</option>
