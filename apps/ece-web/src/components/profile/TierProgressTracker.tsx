@@ -308,7 +308,7 @@ export const TierProgressTracker: React.FC<TierProgressTrackerProps> = ({ classN
             </p>
           </div>
           <Button
-            variant={showRewards ? 'accent' : 'ghost'}
+            variant={showRewards ? 'default' : 'ghost'}
             onClick={() => setShowRewards(!showRewards)}
             className="flex items-center space-x-2"
           >
@@ -350,7 +350,7 @@ export const TierProgressTracker: React.FC<TierProgressTrackerProps> = ({ classN
           {progress.map(tier => (
             <Button
               key={tier.tierId}
-              variant={selectedTier === tier.tierId ? 'accent' : 'ghost'}
+              variant={selectedTier === tier.tierId ? 'default' : 'ghost'}
              
               onClick={() => setSelectedTier(tier.tierId)}
               className={`flex items-center space-x-2 ${

@@ -129,6 +129,7 @@ export interface Card {
   rarity: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'mythic'
   category: string
   company: string
+  price: number
   valuation: number
   marketCap?: number
   volume24h?: number

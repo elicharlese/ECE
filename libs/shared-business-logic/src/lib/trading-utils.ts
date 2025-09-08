@@ -1,8 +1,40 @@
-import { TradingCard, User, Transaction, Trade } from '@ece-platform/shared-types';
+// Simplified trading utilities with working types
+export interface SimpleCard {
+  id: string;
+  name: string;
+  rarity: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
+  baseValue: number;
+  stats: {
+    power: number;
+    growth: number;
+    stability: number;
+    innovation: number;
+  };
+}
+
+export interface SimpleTrade {
+  id: string;
+  cardId: string;
+  sellerId: string;
+  buyerId?: string;
+  amount: number;
+  status: 'pending' | 'active' | 'completed' | 'cancelled';
+  createdAt: string;
+}
+
+export interface SimpleTransaction {
+  id: string;
+  userId: string;
+  type: string;
+  amount: number;
+  description: string;
+  timestamp: string;
+  status: string;
+}
 
 // Card Utilities
 export class CardUtils {
-  static calculateRarityMultiplier(rarity: TradingCard['rarity']): number {
+  static calculateRarityMultiplier(rarity: SimpleCard['rarity']): number {
     const multipliers = {
       common: 1,
       uncommon: 1.5,
@@ -10,130 +42,124 @@ export class CardUtils {
       epic: 4,
       legendary: 10
     };
-    return multipliers[rarity];
+    return multipliers[rarity] || 1;
   }
 
-  static calculateCardValue(card: TradingCard): number {
-    const baseValue = card.price;
+  static calculateCardValue(card: SimpleCard): number {
+    const baseValue = card.baseValue;
     const rarityMultiplier = this.calculateRarityMultiplier(card.rarity);
     const statsBonus = this.calculateStatsBonus(card);
     
-    return baseValue * rarityMultiplier * (1 + statsBonus);
+    return Math.round(baseValue * rarityMultiplier * (1 + statsBonus));
   }
 
-  static calculateStatsBonus(card: TradingCard): number {
+  private static calculateStatsBonus(card: SimpleCard): number {
     if (!card.stats) return 0;
     
-    const { attack = 0, defense = 0, speed = 0, health = 0, mana = 0 } = card.stats;
-    const totalStats = attack + defense + speed + health + mana;
+    const { power = 0, growth = 0, stability = 0, innovation = 0 } = card.stats;
+    const totalStats = power + growth + stability + innovation;
     
     // Bonus based on total stats (0.1% per stat point)
-    return Math.min(totalStats * 0.001, 0.5); // Cap at 50% bonus
+    return totalStats * 0.001;
   }
 
-  static getCardsByRarity(cards: TradingCard[], rarity: TradingCard['rarity']): TradingCard[] {
+  static getCardsByRarity(cards: SimpleCard[], rarity: SimpleCard['rarity']): SimpleCard[] {
     return cards.filter(card => card.rarity === rarity);
   }
 
-  static sortCardsByValue(cards: TradingCard[]): TradingCard[] {
-    return [...cards].sort((a, b) => this.calculateCardValue(b) - this.calculateCardValue(a));
+  static sortCardsByValue(cards: SimpleCard[]): SimpleCard[] {
+    return cards.sort((a, b) => this.calculateCardValue(b) - this.calculateCardValue(a));
   }
 }
 
-// Trading Logic
-export class TradingEngine {
-  static validateTrade(trade: Trade, seller: User, buyer?: User): { valid: boolean; error?: string } {
-    // Check if seller exists
-    if (!seller) {
-      return { valid: false, error: 'Seller not found' };
+// Trading Utilities
+export class TradingUtils {
+  static validateTrade(trade: SimpleTrade): { valid: boolean; error?: string } {
+    if (!trade) {
+      return { valid: false, error: 'Trade object is required' };
     }
 
-    // Check if trade is still open
-    if (trade.status !== 'open') {
+    // Check if trade is still active
+    if (trade.status !== 'active') {
       return { valid: false, error: 'Trade is no longer available' };
     }
 
-    // Check if buyer is not the seller
-    if (buyer && buyer.id === seller.id) {
-      return { valid: false, error: 'Cannot buy your own card' };
+    // Check if buyer and seller are different
+    if (trade.buyerId === trade.sellerId) {
+      return { valid: false, error: 'Cannot trade with yourself' };
     }
 
     // Check minimum price
-    if (trade.price < 0.01) {
+    if (trade.amount < 0.01) {
       return { valid: false, error: 'Invalid trade price' };
     }
 
     return { valid: true };
   }
 
-  static calculateTradeFee(price: number, plan: 'free' | 'pro' | 'enterprise' = 'free'): number {
-    const feeRates = {
-      free: 0.05,      // 5%
-      pro: 0.03,       // 3%
-      enterprise: 0.01 // 1%
-    };
-    
-    return price * feeRates[plan];
+  static calculateTradeFee(amount: number, feePercentage: number = 0.025): number {
+    return Math.round(amount * feePercentage * 100) / 100;
   }
 
-  static calculateNetAmount(price: number, plan: 'free' | 'pro' | 'enterprise' = 'free'): number {
-    const fee = this.calculateTradeFee(price, plan);
-    return price - fee;
+  static calculateNetAmount(amount: number, feePercentage: number = 0.025): number {
+    const fee = this.calculateTradeFee(amount, feePercentage);
+    return amount - fee;
   }
 }
 
-// Wallet Management
-export class WalletManager {
-  static canAfford(wallet: { balance: number }, amount: number): boolean {
-    return wallet.balance >= amount;
+// Portfolio Utilities
+export class PortfolioUtils {
+  static calculatePortfolioValue(cards: SimpleCard[]): number {
+    return cards.reduce((total, card) => total + CardUtils.calculateCardValue(card), 0);
   }
 
-  static calculateNewBalance(currentBalance: number, transaction: Transaction): number {
-    switch (transaction.type) {
-      case 'deposit':
-      case 'sale':
-      case 'reward':
-        return currentBalance + transaction.amount;
-      
-      case 'withdrawal':
-      case 'purchase':
-        return currentBalance - transaction.amount;
-      
-      case 'trade':
-        // Trade amount can be positive or negative depending on context
-        return currentBalance + transaction.amount;
-      
-      default:
-        return currentBalance;
-    }
+  static getPortfolioDistribution(cards: SimpleCard[]): Record<SimpleCard['rarity'], number> {
+    const distribution = {
+      common: 0,
+      uncommon: 0,
+      rare: 0,
+      epic: 0,
+      legendary: 0
+    };
+
+    cards.forEach(card => {
+      distribution[card.rarity]++;
+    });
+
+    return distribution;
   }
 
-  static validateTransaction(transaction: Transaction, currentBalance: number): { valid: boolean; error?: string } {
-    // Check for negative amounts (except trades which can be negative)
-    if (transaction.amount < 0 && transaction.type !== 'trade') {
-      return { valid: false, error: 'Transaction amount cannot be negative' };
-    }
-
-    // Check sufficient balance for debit transactions
-    const debitTypes = ['withdrawal', 'purchase'];
-    if (debitTypes.includes(transaction.type) && currentBalance < transaction.amount) {
-      return { valid: false, error: 'Insufficient balance' };
-    }
-
-    // Check minimum transaction amount
-    if (Math.abs(transaction.amount) < 0.01) {
-      return { valid: false, error: 'Transaction amount too small' };
-    }
-
-    return { valid: true };
+  static generateTransaction(trade: SimpleTrade, userId: string): SimpleTransaction {
+    return {
+      id: `txn_${Date.now()}`,
+      userId: userId,
+      type: 'trade',
+      amount: trade.amount,
+      description: `Trade: ${trade.cardId}`,
+      timestamp: new Date().toISOString(),
+      status: 'completed'
+    };
   }
 }
 
 // Analytics Utilities
 export class AnalyticsUtils {
-  static calculateGrowthRate(current: number, previous: number): number {
-    if (previous === 0) return current > 0 ? 100 : 0;
-    return ((current - previous) / previous) * 100;
+  static calculateUserStats(transactions: SimpleTransaction[]): {
+    totalTrades: number;
+    totalSpent: number;
+    totalEarned: number;
+    averageTradeValue: number;
+  } {
+    const trades = transactions.filter(t => t.type === 'trade');
+    const spent = trades.filter(t => t.amount < 0).reduce((sum, t) => sum + Math.abs(t.amount), 0);
+    const earned = trades.filter(t => t.amount > 0).reduce((sum, t) => sum + t.amount, 0);
+
+    return {
+      totalTrades: trades.length,
+      totalSpent: spent,
+      totalEarned: earned,
+      averageTradeValue: trades.length > 0 ? (spent + earned) / trades.length : 0
+    };
   }
 
   static calculatePercentage(part: number, total: number): number {

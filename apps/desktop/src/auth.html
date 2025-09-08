@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECE Cards - Sign In</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #272822 0%, #134E4A 100%);
+            color: #F0FDFA;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Background Elements */
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+
+        .circle-1 {
+            width: 300px;
+            height: 300px;
+            background: #14B8A6;
+            top: -100px;
+            right: -100px;
+        }
+
+        .circle-2 {
+            width: 200px;
+            height: 200px;
+            background: #F92672;
+            bottom: 100px;
+            left: -50px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #F92672, #66D9EF);
+            border-radius: 15px;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #A1A1AA;
+        }
+
+        /* Auth Form */
+        .auth-form {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #F0FDFA;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: #F0FDFA;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #66D9EF;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .form-input::placeholder {
+            color: #75715E;
+        }
+
+        .auth-button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, #F92672, #66D9EF);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+        }
+
+        .auth-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(249, 38, 114, 0.3);
+        }
+
+        .auth-button:active {
+            transform: translateY(0);
+        }
+
+        .forgot-link {
+            display: block;
+            text-align: center;
+            color: #66D9EF;
+            text-decoration: none;
+            font-size: 14px;
+            margin-top: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-link:hover {
+            color: #F92672;
+        }
+
+        /* Social Auth */
+        .social-section {
+            margin: 32px 0;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .divider-text {
+            margin: 0 16px;
+            font-size: 14px;
+            color: #A1A1AA;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-button {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: #F0FDFA;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .social-button:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .social-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .google-icon { background: #4285F4; }
+        .facebook-icon { background: #1877F2; }
+
+        /* Toggle Auth Mode */
+        .toggle-section {
+            text-align: center;
+            margin-top: 24px;
+        }
+
+        .toggle-text {
+            font-size: 14px;
+            color: #A1A1AA;
+            margin-right: 4px;
+        }
+
+        .toggle-button {
+            color: #66D9EF;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .toggle-button:hover {
+            color: #F92672;
+        }
+
+        /* Features Preview */
+        .features-preview {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 24px;
+        }
+
+        .features-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .feature-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 12px;
+        }
+
+        .feature-dot-1 { background: #A6E22E; }
+        .feature-dot-2 { background: #66D9EF; }
+        .feature-dot-3 { background: #F92672; }
+
+        .feature-text {
+            font-size: 14px;
+            color: #A1A1AA;
+        }
+
+        /* Animations */
+        .container {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Hidden elements for sign up mode */
+        .signup-only {
+            display: none;
+        }
+
+        .signin-only {
+            display: block;
+        }
+
+        .signup-mode .signup-only {
+            display: block;
+        }
+
+        .signup-mode .signin-only {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="bg-circle circle-1"></div>
+    <div class="bg-circle circle-2"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">E</div>
+            <h1 class="title" id="authTitle">Welcome Back</h1>
+            <p class="subtitle" id="authSubtitle">Sign in to continue your collection</p>
+        </div>
+
+        <!-- Auth Form -->
+        <form class="auth-form" id="authForm">
+            <div class="form-group">
+                <label class="form-label" for="email">Email</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    class="form-input" 
+                    placeholder="Enter your email"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="password">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    class="form-input" 
+                    placeholder="Enter your password"
+                    required
+                >
+            </div>
+
+            <div class="form-group signup-only">
+                <label class="form-label" for="confirmPassword">Confirm Password</label>
+                <input 
+                    type="password" 
+                    id="confirmPassword" 
+                    class="form-input" 
+                    placeholder="Confirm your password"
+                >
+            </div>
+
+            <button type="submit" class="auth-button" id="authButton">
+                Sign In
+            </button>
+
+            <a href="#" class="forgot-link signin-only">Forgot Password?</a>
+        </form>
+
+        <!-- Social Auth -->
+        <div class="social-section">
+            <div class="divider">
+                <div class="divider-line"></div>
+                <span class="divider-text">or continue with</span>
+                <div class="divider-line"></div>
+            </div>
+
+            <div class="social-buttons">
+                <a href="#" class="social-button" id="googleAuth">
+                    <div class="social-icon google-icon"></div>
+                    Google
+                </a>
+                <a href="#" class="social-button" id="facebookAuth">
+                    <div class="social-icon facebook-icon"></div>
+                    Facebook
+                </a>
+            </div>
+        </div>
+
+        <!-- Toggle Auth Mode -->
+        <div class="toggle-section">
+            <span class="toggle-text" id="toggleText">Don't have an account?</span>
+            <a href="#" class="toggle-button" id="toggleMode">Sign Up</a>
+        </div>
+
+        <!-- Features Preview -->
+        <div class="features-preview">
+            <h3 class="features-title">What you'll get:</h3>
+            <div class="feature-item">
+                <div class="feature-dot feature-dot-1"></div>
+                <span class="feature-text">Exclusive trading cards</span>
+            </div>
+            <div class="feature-item">
+                <div class="feature-dot feature-dot-2"></div>
+                <span class="feature-text">Real-time market data</span>
+            </div>
+            <div class="feature-item">
+                <div class="feature-dot feature-dot-3"></div>
+                <span class="feature-text">Community trading</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isSignUpMode = false;
+
+        // DOM elements
+        const container = document.querySelector('.container');
+        const authTitle = document.getElementById('authTitle');
+        const authSubtitle = document.getElementById('authSubtitle');
+        const authButton = document.getElementById('authButton');
+        const toggleText = document.getElementById('toggleText');
+        const toggleMode = document.getElementById('toggleMode');
+        const authForm = document.getElementById('authForm');
+
+        // Toggle between sign in and sign up
+        toggleMode.addEventListener('click', (e) => {
+            e.preventDefault();
+            isSignUpMode = !isSignUpMode;
+            
+            if (isSignUpMode) {
+                container.classList.add('signup-mode');
+                authTitle.textContent = 'Join ECE Cards';
+                authSubtitle.textContent = 'Start your M&A trading journey today';
+                authButton.textContent = 'Create Account';
+                toggleText.textContent = 'Already have an account?';
+                toggleMode.textContent = 'Sign In';
+            } else {
+                container.classList.remove('signup-mode');
+                authTitle.textContent = 'Welcome Back';
+                authSubtitle.textContent = 'Sign in to continue your collection';
+                authButton.textContent = 'Sign In';
+                toggleText.textContent = "Don't have an account?";
+                toggleMode.textContent = 'Sign Up';
+            }
+        });
+
+        // Handle form submission
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            // Basic validation
+            if (!email || !password) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            if (isSignUpMode && password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+
+            // Mock authentication
+            console.log('Auth attempt:', { email, isSignUp: isSignUpMode });
+            
+            // Show loading state
+            authButton.textContent = 'Loading...';
+            authButton.disabled = true;
+
+            // Simulate API call
+            setTimeout(() => {
+                if (window.electronAPI) {
+                    window.electronAPI.authComplete({ email, isSignUp: isSignUpMode });
+                } else {
+                    // Fallback for development
+                    window.location.href = 'http://localhost:3000';
+                }
+            }, 1500);
+        });
+
+        // Social auth handlers
+        document.getElementById('googleAuth').addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('Google auth clicked');
+            // Implement Google OAuth
+        });
+
+        document.getElementById('facebookAuth').addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('Facebook auth clicked');
+            // Implement Facebook OAuth
+        });
+
+        // Add some interactive feedback
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.style.transform = 'translateY(-2px)';
+            });
+            
+            input.addEventListener('blur', () => {
+                input.parentElement.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>

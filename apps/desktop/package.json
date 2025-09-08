@@ -2,24 +2,43 @@
   "name": "ece-desktop",
   "version": "1.0.0",
   "description": "ECE Trading Cards Desktop Application",
-  "main": "src/main.js",
+  "main": "dist/main.js",
   "scripts": {
     "start": "electron .",
-    "dev": "NODE_ENV=development electron .",
-    "build": "electron-builder",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder --publish=never"
+    "dev": "concurrently \"npm run build:watch\" \"wait-on dist/main.js && electron .\"",
+    "build": "npm run build:main && npm run build:renderer",
+    "build:main": "tsc -p tsconfig.main.json",
+    "build:renderer": "vite build",
+    "build:watch": "concurrently \"npm run build:main -- --watch\" \"npm run build:renderer -- --watch\"",
+    "pack": "npm run build && electron-builder --dir",
+    "dist": "npm run build && electron-builder --publish=never"
   },
   "keywords": ["electron", "trading", "cards", "desktop"],
   "author": "ECE Platform",
   "license": "MIT",
   "devDependencies": {
+    "@types/electron": "^1.6.10",
+    "@types/node": "^22.10.2",
+    "@types/react": "^18.3.17",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.3",
+    "concurrently": "^8.2.2",
     "electron": "^32.0.0",
-    "electron-builder": "^25.0.0"
+    "electron-builder": "^25.0.0",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11",
+    "wait-on": "^8.0.1"
   },
   "dependencies": {
-    "sqlite3": "^5.1.7",
     "axios": "^1.6.0",
-    "electron-updater": "^6.1.0"
+    "clsx": "^2.1.1",
+    "class-variance-authority": "^0.7.0",
+    "electron-updater": "^6.1.0",
+    "framer-motion": "^11.15.0",
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sqlite3": "^5.1.7",
+    "tailwindcss": "^3.4.15"
   }
 }

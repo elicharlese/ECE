@@ -58,7 +58,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
   
   // Security features
   enableBiometricAuth: () => ipcRenderer.invoke('enable-biometric-auth'),
-  lockApp: () => ipcRenderer.invoke('lock-app')
+  lockApp: () => ipcRenderer.invoke('lock-app'),
+  
+  // Splash and auth flow
+  splashComplete: () => ipcRenderer.invoke('splash-complete'),
+  authComplete: (userData) => ipcRenderer.invoke('auth-complete', userData)
 });
 
 // Auto-updater functionality

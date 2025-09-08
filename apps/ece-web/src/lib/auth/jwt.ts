@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+import jwt, { SignOptions } from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production'
@@ -13,14 +13,14 @@ export interface JWTPayload {
 export const auth = {
   // Generate JWT token
   generateToken(payload: JWTPayload): string {
-    return jwt.sign(payload, JWT_SECRET, {
-      expiresIn: JWT_EXPIRES_IN,
+    return jwt.sign(payload, JWT_SECRET as string, {
+      expiresIn: '7d',
     })
   },
 
   // Verify JWT token
   verifyToken(token: string): JWTPayload {
-    return jwt.verify(token, JWT_SECRET) as JWTPayload
+    return jwt.verify(token, JWT_SECRET as string) as JWTPayload
   },
 
   // Hash password

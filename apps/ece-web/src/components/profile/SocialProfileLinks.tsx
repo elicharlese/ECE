@@ -145,7 +145,7 @@ export function SocialProfileLinks({ className = '' }: SocialProfileLinksProps) 
           </p>
         </div>
         <Button
-          variant={isEditing ? 'accent' : 'ghost'}
+          variant={isEditing ? 'default' : 'ghost'}
          
           onClick={() => setIsEditing(!isEditing)}
         >

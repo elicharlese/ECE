@@ -15,9 +15,6 @@
       "path": "./apps/ece-web"
     },
     {
-      "path": "./apps/web"
-    },
-    {
       "path": "./libs/shared-business-logic"
     },
     {

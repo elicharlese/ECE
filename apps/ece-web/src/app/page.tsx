@@ -16,6 +16,7 @@ import {
   scene3DUtils 
 } from '../components/3d'
 import Safe3DWrapper from '../components/3d/Safe3DWrapper'
+import Safe3DFallback from '../components/3d/Safe3DFallback'
 import { useState, useEffect } from 'react'
 
 const features = [
@@ -144,7 +145,7 @@ export default function Home() {
         <Navigation />
         
         {/* 3D Hero Section */}
-        <section className="relative min-h-screen overflow-hidden">
+        <section className="relative min-h-screen overflow-hidden pt-20 md:pt-24">
           {is3DSupported ? (
             <Safe3DWrapper className="absolute inset-0">
               <HeroScene3D 
@@ -154,7 +155,7 @@ export default function Home() {
             </Safe3DWrapper>
           ) : (
             // Fallback 2D Hero for unsupported devices
-            <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+            <div className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8">
               {/* Original animated background */}
               <div className="absolute inset-0">
                 <motion.div
@@ -185,23 +186,23 @@ export default function Home() {
                 />
               </div>
 
-              <div className="container mx-auto px-4 relative z-10">
-                <div className="text-center max-w-4xl mx-auto">
+              <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div className="text-center max-w-4xl mx-auto py-12 sm:py-16 lg:py-20">
                   <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
-                    className="mb-8"
+                    className="mb-8 sm:mb-12"
                   >
-                    <h1 className="text-6xl md:text-8xl font-bold mb-6">
+                    <h1 className="text-4xl sm:text-6xl lg:text-8xl font-bold mb-4 sm:mb-6 leading-tight">
                       <span className="bg-gradient-tide bg-clip-text text-transparent">
                         Master
                       </span>
                       <br />
                       <span className="text-foreground">M&A Battles</span>
                     </h1>
-                    <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                      Revolutionize corporate takeovers with strategic trading cards in the world's first M&A-focused digital platform.
+                    <p className="text-lg sm:text-xl lg:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed px-4">
+                      Revolutionize corporate takeovers with strategic trading cards in the world&apos;s first M&A-focused digital platform.
                     </p>
                   </motion.div>
 
@@ -209,7 +210,7 @@ export default function Home() {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                    className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
+                    className="flex flex-col sm:flex-row gap-4 justify-center mb-8 sm:mb-12 px-4"
                   >
                     <Button variant="gradient" size="lg" className="group">
                       Start Trading
@@ -231,14 +232,14 @@ export default function Home() {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.4 }}
-                    className="grid grid-cols-2 md:grid-cols-4 gap-8"
+                    className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 px-4"
                   >
-                    {stats.map((stat, index) => (
-                      <GlassCard key={stat.label} variant="light" animation="breathe" className="p-6">
-                        <div className="text-2xl md:text-3xl font-bold text-beach-primary mb-2">
+                    {stats.map((stat) => (
+                      <GlassCard key={stat.label} variant="light" animation="breathe" className="p-4 sm:p-6">
+                        <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-beach-primary mb-2">
                           {stat.value}
                         </div>
-                        <div className="text-muted-foreground text-sm">
+                        <div className="text-muted-foreground text-xs sm:text-sm">
                           {stat.label}
                         </div>
                       </GlassCard>
@@ -307,14 +308,14 @@ export default function Home() {
         )}
 
         {/* Features Section */}
-        <section className="py-32">
-          <div className="container mx-auto px-4">
+        <section className="py-16 sm:py-24 lg:py-32">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="text-center mb-16"
+              className="text-center mb-12 sm:mb-16"
             >
               <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
                 Why Choose <span className="bg-gradient-tide bg-clip-text text-transparent">ECE Cards</span>
@@ -324,7 +325,7 @@ export default function Home() {
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
               {features.map((feature, index) => (
                 <motion.div
                   key={feature.title}
@@ -333,7 +334,7 @@ export default function Home() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, delay: index * 0.1 }}
                 >
-                  <GlassCard variant="light" animation="float" className="p-8 h-full text-center">
+                  <GlassCard variant="light" animation="float" className="p-6 sm:p-8 h-full text-center">
                     <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-ocean rounded-full mb-6">
                       <feature.icon className="w-8 h-8 text-white" />
                     </div>
@@ -351,14 +352,14 @@ export default function Home() {
         </section>
 
         {/* Marketplace Preview Section */}
-        <section className="py-32 bg-gradient-to-br from-[#272822]/50 to-[#272822]/30">
-          <div className="container mx-auto px-4">
+        <section className="py-16 sm:py-24 lg:py-32 bg-gradient-to-br from-[#272822]/50 to-[#272822]/30">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="text-center mb-16"
+              className="text-center mb-12 sm:mb-16"
             >
               <h2 className="text-4xl md:text-6xl font-bold mb-6">
                 <span className="bg-gradient-to-r from-[#F92672] to-[#66D9EF] bg-clip-text text-transparent">
@@ -416,15 +417,15 @@ export default function Home() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-32">
-          <div className="container mx-auto px-4">
+        <section className="py-16 sm:py-24 lg:py-32">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <GlassCard variant="dark" className="p-12 md:p-16 text-center">
+              <GlassCard variant="dark" className="p-8 sm:p-12 lg:p-16 text-center">
                 <h2 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
                   Ready to Start Your <br />
                   <span className="bg-gradient-tide bg-clip-text text-transparent">Collection?</span>

@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { useWallet } from '@solana/wallet-adapter-react';
+import React, { useState } from 'react';
+// TODO: Re-enable Solana wallet integration when dependencies are available
+// import { useWallet } from '@solana/wallet-adapter-react';
 
 // Local, flexible NFT card type for this integration component
 interface NFTCardData {
@@ -26,17 +27,27 @@ interface NFTCardIntegrationProps {
 }
 
 const NFTCardIntegration: React.FC<NFTCardIntegrationProps> = ({ card, onMint }) => {
-  const { publicKey, connected } = useWallet();
-  const [nftDetails, setNftDetails] = useState<any>(null);
+  // TODO: Re-enable when Solana wallet integration is available
+  const publicKey = null;
+  const connected = false;
+
+  const [nftDetails, setNftDetails] = useState<{
+    tokenId?: string;
+    contractAddress?: string;
+    mintAddress?: string;
+    blockchain?: string;
+    metadataUri?: string;
+    isMinted?: boolean;
+    owner?: string;
+    onChainMetadata?: {
+      name: string;
+      description: string;
+      image?: string;
+      attributes: Array<{ trait_type: string; value: string }>;
+    };
+  } | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
-  // Fetch NFT details when card is minted
-  useEffect(() => {
-    if (card.isMinted && card.tokenId) {
-      fetchNFTDetails();
-    }
-  }, [card.isMinted, card.tokenId]);
   
   const fetchNFTDetails = async () => {
     try {
@@ -57,7 +68,7 @@ const NFTCardIntegration: React.FC<NFTCardIntegrationProps> = ({ card, onMint })
         blockchain: card.blockchain,
         metadataUri: card.metadataUri,
         isMinted: card.isMinted,
-        owner: publicKey?.toBase58() || 'Unknown',
+        owner: 'Unknown',
         onChainMetadata: {
           name: card.name,
           description: card.description,
@@ -177,7 +188,7 @@ const NFTCardIntegration: React.FC<NFTCardIntegrationProps> = ({ card, onMint })
             <div className="mt-2 text-xs text-gray-600">
               <div className="flex justify-between">
                 <span>Address:</span>
-                <span className="font-mono truncate max-w-[100px]">{publicKey.toBase58().substring(0, 6)}...{publicKey.toBase58().substring(publicKey.toBase58().length - 4)}</span>
+                <span className="font-mono truncate max-w-[100px]">Wallet Connected</span>
               </div>
             </div>
           )}

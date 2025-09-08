@@ -20,11 +20,11 @@ interface CardSelectorProps {
 }
 
 const rarityColors: Record<CardSummary['rarity'], string> = {
-  COMMON: 'bg-gray-200 text-gray-800',
-  RARE: 'bg-blue-200 text-blue-800',
-  EPIC: 'bg-purple-200 text-purple-800',
-  LEGENDARY: 'bg-yellow-200 text-yellow-800',
-  MYTHIC: 'bg-red-200 text-red-800'
+  common: 'bg-gray-200 text-gray-800',
+  uncommon: 'bg-green-200 text-green-800',
+  rare: 'bg-blue-200 text-blue-800',
+  epic: 'bg-purple-200 text-purple-800',
+  legendary: 'bg-yellow-200 text-yellow-800'
 }
 
 export function CardSelector({ cards, selectedCard, onCardSelect }: CardSelectorProps) {
@@ -119,9 +119,9 @@ export function CardSelector({ cards, selectedCard, onCardSelect }: CardSelector
                   {card.rarity}
                 </Badge>
                 
-                {/* Valuation */}
+                {/* Price */}
                 <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
-                  {card.valuation > 0 ? `${card.valuation.toFixed(2)} ECE` : 'No valuation'}
+                  ${card.price}
                 </div>
                 
                 {/* Selected Indicator */}
@@ -135,8 +135,8 @@ export function CardSelector({ cards, selectedCard, onCardSelect }: CardSelector
               </div>
               
               <div className="p-2 bg-background">
-                <p className="text-xs font-medium truncate">{card.name}</p>
-                <p className="text-xs text-muted-foreground truncate">{card.category}</p>
+                <span className="text-lg font-bold">${card.price}</span>
+                <span className="text-xs text-muted-foreground">Market Price</span>
               </div>
             </motion.div>
           ))

@@ -238,7 +238,7 @@ export function TradeOfferList({ tradeOffers, userType, onAccept, onReject, onCo
                               <p className="text-xs text-muted-foreground">
                                 {offer.offeredCard.category} • {offer.offeredCard.rarity}
                               </p>
-                              {offer.offeredCard.valuation > 0 && (
+                              {offer.offeredCard.valuation && offer.offeredCard.valuation > 0 && (
                                 <p className="text-xs font-medium">
                                   {offer.offeredCard.valuation.toFixed(2)} ECE
                                 </p>
@@ -279,7 +279,7 @@ export function TradeOfferList({ tradeOffers, userType, onAccept, onReject, onCo
                                 <p className="text-xs text-muted-foreground">
                                   {offer.requestedCard.category} • {offer.requestedCard.rarity}
                                 </p>
-                                {offer.requestedCard.valuation > 0 && (
+                                {offer.requestedCard.valuation && offer.requestedCard.valuation > 0 && (
                                   <p className="text-xs font-medium">
                                     {offer.requestedCard.valuation.toFixed(2)} ECE
                                   </p>

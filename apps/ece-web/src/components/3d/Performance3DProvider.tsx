@@ -81,6 +81,9 @@ export function Performance3DProvider({
   // Initialize device capabilities
   useEffect(() => {
     const detectCapabilities = async () => {
+      // Only run on client side
+      if (typeof window === 'undefined') return;
+      
       // WebGL detection
       const canvas = document.createElement('canvas');
       const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
@@ -104,7 +107,7 @@ export function Performance3DProvider({
       
       // Memory estimation
       const estimateMemory = () => {
-        if ('memory' in performance) {
+        if (typeof window !== 'undefined' && 'memory' in performance) {
           return (performance as any).memory.usedJSHeapSize;
         }
         // Fallback estimation based on other factors

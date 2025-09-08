@@ -35,7 +35,7 @@ export default function SignIn() {
     <div className="min-h-screen bg-background">
       <Navigation />
       
-      <div className="min-h-screen flex items-center justify-center px-4 pt-20">
+      <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-20 md:pt-24">
         {/* 3D Background Scene */}
         <AuthScene3D className="z-0" />
         
@@ -61,28 +61,28 @@ export default function SignIn() {
           />
         </div>
 
-        <div className="w-full max-w-md relative z-10">
+        <div className="w-full max-w-md relative z-10 py-8 sm:py-12">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <GlassCard variant="dark" animation="breathe" className="p-8">
-              <div className="text-center mb-8">
+            <GlassCard variant="dark" animation="breathe" className="p-6 sm:p-8">
+              <div className="text-center mb-6 sm:mb-8">
                 <motion.div
                   whileHover={{ rotate: 360 }}
                   transition={{ duration: 0.8 }}
-                  className="w-16 h-16 bg-gradient-ocean rounded-lg mx-auto mb-4"
+                  className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-ocean rounded-lg mx-auto mb-4"
                 />
-                <h1 className="text-3xl font-bold text-foreground mb-2">
+                <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">
                   Welcome Back
                 </h1>
-                <p className="text-muted-foreground">
+                <p className="text-sm sm:text-base text-muted-foreground">
                   Sign in to access your card collection
                 </p>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
                 {/* Email Field */}
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
@@ -172,19 +172,19 @@ export default function SignIn() {
               </div>
 
               {/* Social Sign In */}
-              <div className="space-y-3">
-                <Button variant="ghost" className="w-full">
+              <div className="space-y-2 sm:space-y-3">
+                <Button variant="ghost" className="w-full text-sm sm:text-base">
                   Continue with Google
                 </Button>
-                <Button variant="ghost" className="w-full">
+                <Button variant="ghost" className="w-full text-sm sm:text-base">
                   Continue with Apple
                 </Button>
               </div>
 
               {/* Sign Up Link */}
-              <div className="text-center mt-6">
-                <p className="text-muted-foreground">
-                  Don't have an account?{' '}
+              <div className="text-center mt-4 sm:mt-6">
+                <p className="text-sm sm:text-base text-muted-foreground">
+                  Don&apos;t have an account?{' '}
                   <Link 
                     href="/signup" 
                     className="text-ocean-primary hover:text-ocean-accent transition-colors font-medium"

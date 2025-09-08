@@ -20,14 +20,14 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(({
   asChild = false,
   ...props
 }, ref) => {
-  const baseClasses = "rounded-xl backdrop-blur-md border shadow-lg"
+  const baseClasses = "rounded-xl backdrop-blur-md border shadow-lg transition-all duration-300"
   
   const variantClasses = {
-    default: "bg-white/10 border-white/20 p-6",
-    dark: "bg-[#272822]/80 border-white/10 p-6",
-    light: "bg-[#F8EFD6]/15 border-white/30 p-6",
-    sidebar: "bg-white/5 border-white/10 p-4",
-    modal: "bg-white/15 border-white/30 p-8 shadow-2xl"
+    default: "bg-white/10 border-white/20 p-6 hover:bg-white/15 hover:border-white/30",
+    dark: "bg-[#272822]/80 border-white/10 p-6 hover:bg-[#272822]/90 hover:border-white/20",
+    light: "bg-[#F8EFD6]/15 border-white/30 p-6 hover:bg-[#F8EFD6]/20 hover:border-white/40",
+    sidebar: "bg-white/5 border-white/10 p-4 hover:bg-white/10 hover:border-white/20",
+    modal: "bg-white/15 border-white/30 p-8 shadow-2xl hover:bg-white/20 hover:border-white/40"
   }
 
   const animationProps = {

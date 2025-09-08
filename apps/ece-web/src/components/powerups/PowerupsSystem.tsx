@@ -23,7 +23,6 @@ import {
   Wand2,
   Gem,
   Rocket,
-  Lightning,
   Snowflake,
   Sun,
   Moon,
@@ -506,7 +505,7 @@ export const PowerupsSystem: React.FC<PowerupsSystemProps> = ({
               size="sm"
               onClick={() => setCraftQuantity(Math.max(1, craftQuantity - 1))}
             >
-              <Minus className="w-4 h-4" />
+              <Zap className="h-5 w-5" />
             </Button>
             <Input
               type="number"

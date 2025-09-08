@@ -331,7 +331,7 @@ export function ProfilePerformance({ className = '' }: ProfilePerformanceProps) 
                 {timeRanges.map((range) => (
                   <Button
                     key={range.id}
-                    variant={timeRange === range.id ? 'accent' : 'ghost'}
+                    variant={timeRange === range.id ? 'default' : 'ghost'}
                    
                     onClick={() => setTimeRange(range.id)}
                   >

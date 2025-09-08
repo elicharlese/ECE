@@ -4,7 +4,6 @@
 export { default as SplineScene } from './SplineScene';
 export { default as HeroScene3D, heroAnimations } from './HeroScene3D';
 export { default as Card3DInteractive } from './Card3DInteractive';
-export { TokenModel } from './token-model';
 export { AuthScene3D } from './auth-scene';
 export { NFTCard3DModel } from './nft-card-3d';
 export { NFTCard3DGallery } from './nft-card-gallery';

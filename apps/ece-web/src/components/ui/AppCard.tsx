@@ -120,7 +120,7 @@ export const AppCard: React.FC<AppCardProps> = ({
 
         {/* App Image */}
         <div className="relative h-48 bg-gradient-to-br from-[#272822] to-[#75715E] overflow-hidden">
-          {!imageError ? (
+          {!imageError && appCard.imageUrl ? (
             <Image
               src={appCard.imageUrl}
               alt={appCard.name}

@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECE Cards - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #272822 0%, #134E4A 50%, #0F766E 100%);
+            color: #F0FDFA;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(45deg, #F92672, #66D9EF);
+            border-radius: 8px;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .nav-btn {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #F0FDFA;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #66D9EF;
+        }
+
+        .nav-btn.active {
+            background: #66D9EF;
+            color: #000;
+            border-color: #66D9EF;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .welcome-section {
+            margin-bottom: 32px;
+        }
+
+        .welcome-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .welcome-subtitle {
+            font-size: 16px;
+            color: #A1A1AA;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #A1A1AA;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .stat-change {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .positive { color: #A6E22E; }
+        .negative { color: #F92672; }
+        .neutral { color: #66D9EF; }
+
+        /* Quick Actions */
+        .quick-actions {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .action-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .action-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #66D9EF;
+            transform: translateY(-2px);
+        }
+
+        .action-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .action-label {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* Portfolio Section */
+        .portfolio-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .chart-placeholder {
+            height: 200px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .chart-icon {
+            font-size: 48px;
+        }
+
+        .chart-text {
+            color: #A1A1AA;
+        }
+
+        .holdings-list {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .holding-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .holding-item:last-child {
+            border-bottom: none;
+        }
+
+        .holding-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .holding-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(45deg, #F92672, #66D9EF);
+            border-radius: 50%;
+        }
+
+        .holding-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .holding-info p {
+            font-size: 12px;
+            color: #A1A1AA;
+        }
+
+        .holding-right {
+            text-align: right;
+        }
+
+        .holding-value {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .holding-change {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Market Trends */
+        .market-trends {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .trend-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .trend-item:last-child {
+            border-bottom: none;
+        }
+
+        .trend-name {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .trend-change {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .portfolio-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-section">
+                <div class="logo"></div>
+                <span class="logo-text">ECE Cards</span>
+            </div>
+            <nav class="nav-buttons">
+                <a href="#" class="nav-btn active">Dashboard</a>
+                <a href="#" class="nav-btn">Marketplace</a>
+                <a href="#" class="nav-btn">Portfolio</a>
+                <a href="#" class="nav-btn">Analytics</a>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <h1 class="welcome-title">Welcome back, John!</h1>
+                <p class="welcome-subtitle">Here's your portfolio overview</p>
+            </section>
+
+            <!-- Stats Grid -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Portfolio Value</div>
+                    <div class="stat-value neutral">$28,450</div>
+                    <div class="stat-change positive">+$2,340 (8.9%)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Active Trades</div>
+                    <div class="stat-value neutral">12</div>
+                    <div class="stat-change positive">+3 today</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Cards Owned</div>
+                    <div class="stat-value neutral">47</div>
+                    <div class="stat-change positive">+5 this week</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Daily P&L</div>
+                    <div class="stat-value positive">+$2,450</div>
+                    <div class="stat-change positive">+1.6%</div>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions">
+                <h2 class="section-title">Quick Actions</h2>
+                <div class="actions-grid">
+                    <a href="#" class="action-card">
+                        <div class="action-icon">🛒</div>
+                        <div class="action-label">Buy Cards</div>
+                    </a>
+                    <a href="#" class="action-card">
+                        <div class="action-icon">💸</div>
+                        <div class="action-label">Sell Cards</div>
+                    </a>
+                    <a href="#" class="action-card">
+                        <div class="action-icon">🔄</div>
+                        <div class="action-label">Trade Offers</div>
+                    </a>
+                    <a href="#" class="action-card">
+                        <div class="action-icon">📊</div>
+                        <div class="action-label">Analytics</div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Portfolio Performance -->
+            <section class="portfolio-section">
+                <div class="chart-container">
+                    <h2 class="section-title">Portfolio Performance</h2>
+                    <div class="chart-placeholder">
+                        <div class="chart-icon">📈</div>
+                        <div class="chart-text">Portfolio performance chart</div>
+                    </div>
+                </div>
+
+                <div class="holdings-list">
+                    <h2 class="section-title">Top Holdings</h2>
+                    <div class="holding-item">
+                        <div class="holding-left">
+                            <div class="holding-icon"></div>
+                            <div class="holding-info">
+                                <h4>Microsoft Corp</h4>
+                                <p>MSFT</p>
+                            </div>
+                        </div>
+                        <div class="holding-right">
+                            <div class="holding-value">$12,450</div>
+                            <div class="holding-change positive">+2.4%</div>
+                        </div>
+                    </div>
+                    <div class="holding-item">
+                        <div class="holding-left">
+                            <div class="holding-icon"></div>
+                            <div class="holding-info">
+                                <h4>Apple Inc</h4>
+                                <p>AAPL</p>
+                            </div>
+                        </div>
+                        <div class="holding-right">
+                            <div class="holding-value">$8,920</div>
+                            <div class="holding-change positive">+1.8%</div>
+                        </div>
+                    </div>
+                    <div class="holding-item">
+                        <div class="holding-left">
+                            <div class="holding-icon"></div>
+                            <div class="holding-info">
+                                <h4>Tesla Inc</h4>
+                                <p>TSLA</p>
+                            </div>
+                        </div>
+                        <div class="holding-right">
+                            <div class="holding-value">$6,750</div>
+                            <div class="holding-change negative">-0.5%</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Market Trends -->
+            <section class="market-trends">
+                <h2 class="section-title">Market Trends</h2>
+                <div class="trend-item">
+                    <span class="trend-name">Tech Sector</span>
+                    <span class="trend-change positive">+5.2%</span>
+                </div>
+                <div class="trend-item">
+                    <span class="trend-name">Healthcare</span>
+                    <span class="trend-change positive">+2.1%</span>
+                </div>
+                <div class="trend-item">
+                    <span class="trend-name">Energy</span>
+                    <span class="trend-change negative">-1.3%</span>
+                </div>
+                <div class="trend-item">
+                    <span class="trend-name">Finance</span>
+                    <span class="trend-change positive">+0.8%</span>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Navigation functionality
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remove active class from all buttons
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                // Here you would typically load different content or navigate to different pages
+                console.log('Navigating to:', btn.textContent);
+            });
+        });
+
+        // Action card clicks
+        document.querySelectorAll('.action-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                e.preventDefault();
+                const action = card.querySelector('.action-label').textContent;
+                console.log('Action clicked:', action);
+                
+                // Here you would implement the actual functionality
+                // For now, just show an alert
+                alert(`${action} functionality would be implemented here`);
+            });
+        });
+
+        // Simulate real-time updates
+        function updateStats() {
+            const statValues = document.querySelectorAll('.stat-value');
+            const changes = document.querySelectorAll('.stat-change');
+            
+            // Simulate small changes in values
+            statValues.forEach((value, index) => {
+                if (index === 0) { // Portfolio value
+                    const current = parseFloat(value.textContent.replace(/[$,]/g, ''));
+                    const change = (Math.random() - 0.5) * 100;
+                    const newValue = current + change;
+                    value.textContent = `$${newValue.toLocaleString()}`;
+                }
+            });
+        }
+
+        // Update stats every 30 seconds
+        setInterval(updateStats, 30000);
+
+        // Initialize
+        console.log('ECE Cards Dashboard loaded');
+    </script>
+</body>
+</html>

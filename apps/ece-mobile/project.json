@@ -6,12 +6,17 @@
   "tags": ["scope:app", "type:mobile"],
   "targets": {
     "build": {
-      "executor": "@nx/react-native:build",
-      "options": {}
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "expo build"
+      }
     },
     "serve": {
-      "executor": "@nx/react-native:start",
-      "options": {}
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "expo start",
+        "cwd": "apps/ece-mobile"
+      }
     },
     "test": {
       "executor": "@nx/jest:jest",

@@ -104,9 +104,9 @@ export function compose(...middlewares: Function[]) {
 export const apiMiddleware = (
   options: {
     auth?: boolean
-    rateLimit?: { limit?: number; windowMs?: number }
+    rateLimit?: { limit?: number; windowMs?: number } | false
     validation?: Parameters<typeof validationMiddleware>[0]
-    cors?: Parameters<typeof corsMiddleware>[0]
+    cors?: Parameters<typeof corsMiddleware>[0] | false
   } = {}
 ) => {
   const middlewares: Function[] = []

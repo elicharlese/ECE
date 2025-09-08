@@ -184,7 +184,11 @@ export class GitHubMCPService {
       // First analyze the repository
       const analysisResponse = await this.analyzeRepository(repositoryUrl);
       if (!analysisResponse.success) {
-        return analysisResponse;
+        return {
+          success: false,
+          error: analysisResponse.error,
+          data: undefined
+        };
       }
 
       const analysis = analysisResponse.data!;
@@ -293,7 +297,7 @@ export class GitHubMCPService {
   ): Promise<MCPResponse<Repository>> {
     try {
       const response = await this.sendMCPRequest('create_repository_from_app', {
-        name: appName,
+        full_name: appName,
         description: options.description,
         private: options.private,
         license: options.license,
@@ -575,22 +579,31 @@ export class GitHubMCPService {
     return {
       id: rawData.id,
       name: rawData.name,
-      fullName: rawData.full_name,
+      full_name: rawData.full_name,
       description: rawData.description,
       private: rawData.private,
-      htmlUrl: rawData.html_url,
-      cloneUrl: rawData.clone_url,
+      html_url: rawData.html_url,
+      clone_url: rawData.clone_url,
+      ssh_url: rawData.ssh_url,
+      default_branch: rawData.default_branch,
       language: rawData.language,
-      stargazersCount: rawData.stargazers_count,
-      forksCount: rawData.forks_count,
-      openIssuesCount: rawData.open_issues_count,
-      defaultBranch: rawData.default_branch,
-      createdAt: new Date(rawData.created_at),
-      updatedAt: new Date(rawData.updated_at),
-      pushedAt: new Date(rawData.pushed_at),
-      size: rawData.size,
-      license: rawData.license,
-      topics: rawData.topics || []
+      languages: rawData.languages || {},
+      stargazers_count: rawData.stargazers_count,
+      forks_count: rawData.forks_count,
+      open_issues_count: rawData.open_issues_count,
+      created_at: rawData.created_at,
+      updated_at: rawData.updated_at,
+      pushed_at: rawData.pushed_at,
+      archived: rawData.archived,
+      disabled: rawData.disabled,
+      visibility: rawData.visibility,
+      topics: rawData.topics || [],
+      owner: {
+        login: rawData.owner.login,
+        id: rawData.owner.id,
+        avatar_url: rawData.owner.avatar_url,
+        type: rawData.owner.type
+      }
     };
   }
 

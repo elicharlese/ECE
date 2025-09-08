@@ -19,24 +19,16 @@ import {
 } from 'lucide-react'
 import { GlassCard } from '@/components/ui/glass-card'
 import { CardSelector } from './CardSelector'
-
-interface Card {
-  id: string
-  name: string
-  category: string
-  rarity: 'COMMON' | 'RARE' | 'EPIC' | 'LEGENDARY' | 'MYTHIC'
-  imageUrl: string
-  valuation: number
-}
+import type { CardSummary } from '@ece-platform/shared-types'
 
 interface CreateAuctionFormProps {
-  userCards: Card[]
+  userCards: CardSummary[]
   onSubmit: (auctionData: any) => void
   onCancel: () => void
 }
 
 export function CreateAuctionForm({ userCards, onSubmit, onCancel }: CreateAuctionFormProps) {
-  const [selectedCard, setSelectedCard] = useState<Card | null>(null)
+  const [selectedCard, setSelectedCard] = useState<CardSummary | null>(null)
   const [auctionType, setAuctionType] = useState<'timed' | 'reserve' | 'dutch'>('timed')
   const [startingPrice, setStartingPrice] = useState(100)
   const [reservePrice, setReservePrice] = useState(0)
@@ -161,7 +153,7 @@ export function CreateAuctionForm({ userCards, onSubmit, onCancel }: CreateAucti
                     className="mt-1"
                   />
                   <p className="text-xs text-muted-foreground mt-1">
-                    Suggested: {selectedCard.valuation > 0 ? `~${selectedCard.valuation.toFixed(2)} ECE` : 'Set your own price'}
+                    Suggested: {selectedCard.valuation && selectedCard.valuation > 0 ? `~${selectedCard.valuation.toFixed(2)} ECE` : 'Set your own price'}
                   </p>
                 </div>
                 

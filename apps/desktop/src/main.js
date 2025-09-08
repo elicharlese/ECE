@@ -8,7 +8,6 @@ const isDev = process.env.NODE_ENV === 'development';
 class ECEDesktop {
   constructor() {
     this.mainWindow = null;
-    this.analyticsWindow = null;
     this.db = null;
     this.autoTradingActive = false;
     this.init();
@@ -240,17 +239,9 @@ class ECEDesktop {
       return { success: true };
     });
 
-    // Analytics window
-    ipcMain.handle('open-analytics', () => {
-      this.createAnalyticsWindow();
-      return { success: true };
-    });
-
-    ipcMain.handle('close-analytics', () => {
-      if (this.analyticsWindow) {
-        this.analyticsWindow.close();
-        this.analyticsWindow = null;
-      }
+    // Web app launcher
+    ipcMain.handle('open-web-app', () => {
+      this.openWebApp();
       return { success: true };
     });
     
@@ -305,6 +296,74 @@ class ECEDesktop {
     });
   }
 
+  createWindow() {
+    this.mainWindow = new BrowserWindow({
+      width: 1200,
+      height: 800,
+      minWidth: 1000,
+      minHeight: 700,
+      webPreferences: {
+        nodeIntegration: false,
+        contextIsolation: true,
+        preload: path.join(__dirname, 'preload.js')
+      },
+      titleBarStyle: 'hiddenInset',
+      show: false,
+      vibrancy: 'dark',
+      backgroundMaterial: 'acrylic' // Windows acrylic effect
+    });
+
+    // Load splash screen first
+    this.mainWindow.loadFile(path.join(__dirname, 'splash.html'));
+    
+    // Set up IPC handlers for splash and auth flow
+    ipcMain.handle('splash-complete', () => {
+      this.mainWindow.loadFile(path.join(__dirname, 'auth.html'));
+    });
+    
+    ipcMain.handle('auth-complete', (event, userData) => {
+      // Load the main app after authentication
+      if (isDev) {
+        this.mainWindow.loadURL('http://localhost:3000');
+        this.mainWindow.webContents.openDevTools();
+      } else {
+        this.mainWindow.loadFile(path.join(__dirname, 'index.html'));
+      }
+    });
+
+    // Show window when ready
+    this.mainWindow.once('ready-to-show', () => {
+      this.mainWindow.show();
+      
+      // Set up periodic sync
+      this.startPeriodicSync();
+      
+      // Register global shortcuts
+      this.setupGlobalShortcuts();
+    });
+
+    // Set up menu
+    this.createMenu();
+
+    // Handle window closed
+    this.mainWindow.on('closed', () => {
+      this.mainWindow = null;
+    });
+
+    // Handle window state changes
+    this.mainWindow.on('maximize', () => {
+      this.mainWindow.webContents.send('window-state-changed', 'maximized');
+    });
+
+    this.mainWindow.on('unmaximize', () => {
+      this.mainWindow.webContents.send('window-state-changed', 'normal');
+    });
+
+    this.mainWindow.on('minimize', () => {
+      this.mainWindow.webContents.send('window-state-changed', 'minimized');
+    });
+  }
+
   setupAutoUpdater() {
     autoUpdater.on('checking-for-update', () => {
       console.log('Checking for update...');
@@ -348,35 +407,24 @@ class ECEDesktop {
       autoUpdater.quitAndInstall();
       return { success: true };
     });
-  }
 
-  createWindow() {
-    // Create the browser window
-    this.mainWindow = new BrowserWindow({
-      width: 1400,
-      height: 900,
-      minWidth: 1200,
-      minHeight: 800,
-      webPreferences: {
-        nodeIntegration: false,
-        contextIsolation: true,
-        preload: path.join(__dirname, 'preload.js')
-      },
-      titleBarStyle: 'hiddenInset',
-      show: false,
-      vibrancy: 'dark', // macOS vibrancy effect
-      backgroundMaterial: 'acrylic' // Windows acrylic effect
+    // Load splash screen first
+    this.mainWindow.loadFile(path.join(__dirname, 'splash.html'));
+    
+    // Set up IPC handlers for splash and auth flow
+    ipcMain.handle('splash-complete', () => {
+      this.mainWindow.loadFile(path.join(__dirname, 'auth.html'));
     });
-
-    // Load the desktop app
-    if (isDev) {
-      // In development, load the web app from localhost
-      this.mainWindow.loadURL('http://localhost:3000');
-      this.mainWindow.webContents.openDevTools();
-    } else {
-      // In production, load our desktop-specific HTML
-      this.mainWindow.loadFile(path.join(__dirname, 'index.html'));
-    }
+    
+    ipcMain.handle('auth-complete', (event, userData) => {
+      // Load the main app after authentication
+      if (isDev) {
+        this.mainWindow.loadURL('http://localhost:3000');
+        this.mainWindow.webContents.openDevTools();
+      } else {
+        this.mainWindow.loadFile(path.join(__dirname, 'index.html'));
+      }
+    });
 
     // Show window when ready
     this.mainWindow.once('ready-to-show', () => {
@@ -411,40 +459,10 @@ class ECEDesktop {
     });
   }
 
-  createAnalyticsWindow() {
-    if (this.analyticsWindow) {
-      this.analyticsWindow.focus();
-      return;
-    }
-
-    this.analyticsWindow = new BrowserWindow({
-      width: 1600,
-      height: 1000,
-      minWidth: 1400,
-      minHeight: 900,
-      webPreferences: {
-        nodeIntegration: false,
-        contextIsolation: true,
-        preload: path.join(__dirname, 'preload.js')
-      },
-      titleBarStyle: 'hiddenInset',
-      show: false,
-      vibrancy: 'dark',
-      backgroundMaterial: 'acrylic',
-      parent: this.mainWindow,
-      modal: false
-    });
-
-    // Load analytics dashboard
-    this.analyticsWindow.loadFile(path.join(__dirname, 'analytics.html'));
-
-    this.analyticsWindow.once('ready-to-show', () => {
-      this.analyticsWindow.show();
-    });
-
-    this.analyticsWindow.on('closed', () => {
-      this.analyticsWindow = null;
-    });
+  openWebApp() {
+    // Open the M&A trading platform in default browser
+    const { shell } = require('electron');
+    shell.openExternal('http://localhost:3000');
   }
 
   startPeriodicSync() {
@@ -526,6 +544,21 @@ class ECEDesktop {
           {
             label: 'Export Analytics',
             click: () => this.exportAnalytics()
+          }
+        ]
+      },
+      {
+        label: 'Platform',
+        submenu: [
+          {
+            label: 'Open M&A Trading Platform',
+            accelerator: 'CmdOrCtrl+W',
+            click: () => this.openWebApp()
+          },
+          {
+            label: 'Sync Data',
+            accelerator: 'CmdOrCtrl+S',
+            click: () => this.performAutoSync()
           }
         ]
       },

@@ -241,7 +241,7 @@ export function TierUpgradeSystem({ className = '' }: TierUpgradeSystemProps) {
                       {upgrade.upgradeCost.toLocaleString()} ECE
                     </div>
                     <Button
-                      variant={canPerformUpgrade ? "accent" : "ghost"}
+                      variant={canPerformUpgrade ? "default" : "ghost"}
                      
                       disabled={!canPerformUpgrade || isUpgrading}
                       onClick={() => handleUpgradeStart(upgrade)}

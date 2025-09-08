@@ -55,6 +55,21 @@ jobs:
           name: coverage-report
           path: coverage/
 
+  e2e:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci --silent
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run Playwright E2E (ece-web)
+        run: npx nx run ece-web-e2e:e2e
+
   preview:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
@@ -70,7 +85,7 @@ jobs:
           vercel-args: ''
 
   release:
-    needs: build-and-test
+    needs: [build-and-test, e2e]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:

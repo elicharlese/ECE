@@ -85,7 +85,7 @@ import {
   Shield,
   Key,
   Filter,
-  Sort,
+  ArrowUpDown as Sort,
   
   // Media Icons
   Play,

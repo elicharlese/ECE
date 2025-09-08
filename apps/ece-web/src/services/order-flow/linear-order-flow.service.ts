@@ -40,7 +40,7 @@ export interface OrderFlow {
  * Integrates all Batch 2 services into a seamless workflow
  */
 export class LinearOrderFlowService {
-  private ssoService: EnterpriseSSO;
+  private ssoService: SSOService;
   private apiGateway: EnterpriseAPIGateway;
   private socialService: SocialFeaturesService;
   private githubService: GitHubMCPService;
@@ -49,7 +49,7 @@ export class LinearOrderFlowService {
   private activeConnections: Map<string, WebSocket> = new Map();
 
   constructor() {
-    this.ssoService = new EnterpriseSSO();
+    this.ssoService = new SSOService();
     this.apiGateway = new EnterpriseAPIGateway();
     this.socialService = new SocialFeaturesService();
     this.githubService = new GitHubMCPService();

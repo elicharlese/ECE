@@ -16,7 +16,8 @@
     "test": "nx test shared-business-logic",
     "lint": "nx lint shared-business-logic"
   },
-  "dependencies": {},
-  "devDependencies": {},
-  "peerDependencies": {}
+  "dependencies": {
+    "immer": "^10.1.3",
+    "zustand": "^5.0.8"
+  }
 }

@@ -105,13 +105,39 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, rarity, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : motion.button
     
+    if (asChild) {
+      return (
+        <Slot
+          className={cn(buttonVariants({ variant, size, rarity, className }))}
+          ref={ref}
+          {...props}
+        />
+      )
+    }
+    
+    // Filter out HTML drag and animation events to avoid conflicts with motion
+    const {
+      onDrag,
+      onDragEnd,
+      onDragStart,
+      onDragEnter,
+      onDragLeave,
+      onDragOver,
+      onDrop,
+      onAnimationStart,
+      onAnimationEnd,
+      onAnimationIteration,
+      onTransitionEnd,
+      ...motionSafeProps
+    } = props;
+    
     return (
-      <Comp
+      <motion.button
         className={cn(buttonVariants({ variant, size, rarity, className }))}
         ref={ref}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
-        {...props}
+        {...motionSafeProps}
       />
     )
   }

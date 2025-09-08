@@ -28,7 +28,7 @@ import {
   Minus,
   Search,
   Filter,
-  Sort,
+  ArrowUpDown as Sort,
   Grid,
   List,
   Map,
@@ -366,7 +366,7 @@ export {
   Star, Zap, Shield, Users, Settings, Database, Cloud, Code, Palette,
   CheckCircle, Clock, AlertCircle, Trophy, TrendingUp, Heart, MessageCircle,
   Share2, Eye, Download, Upload, Edit, Trash2, Plus, Minus, Search, Filter,
-  Sort, Grid, List, Map, Calendar, Mail, Phone, Globe, Lock, Unlock, Key,
+  Sort as ArrowUpDown, Grid, List, Map, Calendar, Mail, Phone, Globe, Lock, Unlock, Key,
   User, UserPlus, UserMinus, Home, Building, Briefcase, CreditCard,
   DollarSign, Target, Award, Gift, Sparkles, Flame, Moon, Sun, Monitor,
   Smartphone, Tablet, Laptop, Camera, Video, Mic, Volume2, VolumeX,
@@ -379,5 +379,4 @@ export {
   Activity, Cpu, HardDrive, Wifi, WifiOff, Signal, Battery, Power, PowerOff
 };
 
-// Type exports
-export type { IconProps, IconVariant, IconSize };
+// Type exports already defined above

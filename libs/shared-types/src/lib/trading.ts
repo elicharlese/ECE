@@ -4,15 +4,8 @@
 export type TradeOfferStatus = 'PENDING' | 'ACCEPTED' | 'DECLINED' | 'CANCELED' | 'EXPIRED'
 export type TradeOfferItemRole = 'FROM_SENDER' | 'FROM_RECEIVER'
 
-// Card summary used by trading UI
-export interface CardSummary {
-  id: string
-  name: string
-  category: string
-  rarity: 'COMMON' | 'RARE' | 'EPIC' | 'LEGENDARY' | 'MYTHIC'
-  imageUrl: string
-  valuation: number
-}
+// Import CardSummary from shared-types to avoid conflicts
+import { CardSummary } from './shared-types';
 
 // Frontend representation of a trade offer
 export interface TradeOffer {

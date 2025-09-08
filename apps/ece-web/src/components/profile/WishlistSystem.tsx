@@ -289,7 +289,7 @@ export function WishlistSystem({ className = '' }: WishlistSystemProps) {
             Share
           </Button>
           <Button
-            variant={showPriceAlerts ? "accent" : "ghost"}
+            variant={showPriceAlerts ? "default" : "ghost"}
            
             onClick={() => setShowPriceAlerts(!showPriceAlerts)}
           >
