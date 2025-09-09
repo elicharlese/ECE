@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { Button } from '../ui/Button';
-import { GlassCard } from '../ui/GlassCard';
-import { CryptoTransaction } from '@ece-platform/shared-types/crypto';
+import { Button } from '../ui/button';
+import { GlassCard } from '../ui/glass-card';
+import { CryptoTransaction } from '@ece-platform/shared-types';
 import {
   ArrowUpRight,
   ArrowDownLeft,

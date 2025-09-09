@@ -1,4 +1,4 @@
-import { ConversionRate, CryptoPaymentError, CRYPTO_ERROR_CODES } from '@ece-platform/shared-types/crypto';
+import { ConversionRate, CryptoPaymentError, CRYPTO_ERROR_CODES } from '@ece-platform/shared-types';
 
 export class ConversionRateService {
   private static instance: ConversionRateService;

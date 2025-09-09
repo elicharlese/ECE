@@ -1,4 +1,7 @@
-export * from './lib/store/store';
-export * from './lib/api/client';
+// Core Business Logic Exports
+export * from './lib/shared-business-logic';
 export * from './lib/trading-utils';
-export * from './lib/sync';
+
+// Crypto & Conversion Services
+export * from './crypto/ConversionRateService';
+export * from './crypto/StripeIntegrationService';

@@ -1,4 +1,4 @@
-import { CryptoPaymentError, CRYPTO_ERROR_CODES } from '@ece-platform/shared-types/crypto';
+import { CryptoPaymentError, CRYPTO_ERROR_CODES } from '@ece-platform/shared-types';
 
 export interface StripePaymentIntent {
   id: string;
@@ -45,8 +45,8 @@ export class StripeIntegrationService {
 
   private constructor() {
     // In production, these would come from environment variables
-    this.stripeSecretKey = process.env.STRIPE_SECRET_KEY || 'sk_test_...';
-    this.stripePublishableKey = process.env.STRIPE_PUBLISHABLE_KEY || 'pk_test_...';
+    this.stripeSecretKey = process.env['STRIPE_SECRET_KEY'] || 'sk_test_...';
+    this.stripePublishableKey = process.env['STRIPE_PUBLISHABLE_KEY'] || 'pk_test_...';
   }
 
   public static getInstance(): StripeIntegrationService {
