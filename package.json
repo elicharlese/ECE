@@ -118,7 +118,12 @@
   "overrides": {
     "stats-gl": {
       "three": "0.159.0"
-    }
+    },
+    "cookie": "^0.7.0",
+    "crypto-js": "^4.2.0",
+    "elliptic": "^6.6.1",
+    "ws": "^8.17.1",
+    "form-data": "^4.0.4"
   },
   "nx": {
     "includedScripts": []
