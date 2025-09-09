@@ -75,8 +75,8 @@ export default function PortfolioScreen() {
           >
             <div className="text-center">
               <p className="text-sm text-gray-300">Total Value</p>
-              <p className="text-3xl font-bold text-[#66D9EF]">$28,450</p>
-              <p className="text-sm text-[#A6E22E] mt-1">+$2,340 (8.9%)</p>
+              <p className="text-3xl font-bold text-[#66D9EF]">28,450 ECE</p>
+              <p className="text-sm text-[#A6E22E] mt-1">+2,340 ECE (8.9%)</p>
             </div>
           </motion.div>
 
@@ -101,7 +101,7 @@ export default function PortfolioScreen() {
           >
             <div className="text-center">
               <p className="text-sm text-gray-300">Daily P&L</p>
-              <p className="text-3xl font-bold text-[#A6E22E]">+$450</p>
+              <p className="text-3xl font-bold text-[#A6E22E]">+450 ECE</p>
               <p className="text-sm text-[#A6E22E] mt-1">+1.6%</p>
             </div>
           </motion.div>
@@ -231,8 +231,8 @@ export default function PortfolioScreen() {
                         </div>
                       </td>
                       <td className="px-6 py-4 text-sm">{holding.quantity}</td>
-                      <td className="px-6 py-4 text-sm">${holding.avgCost.toLocaleString()}</td>
-                      <td className="px-6 py-4 text-sm">${holding.currentValue.toLocaleString()}</td>
+                      <td className="px-6 py-4 text-sm">{holding.avgCost.toLocaleString()} ECE</td>
+                      <td className="px-6 py-4 text-sm">{holding.currentValue.toLocaleString()} ECE</td>
                       <td className="px-6 py-4 text-sm">
                         <span className={holding.change >= 0 ? 'text-[#A6E22E]' : 'text-[#F92672]'}>
                           {holding.change >= 0 ? '+' : ''}{holding.change}%
@@ -303,7 +303,7 @@ export default function PortfolioScreen() {
                       </div>
                       <div>
                         <p className="font-medium">{transaction.type} {transaction.card}</p>
-                        <p className="text-sm text-gray-400">{transaction.quantity} cards @ ${transaction.price}</p>
+                        <p className="text-sm text-gray-400">{transaction.quantity} cards @ {transaction.price} ECE</p>
                       </div>
                     </div>
                     <p className="text-sm text-gray-400">{transaction.date}</p>

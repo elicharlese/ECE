@@ -3,14 +3,16 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, User, LogIn } from 'lucide-react'
+import { Menu, X, Plus, LogIn, User } from 'lucide-react'
 import { Button } from './ui/button'
 import { GlassCard } from './ui/glass-card'
 import { ThemeToggle } from './theme-toggle'
+import { WalletConnectButton, ECEPurchaseModal, useECEWallet } from '@ece-platform/shared-ui'
 
 const navigationItems = [
   { name: 'Features', href: '/features' },
   { name: 'Token', href: '/token' },
+  { name: 'Cards', href: '/cards' },
   { name: 'Trading Cards', href: '/trading-cards' },
   { name: 'Overview', href: '/marketplace-overview' },
   { name: 'Marketplace', href: '/marketplace' },
@@ -26,6 +28,8 @@ const navigationItems = [
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [showPurchaseModal, setShowPurchaseModal] = useState(false)
+  const { isConnected, eceBalance } = useECEWallet()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,21 +79,22 @@ export function Navigation() {
               ))}
             </div>
 
-            {/* Auth Buttons */}
+            {/* Wallet & ECE Actions */}
             <div className="hidden md:flex items-center space-x-4">
               <ThemeToggle />
-              <Link href="/signin">
-                <Button variant="ghost">
-                  <LogIn className="w-4 h-4 mr-2 text-ocean-primary dark:text-ocean-light" />
-                  Sign In
+              
+              {isConnected && (
+                <Button
+                  variant="ghost"
+                  onClick={() => setShowPurchaseModal(true)}
+                  className="gap-2"
+                >
+                  <Plus className="w-4 h-4" />
+                  Buy ECE
                 </Button>
-              </Link>
-              <Link href="/signup">
-                <Button variant="gradient">
-                  <User className="w-4 h-4 mr-2 text-white" />
-                  Sign Up
-                </Button>
-              </Link>
+              )}
+              
+              <WalletConnectButton showBalance={true} />
             </div>
 
             {/* Mobile Menu Button */}
@@ -125,18 +130,21 @@ export function Navigation() {
                   ))}
                   <div className="pt-4 border-t border-white/10 space-y-2">
                     <ThemeToggle />
-                    <Link href="/signin" className="block">
-                      <Button variant="ghost" className="w-full justify-start">
-                        <LogIn className="w-4 h-4 mr-2 text-ocean-primary dark:text-ocean-light" />
-                        Sign In
+                    
+                    {isConnected && (
+                      <Button
+                        variant="ghost"
+                        onClick={() => setShowPurchaseModal(true)}
+                        className="w-full justify-start gap-2"
+                      >
+                        <Plus className="w-4 h-4" />
+                        Buy ECE
                       </Button>
-                    </Link>
-                    <Link href="/signup" className="block">
-                      <Button variant="gradient" className="w-full justify-start">
-                        <User className="w-4 h-4 mr-2 text-white" />
-                        Sign Up
-                      </Button>
-                    </Link>
+                    )}
+                    
+                    <div className="w-full">
+                      <WalletConnectButton showBalance={true} className="w-full" />
+                    </div>
                   </div>
                 </div>
               </GlassCard>
@@ -144,6 +152,16 @@ export function Navigation() {
           )}
         </AnimatePresence>
       </div>
+      
+      {/* ECE Purchase Modal */}
+      <ECEPurchaseModal
+        isOpen={showPurchaseModal}
+        onClose={() => setShowPurchaseModal(false)}
+        onSuccess={(amount, newBalance) => {
+          console.log(`Successfully purchased ${amount} ECE. New balance: ${newBalance}`);
+          setShowPurchaseModal(false);
+        }}
+      />
     </motion.nav>
   )
 }

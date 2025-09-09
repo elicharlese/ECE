@@ -100,7 +100,7 @@ export const Marketplace: React.FC<MarketplaceProps> = ({
 
   const handlePurchase = (card: any) => {
     setCart(prev => [...prev, card.id])
-    toast.success(`🛒 ${card.displayName} added to cart! ($${card.marketPrice.toLocaleString()})`, {
+    toast.success(`🛒 ${card.displayName} added to cart! (${card.marketPrice.toLocaleString()} ECE)`, {
       duration: 3000,
       style: {
         background: 'rgba(39, 40, 34, 0.9)',
@@ -112,7 +112,7 @@ export const Marketplace: React.FC<MarketplaceProps> = ({
   }
 
   const handleSell = (card: any) => {
-    toast.success(`💰 ${card.displayName} listed for sale! ($${card.marketPrice.toLocaleString()})`, {
+    toast.success(`💰 ${card.displayName} listed for sale! (${card.marketPrice.toLocaleString()} ECE)`, {
       duration: 3000,
       style: {
         background: 'rgba(39, 40, 34, 0.9)',
@@ -125,7 +125,7 @@ export const Marketplace: React.FC<MarketplaceProps> = ({
 
   const handleAuction = (card: any) => {
     const startingBid = Math.floor(card.marketPrice * 0.8)
-    toast.success(`🎯 ${card.displayName} auction started! (Starting bid: $${startingBid.toLocaleString()})`, {
+    toast.success(`🎯 ${card.displayName} auction started! (Starting bid: ${startingBid.toLocaleString()} ECE)`, {
       duration: 3000,
       style: {
         background: 'rgba(39, 40, 34, 0.9)',
@@ -200,7 +200,7 @@ export const Marketplace: React.FC<MarketplaceProps> = ({
           <div className="glass-card p-4 text-center shadow-card-ece">
             <div className="text-2xl mb-1">💰</div>
             <div className="text-lg font-bold text-monokai-warning">
-              ${calculatePortfolioValue(ELICHARLESE_REPO_CARDS).toLocaleString()}
+              {calculatePortfolioValue(ELICHARLESE_REPO_CARDS).toLocaleString()} ECE
             </div>
             <div className="text-xs text-muted-foreground">Total Market Cap</div>
           </div>
@@ -216,7 +216,7 @@ export const Marketplace: React.FC<MarketplaceProps> = ({
           </div>
           <div className="glass-card p-4 text-center shadow-card-ece">
             <div className="text-2xl mb-1">🛒</div>
-            <div className="text-lg font-bold text-monokai-accent">${cartValue.toLocaleString()}</div>
+            <div className="text-lg font-bold text-monokai-accent">{cartValue.toLocaleString()} ECE</div>
             <div className="text-xs text-muted-foreground">Cart Value</div>
           </div>
         </motion.div>
@@ -337,11 +337,11 @@ export const Marketplace: React.FC<MarketplaceProps> = ({
                       <div className="space-y-2">
                         <div className="flex justify-between text-sm">
                           <span>Current Price:</span>
-                          <span className="font-bold text-monokai-warning">${card.marketPrice.toLocaleString()}</span>
+                          <span className="font-bold text-monokai-warning">{card.marketPrice.toLocaleString()} ECE</span>
                         </div>
                         <div className="flex justify-between text-sm">
                           <span>Last Sale:</span>
-                          <span>${card.lastSale.toLocaleString()}</span>
+                          <span>{card.lastSale.toLocaleString()} ECE</span>
                         </div>
                         <div className="flex justify-between text-sm">
                           <span>24h Volume:</span>

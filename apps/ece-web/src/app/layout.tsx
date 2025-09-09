@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "../components/theme-provider";
+import { ECEThirdwebProvider } from "@ece-platform/shared-ui";
 
 export const metadata: Metadata = {
   title: "ECE | M&A Trading Card Platform",
@@ -16,13 +17,15 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className="min-h-screen bg-background text-foreground antialiased">
-        <ThemeProvider
-          defaultTheme="dark"
-          storageKey="ece-ui-theme"
-        >
-          <div id="modal-root"></div>
-          {children}
-        </ThemeProvider>
+        <ECEThirdwebProvider>
+          <ThemeProvider
+            defaultTheme="dark"
+            storageKey="ece-ui-theme"
+          >
+            <div id="modal-root"></div>
+            {children}
+          </ThemeProvider>
+        </ECEThirdwebProvider>
       </body>
     </html>
   );

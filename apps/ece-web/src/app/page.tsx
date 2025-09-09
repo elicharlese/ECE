@@ -7,6 +7,7 @@ import { Navigation } from '../components/navigation'
 import { Footer } from '../components/footer'
 import { Button } from '../components/ui/button'
 import { GlassCard } from '../components/ui/glass-card'
+import { ECEWalletGuard } from '@ece-platform/shared-ui'
 import { 
   HeroScene3D, 
   Card3DInteractive, 
@@ -141,8 +142,9 @@ export default function Home() {
 
   return (
     <Performance3DProvider fallbackQuality="medium">
-      <div className="min-h-screen bg-background">
-        <Navigation />
+      <ECEWalletGuard showOnboarding={true}>
+        <div className="min-h-screen bg-background">
+          <Navigation />
         
         {/* 3D Hero Section */}
         <section className="relative min-h-screen overflow-hidden pt-20 md:pt-24">
@@ -448,7 +450,8 @@ export default function Home() {
         {process.env.NODE_ENV === 'development' && (
           <Performance3DMonitor showDebugInfo={true} />
         )}
-      </div>
+        </div>
+      </ECEWalletGuard>
     </Performance3DProvider>
   )
 }
