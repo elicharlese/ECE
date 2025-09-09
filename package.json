@@ -13,11 +13,13 @@
     "start:all": "node -r ts-node/register ./scripts/start-all.ts",
     "build:all": "nx run-many --target=build --all",
     "test:all": "nx run-many --target=test --all",
+    "test:patches": "nx test ece-web --testPathPattern=src/__tests__/patches/patches-completion",
     "graph": "nx graph",
     "prisma:generate": "prisma generate --schema=prisma/schema.prisma",
     "prisma:migrate:dev": "prisma migrate dev --schema=prisma/schema.prisma --name batch4-trade-offers",
     "db:seed:batch4": "ts-node ./scripts/seed-batch4.ts",
-    "start": "nx serve ece-web"
+    "start": "nx serve ece-web",
+    "audit:critical": "npm audit --audit-level=critical"
   },
   "devDependencies": {
     "@nx/devkit": "21.2.2",

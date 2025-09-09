@@ -1,4 +1,6 @@
-export default {
+import type { Config } from 'jest';
+
+const config: Config = {
   displayName: 'ece-web',
   preset: '../../jest.preset.js',
   testEnvironment: 'jsdom',
@@ -13,3 +15,5 @@ export default {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../coverage/ece-web',
 };
+
+export default config;

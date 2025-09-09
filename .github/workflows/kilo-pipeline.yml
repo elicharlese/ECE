@@ -37,6 +37,9 @@ jobs:
           cache: 'npm'
       - run: npm ci --silent
 
+      - name: Security audit (critical only)
+        run: npm run audit:critical
+
       - name: Lint
         run: npm run lint
 

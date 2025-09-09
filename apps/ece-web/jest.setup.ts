@@ -29,8 +29,26 @@ jest.mock('next/navigation', () => {
   };
 });
 
+// Common DOM mocks
+if (!window.scrollTo) {
+  Object.defineProperty(window, 'scrollTo', { value: () => {}, writable: true });
+}
+
+if (!(window as unknown as { IntersectionObserver?: unknown }).IntersectionObserver) {
+  class IO {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+    takeRecords() { return []; }
+    root: Element | null = null;
+    rootMargin = '';
+    thresholds: number[] = [];
+  }
+  (window as unknown as { IntersectionObserver: unknown }).IntersectionObserver = IO as unknown as typeof IntersectionObserver;
+}
+
 // Silence React act warnings in unrelated async code paths
-const originalError = console.error;
+const originalError: (...args: unknown[]) => void = console.error as unknown as (...args: unknown[]) => void;
 console.error = (...args: unknown[]) => {
   if (
     typeof args[0] === 'string' &&
@@ -39,6 +57,5 @@ console.error = (...args: unknown[]) => {
   ) {
     return;
   }
-  // @ts-ignore - preserve console signature
-  originalError(...args);
+  originalError(...(args as unknown as []));
 };
