@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Build filter conditions
-    let whereConditions: any = {
+    const whereConditions: any = {
       // Exclude user's own cards
       owner: {
         walletAddress: { not: walletAddress.toLowerCase() }

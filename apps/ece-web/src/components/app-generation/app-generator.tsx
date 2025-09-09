@@ -298,7 +298,7 @@ export function AppGenerator({
         )
         const designRequest = {
           component: 'App Shell',
-          theme: 'beach-monokai' as 'beach-monokai',
+          theme: 'beach-monokai' as const,
           requirements: [...template.features, ...(customFeatures || [])],
           platforms: ['web', 'mobile'] as ('web' | 'mobile' | 'desktop')[],
           designSystem: v0PlatformService.getDefaultDesignSystem()

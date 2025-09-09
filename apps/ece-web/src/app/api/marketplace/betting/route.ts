@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
     const sortBy = searchParams.get('sortBy') || 'trending'
     const limit = parseInt(searchParams.get('limit') || '20')
 
-    let whereClause: any = {
+    const whereClause: any = {
       status: 'ACTIVE',
       expiryDate: {
         gt: new Date()

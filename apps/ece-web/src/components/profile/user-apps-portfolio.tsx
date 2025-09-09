@@ -162,7 +162,7 @@ export function UserAppsPortfolio({ userId, isOwner = true }: UserAppsPortfolioP
   const [sortBy, setSortBy] = useState<'recent' | 'popular' | 'rarity'>('recent')
 
   const filteredAndSortedApps = useMemo(() => {
-    let filtered = mockUserApps.filter(app => {
+    const filtered = mockUserApps.filter(app => {
       const matchesSearch = app.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            app.description.toLowerCase().includes(searchTerm.toLowerCase())
       const matchesStatus = statusFilter === 'all' || app.status === statusFilter

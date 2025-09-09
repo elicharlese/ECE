@@ -328,7 +328,7 @@ export class GitHubMCPClient {
       'TypeScript': ['Node.js with TypeScript support']
     }
 
-    let requirements = [...baseRequirements, ...complexityRequirements[complexity as keyof typeof complexityRequirements]]
+    const requirements = [...baseRequirements, ...complexityRequirements[complexity as keyof typeof complexityRequirements]]
 
     frameworks.forEach(framework => {
       if (frameworkRequirements[framework]) {

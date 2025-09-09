@@ -117,7 +117,7 @@ export const GitHubRepoSelector: React.FC<GitHubRepoSelectorProps> = ({
   }
 
   const filterAndSortRepositories = () => {
-    let filtered = repositories.filter(repo => {
+    const filtered = repositories.filter(repo => {
       const matchesSearch = repo.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            (repo.description || '').toLowerCase().includes(searchTerm.toLowerCase())
       const matchesLanguage = filterLanguage === 'all' || repo.language === filterLanguage

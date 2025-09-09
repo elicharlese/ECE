@@ -52,7 +52,7 @@ export class TechnicalAnalysisService {
     // Determine primary technology and type
     let primaryType = 'general';
     let dominantLanguages = ['JavaScript'];
-    let baseMetrics = {
+    const baseMetrics = {
       quality: 70,
       complexity: 50,
       uniqueness: 60,

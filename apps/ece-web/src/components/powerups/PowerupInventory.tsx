@@ -40,7 +40,7 @@ export const PowerupInventory: React.FC<PowerupInventoryProps> = ({
 
   // Filter and sort powerups
   const filteredPowerups = useMemo(() => {
-    let filtered = powerups.filter(userPowerup => {
+    const filtered = powerups.filter(userPowerup => {
       const powerup = userPowerup.powerupType;
       if (!powerup) return false;
 

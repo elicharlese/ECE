@@ -254,7 +254,7 @@ export function UserGeneratedAppsProfile({ userId, className }: UserGeneratedApp
 
   // Filter and sort logic
   useEffect(() => {
-    let filtered = userApps.filter(app => {
+    const filtered = userApps.filter(app => {
       const matchesRarity = filterRarity === 'all' || app.rarity === filterRarity
       const matchesCategory = filterCategory === 'all' || app.category === filterCategory
       return matchesRarity && matchesCategory

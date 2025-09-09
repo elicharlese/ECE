@@ -115,7 +115,7 @@ export const UserCollection: React.FC<UserCollectionProps> = ({
 
   // Filter and sort cards
   const filteredAndSortedCards = useMemo(() => {
-    let filtered = userCards.filter(card => {
+    const filtered = userCards.filter(card => {
       const matchesSearch = card.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           card.ticker.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           card.sector.toLowerCase().includes(searchQuery.toLowerCase())

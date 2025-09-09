@@ -139,7 +139,7 @@ export async function POST(
       )
     }
 
-    let userData = mockTokenData.get(userId)
+    const userData = mockTokenData.get(userId)
     if (!userData) {
       return NextResponse.json(
         { success: false, error: 'User not found' },

@@ -62,7 +62,7 @@ export function AuctionList({ auctions, onBidPlaced, onAuctionCreated }: Auction
 
   // Filter and sort auctions
   const filteredAuctions = useMemo(() => {
-    let filtered = auctions.filter(auction => {
+    const filtered = auctions.filter(auction => {
       const matchesSearch = auction.cardName.toLowerCase().includes(searchTerm.toLowerCase()) || 
                           auction.cardCategory.toLowerCase().includes(searchTerm.toLowerCase())
       const matchesRarity = rarityFilter === 'all' || auction.rarity === rarityFilter

@@ -203,7 +203,7 @@ export function GeneratedAppsDashboard({ className }: GeneratedAppsDashboardProp
 
   // Filter and search logic
   useEffect(() => {
-    let filtered = apps.filter(app => {
+    const filtered = apps.filter(app => {
       const matchesSearch = app.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            app.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            app.creator.toLowerCase().includes(searchTerm.toLowerCase())

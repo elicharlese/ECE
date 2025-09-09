@@ -575,19 +575,19 @@ export class CodebaseViabilityService {
       {
         type: 'Security Migration',
         probability: analysis.security.vulnerabilities.length > 0 ? 'HIGH' : 'LOW' as 'HIGH' | 'LOW',
-        impact: 'HIGH' as 'HIGH',
+        impact: 'HIGH' as const,
         mitigation: 'Thorough security testing and gradual migration approach'
       },
       {
         type: 'Framework Compatibility',
         probability: analysis.compatibility.score < 80 ? 'MEDIUM' : 'LOW' as 'MEDIUM' | 'LOW',
-        impact: 'MEDIUM' as 'MEDIUM',
+        impact: 'MEDIUM' as const,
         mitigation: 'Compatibility testing and framework-specific adapters'
       },
       {
         type: 'Code Quality Issues',
         probability: analysis.quality.score < 70 ? 'HIGH' : 'LOW' as 'HIGH' | 'LOW',
-        impact: 'MEDIUM' as 'MEDIUM',
+        impact: 'MEDIUM' as const,
         mitigation: 'Phased refactoring with comprehensive testing'
       }
     ];
