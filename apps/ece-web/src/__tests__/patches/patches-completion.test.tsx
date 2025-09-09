@@ -1,8 +1,8 @@
 // Comprehensive Test Suite for Patches 2-5 Completion
 // /apps/ece-web/src/__tests__/patches/patches-completion.test.tsx
 
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render, screen, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 
 // Import components for testing
@@ -270,13 +270,13 @@ describe('Patch 2-5 Completion Tests', () => {
 
   describe('Error Handling', () => {
     it('handles missing powerup data gracefully', () => {
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
       expect(() => {
         render(
           <MockProviders>
             <PowerupCard
-              powerup={{} as any}
+              powerup={{} as typeof mockPowerup}
               quantity={0}
               isOwned={false}
             />
