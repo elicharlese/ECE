@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { ECEBrandingSchema } from './ece-branding.schema';
 import { MobbinTemplateService } from './mobbin-template.service';
 import { CodebaseViabilityService } from './codebase-viability.service';
+import { AIClient, type AIMessage } from '@ece-platform/shared-business-logic';
 
 const prisma = new PrismaClient();
 
@@ -238,11 +239,7 @@ export class AppGenerationService {
     await prisma.appOrder.update({
       where: { id: request.orderId },
       data: { 
-        status: 'IN_PROGRESS',
-        metadata: {
-          generationId,
-          startedAt: new Date().toISOString()
-        }
+        status: 'IN_PROGRESS'
       }
     });
 
@@ -255,9 +252,17 @@ export class AppGenerationService {
     brandingSchema: ECEBrandingSchema;
     generationId: string;
   }): Promise<any> {
-    // This would integrate with AI code generation service
-    // For now, return a structured response
-    
+    // Optional AI-assisted generation when enabled and providers configured
+    try {
+      if (process.env['AI_ENABLE_CODEGEN'] === 'true') {
+        const aiResult = await this.generateApplicationCodeWithAI(params);
+        if (aiResult) return aiResult;
+      }
+    } catch (err) {
+      console.warn('[AppGenerationService] AI codegen failed, falling back:', err);
+    }
+
+    // Fallback deterministic generator (existing behavior)
     const baseStructure = {
       frontend: this.generateFrontendCode(params),
       backend: this.generateBackendCode(params),
@@ -266,6 +271,59 @@ export class AppGenerationService {
     };
 
     return baseStructure;
+  }
+
+  private static async generateApplicationCodeWithAI(params: {
+    template: any;
+    projectDetails: any;
+    brandingSchema: ECEBrandingSchema;
+    generationId: string;
+  }): Promise<any | null> {
+    const { template, projectDetails, brandingSchema, generationId } = params;
+
+    const system = `You are an expert full‑stack engineer. Generate a complete scaffold for an ECE app as strict JSON with keys: frontend, backend, database, deployment.\n\nConstraints:\n- Framework: Next.js 15 (React 18, TypeScript), TailwindCSS, atomic components.\n- Use ECE branding strictly from the provided schema.\n- Include ECE Header/Footer, Thirdweb provider integration hooks.\n- Security: Mention ECE security middleware placeholder in backend.\n- Output ONLY valid JSON. No markdown, no commentary.`;
+
+    const user = `Project Details:\n${JSON.stringify({ template, projectDetails, generationId }, null, 2)}\n\nECE Branding Schema:\n${JSON.stringify(brandingSchema, null, 2)}`;
+
+    const messages: AIMessage[] = [
+      { role: 'system', content: system },
+      { role: 'user', content: user }
+    ];
+
+    const ai = AIClient.getInstance();
+    const res = await ai.chatTask('code', messages, {
+      temperature: 0.3,
+      maxTokens: 4000,
+    });
+
+    const parsed = this.safeParseJSON(res.content);
+    if (!parsed || typeof parsed !== 'object') return null;
+    // Ensure all keys exist to avoid downstream crashes
+    return {
+      frontend: String(parsed.frontend ?? this.generateFrontendCode(params)),
+      backend: String(parsed.backend ?? this.generateBackendCode(params)),
+      database: String(parsed.database ?? this.generateDatabaseSchema(params)),
+      deployment: String(parsed.deployment ?? this.generateDeploymentConfig(params)),
+    };
+  }
+
+  private static safeParseJSON(text: string): any | null {
+    try {
+      return JSON.parse(text);
+    } catch (_) {
+      // Try to extract the largest JSON object from the text
+      const first = text.indexOf('{');
+      const last = text.lastIndexOf('}');
+      if (first !== -1 && last !== -1 && last > first) {
+        const candidate = text.slice(first, last + 1);
+        try {
+          return JSON.parse(candidate);
+        } catch (_) {
+          return null;
+        }
+      }
+      return null;
+    }
   }
 
   private static generateFrontendCode(params: any): string {
@@ -525,6 +583,26 @@ healthcheck:
                   {/* Data Table */}
                   <ECEDataTable title="Recent Users" />
                 </div>
+              </div>
+            </div>
+    `;
+  }
+
+  // MOBILE_APP: simple companion guidance block to keep generation consistent
+  private static generateMobileApp(projectDetails: any): string {
+    return `
+            <div className="container mx-auto px-4 py-8">
+              <ECEPageHeader 
+                title="${projectDetails.title} (Mobile Companion)"
+                description="This project includes a mobile companion app (Expo/React Native). Use the ECE CLI or generator to scaffold mobile screens that mirror the web experience."
+              />
+              <div className="mt-6">
+                <GlassCard className="p-6">
+                  <p className="text-gray-300">
+                    Mobile-first flows should prioritize onboarding, notifications, and quick actions. 
+                    The generated web components are designed to be reusable with our shared UI library.
+                  </p>
+                </GlassCard>
               </div>
             </div>
     `;

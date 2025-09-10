@@ -23,11 +23,11 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(({
   const baseClasses = "rounded-xl backdrop-blur-md border shadow-lg transition-all duration-300"
   
   const variantClasses = {
-    default: "bg-white/10 border-white/20 p-6 hover:bg-white/15 hover:border-white/30",
-    dark: "bg-[#272822]/80 border-white/10 p-6 hover:bg-[#272822]/90 hover:border-white/20",
-    light: "bg-[#F8EFD6]/15 border-white/30 p-6 hover:bg-[#F8EFD6]/20 hover:border-white/40",
-    sidebar: "bg-white/5 border-white/10 p-4 hover:bg-white/10 hover:border-white/20",
-    modal: "bg-white/15 border-white/30 p-8 shadow-2xl hover:bg-white/20 hover:border-white/40"
+    default: "bg-white/10 border-gray-200/30 p-6 hover:bg-white/15 hover:border-gray-200/40 dark:bg-black/10 dark:border-gray-700/30 dark:hover:bg-black/15 dark:hover:border-gray-700/40",
+    dark: "bg-monokai-dark/80 border-white/10 p-6 hover:bg-monokai-dark/90 hover:border-white/20",
+    light: "bg-white/90 border-gray-200/50 p-6 hover:bg-white/95 hover:border-gray-200/60 text-black dark:bg-monokai-light/15 dark:border-monokai-muted/30 dark:hover:bg-monokai-light/20 dark:hover:border-monokai-muted/40",
+    sidebar: "bg-white/5 border-gray-200/20 p-4 hover:bg-white/10 hover:border-gray-200/30 dark:bg-black/5 dark:border-gray-700/20 dark:hover:bg-black/10 dark:hover:border-gray-700/30",
+    modal: "bg-white/95 border-gray-200/60 p-8 shadow-2xl hover:bg-white/98 hover:border-gray-200/70 text-black dark:bg-monokai-dark/95 dark:border-monokai-muted/30 dark:hover:bg-monokai-dark/98 dark:hover:border-monokai-muted/40 dark:text-white"
   }
 
   const animationProps = {

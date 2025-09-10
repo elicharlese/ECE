@@ -2,12 +2,15 @@
 export * from './lib/button';
 export * from './lib/glass-card';
 export * from './lib/badge';
-export * from './lib/input';
-export * from './lib/progress';
 
 // Layout Components
 export * from './lib/navigation-item';
-export * from './lib/title-bar';
+export * from './components/wallet-connect-button'
+export * from './components/ece-wallet-guard'
+export * from './components/ece-purchase-modal'
+export * from './components/generation-engine-ui'
+export * from './hooks/use-ece-wallet'
+export * from './providers/thirdweb-provider'
 
 // Wallet Components
 export * from './components/wallet-connect-button';

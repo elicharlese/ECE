@@ -1,8 +1,10 @@
+'use client';
+
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useMotionValue, useTransform, PanInfo } from 'framer-motion';
 import { Heart, X, Zap, DollarSign, TrendingUp, Info, RefreshCw } from 'lucide-react';
-import { Button } from '../Button';
-import { GlassCard } from '../GlassCard';
+import { Button } from '../../lib/button';
+import { GlassCard } from '../../lib/glass-card';
 import { CardDetailModal } from './CardDetailModal';
 import { useECEWallet } from '../../hooks/use-ece-wallet';
 

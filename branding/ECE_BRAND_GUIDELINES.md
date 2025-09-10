@@ -27,37 +27,58 @@ The ECE logo combines modern typography with subtle wave elements, representing 
 - Always use official logo files
 - Never distort, rotate, or modify the logo
 
-### Beach Monokai Color Palette
+### Updated Color Palette
 
-Our signature color system draws inspiration from beach sunsets and retro computing aesthetics.
+Our refined color system uses white and black as primary colors with Beach Monokai colors as vibrant accents.
 
 #### Primary Colors
 ```css
-/* Dark Foundation */
---ece-dark: #272822;        /* Main backgrounds, primary canvas */
---ece-light: #F8EFD6;       /* Light backgrounds, primary text */
---ece-muted: #75715E;       /* Secondary text, subtle elements */
+/* Primary Foundation */
+--ece-white: #FFFFFF;       /* Light mode backgrounds, primary canvas */
+--ece-black: #000000;       /* Dark mode backgrounds, primary canvas */
+--ece-gray-50: #F9FAFB;     /* Light subtle backgrounds */
+--ece-gray-900: #111827;    /* Dark subtle backgrounds */
 
-/* Accent Colors */
---ece-accent: #F92672;      /* Primary buttons, highlights, CTAs */
---ece-success: #A6E22E;     /* Success states, positive actions */
---ece-info: #66D9EF;        /* Info states, links, navigation */
---ece-warning: #E6DB74;     /* Warning states, caution alerts */
---ece-error: #FD5C63;       /* Error states, destructive actions */
+/* Monokai Accent Colors (Beach Theme) */
+--ece-monokai-dark: #272822;    /* Monokai dark background accent */
+--ece-monokai-light: #F8EFD6;   /* Monokai light background accent */
+--ece-monokai-muted: #75715E;   /* Subtle text, borders */
 
-/* Extended Palette */
---ece-primary: #819AFF;     /* Primary interactive elements */
---ece-secondary: #3EBA7C;   /* Secondary actions, support elements */
+--ece-monokai-accent: #F92672;  /* Primary accent, CTAs, highlights */
+--ece-monokai-green: #A6E22E;   /* Success states, positive actions */
+--ece-monokai-blue: #66D9EF;    /* Info states, links, navigation */
+--ece-monokai-yellow: #E6DB74;  /* Warning states, caution alerts */
+--ece-monokai-orange: #FD971F;  /* Secondary accent, warm highlights */
 ```
 
 #### Gradient Presets
 ```css
-/* Signature Gradients */
-.gradient-sunset { background: linear-gradient(90deg, #F92672, #FD5C63); }
-.gradient-tide { background: linear-gradient(90deg, #66D9EF, #3EBA7C); }
-.gradient-sand { background: linear-gradient(180deg, #F8EFD6, #819AFF); }
-.gradient-ocean { background: linear-gradient(135deg, #66D9EF, #A6E22E); }
+/* Monokai Accent Gradients */
+.gradient-sunset { background: linear-gradient(90deg, #F92672, #FD971F); }
+.gradient-ocean { background: linear-gradient(90deg, #66D9EF, #A6E22E); }
+.gradient-beach { background: linear-gradient(180deg, #F8EFD6, #E6DB74); }
+.gradient-monokai { background: linear-gradient(135deg, #272822, #75715E); }
 ```
+
+#### Color Usage Guidelines
+
+**Primary Colors (White/Black):**
+- Use white for light mode backgrounds, cards, and primary content areas
+- Use black for dark mode backgrounds and high-contrast text
+- These colors provide the foundation and ensure accessibility
+
+**Monokai Accents:**
+- Use monokai-accent (#F92672) for primary CTAs, highlights, and brand elements
+- Use monokai-blue (#66D9EF) for links, info states, and navigation
+- Use monokai-green (#A6E22E) for success states and positive feedback
+- Use monokai-yellow (#E6DB74) for warnings and caution states
+- Use monokai-orange (#FD971F) for secondary accents and warm highlights
+
+**Design Principles:**
+- Primary colors (white/black) should dominate the interface (70-80%)
+- Monokai accents should be used sparingly for visual interest (20-30%)
+- Maintain high contrast ratios for accessibility
+- Use gradients to create visual depth and brand recognition
 
 #### Color Accessibility
 All color combinations meet WCAG 2.1 AA standards:

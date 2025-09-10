@@ -10,8 +10,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Base colors - White/Black primary
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
+        
+        // White/Black theme
+        white: '#FFFFFF',
+        black: '#000000',
+        
+        // Card system
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
@@ -20,6 +27,8 @@ const config: Config = {
           DEFAULT: 'hsl(var(--popover))',
           foreground: 'hsl(var(--popover-foreground))',
         },
+        
+        // Primary colors - now white/black based
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
@@ -32,42 +41,62 @@ const config: Config = {
           DEFAULT: 'hsl(var(--muted))',
           foreground: 'hsl(var(--muted-foreground))',
         },
+        
+        // Monokai Beach accent colors
         accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
+          DEFAULT: '#F92672', // Monokai pink/red
+          foreground: '#FFFFFF',
         },
+        success: {
+          DEFAULT: '#A6E22E', // Monokai green
+          foreground: '#000000',
+        },
+        info: {
+          DEFAULT: '#66D9EF', // Monokai cyan
+          foreground: '#000000',
+        },
+        warning: {
+          DEFAULT: '#E6DB74', // Monokai yellow
+          foreground: '#000000',
+        },
+        error: {
+          DEFAULT: '#FD5C63', // Monokai red variant
+          foreground: '#FFFFFF',
+        },
+        
         destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
+          DEFAULT: '#FD5C63',
+          foreground: '#FFFFFF',
         },
+        
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        'ocean': {
-          'accent': 'var(--ocean-accent)',
-          'success': 'var(--ocean-success)',
-          'info': 'var(--ocean-info)',
-          'secondary': 'var(--ocean-secondary)',
-          'light': 'var(--ocean-light)',
-          'dark': 'var(--ocean-dark)',
-          'primary': 'var(--ocean-primary)',
-          'success-tone': 'var(--ocean-success-tone)',
-          'muted': 'var(--ocean-muted)',
-          'alert': 'var(--ocean-alert)',
-        },
+        ring: '#F92672',
+        
+        // Monokai Beach theme colors as accents
         'monokai': {
-          'accent': 'var(--monokai-accent)',
-          'success': 'var(--monokai-success)',
-          'info': 'var(--monokai-info)',
-          'warning': 'var(--monokai-warning)',
-          'purple': 'var(--monokai-purple)',
+          'dark': '#272822',      // Main dark background
+          'light': '#F8EFD6',     // Light cream background
+          'muted': '#75715E',     // Muted text
+          'accent': '#F92672',    // Primary accent (pink/red)
+          'success': '#A6E22E',   // Success green
+          'info': '#66D9EF',      // Info cyan
+          'warning': '#E6DB74',   // Warning yellow
+          'error': '#FD5C63',     // Error red
+          'primary': '#819AFF',   // Primary blue
+          'secondary': '#3EBA7C', // Secondary green
+          'purple': '#AE81FF',    // Purple accent
         }
       },
       backgroundImage: {
-        'gradient-ocean': 'linear-gradient(90deg, #14B8A6, #10B981)',
-        'gradient-tide': 'linear-gradient(90deg, #06B6D4, #059669)',
-        'gradient-deep-sea': 'linear-gradient(180deg, #F0FDFA, #0F766E)',
+        // Updated gradients with monokai beach accents
+        'gradient-sunset': 'linear-gradient(90deg, #F92672, #FD5C63)',
+        'gradient-tide': 'linear-gradient(90deg, #66D9EF, #3EBA7C)',
+        'gradient-sand': 'linear-gradient(180deg, #F8EFD6, #819AFF)',
+        'gradient-ocean': 'linear-gradient(135deg, #66D9EF, #A6E22E)',
         'gradient-monokai': 'linear-gradient(90deg, #F92672, #AE81FF)',
+        'gradient-primary': 'linear-gradient(90deg, #FFFFFF, #F8F9FA)',
+        'gradient-dark': 'linear-gradient(90deg, #000000, #272822)',
       },
       animation: {
         'wave': 'wave 4s ease-in-out infinite',

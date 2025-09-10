@@ -48,21 +48,16 @@ export function Navigation() {
       }`}
     >
       <div className="container mx-auto px-4">
-        <GlassCard 
-          variant="dark" 
-          className={`transition-all duration-300 ${
-            scrolled ? 'shadow-2xl' : 'shadow-lg'
-          }`}
-        >
-          <div className="flex items-center justify-between px-6 py-4">
+        <GlassCard variant="sidebar" className="backdrop-blur-xl">
+          <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-2">
-              <motion.div
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.8 }}
-                className="w-8 h-8 bg-gradient-ocean rounded-lg"
-              />
-              <span className="text-xl font-bold text-foreground">ECE Cards</span>
+              <div className="w-8 h-8 bg-gradient-sunset rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-lg">E</span>
+              </div>
+              <span className="text-xl font-bold bg-gradient-sunset bg-clip-text text-transparent">
+                ECE
+              </span>
             </Link>
 
             {/* Desktop Navigation */}
@@ -71,10 +66,10 @@ export function Navigation() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-foreground hover:text-ocean-success transition-colors duration-200 relative group"
+                  className="text-foreground hover:text-monokai-accent transition-colors duration-200 relative group"
                 >
                   {item.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-tide group-hover:w-full transition-all duration-300" />
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-sunset group-hover:w-full transition-all duration-300" />
                 </Link>
               ))}
             </div>

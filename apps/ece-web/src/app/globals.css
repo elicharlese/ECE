@@ -5,70 +5,64 @@
 /* Import ECE Enhanced Shadows */
 @import '../styles/ece-shadows.css';
 
-/* Teal Ocean Color Palette - Light & Dark Mode */
+/* White/Black Primary with Monokai Beach Accents */
 :root {
-  /* Teal Ocean Colors - HSL format for better Tailwind integration */
-  --ocean-accent: #14B8A6; /* Teal-500 */
-  --ocean-success: #10B981; /* Emerald-500 */
-  --ocean-info: #06B6D4; /* Cyan-500 */
-  --ocean-secondary: #0891B2; /* Sky-600 */
-  --ocean-light: #F0FDFA; /* Teal-50 */
-  --ocean-dark: #134E4A; /* Teal-900 */
-  --ocean-primary: #0F766E; /* Teal-700 */
-  --ocean-success-tone: #059669; /* Emerald-600 */
-  --ocean-muted: #6B7280; /* Gray-500 */
-  --ocean-alert: #DC2626; /* Red-600 */
+  /* Monokai Beach Accent Colors */
+  --monokai-dark: #272822;     /* Main dark background */
+  --monokai-light: #F8EFD6;    /* Light cream background */
+  --monokai-muted: #75715E;    /* Muted text */
+  --monokai-accent: #F92672;   /* Primary accent (pink/red) */
+  --monokai-success: #A6E22E;  /* Success green */
+  --monokai-info: #66D9EF;     /* Info cyan */
+  --monokai-warning: #E6DB74;  /* Warning yellow */
+  --monokai-error: #FD5C63;    /* Error red */
+  --monokai-primary: #819AFF;  /* Primary blue */
+  --monokai-secondary: #3EBA7C; /* Secondary green */
+  --monokai-purple: #AE81FF;   /* Purple accent */
   
-  /* Monokai Colors for badges, tags, toasts, rewards */
-  --monokai-accent: #F92672; /* Pink accent */
-  --monokai-success: #A6E22E; /* Green success */
-  --monokai-info: #66D9EF; /* Blue info */
-  --monokai-warning: #E6DB74; /* Yellow warning */
-  --monokai-purple: #AE81FF; /* Purple highlight */
-  
-  /* Light mode defaults - Using HSL values for Tailwind */
-  --background: 180 100% 97%; /* #F0FDFA - Teal-50 */
-  --foreground: 180 100% 15%; /* #134E4A - Teal-900 */
-  --card: 180 100% 97% / 0.8;
-  --card-foreground: 180 100% 15%;
-  --popover: 180 100% 97% / 0.95;
-  --popover-foreground: 180 100% 15%;
-  --primary: 180 84% 25%; /* #0F766E - Teal-700 */
+  /* Light mode - White primary with monokai accents */
+  --background: 0 0% 100%;     /* Pure white */
+  --foreground: 0 0% 0%;       /* Pure black */
+  --card: 0 0% 100% / 0.95;    /* White with slight transparency */
+  --card-foreground: 0 0% 0%;
+  --popover: 0 0% 100% / 0.98;
+  --popover-foreground: 0 0% 0%;
+  --primary: 0 0% 0%;          /* Black primary */
   --primary-foreground: 0 0% 100%;
-  --secondary: 188 95% 37%; /* #0891B2 - Sky-600 */
-  --secondary-foreground: 0 0% 100%;
-  --muted: 220 9% 46% / 0.1;
-  --muted-foreground: 220 9% 46%;
-  --accent: 180 96% 35%; /* #14B8A6 - Teal-500 */
+  --secondary: 0 0% 96%;       /* Light gray */
+  --secondary-foreground: 0 0% 0%;
+  --muted: 0 0% 96%;           /* Light gray background */
+  --muted-foreground: 0 0% 45%; /* Medium gray text */
+  --accent: 342 89% 48%;       /* Monokai accent pink */
   --accent-foreground: 0 0% 100%;
-  --destructive: 0 74% 42%; /* #DC2626 - Red-600 */
+  --destructive: 0 84% 60%;    /* Monokai error red */
   --destructive-foreground: 0 0% 100%;
-  --border: 180 100% 15% / 0.2;
-  --input: 180 100% 15% / 0.1;
-  --ring: 180 96% 35%;
+  --border: 0 0% 89%;          /* Light gray border */
+  --input: 0 0% 96%;           /* Light gray input background */
+  --ring: 342 89% 48%;         /* Monokai accent for focus rings */
 }
 
 .dark {
-  /* Dark mode overrides */
-  --background: 180 100% 15%; /* #134E4A - Teal-900 */
-  --foreground: 180 100% 97%; /* #F0FDFA - Teal-50 */
-  --card: 180 100% 15% / 0.8;
-  --card-foreground: 180 100% 97%;
-  --popover: 180 100% 15% / 0.95;
-  --popover-foreground: 180 100% 97%;
-  --primary: 180 96% 35%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 188 95% 37%;
+  /* Dark mode - Black primary with monokai accents */
+  --background: 0 0% 0%;       /* Pure black */
+  --foreground: 0 0% 100%;     /* Pure white */
+  --card: 60 2% 15% / 0.95;    /* Monokai dark with transparency */
+  --card-foreground: 0 0% 100%;
+  --popover: 60 2% 15% / 0.98;
+  --popover-foreground: 0 0% 100%;
+  --primary: 0 0% 100%;        /* White primary in dark mode */
+  --primary-foreground: 0 0% 0%;
+  --secondary: 60 2% 15%;      /* Monokai dark */
   --secondary-foreground: 0 0% 100%;
-  --muted: 49 41% 91% / 0.1;
-  --muted-foreground: 66 8% 41%;
-  --accent: 328 95% 62%;
+  --muted: 60 2% 15%;          /* Monokai dark background */
+  --muted-foreground: 60 2% 65%; /* Monokai muted text */
+  --accent: 342 89% 48%;       /* Monokai accent pink */
   --accent-foreground: 0 0% 100%;
-  --destructive: 4 98% 68%;
+  --destructive: 0 84% 60%;    /* Monokai error red */
   --destructive-foreground: 0 0% 100%;
-  --border: 49 41% 91% / 0.2;
-  --input: 49 41% 91% / 0.1;
-  --ring: 232 100% 81%;
+  --border: 60 2% 25%;         /* Darker border */
+  --input: 60 2% 15%;          /* Monokai dark input background */
+  --ring: 342 89% 48%;         /* Monokai accent for focus rings */
 }
 
 /* Base styles */

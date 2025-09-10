@@ -1,8 +1,10 @@
+'use client';
+
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Heart, DollarSign, Zap, TrendingUp, Code2, ExternalLink } from 'lucide-react';
 import { Button } from '../../lib/button';
-import { GlassCard } from '../GlassCard';
+import { GlassCard } from '../../lib/glass-card';
 
 interface CardDetailModalProps {
   card: any;

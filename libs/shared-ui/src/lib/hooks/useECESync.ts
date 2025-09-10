@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * React Hook for ECE Sync Integration
  * Provides easy sync functionality for React components

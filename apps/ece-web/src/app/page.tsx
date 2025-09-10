@@ -167,27 +167,18 @@ export default function Home() {
                     x: [0, 100, 0]
                   }}
                   transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                  className="absolute top-20 left-20 w-96 h-96 bg-beach-info/20 rounded-full blur-3xl"
+                  className="absolute top-20 left-20 w-96 h-96 bg-monokai-blue/20 rounded-full blur-3xl"
                 />
                 <motion.div
                   animate={{ 
-                    scale: [1.2, 1, 1.2],
-                    rotate: [0, -10, 0],
-                    x: [0, -100, 0]
+                    scale: [1, 0.8, 1],
+                    rotate: [0, -15, 0],
+                    x: [0, -150, 0]
                   }}
                   transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                  className="absolute bottom-20 right-20 w-96 h-96 bg-beach-accent/20 rounded-full blur-3xl"
-                />
-                <motion.div
-                  animate={{ 
-                    y: [0, -50, 0],
-                    opacity: [0.3, 0.6, 0.3]
-                  }}
-                  transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-beach-success/10 rounded-full blur-3xl"
+                  className="absolute bottom-20 right-20 w-80 h-80 bg-monokai-accent/20 rounded-full blur-3xl"
                 />
               </div>
-
               <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center max-w-4xl mx-auto py-12 sm:py-16 lg:py-20">
                   <motion.div
@@ -197,7 +188,7 @@ export default function Home() {
                     className="mb-8 sm:mb-12"
                   >
                     <h1 className="text-4xl sm:text-6xl lg:text-8xl font-bold mb-4 sm:mb-6 leading-tight">
-                      <span className="bg-gradient-tide bg-clip-text text-transparent">
+                      <span className="bg-gradient-sunset bg-clip-text text-transparent">
                         Master
                       </span>
                       <br />

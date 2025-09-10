@@ -1,8 +1,10 @@
+'use client';
+
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Upload, Plus, Zap, Github, DollarSign } from 'lucide-react';
-import { Button } from '../Button';
-import { GlassCard } from '../GlassCard';
+import { Button } from '../../lib/button';
+import { GlassCard } from '../../lib/glass-card';
 import { useECEWallet } from '../../hooks/use-ece-wallet';
 
 interface CardGenerationModalProps {

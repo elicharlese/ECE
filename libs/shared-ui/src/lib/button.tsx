@@ -11,16 +11,16 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-[#F92672] text-white shadow-lg hover:shadow-xl hover:bg-[#F92672]/90 active:shadow-md",
-        destructive: "bg-destructive text-destructive-foreground shadow-lg hover:shadow-xl",
-        outline: "border border-[#75715E] bg-transparent text-[#F8EFD6] hover:bg-[#F92672]/10 hover:text-[#F92672] hover:border-[#F92672] shadow-sm hover:shadow-md",
-        secondary: "bg-[#A6E22E] text-[#272822] shadow-lg hover:shadow-xl hover:bg-[#A6E22E]/90 active:shadow-md",
-        ghost: "bg-transparent text-[#F8EFD6] hover:bg-[#F92672]/10 hover:text-[#F92672] shadow-none hover:shadow-sm",
-        link: "text-[#66D9EF] underline-offset-4 hover:underline shadow-none",
-        ocean: "bg-gradient-to-r from-[#008B8B] to-[#20B2AA] text-white shadow-lg hover:shadow-xl hover:from-[#008B8B]/90 hover:to-[#20B2AA]/90",
-        glass: "bg-white/10 backdrop-blur-md text-[#F8EFD6] border border-white/20 shadow-lg hover:shadow-xl hover:bg-white/20 hover:border-white/30",
-        gradient: "bg-gradient-to-r from-[#F92672] to-[#66D9EF] text-white shadow-lg hover:shadow-xl hover:from-[#F92672]/90 hover:to-[#66D9EF]/90",
-        floating: "bg-[#66D9EF] text-[#272822] shadow-lg hover:shadow-xl hover:bg-[#66D9EF]/90 hover:-translate-y-1"
+        default: "bg-black text-white shadow-lg hover:shadow-xl hover:bg-black/90 active:shadow-md dark:bg-white dark:text-black dark:hover:bg-white/90",
+        destructive: "bg-monokai-error text-white shadow-lg hover:shadow-xl hover:bg-monokai-error/90",
+        outline: "border border-gray-300 bg-transparent text-black hover:bg-monokai-accent/10 hover:text-monokai-accent hover:border-monokai-accent shadow-sm hover:shadow-md dark:border-gray-600 dark:text-white dark:hover:text-monokai-accent",
+        secondary: "bg-monokai-success text-black shadow-lg hover:shadow-xl hover:bg-monokai-success/90 active:shadow-md",
+        ghost: "bg-transparent text-black hover:bg-monokai-accent/10 hover:text-monokai-accent shadow-none hover:shadow-sm dark:text-white dark:hover:text-monokai-accent",
+        link: "text-monokai-info underline-offset-4 hover:underline shadow-none",
+        accent: "bg-monokai-accent text-white shadow-lg hover:shadow-xl hover:bg-monokai-accent/90",
+        glass: "bg-white/10 backdrop-blur-md text-black border border-black/20 shadow-lg hover:shadow-xl hover:bg-white/20 hover:border-black/30 dark:text-white dark:border-white/20 dark:hover:border-white/30",
+        gradient: "bg-gradient-sunset text-white shadow-lg hover:shadow-xl",
+        floating: "bg-monokai-info text-black shadow-lg hover:shadow-xl hover:bg-monokai-info/90 hover:-translate-y-1"
       },
       size: {
         default: "h-10 px-4 py-2",
