@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { RevisionApprovalService } from '../../../../../services/revision-approval.service';
-import { ECESecurityMiddleware } from '../../../../../middleware/ece-security.middleware';
+import { RevisionApprovalService } from '../../../../services/revision-approval.service';
+import { ECESecurityMiddleware } from '../../../../middleware/ece-security.middleware';
 
 export async function GET(
   request: NextRequest,

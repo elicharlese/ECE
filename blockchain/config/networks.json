@@ -1,0 +1,64 @@
+{
+  "solana": {
+    "devnet": {
+      "rpc": "https://api.devnet.solana.com",
+      "programId": "11111111111111111111111111111112",
+      "cluster": "devnet",
+      "commitment": "confirmed",
+      "timeout": 60000
+    },
+    "mainnet": {
+      "rpc": "https://api.mainnet.solana.com",
+      "programId": "ECE_TOKEN_PROGRAM_ID",
+      "cluster": "mainnet",
+      "commitment": "confirmed",
+      "timeout": 60000
+    },
+    "local": {
+      "rpc": "http://localhost:8899",
+      "programId": "11111111111111111111111111111112",
+      "cluster": "local",
+      "commitment": "confirmed",
+      "timeout": 30000
+    }
+  },
+  "ethereum": {
+    "goerli": {
+      "rpc": "https://goerli.infura.io/v3/YOUR_INFURA_PROJECT_ID",
+      "chainId": 5,
+      "gasPrice": "20000000000",
+      "gasLimit": "8000000",
+      "explorer": "https://goerli.etherscan.io"
+    },
+    "mainnet": {
+      "rpc": "https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID",
+      "chainId": 1,
+      "gasPrice": "20000000000",
+      "gasLimit": "8000000",
+      "explorer": "https://etherscan.io"
+    },
+    "local": {
+      "rpc": "http://localhost:8545",
+      "chainId": 1337,
+      "gasPrice": "20000000000",
+      "gasLimit": "8000000",
+      "explorer": null
+    }
+  },
+  "polygon": {
+    "mumbai": {
+      "rpc": "https://rpc-mumbai.maticvigil.com",
+      "chainId": 80001,
+      "gasPrice": "20000000000",
+      "gasLimit": "8000000",
+      "explorer": "https://mumbai.polygonscan.com"
+    },
+    "mainnet": {
+      "rpc": "https://polygon-rpc.com",
+      "chainId": 137,
+      "gasPrice": "40000000000",
+      "gasLimit": "8000000",
+      "explorer": "https://polygonscan.com"
+    }
+  }
+}

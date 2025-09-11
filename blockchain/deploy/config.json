@@ -1,0 +1,82 @@
+{
+  "deployments": {
+    "solana": {
+      "ece-token": {
+        "programId": "11111111111111111111111111111112",
+        "deployedAt": "2025-09-11T15:26:36-07:00",
+        "networks": {
+          "devnet": {
+            "address": "ECE_TOKEN_DEVNET_ADDRESS",
+            "explorer": "https://explorer.solana.com/address/ECE_TOKEN_DEVNET_ADDRESS?cluster=devnet",
+            "verified": false
+          },
+          "mainnet": {
+            "address": "ECE_TOKEN_MAINNET_ADDRESS",
+            "explorer": "https://explorer.solana.com/address/ECE_TOKEN_MAINNET_ADDRESS?cluster=mainnet",
+            "verified": false
+          }
+        },
+        "version": "1.0.0",
+        "buildInfo": {
+          "rustVersion": "1.70.0",
+          "anchorVersion": "0.28.0",
+          "solanaVersion": "1.16.0"
+        }
+      },
+      "treasury-program": {
+        "programId": "TREASURY_PROGRAM_ID",
+        "deployedAt": "2025-09-11T15:26:36-07:00",
+        "networks": {
+          "devnet": {
+            "address": "TREASURY_DEVNET_ADDRESS",
+            "explorer": "https://explorer.solana.com/address/TREASURY_DEVNET_ADDRESS?cluster=devnet",
+            "verified": false
+          },
+          "mainnet": {
+            "address": "TREASURY_MAINNET_ADDRESS",
+            "explorer": "https://explorer.solana.com/address/TREASURY_MAINNET_ADDRESS?cluster=mainnet",
+            "verified": false
+          }
+        },
+        "version": "1.0.0",
+        "dependencies": ["ece-token"]
+      }
+    },
+    "ethereum": {
+      "contracts": [],
+      "networks": {
+        "goerli": {
+          "chainId": 5,
+          "gasPrice": "20000000000",
+          "blockTime": 15
+        },
+        "mainnet": {
+          "chainId": 1,
+          "gasPrice": "20000000000",
+          "blockTime": 12
+        }
+      }
+    }
+  },
+  "verification": {
+    "solana": {
+      "explorerApiKey": "YOUR_SOLANA_EXPLORER_API_KEY",
+      "verifyOnDeploy": true
+    },
+    "ethereum": {
+      "etherscanApiKey": "YOUR_ETHERSCAN_API_KEY",
+      "verifyOnDeploy": true
+    }
+  },
+  "monitoring": {
+    "alerts": {
+      "deploymentFailure": true,
+      "verificationFailure": true,
+      "performanceDegradation": true
+    },
+    "notifications": {
+      "email": "dev@ece-platform.com",
+      "slack": "#deployments"
+    }
+  }
+}

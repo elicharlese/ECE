@@ -1,0 +1,52 @@
+{
+  "users": [
+    {
+      "walletAddress": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+      "displayName": "Test User",
+      "balance": 1000,
+      "eceTokens": 500
+    },
+    {
+      "walletAddress": "0x1234567890abcdef1234567890abcdef12345678",
+      "displayName": "Demo User",
+      "balance": 2500,
+      "eceTokens": 1200
+    }
+  ],
+  "cards": [
+    {
+      "id": 1,
+      "name": "Elite Card Alpha",
+      "description": "Premium trading card",
+      "rarity": "legendary",
+      "price": 100,
+      "imageUrl": "/cards/alpha.png"
+    },
+    {
+      "id": 2,
+      "name": "Corporate Raider",
+      "description": "M&A themed card",
+      "rarity": "epic",
+      "price": 50,
+      "imageUrl": "/cards/raider.png"
+    }
+  ],
+  "transactions": [
+    {
+      "id": "tx_001",
+      "userId": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+      "cardId": 1,
+      "type": "purchase",
+      "amount": 100,
+      "status": "completed",
+      "timestamp": "2025-09-11T14:00:00Z"
+    }
+  ],
+  "wallets": [
+    {
+      "address": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+      "provider": "MetaMask",
+      "connected": true
+    }
+  ]
+}
