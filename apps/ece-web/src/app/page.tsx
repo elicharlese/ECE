@@ -15,7 +15,7 @@ import {
   Performance3DMonitor,
   Card3DData,
   scene3DUtils 
-} from '../components/3d'
+} from '../components/3d/ClientOnly3D';
 import Safe3DWrapper from '../components/3d/Safe3DWrapper'
 import Safe3DFallback from '../components/3d/Safe3DFallback'
 import { useState, useEffect } from 'react'
@@ -205,10 +205,10 @@ export default function Home() {
                     transition={{ duration: 0.8, delay: 0.2 }}
                     className="flex flex-col sm:flex-row gap-4 justify-center mb-8 sm:mb-12 px-4"
                   >
-                    <Button variant="gradient" size="lg" className="group">
-                      Start Trading
+                    <Link href="/auth"><Button variant="gradient" size="lg" className="group">
+                      Sign In
                       <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    </Button>
+                    </Button></Link>
                     <Button 
                       variant="ghost" 
                       size="lg"
@@ -394,7 +394,6 @@ export default function Home() {
                       <div className="mt-6">
                         <Button 
                           variant="outline" 
-                         
                           className={`border-[#75715E]/30 text-[#75715E] hover:bg-gradient-to-r hover:${feature.color} hover:text-white hover:border-transparent group-hover:translate-y-[-2px] transition-all duration-300`}
                         >
                           Try Now
@@ -426,10 +425,10 @@ export default function Home() {
                 <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
                   Join thousands of collectors already trading on ECE Cards. Your next rare find is waiting.
                 </p>
-                <Button variant="gradient" size="lg" className="group">
+                <Link href="/auth"><Button variant="gradient" size="lg" className="group">
                   Get Started Today
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </Button>
+                </Button></Link>
               </GlassCard>
             </motion.div>
           </div>

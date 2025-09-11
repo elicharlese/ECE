@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient, AuctionStatus } from '../../../../generated/prisma';
+import { PrismaClient } from '@prisma/client';
 import { AutoBidService } from '../../../services/auto-bid';
 
 const prisma = new PrismaClient();
@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
       auction
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Auction creation error:', error);
     return NextResponse.json({ 
       error: 'Internal server error creating auction' 
@@ -149,7 +149,7 @@ export async function GET(request: NextRequest) {
       }))
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Get auctions error:', error);
     return NextResponse.json({ 
       error: 'Internal server error fetching auctions' 

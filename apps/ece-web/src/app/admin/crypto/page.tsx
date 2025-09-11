@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { GlassCard } from '@ece-platform/shared-ui';
-import { AdminCryptoOverview, CryptoTransaction, FiscalLimit, KYCData } from '@ece-platform/shared-types/crypto';
+import { AdminCryptoOverview, CryptoTransaction, FiscalLimit, KYCData } from '@ece-platform/shared-types';
 import {
   TrendingUp,
   TrendingDown,
@@ -163,7 +163,7 @@ const CryptoAdminDashboard: React.FC = () => {
         <div className="flex items-center space-x-3">
           <select
             value={timeRange}
-            onChange={(e) => setTimeRange(e.target.value as any)}
+            onChange={(e) => setTimeRange(e.target.value as '24h' | '7d' | '30d' | '90d')}
             className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800"
           >
             <option value="24h">Last 24 hours</option>
@@ -242,7 +242,7 @@ const CryptoAdminDashboard: React.FC = () => {
         ].map(({ id, label, icon: Icon }) => (
           <button
             key={id}
-            onClick={() => setActiveTab(id as any)}
+            onClick={() => setActiveTab(id as 'overview' | 'transactions' | 'kyc' | 'settings')}
             className={`flex-1 flex items-center justify-center space-x-2 py-2 px-4 rounded-md transition-all ${
               activeTab === id
                 ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm'
@@ -264,7 +264,7 @@ const CryptoAdminDashboard: React.FC = () => {
               ECE Price History
             </h3>
             <div className="h-64 flex items-end justify-between space-x-1">
-              {overview.priceHistory.slice(-12).map((point, index) => (
+              {overview.priceHistory.slice(-12).map((point: any, index: number) => (
                 <div
                   key={index}
                   className="bg-blue-500 rounded-t opacity-70 hover:opacity-100 transition-opacity"
@@ -284,7 +284,7 @@ const CryptoAdminDashboard: React.FC = () => {
               Top ECE Holders
             </h3>
             <div className="space-y-3">
-              {overview.topHolders.map((holder, index) => (
+              {overview.topHolders.map((holder: any, index: number) => (
                 <div key={index} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
                   <div>
                     <p className="font-mono text-sm">{holder.address}</p>
@@ -403,7 +403,7 @@ const CryptoAdminDashboard: React.FC = () => {
                 </div>
                 <div className="space-y-2">
                   <p className="text-sm font-medium">Documents:</p>
-                  {kyc.documents.map((doc, index) => (
+                   {kyc.documents.map((doc: any, index: number) => (
                     <div key={index} className="flex items-center justify-between text-sm">
                       <span className="capitalize">{doc.type.replace('_', ' ')}</span>
                       <div className="flex items-center space-x-2">

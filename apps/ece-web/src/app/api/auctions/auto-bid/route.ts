@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient, AutoBidStrategy } from '../../../../../generated/prisma';
+import { PrismaClient, AutoBidStrategy } from '@prisma/client';
 import { AutoBidService } from '../../../../services/auto-bid';
 
 const prisma = new PrismaClient();
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
       autoBidRule
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Auto-bid rule creation error:', error);
     return NextResponse.json({ 
       error: error.message || 'Internal server error creating auto-bid rule' 
@@ -108,7 +108,7 @@ export async function GET(request: NextRequest) {
       autoBidRules
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Get auto-bid rules error:', error);
     return NextResponse.json({ 
       error: 'Internal server error fetching auto-bid rules' 
@@ -164,7 +164,7 @@ export async function PUT(request: NextRequest) {
       autoBidRule: updatedRule
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Auto-bid rule update error:', error);
     return NextResponse.json({ 
       error: error.message || 'Internal server error updating auto-bid rule' 
@@ -205,7 +205,7 @@ export async function DELETE(request: NextRequest) {
       message: 'Auto-bid rule deleted successfully'
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Auto-bid rule deletion error:', error);
     return NextResponse.json({ 
       error: error.message || 'Internal server error deleting auto-bid rule' 

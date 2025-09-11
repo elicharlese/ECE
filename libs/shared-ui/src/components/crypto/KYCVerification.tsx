@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, useCallback } from 'react';
-import { Button } from '../ui/Button';
-import { GlassCard } from '../ui/GlassCard';
-import { KYCData } from '@ece-platform/shared-types/crypto';
+import { Button } from '../../lib/button';
+import { GlassCard } from '../../lib/glass-card';
+import { KYCData } from '@ece-platform/shared-types';
 import {
   Shield,
   Upload,

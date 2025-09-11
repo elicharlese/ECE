@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '../../../../../generated/prisma';
+import { PrismaClient } from '@prisma/client';
 import { MultiPickBettingService } from '../../../../services/multi-pick-betting';
 
 const prisma = new PrismaClient();
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
       combination: result
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Betting combination creation error:', error);
     return NextResponse.json({ 
       error: error.message || 'Internal server error creating betting combination' 
@@ -86,7 +86,7 @@ export async function GET(request: NextRequest) {
       combinations
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Get betting combinations error:', error);
     return NextResponse.json({ 
       error: 'Internal server error fetching betting combinations' 
@@ -121,7 +121,7 @@ export async function DELETE(request: NextRequest) {
       message: 'Betting combination cancelled successfully'
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Cancel betting combination error:', error);
     return NextResponse.json({ 
       error: error.message || 'Internal server error cancelling betting combination' 

@@ -2,11 +2,11 @@
 // Advanced 3D integration for Patch 3 implementation
 
 export { default as SplineScene } from './SplineScene';
-export { default as HeroScene3D, heroAnimations } from './HeroScene3D';
-export { default as Card3DInteractive } from './Card3DInteractive';
-export { AuthScene3D } from './auth-scene';
-export { NFTCard3DModel } from './nft-card-3d';
-export { NFTCard3DGallery } from './nft-card-gallery';
+export { HeroScene3D } from './ClientOnly3D';
+export { Card3DInteractive } from './ClientOnly3D';
+export { AuthScene3D } from './ClientOnly3D';
+export { NFTCard3DModel } from './ClientOnly3D';
+export { NFTCard3DGallery } from './ClientOnly3D';
 export { 
   Performance3DProvider, 
   Performance3DMonitor, 
@@ -79,6 +79,7 @@ export const scene3DConfig = {
 export const scene3DUtils = {
   // Check if device supports 3D
   isSupported: (): boolean => {
+    if (typeof window === "undefined") return false;
     const canvas = document.createElement('canvas');
     const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
     return !!gl;
@@ -98,6 +99,7 @@ export const scene3DUtils = {
   
   // Get optimal quality for device
   getOptimalQuality: (): 'low' | 'medium' | 'high' | 'ultra' => {
+    if (typeof window === "undefined") return 'low';
     const canvas = document.createElement('canvas');
     const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl') as WebGLRenderingContext | null;
     

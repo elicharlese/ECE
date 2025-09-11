@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient, MarketStatus, PredictionDirection } from '../../../../generated/prisma';
+import { PrismaClient } from '@prisma/client';
 import { MultiPickBettingService } from '../../../services/multi-pick-betting';
 
 const prisma = new PrismaClient();
@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
       market
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Betting market creation error:', error);
     return NextResponse.json({ 
       error: 'Internal server error creating betting market' 
@@ -129,7 +129,7 @@ export async function GET(request: NextRequest) {
       }))
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Get betting markets error:', error);
     return NextResponse.json({ 
       error: 'Internal server error fetching betting markets' 

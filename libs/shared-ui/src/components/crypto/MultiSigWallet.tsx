@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Button } from '../lib/button';
-import { GlassCard } from '../lib/glass-card';
+import { Button } from '../../lib/button';
+import { GlassCard } from '../../lib/glass-card';
 import { SecuritySettings } from '@ece-platform/shared-types';
 import {
   Shield,

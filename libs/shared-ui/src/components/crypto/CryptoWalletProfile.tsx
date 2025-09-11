@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Button } from '../ui/Button';
-import { GlassCard } from '../ui/GlassCard';
+import { Button } from '../../lib/button';
+import { GlassCard } from '../../lib/glass-card';
 import { WalletConnector } from './WalletConnector';
 import { useCryptoWallet } from '../../hooks/useCryptoWallet';
-import { WalletConnection, FiscalLimit, SecuritySettings } from '@ece-platform/shared-types/crypto';
+import { WalletConnection, FiscalLimit, SecuritySettings } from '@ece-platform/shared-types';
 import {
   Wallet,
   Shield,

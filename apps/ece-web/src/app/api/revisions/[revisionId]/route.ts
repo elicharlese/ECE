@@ -4,9 +4,11 @@ import { ECESecurityMiddleware } from '../../../../../middleware/ece-security.mi
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { revisionId: string } }
+  context: { params: Promise<{ revisionId: string }> }
 ) {
   try {
+    const { params } = context;
+    const { revisionId } = await params;
     // Security validation
     const security = await ECESecurityMiddleware.validateRequest(request);
     if (!security.isValid) {
@@ -52,9 +54,11 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { revisionId: string } }
+  context: { params: Promise<{ revisionId: string }> }
 ) {
   try {
+    const { params } = context;
+    const { revisionId } = await params;
     // Security validation with developer role check
     const security = await ECESecurityMiddleware.validateRequest(request, {
       auth: { required: true, roles: ['DEVELOPER', 'ADMIN'] }

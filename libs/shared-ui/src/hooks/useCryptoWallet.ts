@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
-import { WalletConnection, CryptoPaymentError, CRYPTO_ERROR_CODES } from '@ece-platform/shared-types/crypto';
+import { WalletConnection, CryptoPaymentError, CRYPTO_ERROR_CODES } from '@ece-platform/shared-types';
 
 // Mock contract address - replace with actual ECE token contract
 const ECE_TOKEN_CONTRACT = {
@@ -59,10 +59,10 @@ export const useCryptoWallet = () => {
         const ethBalance = (parseInt(balance, 16) / Math.pow(10, 18)).toString();
         
         // Get ECE token balance (mock for now)
-        const eceBalance = await getECETokenBalance(walletAddress);
+        const eceBalance = walletAddress ? await getECETokenBalance(walletAddress) : "0";
         
         const newConnection: WalletConnection = {
-          address: walletAddress,
+          address: walletAddress!,
           chainId,
           isConnected: true,
           provider,
@@ -153,7 +153,7 @@ export const useCryptoWallet = () => {
     }
   }, []);
 
-  const getBalance = useCallback(async () => {
+  const getBalance = useCallback(async (): Promise<string | undefined> => {
     if (!connection || !window.ethereum) return;
     
     try {
@@ -170,7 +170,7 @@ export const useCryptoWallet = () => {
     }
   }, [connection]);
 
-  const getECEBalance = useCallback(async () => {
+  const getECEBalance = useCallback(async (): Promise<string | undefined> => {
     if (!connection) return;
     
     try {

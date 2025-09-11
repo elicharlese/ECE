@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { Prisma } from '@/generated/prisma'
+import { PrismaClient } from '@prisma/client''
 
 export interface ApiError extends Error {
   statusCode?: number

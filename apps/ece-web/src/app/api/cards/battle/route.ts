@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient, BattleType, BattleStatus } from '../../../../generated/prisma';
+import { PrismaClient } from "@prisma/client";
 import { BattleEngineService } from '../../../services/battle-engine';
 
 const prisma = new PrismaClient();

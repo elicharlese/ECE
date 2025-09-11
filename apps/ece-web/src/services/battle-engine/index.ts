@@ -1,5 +1,5 @@
-import { PrismaClient } from '../../../generated/prisma';
-import { BattleMoveType, BattleRoundWinner, BattleStatus } from '../../../generated/prisma';
+import { PrismaClient } from '@prisma/client'';
+import { PrismaClient } from '@prisma/client'';
 
 export interface BattleMove {
   playerId: string;

@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState, useCallback, useEffect } from 'react';
-import { Button } from '../ui/Button';
-import { GlassCard } from '../ui/GlassCard';
+import { Button } from '../../lib/button';
+import { GlassCard } from '../../lib/glass-card';
 import { useCryptoWallet } from '../../hooks/useCryptoWallet';
-import { PaymentRequest, ConversionRate, SwapQuote } from '@ece-platform/shared-types/crypto';
+import { PaymentRequest, ConversionRate, SwapQuote } from '@ece-platform/shared-types';
 import {
   DollarSign,
   ArrowRightLeft,

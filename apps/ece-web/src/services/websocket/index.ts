@@ -1,6 +1,6 @@
 import { Server as HTTPServer } from 'http';
 import { Server as SocketServer, Socket } from 'socket.io';
-import { PrismaClient } from '../../../generated/prisma';
+import { PrismaClient } from '@prisma/client'';
 import { BattleEngineService } from '../battle-engine';
 import { AutoBidService } from '../auto-bid';
 import { MultiPickBettingService } from '../multi-pick-betting';

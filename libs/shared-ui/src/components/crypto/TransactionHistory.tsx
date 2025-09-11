@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { Button } from '../ui/button';
-import { GlassCard } from '../ui/glass-card';
+import { Button } from '../../lib/button';
+import { GlassCard } from '../../lib/glass-card';
 import { CryptoTransaction } from '@ece-platform/shared-types';
 import {
   ArrowUpRight,
@@ -141,7 +141,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
       filtered = filtered.filter(tx => 
         tx.hash?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         tx.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        tx.metadata?.description?.toLowerCase().includes(searchTerm.toLowerCase())
+        tx.metadata?.["description"]?.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -231,7 +231,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
         tx.hash || '',
         tx.from,
         tx.to,
-        tx.metadata?.description || ''
+        tx.metadata?.["description"] || ""
       ].join(','))
     ].join('\n');
 

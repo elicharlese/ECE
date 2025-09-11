@@ -1,5 +1,5 @@
-import { PrismaClient } from '../../../generated/prisma';
-import { PredictionDirection, MarketStatus, CombinationStatus } from '../../../generated/prisma';
+import { PrismaClient } from '@prisma/client'';
+import { PrismaClient } from '@prisma/client'';
 
 export interface BetPick {
   marketId: string;

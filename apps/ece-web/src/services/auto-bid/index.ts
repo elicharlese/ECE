@@ -1,5 +1,5 @@
-import { PrismaClient } from '../../../generated/prisma';
-import { AutoBidStrategy, AuctionStatus, BidNotificationType } from '../../../generated/prisma';
+import { PrismaClient } from '@prisma/client'';
+import { PrismaClient } from '@prisma/client'';
 
 export interface AutoBidRequest {
   userId: string;

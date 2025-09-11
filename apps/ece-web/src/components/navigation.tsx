@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Plus, LogIn, User } from 'lucide-react'
+import { Menu, X, Plus } from 'lucide-react'
 import { Button } from './ui/button'
 import { GlassCard } from './ui/glass-card'
 import { ThemeToggle } from './theme-toggle'
@@ -29,7 +29,7 @@ export function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [showPurchaseModal, setShowPurchaseModal] = useState(false)
-  const { isConnected, eceBalance } = useECEWallet()
+  const { isConnected } = useECEWallet()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -48,7 +48,7 @@ export function Navigation() {
       }`}
     >
       <div className="container mx-auto px-4">
-        <GlassCard variant="sidebar" className="backdrop-blur-xl">
+        <GlassCard variant="dark" className="backdrop-blur-xl">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-2">
@@ -77,6 +77,22 @@ export function Navigation() {
             {/* Wallet & ECE Actions */}
             <div className="hidden md:flex items-center space-x-4">
               <ThemeToggle />
+              
+              {/* Auth Buttons - Show when not connected */}
+              {!isConnected && (
+                <>
+                  <Link href="/auth">
+                    <Button variant="ghost" size="sm">
+                      Sign In
+                    </Button>
+                  </Link>
+                  <Link href="/auth">
+                    <Button variant="gradient" size="sm">
+                      Sign Up
+                    </Button>
+                  </Link>
+                </>
+              )}
               
               {isConnected && (
                 <Button
@@ -125,6 +141,22 @@ export function Navigation() {
                   ))}
                   <div className="pt-4 border-t border-white/10 space-y-2">
                     <ThemeToggle />
+                    
+                    {/* Auth Buttons - Show when not connected */}
+                    {!isConnected && (
+                      <div className="space-y-2">
+                        <Link href="/auth" onClick={() => setIsOpen(false)}>
+                          <Button variant="ghost" size="sm" className="w-full justify-start">
+                            Sign In
+                          </Button>
+                        </Link>
+                        <Link href="/auth" onClick={() => setIsOpen(false)}>
+                          <Button variant="gradient" size="sm" className="w-full">
+                            Sign Up
+                          </Button>
+                        </Link>
+                      </div>
+                    )}
                     
                     {isConnected && (
                       <Button

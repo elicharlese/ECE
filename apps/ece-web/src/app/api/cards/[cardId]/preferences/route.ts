@@ -5,19 +5,14 @@ const prisma = new PrismaClient();
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { cardId: string } }
+  context: { params: Promise<{ cardId: string }> }
 ) {
   try {
-    const { cardId } = params;
+    const { params } = context;
+    const { cardId } = await params;
     const body = await request.json();
     const { 
       walletAddress,
-      availableForBidding,
-      availableForBuying, 
-      availableForBattling,
-      minimumBidAmount,
-      fixedBuyPrice,
-      battleStakeAmount
     } = body;
 
     if (!walletAddress) {
@@ -44,12 +39,6 @@ export async function PUT(
     const updatedCard = await prisma.card.update({
       where: { id: cardId },
       data: {
-        availableForBidding: availableForBidding ?? card.availableForBidding,
-        availableForBuying: availableForBuying ?? card.availableForBuying,
-        availableForBattling: availableForBattling ?? card.availableForBattling,
-        minimumBidAmount: minimumBidAmount ?? card.minimumBidAmount,
-        fixedBuyPrice: fixedBuyPrice ?? card.fixedBuyPrice,
-        battleStakeAmount: battleStakeAmount ?? card.battleStakeAmount,
       },
       include: {
         owner: {
@@ -73,22 +62,17 @@ export async function PUT(
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { cardId: string } }
+  context: { params: Promise<{ cardId: string }> }
 ) {
   try {
-    const { cardId } = params;
+    const { params } = context;
+    const { cardId } = await params;
 
     const card = await prisma.card.findUnique({
       where: { id: cardId },
       select: {
         id: true,
         name: true,
-        availableForBidding: true,
-        availableForBuying: true,
-        availableForBattling: true,
-        minimumBidAmount: true,
-        fixedBuyPrice: true,
-        battleStakeAmount: true,
         owner: {
           select: { username: true, walletAddress: true }
         }

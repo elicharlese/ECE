@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '../../../../../generated/prisma';
+import { PrismaClient } from '@prisma/client';
 import { AutoBidService } from '../../../../services/auto-bid';
 
 const prisma = new PrismaClient();
@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
       message: 'Bid placed successfully'
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Bid placement error:', error);
     return NextResponse.json({ 
       error: error.message || 'Internal server error placing bid' 
@@ -82,7 +82,7 @@ export async function GET(request: NextRequest) {
       }))
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Get bids error:', error);
     return NextResponse.json({ 
       error: 'Internal server error fetching bids' 

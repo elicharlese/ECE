@@ -1,6 +1,9 @@
-// Thin re-export wrapper so `@/lib/db` resolves to the folder implementation at `lib/db/index.ts`.
-// This ensures all utilities (e.g., SubscriptionUtils, mockDatabase) and the Prisma singleton
-// are sourced from a single canonical module.
+import { PrismaClient } from '@prisma/client'
 
-export * from './db/index'
-export { default as db } from './db/index'
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClient | undefined
+}
+
+export const prisma = globalForPrisma.prisma ?? new PrismaClient()
+
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma

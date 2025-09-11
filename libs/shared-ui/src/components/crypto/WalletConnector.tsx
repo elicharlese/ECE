@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState, useCallback, useEffect } from 'react';
-import { Button } from '../ui/Button';
-import { GlassCard } from '../ui/GlassCard';
+import { Button } from '../../lib/button';
+import { GlassCard } from '../../lib/glass-card';
 import { useCryptoWallet } from '../../hooks/useCryptoWallet';
-import { WalletConnection } from '@ece-platform/shared-types/crypto';
+import { WalletConnection } from '@ece-platform/shared-types';
 import { Wallet, AlertCircle, CheckCircle, Loader2, ExternalLink } from 'lucide-react';
 
 interface WalletConnectorProps {
