@@ -19,6 +19,9 @@ export default defineConfig({
     alias: {
       '@': resolve(__dirname, 'src/renderer'),
       '@shared': resolve(__dirname, '../../libs'),
+      '@ece-platform/shared-ui': resolve(__dirname, '../../libs/shared-ui/src'),
+      '@ece-platform/shared-types': resolve(__dirname, '../../libs/shared-types/src'),
+      '@ece-platform/shared-business-logic': resolve(__dirname, '../../libs/shared-business-logic/src'),
     },
   },
 });

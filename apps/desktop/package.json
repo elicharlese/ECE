@@ -30,6 +30,9 @@
     "wait-on": "^8.0.1"
   },
   "dependencies": {
+    "@ece-platform/shared-business-logic": "file:../../libs/shared-business-logic",
+    "@ece-platform/shared-types": "file:../../libs/shared-types",
+    "@ece-platform/shared-ui": "file:../../libs/shared-ui",
     "axios": "^1.6.0",
     "clsx": "^2.1.1",
     "class-variance-authority": "^0.7.0",

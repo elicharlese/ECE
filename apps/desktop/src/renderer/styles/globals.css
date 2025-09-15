@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 6.7%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 6.7%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 330 81% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 6.7%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 6.7%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 330 81% 60%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 330 81% 60%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* ECE Brand Colors */
+.text-ece-accent { color: #F92672; }
+.text-ece-green { color: #A6E22E; }
+.text-ece-blue { color: #66D9EF; }
+.text-ece-yellow { color: #E6DB74; }
+.text-ece-orange { color: #FD971F; }
+
+.bg-ece-accent { background-color: #F92672; }
+.bg-ece-green { background-color: #A6E22E; }
+.bg-ece-blue { background-color: #66D9EF; }
+.bg-ece-yellow { background-color: #E6DB74; }
+.bg-ece-orange { background-color: #FD971F; }
+
+.border-ece-accent { border-color: #F92672; }
+.border-ece-green { border-color: #A6E22E; }
+.border-ece-blue { border-color: #66D9EF; }
+.border-ece-yellow { border-color: #E6DB74; }
+.border-ece-orange { border-color: #FD971F; }

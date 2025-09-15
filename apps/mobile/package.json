@@ -14,6 +14,9 @@
     "e2e": "detox test"
   },
   "dependencies": {
+    "@ece-platform/shared-business-logic": "file:../../libs/shared-business-logic",
+    "@ece-platform/shared-types": "file:../../libs/shared-types",
+    "@ece-platform/shared-ui": "file:../../libs/shared-ui",
     "@meteorrn/core": "^2.0.0",
     "expo": "~51.0.0",
     "expo-linear-gradient": "^14.1.5",

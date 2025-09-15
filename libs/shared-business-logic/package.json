@@ -17,7 +17,7 @@
     "lint": "nx lint shared-business-logic"
   },
   "dependencies": {
-    "immer": "^10.1.3",
-    "zustand": "^5.0.8"
+    "tslib": "^2.3.0",
+    "zustand": "^4.4.7"
   }
 }

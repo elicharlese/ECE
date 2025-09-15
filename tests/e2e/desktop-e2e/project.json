@@ -1,13 +1,13 @@
 {
   "name": "desktop-e2e",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "e2e/desktop-e2e/src",
+  "sourceRoot": "tests/e2e/desktop-e2e/src",
   "projectType": "application",
   "targets": {
     "test": {
       "executor": "@nx/playwright:playwright",
       "options": {
-        "config": "e2e/desktop-e2e/playwright.config.ts"
+        "config": "tests/e2e/desktop-e2e/playwright.config.ts"
       }
     }
   }

@@ -1,13 +1,13 @@
 {
   "name": "ece-mobile-e2e",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "e2e/ece-mobile-e2e/e2e",
+  "sourceRoot": "tests/e2e/ece-mobile-e2e/e2e",
   "projectType": "application",
   "targets": {
     "test": {
       "executor": "@nx/jest:jest",
       "options": {
-        "jestConfig": "e2e/ece-mobile-e2e/e2e/config.json"
+        "jestConfig": "tests/e2e/ece-mobile-e2e/e2e/config.json"
       }
     }
   }
