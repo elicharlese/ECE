@@ -154,24 +154,19 @@ export const useCryptoWallet = () => {
   }, []);
 
   const getBalance = useCallback(async (): Promise<string | undefined> => {
-    if (!connection || !window.ethereum) return;
+    if (!connection || !window.ethereum) return undefined;
     
     try {
-      const balance = await window.ethereum.request({
-        method: 'eth_getBalance',
-        params: [connection.address, 'latest']
-      });
-      
-      const ethBalance = (parseInt(balance, 16) / Math.pow(10, 18)).toString();
-      setConnection({ ...connection, balance: ethBalance });
-      return ethBalance;
-    } catch (err) {
-      console.error('Failed to get balance:', err);
+      const balance = connection.balance;
+      return balance.toString();
+    } catch (error) {
+      console.error('Error getting balance:', error);
+      return undefined;
     }
   }, [connection]);
 
   const getECEBalance = useCallback(async (): Promise<string | undefined> => {
-    if (!connection) return;
+    if (!connection) return undefined;
     
     try {
       const eceBalance = await getECETokenBalance(connection.address);
@@ -179,6 +174,7 @@ export const useCryptoWallet = () => {
       return eceBalance;
     } catch (err) {
       console.error('Failed to get ECE balance:', err);
+      return undefined;
     }
   }, [connection]);
 

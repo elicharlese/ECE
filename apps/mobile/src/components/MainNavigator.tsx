@@ -5,16 +5,33 @@ import type { User, Card } from '@ece-platform/shared-types';
 import { DashboardScreen } from '../screens/DashboardScreen';
 import { CardsScreen } from '../screens/CardsScreen';
 import { TradingScreen } from '../screens/TradingScreen';
-import { PortfolioScreen } from '../screens/PortfolioScreen';
+import PortfolioScreen from '../screens/PortfolioScreen';
+import { LandingScreen } from '../screens/LandingScreen';
 
-type TabName = 'dashboard' | 'cards' | 'trading' | 'portfolio';
+type TabName = 'landing' | 'dashboard' | 'cards' | 'trading' | 'portfolio';
 
 export function MainNavigator() {
-  const [activeTab, setActiveTab] = useState<TabName>('dashboard');
+  const [activeTab, setActiveTab] = useState<TabName>('landing');
   const { address, eceBalance } = useECEWallet();
+
+  const handleEnterPlatform = () => {
+    setActiveTab('dashboard');
+  };
+
+  const handleViewPricing = () => {
+    // Could navigate to pricing or open external link
+    setActiveTab('dashboard');
+  };
 
   const renderScreen = () => {
     switch (activeTab) {
+      case 'landing':
+        return (
+          <LandingScreen 
+            onEnterPlatform={handleEnterPlatform}
+            onViewPricing={handleViewPricing}
+          />
+        );
       case 'dashboard':
         return <DashboardScreen />;
       case 'cards':
@@ -27,6 +44,15 @@ export function MainNavigator() {
         return <DashboardScreen />;
     }
   };
+
+  // Show landing screen without header/nav if on landing
+  if (activeTab === 'landing') {
+    return (
+      <View style={styles.container}>
+        {renderScreen()}
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>

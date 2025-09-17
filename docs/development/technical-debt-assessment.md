@@ -11,7 +11,7 @@ This document provides a comprehensive assessment of the technical debt within t
 #### Solana Wallet Adapter Dependencies
 - **Issue**: Multiple versions of Solana wallet adapter dependencies across different packages
 - **Impact**: Potential compatibility issues, increased bundle size, maintenance complexity
-- **Location**: Root `package.json` and `apps/ece-web/package.json`
+- **Location**: Root `package.json` and `app/package.json`
 - **Recommendation**: Standardize on a single version and consolidate dependencies
 
 #### Blockchain Error Handling

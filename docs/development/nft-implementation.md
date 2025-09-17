@@ -20,7 +20,7 @@ Prisma ORM ←→ PostgreSQL Database
 ### Key Components
 
 #### 1. Frontend Integration
-- **Location**: `apps/ece-web/src/components/cards/NFTCard.integration.tsx`
+- **Location**: `app/src/components/cards/NFTCard.integration.tsx`
 - **Responsibilities**:
   - Wallet connection management
   - Display of NFT status and blockchain information
@@ -355,7 +355,7 @@ async syncOwnership(cardId: string): Promise<SyncResult> {
 
 ## Frontend Implementation
 
-### NFT Card Integration Component (`apps/ece-web/src/components/cards/NFTCard.integration.tsx`)
+### NFT Card Integration Component (`app/src/components/cards/NFTCard.integration.tsx`)
 
 #### Dependencies
 ```typescript

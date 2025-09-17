@@ -6,7 +6,7 @@
 import { describe, it, expect, beforeAll, afterAll } from '@jest/globals';
 import { PrismaClient } from '@prisma/client';
 import { Connection, PublicKey, Keypair } from '@solana/web3.js';
-import { ECETreasuryService } from '../apps/ece-web/src/services/ece-treasury.service';
+import { ECETreasuryService } from '../app/src/services/ece-treasury.service';
 
 const prisma = new PrismaClient();
 const connection = new Connection('http://localhost:8899', 'confirmed'); // Local validator

@@ -30,6 +30,7 @@ export * from './lib/utils';
 
 // Specialized Components
 export * from './lib/components/SyncStatus';
+export * from './components/landing-page';
 
 // Hooks
 export * from './lib/hooks/useECESync';

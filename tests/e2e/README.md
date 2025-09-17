@@ -4,11 +4,11 @@ This folder contains comprehensive end-to-end tests for all ECE platform applica
 
 ## Structure
 
-### ece-web-e2e/
+### app-e2e/
 Contains Playwright tests for the ECE web application
 - Supports desktop and mobile browsers
 - Tests authentication, trading, and treasury features
-- Located at: `/e2e/ece-web-e2e/`
+- Located at: `/e2e/app-e2e/`
 
 ### ece-mobile-e2e/
 Contains Detox tests for the ECE mobile application
@@ -32,7 +32,7 @@ Contains Playwright tests for the ECE desktop application
 
 ### Web E2E Tests
 ```bash
-cd e2e/ece-web-e2e
+cd e2e/app-e2e
 npx playwright test                    # Run all tests
 npx playwright test --project=chromium # Desktop only
 npx playwright test --project=Mobile\ Chrome # Mobile only
@@ -133,7 +133,7 @@ Set the following for test execution:
 ## Reports and Results
 
 Test results are generated in each subfolder:
-- `ece-web-e2e/playwright-report/`
+- `app-e2e/playwright-report/`
 - `ece-mobile-e2e/test-results/`
 - `desktop-e2e/test-results/`
 

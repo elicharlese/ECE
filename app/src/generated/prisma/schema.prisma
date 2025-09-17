@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// User Management
+model User {
+  id        String  @id @default(cuid())
+  email     String? @unique
+  username  String  @unique
+  firstName String?
+  lastName  String?
+  avatar    String?
+
+  // Wallet Authentication (Primary)
+  walletAddress String @unique // Primary authentication method
+
+  // Legacy Authentication (Optional)
+  passwordHash  String?
+  emailVerified DateTime?
+
+  // Trading & Wallet
+  eceBalance Float @default(0.0)
+
+  // Metadata
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  lastActive DateTime @default(now())
+
+  @@map("users")
+}

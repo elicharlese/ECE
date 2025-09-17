@@ -413,7 +413,7 @@ export const TransactionHistory: React.FC<TransactionHistoryProps> = ({
                     </div>
                     
                     <div className="text-sm text-gray-600 dark:text-gray-400">
-                      <p>{transaction.metadata?.description || 'No description'}</p>
+                      <p>{transaction.metadata?.['description'] || 'No description'}</p>
                       <div className="flex items-center space-x-2 mt-1">
                         <span>From: {formatAddress(transaction.from)}</span>
                         <ArrowUpRight className="w-3 h-3" />

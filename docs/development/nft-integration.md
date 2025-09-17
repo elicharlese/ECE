@@ -26,7 +26,7 @@ The NFT integration follows a client-server architecture with the following comp
    - Wrapper service exposing NFT functionality via clean API
    - Error handling and logging
 
-3. **API Routes** (`apps/ece-web/src/pages/api/nft/`)
+3. **API Routes** (`app/src/pages/api/nft/`)
    - RESTful endpoints for frontend integration
    - `/api/nft/[cardId]/mint` - Mint a card as NFT
    - `/api/nft/[cardId]/details` - Get NFT details
@@ -34,7 +34,7 @@ The NFT integration follows a client-server architecture with the following comp
 
 ### Frontend Components
 
-1. **NFT Card Integration** (`apps/ece-web/src/components/cards/NFTCard.integration.tsx`)
+1. **NFT Card Integration** (`app/src/components/cards/NFTCard.integration.tsx`)
    - UI component displaying NFT status and blockchain data
    - Wallet connection integration
    - Minting and data refresh controls

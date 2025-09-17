@@ -36,7 +36,7 @@ ECE (Elite Card Exchange) is a groundbreaking digital trading card platform that
 ```
 ECE/
 ├── apps/
-│   ├── ece-web/          # Next.js 15 Web Application
+│   ├── app/          # Next.js 15 Web Application
 │   ├── ece-mobile/       # React Native Mobile App
 │   ├── desktop/          # Electron Desktop App
 │   └── web/              # Additional Web Components

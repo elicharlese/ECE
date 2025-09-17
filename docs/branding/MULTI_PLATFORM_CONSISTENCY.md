@@ -12,7 +12,7 @@ This document provides templates and standards for maintaining ECE brand consist
 
 #### Structure
 ```tsx
-// apps/ece-web/src/app/page.tsx
+// app/src/app/page.tsx
 import React from 'react';
 import { SplineScene } from '@/components/3d/SplineScene';
 import { Performance3DProvider } from '@/components/3d/Performance3DProvider';

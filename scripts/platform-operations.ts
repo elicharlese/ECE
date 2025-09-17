@@ -54,7 +54,7 @@ class PlatformOperations {
 
     // Start all applications concurrently
     const apps = [
-      { name: 'ECE Web', command: 'nx serve ece-web', port: 3000 },
+      { name: 'ECE Web', command: 'nx serve app', port: 3000 },
       { name: 'ECE Mobile', command: 'nx run ece-mobile:start', port: 8081 },
       { name: 'ECE Desktop', command: 'nx serve desktop', port: 3001 }
     ];
@@ -134,7 +134,7 @@ class PlatformOperations {
     this.log('📦 Building applications');
 
     const buildCommands = [
-      'nx build ece-web',
+      'nx build app',
       'nx build ece-mobile --platform=all',
       'nx build desktop'
     ];

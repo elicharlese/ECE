@@ -21,9 +21,9 @@ export interface ECEWalletState {
 
 export function useECEWallet(): ECEWalletState {
   // Check if we have a valid ThirdWeb client ID
-  const hasValidClientId = process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID &&
-    process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID !== 'your_thirdweb_client_id_here' &&
-    process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID.length > 10;
+  const hasValidClientId = process.env['NEXT_PUBLIC_THIRDWEB_CLIENT_ID'] &&
+    process.env['NEXT_PUBLIC_THIRDWEB_CLIENT_ID'] !== 'your_thirdweb_client_id_here' &&
+    process.env['NEXT_PUBLIC_THIRDWEB_CLIENT_ID'].length > 10;
 
   const [address, setAddress] = useState<string | undefined>(undefined);
   const [eceBalance, setEceBalance] = useState(100); // Default 100 ECE for demo
@@ -33,7 +33,7 @@ export function useECEWallet(): ECEWalletState {
 
   // Auto-connect in development mode for testing
   useEffect(() => {
-    if (!hasValidClientId && process.env.NODE_ENV === 'development' && !address) {
+    if (!hasValidClientId && process.env['NODE_ENV'] === 'development' && !address) {
       // Auto-connect mock wallet for development testing
       const mockAddress = '0x742d35Cc6634C0532925a3b844Bc454e4438f44e';
       setAddress(mockAddress);

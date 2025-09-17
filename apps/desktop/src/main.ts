@@ -175,7 +175,7 @@ class ECEDesktop {
   }
 
   private openWebApp(): void {
-    shell.openExternal('http://localhost:3000');
+    shell.openExternal('http://localhost:3000/app');
   }
 
   private startPeriodicSync(): void {

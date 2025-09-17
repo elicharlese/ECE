@@ -12,7 +12,7 @@
   "include": [],
   "references": [
     {
-      "path": "./apps/ece-web"
+      "path": "./app"
     },
     {
       "path": "./libs/shared-business-logic"

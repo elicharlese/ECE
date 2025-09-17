@@ -61,7 +61,7 @@ This document details the blockchain integration implementation for the ECE (Eli
 - `getNFTDetailsForCard(cardId)`: API endpoint for retrieving NFT details
 - `syncCardOwnership(cardId)`: API endpoint for synchronizing ownership
 
-### Frontend Integration (`apps/ece-web/src/components/cards/NFTCard.integration.tsx`)
+### Frontend Integration (`app/src/components/cards/NFTCard.integration.tsx`)
 
 #### Responsibilities
 - Wallet connection management

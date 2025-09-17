@@ -49,7 +49,7 @@ const NavigationItem = forwardRef<HTMLDivElement, NavigationItemProps>(
         ref={ref}
         whileHover={{ x: onHoverX }}
         whileTap={{ scale: 0.98 }}
-        {...props}
+        {...(props as any)}
       >
         {icon && <span className="flex-shrink-0">{icon}</span>}
         <span>{label}</span>

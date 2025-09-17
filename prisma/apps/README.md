@@ -4,7 +4,7 @@ This folder contains app-specific Prisma configurations and databases for the EC
 
 ## Structure
 
-- `ece-web/` - Web application database and schema
+- `app/` - Web application database and schema
   - `schema.prisma` - Prisma schema for web app
   - `dev.db` - Development SQLite database
 
@@ -20,14 +20,14 @@ The `/prisma/apps/` folder organizes database-related files by application, allo
 
 Each subfolder contains the complete Prisma setup for that application:
 
-### Web App (`ece-web/`)
+### Web App (`app/`)
 - Schema with comprehensive models for users, cards, transactions
 - Development database with sample data
 - Ready for local development and testing
 
 ## Commands
 
-From the web app directory (`apps/ece-web/`):
+From the web app directory (`apps/app/`):
 ```bash
 # Generate Prisma client
 npx prisma generate
