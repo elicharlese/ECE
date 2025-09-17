@@ -18,7 +18,7 @@
     "@ece-platform/shared-types": "file:../../libs/shared-types",
     "@ece-platform/shared-ui": "file:../../libs/shared-ui",
     "@meteorrn/core": "^2.0.0",
-    "expo": "~51.0.0",
+    "expo": "~54.0.8",
     "expo-linear-gradient": "^14.1.5",
     "expo-status-bar": "~1.12.1",
     "react": "18.2.0",
