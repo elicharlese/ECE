@@ -1,6 +1,6 @@
 {
   "name": "ece-mobile",
-  "displayName": "ECE Mobile",
+  "displayName": "ECE",
   "version": "1.0.0",
   "private": true,
   "main": "expo/AppEntry.js",

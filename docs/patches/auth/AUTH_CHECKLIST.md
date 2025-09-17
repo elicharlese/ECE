@@ -1,22 +1,22 @@
 # Auth Feature Checklist
 
 ## Functional Requirements
-- [ ] ThirdWeb wallet integration (MetaMask, WalletConnect, Coinbase)
-- [ ] User authentication and session management
-- [ ] Automatic 100 ECE welcome bonus on first connection
-- [ ] Wallet connection UI with provider selection
-- [ ] Secure logout and session cleanup
-- [ ] Error handling for connection failures
-- [ ] Mobile-responsive wallet connection flow
+- [x] ThirdWeb wallet integration (MetaMask, WalletConnect, Coinbase)
+- [x] User authentication and session management
+- [x] Automatic 100 ECE welcome bonus on first connection
+- [x] Wallet connection UI with provider selection
+- [x] Secure logout and session cleanup
+- [x] Error handling for connection failures
+- [x] Mobile-responsive wallet connection flow
 
 ## Technical Implementation
-- [ ] ThirdWeb provider configuration
-- [ ] Wallet authentication components
-- [ ] API routes for user balance and transactions
-- [ ] Database schema for wallet-based user model
-- [ ] Error boundaries for wallet operations
-- [ ] Loading states for connection process
-- [ ] TypeScript types for wallet interfaces
+- [x] ThirdWeb provider configuration
+- [x] Wallet authentication components (WalletConnectButton, ECEWalletGuard)
+- [x] API routes for user balance and transactions
+- [x] Database schema for wallet-based user model (walletAddress as primary key)
+- [x] Error boundaries for wallet operations
+- [x] Loading states for connection process
+- [x] TypeScript types for wallet interfaces
 
 ## Security & Compliance
 - [ ] Secure wallet key management

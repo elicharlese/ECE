@@ -8,8 +8,13 @@ import { AppLayout } from '../components/app-layout'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'ECE Trading Cards',
+  title: 'ECE',
   description: 'Enterprise Card Exchange - Trading Cards Platform',
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.ico',
+    apple: '/favicon.svg',
+  },
 }
 
 export default function RootLayout({

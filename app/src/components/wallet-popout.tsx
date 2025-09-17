@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useRouter } from 'next/navigation'
 import { 
   Wallet, 
   X, 
@@ -61,6 +62,7 @@ export function WalletPopout({ isOpen, onClose, userId = 'user_pro_001', onBalan
   const [loadAmount, setLoadAmount] = useState('')
   const [withdrawAmount, setWithdrawAmount] = useState('')
   const { subscription, isPro, isEnterprise } = useSubscription()
+  const router = useRouter()
 
   useEffect(() => {
     if (isOpen && userId) {
@@ -274,7 +276,7 @@ export function WalletPopout({ isOpen, onClose, userId = 'user_pro_001', onBalan
             <GlassCard className="max-h-[80vh] overflow-hidden bg-card border border-border backdrop-blur-none">
               {/* Header */}
               <div className="p-4 border-b border-border/50">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center space-x-2">
                     <Wallet className="w-5 h-5 text-foreground" />
                     <h3 className="font-semibold text-foreground">ECE Wallet</h3>
@@ -292,6 +294,16 @@ export function WalletPopout({ isOpen, onClose, userId = 'user_pro_001', onBalan
                     </Button>
                   </div>
                 </div>
+                <Button
+                  onClick={() => {
+                    router.push('/wallet')
+                    onClose()
+                  }}
+                  className="w-full bg-gradient-ocean text-white hover:opacity-90 transition-opacity"
+                >
+                  <ExternalLink className="w-4 h-4 mr-2" />
+                  View Full Wallet
+                </Button>
               </div>
 
               {/* Tabs */}

@@ -1,7 +1,6 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Navigation } from '../../components/navigation'
 import { Footer } from '../../components/footer'
 import { GlassCard } from '../../components/ui/glass-card'
 import { Feature3DIcon, Feature3DGrid } from '../../components/3d/Feature3DIcon'
@@ -117,7 +116,6 @@ const additionalFeatures = [
 export default function Features() {
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
       
       {/* Hero Section */}
       <section className="pt-32 pb-16">

@@ -68,32 +68,9 @@ export default function DiscoverPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-background/90 relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-20 left-20 w-96 h-96 bg-monokai-accent/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-monokai-info/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-monokai-success/5 rounded-full blur-3xl animate-pulse" />
-      </div>
-
-      <div className="relative z-10 container mx-auto px-4 py-8">
-        {/* Header */}
-        <motion.div 
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-monokai-accent via-monokai-info to-monokai-success bg-clip-text text-transparent text-shadow-strong">
-            Discover Arena
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Battle, bid, and bet on the most innovative GitHub repositories. 
-            Discover legendary codebases and rare development gems in our trading card universe.
-          </p>
-        </motion.div>
-
-        {/* Quick Stats removed */}
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 py-8">
+        {/* Header removed */}
 
         {/* Main Content Tabs (header removed) */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="max-w-7xl mx-auto">
@@ -105,7 +82,8 @@ export default function DiscoverPage() {
               subtitle="Explore all 48 GitHub repository trading cards with advanced filtering and search"
               showSearch={true}
               showFilters={true}
-              showStats={true}
+              showStats={false}
+              showHeader={false}
               defaultCategory="all"
               variant="grid"
               cardSize="default"
@@ -159,7 +137,8 @@ export default function DiscoverPage() {
               subtitle="Enterprise-grade, complex systems that power the modern web"
               showSearch={true}
               showFilters={true}
-              showStats={true}
+              showStats={false}
+              showHeader={false}
               defaultCategory="majors"
               variant="grid"
               cardSize="detailed"
@@ -177,7 +156,8 @@ export default function DiscoverPage() {
               subtitle="Specialized tools and libraries that enhance development workflows"
               showSearch={true}
               showFilters={true}
-              showStats={true}
+              showStats={false}
+              showHeader={false}
               defaultCategory="minors"
               variant="grid"
               cardSize="default"
@@ -195,7 +175,8 @@ export default function DiscoverPage() {
               subtitle="Rapid prototypes and proof-of-concept implementations"
               showSearch={true}
               showFilters={true}
-              showStats={true}
+              showStats={false}
+              showHeader={false}
               defaultCategory="mvps"
               variant="grid"
               cardSize="compact"

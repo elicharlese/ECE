@@ -1,7 +1,7 @@
 {
   "name": "ece-desktop",
   "version": "1.0.0",
-  "description": "ECE Trading Cards Desktop Application",
+  "description": "ECE Desktop Application",
   "main": "dist/main.js",
   "scripts": {
     "start": "electron .",

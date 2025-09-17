@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion'
 import { Check, Star, Zap, Crown } from 'lucide-react'
-import { Navigation } from '../../components/navigation'
 import { Footer } from '../../components/footer'
 import { Button } from '../../components/ui/button'
 import { GlassCard } from '../../components/ui/glass-card'
@@ -67,7 +66,6 @@ const faqs = [
 export default function Pricing() {
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
       
       {/* Hero Section */}
       <section className="pt-32 pb-8">

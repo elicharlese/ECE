@@ -10,18 +10,28 @@ const footerSections = [
     title: 'Product',
     links: [
       { name: 'Features', href: '/features' },
-      { name: 'Pricing', href: '/pricing' },
-      { name: 'Marketplace', href: '/app/marketplace' },
-      { name: 'Discover', href: '/app/discover' }
+      { name: 'Token', href: '/token' },
+      { name: 'Cards', href: '/cards' },
+      { name: 'Trading Cards', href: '/trading-cards' },
+      { name: 'Pricing', href: '/pricing' }
     ]
   },
   {
-    title: 'Community',
+    title: 'Platform',
     links: [
-      { name: 'Discord', href: '#' },
-      { name: 'Twitter', href: '#' },
-      { name: 'Blog', href: '#' },
-      { name: 'Help Center', href: '#' }
+      { name: 'Overview', href: '/marketplace-overview' },
+      { name: 'Marketplace', href: '/marketplace' },
+      { name: 'Staking', href: '/staking' },
+      { name: 'Governance', href: '/governance' },
+      { name: 'Orders', href: '/orders' }
+    ]
+  },
+  {
+    title: 'Admin & Tools',
+    links: [
+      { name: 'Admin', href: '/admin/orders' },
+      { name: 'MP Admin', href: '/admin/marketplace' },
+      { name: 'Test MP', href: '/test/marketplace' }
     ]
   },
   {
@@ -67,7 +77,7 @@ export function Footer() {
 
       <div className="container mx-auto px-4 relative">
         <GlassCard variant="dark" className="p-8 md:p-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
             {/* Logo and Description */}
             <div className="lg:col-span-1">
               <Link href="/" className="flex items-center space-x-2 mb-4">

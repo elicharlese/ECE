@@ -45,6 +45,7 @@ export default function MarketplacePage() {
   const stats = defaultStats
   const [activeTab, setActiveTab] = useState('betting')
   const [userBalance, setUserBalance] = useState(5000)
+  const [marketCategory, setMarketCategory] = useState<string>('all')
   const [notifications, setNotifications] = useState([
     { id: '1', type: 'bet_win', message: 'You won 250 ECE on Tesla Q4 prediction!', time: '2m ago' },
     { id: '2', type: 'auction_outbid', message: 'You were outbid on OpenAI Developer Edition', time: '15m ago' },
@@ -125,110 +126,12 @@ export default function MarketplacePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="border-b border-border bg-card"
-      >
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-accent to-info bg-clip-text text-transparent">
-                ECE M&A Marketplace
-              </h1>
-              <p className="text-sm text-muted-foreground">
-                Master corporate takeovers with strategic trading cards
-              </p>
-            </div>
-
-            <div className="flex items-center gap-6">
-              {/* Notifications */}
-              <div className="relative">
-                <Button
-                  variant="outline"
-                 
-                  className="border-border text-muted-foreground hover:bg-muted"
-                >
-                  <Activity className="h-4 w-4" />
-                  {notifications.length > 0 && (
-                    <Badge className="absolute -top-2 -right-2 bg-accent text-accent-foreground text-xs px-1 min-w-[16px] h-4">
-                      {notifications.length}
-                    </Badge>
-                  )}
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-
-      {/* Stats Bar */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-        className="border-b border-border bg-card"
-      >
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-success/20 rounded-lg">
-                <DollarSign className="h-4 w-4 text-success" />
-              </div>
-              <div>
-                <div className="text-lg font-bold text-foreground font-mono">
-                  ${(stats.totalVolume / 1000000).toFixed(1)}M
-                </div>
-                <div className="text-xs text-muted-foreground">Total Volume</div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-info/20 rounded-lg">
-                <Users className="h-4 w-4 text-info" />
-              </div>
-              <div>
-                <div className="text-lg font-bold text-foreground font-mono">
-                  {(stats.activeUsers / 1000).toFixed(1)}K
-                </div>
-                <div className="text-xs text-muted-foreground">Active Users</div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-accent/20 rounded-lg">
-                <Activity className="h-4 w-4 text-accent" />
-              </div>
-              <div>
-                <div className="text-lg font-bold text-foreground font-mono">
-                  {(stats.dailyTransactions / 1000).toFixed(1)}K
-                </div>
-                <div className="text-xs text-muted-foreground">Daily M&A Trades</div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-warning/20 rounded-lg">
-                <Trophy className="h-4 w-4 text-warning" />
-              </div>
-              <div>
-                <div className="text-lg font-bold text-foreground font-mono">
-                  {(stats.totalRewards / 1000).toFixed(0)}K
-                </div>
-                <div className="text-xs text-muted-foreground">Rewards Paid</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
           {/* Main Content */}
           <div className="xl:col-span-3">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-4 bg-card border border-border mb-8">
+              <TabsList className="grid w-full grid-cols-4 bg-card border border-border mb-1">
                 <TabsTrigger 
                   value="betting" 
                   className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-accent data-[state=active]:to-accent/80 data-[state=active]:text-accent-foreground"
@@ -268,7 +171,32 @@ export default function MarketplacePage() {
                     exit={{ opacity: 0, x: -20 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <BettingMarkets onPlaceBet={handlePlaceBet} />
+                    {/* Category Tabs for Prediction Markets */}
+                    <div className="mt-1 mb-4">
+                      <Tabs value={marketCategory} onValueChange={setMarketCategory} className="w-full">
+                        <TabsList className="grid w-full grid-cols-6 bg-card border border-border h-9">
+                          <TabsTrigger value="all" className="data-[state=active]:bg-success data-[state=active]:text-success-foreground">
+                            All Markets
+                          </TabsTrigger>
+                          <TabsTrigger value="TECHNOLOGY" className="data-[state=active]:bg-info data-[state=active]:text-info-foreground">
+                            Tech
+                          </TabsTrigger>
+                          <TabsTrigger value="AUTOMOTIVE" className="data-[state=active]:bg-accent data-[state=active]:text-accent-foreground">
+                            Auto
+                          </TabsTrigger>
+                          <TabsTrigger value="ENTERTAINMENT" className="data-[state=active]:bg-warning data-[state=active]:text-warning-foreground">
+                            Entertainment
+                          </TabsTrigger>
+                          <TabsTrigger value="FINANCE" className="data-[state=active]:bg-accent data-[state=active]:text-accent-foreground">
+                            Finance
+                          </TabsTrigger>
+                          <TabsTrigger value="trending" className="data-[state=active]:bg-info data-[state=active]:text-info-foreground">
+                            Hot
+                          </TabsTrigger>
+                        </TabsList>
+                      </Tabs>
+                    </div>
+                    <BettingMarkets onPlaceBet={handlePlaceBet} filterCategory={marketCategory} />
                   </motion.div>
                 </TabsContent>
 
@@ -408,11 +336,11 @@ export default function MarketplacePage() {
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
+          <div className="space-y-4">
             {/* Quick Actions */}
-            <Card className="p-6 bg-gradient-to-br from-card/80 to-card/60 backdrop-blur-xl border border-border">
-              <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center">
-                <Zap className="h-5 w-5 mr-2 text-warning" />
+            <Card className="p-4 bg-gradient-to-br from-card/80 to-card/60 backdrop-blur-xl border border-border">
+              <h3 className="text-base font-semibold text-foreground mb-3 flex items-center">
+                <Zap className="h-4 w-4 mr-2 text-warning" />
                 Quick Actions
               </h3>
               
@@ -447,9 +375,9 @@ export default function MarketplacePage() {
             </Card>
 
             {/* Recent Activity */}
-            <Card className="p-6 bg-gradient-to-br from-card/80 to-card/60 backdrop-blur-xl border border-border">
-              <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center">
-                <Activity className="h-5 w-5 mr-2 text-info" />
+            <Card className="p-4 bg-gradient-to-br from-card/80 to-card/60 backdrop-blur-xl border border-border">
+              <h3 className="text-base font-semibold text-foreground mb-3 flex items-center">
+                <Activity className="h-4 w-4 mr-2 text-info" />
                 Recent Activity
               </h3>
               
@@ -478,9 +406,9 @@ export default function MarketplacePage() {
             </Card>
 
             {/* Trending */}
-            <Card className="p-6 bg-gradient-to-br from-card/80 to-card/60 backdrop-blur-xl border border-border">
-              <h3 className="text-lg font-semibold text-foreground mb-4 flex items-center">
-                <Flame className="h-5 w-5 mr-2 text-accent" />
+            <Card className="p-4 bg-gradient-to-br from-card/80 to-card/60 backdrop-blur-xl border border-border">
+              <h3 className="text-base font-semibold text-foreground mb-3 flex items-center">
+                <Flame className="h-4 w-4 mr-2 text-accent" />
                 Trending Now
               </h3>
               

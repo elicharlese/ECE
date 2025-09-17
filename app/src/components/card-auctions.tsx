@@ -13,7 +13,6 @@ import {
   Clock, 
   Eye, 
   Gavel, 
-  DollarSign, 
   BarChart3,
   Activity,
   Zap,
@@ -514,61 +513,7 @@ export function CardAuctions({ onPlaceBid, onInstantBuy, onWatchAuction }: CardA
         </AnimatePresence>
       </motion.div>
 
-      {/* Market Summary */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-        className="mt-12 grid grid-cols-1 md:grid-cols-4 gap-6"
-      >
-        <Card className="p-4 bg-gradient-to-br from-[#F92672]/20 to-[#F92672]/10 border border-[#F92672]/30 shadow-card-ece hover:shadow-card-ece-hover">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-2xl font-bold text-[#F92672]">
-                {formatNumber(mockAuctions.reduce((sum, a) => sum + a.currentBid, 0))}
-              </div>
-              <div className="text-sm text-[#75715E]">Total Auction Value</div>
-            </div>
-            <DollarSign className="h-8 w-8 text-[#F92672] drop-shadow-icon-strong" />
-          </div>
-        </Card>
-
-        <Card className="p-4 bg-gradient-to-br from-[#A6E22E]/20 to-[#A6E22E]/10 border border-[#A6E22E]/30 shadow-card-ece hover:shadow-card-ece-hover">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-2xl font-bold text-[#A6E22E]">
-                {mockAuctions.reduce((sum, a) => sum + a.totalBids, 0)}
-              </div>
-              <div className="text-sm text-[#75715E]">Total Bids</div>
-            </div>
-            <Gavel className="h-8 w-8 text-[#A6E22E] drop-shadow-icon-strong" />
-          </div>
-        </Card>
-
-        <Card className="p-4 bg-gradient-to-br from-[#66D9EF]/20 to-[#66D9EF]/10 border border-[#66D9EF]/30 shadow-card-ece hover:shadow-card-ece-hover">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-2xl font-bold text-[#66D9EF]">
-                {mockAuctions.reduce((sum, a) => sum + a.uniqueBidders, 0)}
-              </div>
-              <div className="text-sm text-[#75715E]">Active Bidders</div>
-            </div>
-            <Users className="h-8 w-8 text-[#66D9EF] drop-shadow-icon-strong" />
-          </div>
-        </Card>
-
-        <Card className="p-4 bg-gradient-to-br from-[#E6DB74]/20 to-[#E6DB74]/10 border border-[#E6DB74]/30 shadow-card-ece hover:shadow-card-ece-hover">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-2xl font-bold text-[#E6DB74]">
-                {mockAuctions.filter(a => a.trending).length}
-              </div>
-              <div className="text-sm text-[#75715E]">Trending Items</div>
-            </div>
-            <TrendingUp className="h-8 w-8 text-[#E6DB74] drop-shadow-icon-strong" />
-          </div>
-        </Card>
-      </motion.div>
+      {/* Market Summary removed per design update */}
     </div>
   )
 }
